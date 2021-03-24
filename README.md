@@ -12,7 +12,7 @@ Application for load machine structure file (*.xml) made by [**MachineEditor**](
 Application for load machine tooling file (*.tooling) made by [**ToolingEditor**](https://github.com/federicocoppa75/MachineEditor#toolingeditor) ad post to data server or save as jTooling file (JSON format).
 
 ## Client.Tools
-Application for load tools file (*.tools) made by [**ToolsEditor**](https://github.com/federicocoppa75/MachineEditor#toolingeditor) ad post to data server or save ad JTools file (JSON format). 
+Application for load tools file (*.tools) made by [**ToolEditor**](https://github.com/federicocoppa75/MachineEditor#toolingeditor) ad post to data server or save ad JTools file (JSON format). 
 ## Machine.Data
 Data model class library.
 ## Machine.Viewer
