@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.2" />
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.3D.Geometry.Provider\Machine.3D.Geometry.Provider.csproj" />
+    <ProjectReference Include="..\Machine.3D.Views\Machine.3D.Views.csproj" />
+    <ProjectReference Include="..\Machine.Data.Converters\Machine.Data.Converters.csproj" />
+    <ProjectReference Include="..\Machine.DataSource.Client.Rest\Machine.DataSource.Client.Rest.csproj" />
+    <ProjectReference Include="..\Machine.DataSource.File.Json\Machine.DataSource.File.Json.csproj" />
+    <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels\Machine.ViewModels.csproj" />
+    <ProjectReference Include="..\Machine.Views\Machine.Views.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

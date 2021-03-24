@@ -1,32 +1,18 @@
-# Prerequisites
-*.d
+$ cat .gitignore
+# ouput folder
+bin/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# obj folder
+obj/
 
-# Precompiled Headers
-*.gch
-*.pch
+#package folder
+packages/
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+#modified file (by diff - *.bak)
+*.bak
 
-# Fortran module files
-*.mod
-*.smod
+# vs folder
+.vs/
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+#database file
+*.db

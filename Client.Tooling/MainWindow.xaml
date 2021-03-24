@@ -1,0 +1,57 @@
+﻿<Window x:Class="Client.Tooling.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.Tooling"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="600">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Command="{Binding FileOpenCommand}" />
+                <MenuItem Header="Clear" Command="{Binding FileClearCommand}" />
+                <Separator/>
+                <MenuItem Header="Open json" Command="{Binding FileOpenJsonCommand}" />
+                <MenuItem Header="Save Json" Command="{Binding FileSaveJsonCommand}" />
+            </MenuItem>
+            <MenuItem Header="DB">
+                <MenuItem Header="Save" Command="{Binding DbSaveCommand}" />
+                <MenuItem Header="Load" Command="{Binding DbLoadCommand}" />
+                <MenuItem Header="Delete" Command="{Binding DbDeleteCommand}" />
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ListView ItemsSource="{Binding Toolings}" SelectedItem="{Binding SelectedTooling, Mode=TwoWay}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Machine" DisplayMemberBinding="{Binding Machine}"/>
+                        <GridViewColumn Header="Tools" DisplayMemberBinding="{Binding Tools}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <GridSplitter Grid.Column="1"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"/>
+
+            <ListView  Grid.Column="2" ItemsSource="{Binding SelectedToolingUnits}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Tool holder" DisplayMemberBinding="{Binding ToolHolderId}"/>
+                        <GridViewColumn Header="Tool name" DisplayMemberBinding="{Binding ToolName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+    </DockPanel>
+</Window>

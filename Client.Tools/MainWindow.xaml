@@ -1,0 +1,87 @@
+﻿<Window x:Class="Client.Tools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.Tools"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Command="{Binding FileOpenCommand}" />
+                <MenuItem Header="Clear" Command="{Binding FileClearCommand}" />
+                <Separator/>
+                <MenuItem Header="Open json" Command="{Binding FileOpenJsonCommand}" />
+                <MenuItem Header="Save Json" Command="{Binding FileSaveJsonCommand}" />
+            </MenuItem>
+            <MenuItem Header="DB">
+                <MenuItem Header="Save" Command="{Binding DbSaveCommand}" />
+                <MenuItem Header="Load" Command="{Binding DbLoadCommand}" />
+                <MenuItem Header="Delete" Command="{Binding DbDeleteCommand}" />
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <!--<ListBox ItemsSource="{Binding Toolsets}" SelectedItem="{Binding SelectedToolset, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>-->
+
+            <ListView ItemsSource="{Binding Toolsets}" SelectedItem="{Binding SelectedToolset, Mode=TwoWay}" >
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <GridSplitter Grid.Column="1"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"/>
+
+            <ListView ItemsSource="{Binding SelectedToolsetTools}" SelectedItem="{Binding SelectedTool, Mode=TwoWay}" Grid.Column="2">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                            <!--<GridViewColumn Header="Diameter" DisplayMemberBinding="{Binding TotalDiameter}"/>
+                            <GridViewColumn Header="Length" DisplayMemberBinding="{Binding TotalLength}"/>
+                            <GridViewColumn Header="Type" DisplayMemberBinding="{Binding ToolType}"/>-->
+                            <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <GridSplitter Grid.Column="3"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"/>
+
+            <xctk:PropertyGrid ShowAdvancedOptions="False" 
+                            ShowSearchBox="False"
+                            ShowPreview="False"
+                            ShowSortOptions="False"
+                            ShowTitle="False"
+                            ShowSummary="False"
+                            SelectedObject="{Binding SelectedTool}" Grid.Column="4"/>
+
+        </Grid>
+    </DockPanel>
+</Window>

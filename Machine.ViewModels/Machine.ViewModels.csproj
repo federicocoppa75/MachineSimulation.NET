@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.Data.Enums\Machine.Data.Enums.csproj" />
+    <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
+  </ItemGroup>
+
+</Project>
