@@ -27,5 +27,5 @@ Data view class library.
 ## Mesh.Data
 Machine element models data model library.
 ## Server
-Data server. 
+Server REST for store and get machine data (structure, tooling, elements models). The data is stored by SQLite.
 
