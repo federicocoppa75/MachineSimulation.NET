@@ -6,6 +6,7 @@ using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.UI;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MDTooling = Machine.Data.Toolings;
@@ -110,8 +111,40 @@ namespace Machine.DataSource.File.Json
             {
                 var m = serializer.Deserialize<MDTools.ToolSet>(reader);
 
+                ProcessForAngolarTransmissions(m);
+
                 return m;
                 //if (m != null) Toolsets.Add(m);
+            }
+        }
+
+        private void ProcessForAngolarTransmissions(MDTools.ToolSet toolSet)
+        {
+            Dictionary<string, MDTools.Tool> dictionary = null;
+
+            foreach (var item in toolSet.Tools)
+            {
+                if(item is MDTools.AngularTransmission at)
+                {
+                    if (dictionary == null) dictionary = toolSet.Tools.ToDictionary(t => t.Name, t => t);
+
+                    var spindlesEx = new List<MDTools.SubspindleEx>();
+
+                    foreach (var spindle in at.Subspindles)
+                    {
+                        dictionary.TryGetValue(spindle.ToolName, out MDTools.Tool tool);
+
+                        spindlesEx.Add(new MDTools.SubspindleEx()
+                        {
+                            Tool = tool,
+                            Position = spindle.Position,
+                            Direction = spindle.Direction
+                        });
+                    }
+
+                    at.Subspindles.Clear();
+                    spindlesEx.ForEach(e => at.Subspindles.Add(e));
+                }
             }
         }
 

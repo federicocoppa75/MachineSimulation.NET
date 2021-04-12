@@ -68,6 +68,14 @@ namespace Machine._3D.Views.Selectors
             {
                 it = ElementViewType.ToolEle;
             }
+            else if(item is AngularTransmissionViewModel)
+            {
+                it = ElementViewType.AngularTransmission;
+            }
+            else if(item is ATToolholderViewModel)
+            {
+                it = ElementViewType.ATToolholder;
+            }
             else if(item is ToolholderElementViewModel thvm)
             {
                 if (thvm.LinkToParent != null)

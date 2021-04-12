@@ -8,6 +8,7 @@ namespace Machine.Data.Enums
     {
         Generic,
         CX100,
-        CX220
+        CX220,
+        CX110
     }
 }

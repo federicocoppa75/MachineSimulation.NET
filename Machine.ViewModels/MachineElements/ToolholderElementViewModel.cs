@@ -1,5 +1,6 @@
 ﻿using Machine.Data.Enums;
 using Machine.Data.MachineElements;
+using Machine.Data.Tools;
 using Machine.ViewModels.Messages;
 using System;
 using System.Collections.Generic;
@@ -28,16 +29,32 @@ namespace Machine.ViewModels.MachineElements
         {
             if (msg.ToolHolder == ToolHolderId)
             {
-                var vm = new ToolViewModel() 
+                if(msg.Tool is AngularTransmission at)
                 {
-                    Name = msg.Tool.Name,
-                    Tool = msg.Tool,
-                    Color = _toolColor,
-                    ConeColor = _coneColor,
-                    IsVisible = true
-                };
+                    var vm = new AngularTransmissionViewModel()
+                    {
+                        Name = at.Name,
+                        Tool = at,
+                        IsVisible = true
+                    };
 
-                Children.Add(vm);
+                    vm.ApplaySubSpindlesTooling();
+
+                    Children.Add(vm);
+                }
+                else
+                {
+                    var vm = new ToolViewModel()
+                    {
+                        Name = msg.Tool.Name,
+                        Tool = msg.Tool,
+                        Color = _toolColor,
+                        ConeColor = _coneColor,
+                        IsVisible = true
+                    };
+
+                    Children.Add(vm);
+                }
             }
         }
 

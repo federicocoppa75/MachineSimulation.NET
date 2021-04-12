@@ -27,8 +27,10 @@
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
+                    <Separator/>
                     <MenuItem Header="Load Machine" Command="{Binding DataSource.Value.LoadMachineCommand}" />
                     <MenuItem Header="Unload Machine" Command="{Binding Kernel.UnloadAllMachineCommand}" />
+                    <Separator/>
                     <MenuItem Header="Load Tooling" Command="{Binding DataSource.Value.LoadToolingCommand}" />
                     <MenuItem Header="Unload Tooling" Command="{Binding UnloadToolingCommand}" />
                 </MenuItem>

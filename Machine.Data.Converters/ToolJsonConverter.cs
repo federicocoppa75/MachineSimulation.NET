@@ -17,7 +17,8 @@ namespace Machine.Data.Converters
             TwoSectionTool,
             CountersinkTool,
             DiskTool,
-            DiskOnConeTool
+            DiskOnConeTool,
+            AngularTransmission
         }
 
         public override bool CanConvert(Type objectType) => typeof(Tool).IsAssignableFrom(objectType);
@@ -43,6 +44,7 @@ namespace Machine.Data.Converters
                 ToolTypes.CountersinkTool => CreateAndCopy<CountersinkTool>(jo, serializer),
                 ToolTypes.DiskTool => CreateAndCopy<DiskTool>(jo, serializer),
                 ToolTypes.DiskOnConeTool => CreateAndCopy<DiskOnConeTool>(jo, serializer),
+                ToolTypes.AngularTransmission => CreateAndCopy<AngularTransmission>(jo, serializer),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -62,6 +64,7 @@ namespace Machine.Data.Converters
             var countersinkFlags = new Flags(6);
             var diskFlags = new Flags(5);
             var diskOnConeFlags = new Flags(7);
+            //var angularTransmissionFlags = new Flags(2);
 
             foreach (var item in jo.Properties())
             {
@@ -111,6 +114,11 @@ namespace Machine.Data.Converters
                     case "length3":
                         countersinkFlags.Add();
                         return ToolTypes.CountersinkTool;
+
+                    case "bodymodelfile":
+                    case "subspindles":
+                        //angularTransmissionFlags.Add();
+                        return ToolTypes.AngularTransmission;
 
                     default:
                         break;

@@ -7,6 +7,8 @@ using MMT = MachineModels.Models.Tools;
 using MDT = Machine.Data.Tools;
 using MME = MachineModels.Enums;
 using MDE = Machine.Data.Enums;
+using MM = MachineModels.Models;
+using MDM = Machine.Data.MachineElements;
 
 namespace Client.Tools.Helpers
 {
@@ -28,18 +30,20 @@ namespace Client.Tools.Helpers
         {
             switch (tool.ToolType)
             {
-                case MachineModels.Enums.ToolType.Simple:
+                case MME.ToolType.Simple:
                     return ToSimple(tool);
-                case MachineModels.Enums.ToolType.TwoSection:
+                case MME.ToolType.TwoSection:
                     return ToTwoSection(tool);
-                case MachineModels.Enums.ToolType.Pointed:
+                case MME.ToolType.Pointed:
                     return ToPointed(tool);
-                case MachineModels.Enums.ToolType.Disk:
+                case MME.ToolType.Disk:
                     return ToDisk(tool);
-                case MachineModels.Enums.ToolType.Countersink:
+                case MME.ToolType.Countersink:
                     return ToCountersink(tool);
-                case MachineModels.Enums.ToolType.DiskOnCone:
+                case MME.ToolType.DiskOnCone:
                     return ToDiskOnCone(tool);
+                case MME.ToolType.AngularTransmission:
+                    return ToAnguralTransmission(tool);
                 default:
                     throw new NotImplementedException();
             }
@@ -140,6 +144,28 @@ namespace Client.Tools.Helpers
             return t;
         }
 
+        private static MDT.Tool ToAnguralTransmission(MMT.Tool tool)
+        {
+            var t = new MDT.AngularTransmission();
+            var at = tool as MMT.AngolarTransmission;
+
+            t.BodyModelFile = at.BodyModelFile;
+
+            foreach (var item in at.Subspindles)
+            {
+                t.Subspindles.Add(new MDT.Subspindle()
+                {
+                    ToolName = item.ToolName,
+                    Position = item.Position.ToMachineDataPoint(),
+                    Direction = item.Direction.ToMachineDataVector()
+                });
+            }
+
+            UpdateBaseData(t, at);
+            
+            return t;
+        }
+
         private static void UpdateBaseData(MDT.Tool dest, MMT.Tool source)
         {
             dest.Name = source.Name;
@@ -160,5 +186,12 @@ namespace Client.Tools.Helpers
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        #region copiato - da fattorizzare (forse)
+        private static MDM.Vector ToMachineDataVector(this MM.Vector v) => new MDM.Vector() { X = v.X, Y = v.Y, Z = v.Z };
+
+        private static MDM.Point ToMachineDataPoint(this MM.Vector v) => new MDM.Point() { X = v.X, Y = v.Y, Z = v.Z };
+
+        #endregion
     }
 }
