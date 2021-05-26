@@ -8,6 +8,9 @@
     <Compile Update="ListDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Panel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Struct.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -17,6 +20,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ListDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Panel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Struct.xaml">

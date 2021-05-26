@@ -53,6 +53,11 @@ namespace Machine.ViewModels.Helpers
         {
             var vm = Convert<PanelHolderElementViewModel>(ph);
 
+            vm.PanelHolderId = ph.PanelHolderId;
+            vm.PanelHolderName = ph.PanelHolderName;
+            vm.Position = ph.Position;
+            vm.Corner = ph.Corner;
+
             return vm;
         }
         private static InserterElementViewMode Convert(MDE.InserterElement ins)

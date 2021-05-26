@@ -94,6 +94,9 @@
                     <TabItem Header="Links">
                         <views:Links />
                     </TabItem>
+                    <TabItem Header="Panel">
+                        <views:Panel/>
+                    </TabItem>
                 </TabControl>
                 
 

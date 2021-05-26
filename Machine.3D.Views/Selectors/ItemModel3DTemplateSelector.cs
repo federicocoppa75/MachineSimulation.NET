@@ -68,6 +68,10 @@ namespace Machine._3D.Views.Selectors
             {
                 it = ElementViewType.ToolEle;
             }
+            else if(item is PanelViewModel pvm)
+            {
+                it = ElementViewType.Panel;
+            }
             else if(item is AngularTransmissionViewModel)
             {
                 it = ElementViewType.AngularTransmission;

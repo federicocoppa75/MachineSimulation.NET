@@ -8,9 +8,11 @@
              xmlns:converters="clr-namespace:Machine._3D.Views.Converters"
              xmlns:lhx3D="clr-namespace:Machine._3D.Views.Models.Elements3D"
              xmlns:selectors="clr-namespace:Machine._3D.Views.Selectors"
+             xmlns:const="clr-namespace:Machine._3D.Views.Constants"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <const:Materials x:Key="materials" />
         <converters:DirectionToAxisConverter x:Key="directionToAxisConverter"/>
         <converters:LinearLinkPositionConverter x:Key="linearLinkPositionConverter"/>
         <converters:ColorToMaterialConverter x:Key="colorToMaterialConverter" />
@@ -19,6 +21,7 @@
         <converters:ToolToGeometryConverter x:Key="toolToGeometryConverter"/>
         <converters:DirectionToMatrixConverter x:Key="directionToMatrixConverter"/>
         <converters:ColorToBitmapStreamConverter x:Key="colorToBitmapStreamConverter" />
+        <converters:PanelToGemetryConverter x:Key="panelToGeometryConverter"/>
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -329,6 +332,23 @@
                 </lhx3D:ItemsModel3D.Transform>
             </lhx3D:ItemsModel3D>
         </DataTemplate>
+        <DataTemplate x:Key="panelTemplate">
+            <hx:CompositeModel3D>
+                <!--<hx:CompositeModel3D.Transform>
+                    <MatrixTransform3D Matrix="{Binding Transformation, Converter={StaticResource staticTransformationConverter}}" />
+                </hx:CompositeModel3D.Transform>-->
+                <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
+                <hx:MeshGeometryModel3D Geometry="{Binding Converter={StaticResource panelToGeometryConverter}}"
+                                        Material="{Binding Panel, Source={StaticResource materials}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                        IsRendering="{Binding IsVisible}"
+                                        PostEffects="{Binding PostEffects}"/>
+            </hx:CompositeModel3D>
+        </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
             <selectors:ItemModel3DTemplateSelectorItem When="Default" Then="{StaticResource element3dDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="XLinearTranslateEle" Then="{StaticResource element3dDataTemplateXLinearTranslate}" />
@@ -344,6 +364,7 @@
             <selectors:ItemModel3DTemplateSelectorItem When="ToolHolderEleRotary" Then="{StaticResource toolHolderDataTemplateRotary}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="AngularTransmission" Then="{StaticResource angularTransmissionDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="ATToolholder" Then="{StaticResource atToolholderDataTemplate}" />
+            <selectors:ItemModel3DTemplateSelectorItem When="Panel" Then="{StaticResource panelTemplate}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

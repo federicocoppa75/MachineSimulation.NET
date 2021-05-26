@@ -27,6 +27,8 @@ namespace Machine.ViewModels.Base
         public bool CanExecute(object parameter) => (_canExecute != null) ? _canExecute() : true;
 
         public void Execute(object parameter) => _execute();
+
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, new EventArgs());
     }
 
     public class RelayCommand<T> : ICommand
@@ -51,5 +53,7 @@ namespace Machine.ViewModels.Base
         public bool CanExecute(object parameter) => (_canExecute != null) ? _canExecute((T)parameter) : true;
 
         public void Execute(object parameter) => _execute((T)parameter);
+
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, new EventArgs());
     }
 }
