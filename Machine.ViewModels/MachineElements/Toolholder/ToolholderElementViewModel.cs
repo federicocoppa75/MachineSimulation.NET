@@ -6,15 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Machine.ViewModels.MachineElements
+namespace Machine.ViewModels.MachineElements.Toolholder
 {
-    public class ToolholderElementViewModel : ElementViewModel
+    public abstract class ToolholderElementViewModel : ElementViewModel
     {
         private static Color _toolColor = new Color() { A = 255, B = 255 };
         private static Color _coneColor = new Color() { A = 255, B = 128, G = 128, R = 128 };
 
         public int ToolHolderId { get; set; }
-        public ToolHolderType ToolHolderType { get; set; }
+        public abstract ToolHolderType ToolHolderType { get; }
         public Vector Position { get; set; }
         public Vector Direction { get; set; }
 
@@ -25,7 +25,7 @@ namespace Machine.ViewModels.MachineElements
             Messenger.Register<UnloadAllToolMessage>(this, OnUnloadAllToolMessage);
         }
 
-        private void OnLoadToolMessage(LoadToolMessage msg)
+        protected virtual void OnLoadToolMessage(LoadToolMessage msg)
         {
             if (msg.ToolHolder == ToolHolderId)
             {
@@ -58,7 +58,7 @@ namespace Machine.ViewModels.MachineElements
             }
         }
 
-        private void OnUnloadToolMessage(UnloadToolMessage msg)
+        protected virtual void OnUnloadToolMessage(UnloadToolMessage msg)
         {
             if (msg.ToolHolder == ToolHolderId)
             {
@@ -66,6 +66,6 @@ namespace Machine.ViewModels.MachineElements
             }
         }
 
-        private void OnUnloadAllToolMessage(UnloadAllToolMessage msg) => Children.Clear();
+        protected virtual void OnUnloadAllToolMessage(UnloadAllToolMessage msg) => Children.Clear();
     }
 }

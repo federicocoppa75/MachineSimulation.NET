@@ -208,12 +208,28 @@ namespace Client.Machine.Helpers
                 {
                     ToolHolderId = th.Id,
                     Position = th.Position.ToMachineData(),
-                    Direction = th.Direction.ToMachineData()
+                    Direction = th.Direction.ToMachineData(),
+                    ToolHolderType = ConvertToolHolderType(model.ToolHolderType)
                 };
             }
             else
             {
                 return isRoot ? new MD.MachineElements.RootElement() : new MD.MachineElements.MachineElement();
+            }
+        }
+
+        private static MD.Enums.ToolHolderType ConvertToolHolderType(MM.Enums.ToolHolderType toolHolderType)
+        {
+            switch (toolHolderType)
+            {
+                case MM.Enums.ToolHolderType.Static:
+                    return MD.Enums.ToolHolderType.Static;
+                case MM.Enums.ToolHolderType.AutoSource:
+                    return MD.Enums.ToolHolderType.AutoSource;
+                case MM.Enums.ToolHolderType.AutoSink:
+                    return MD.Enums.ToolHolderType.AutoSink;
+                default:
+                    throw new ArgumentException();
             }
         }
 

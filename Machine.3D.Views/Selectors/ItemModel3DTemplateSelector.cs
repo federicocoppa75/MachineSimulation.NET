@@ -1,5 +1,6 @@
 ﻿using Machine._3D.Views.Enums;
 using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.MachineElements.Toolholder;
 using System;
 using System.Collections.Generic;
 using System.Linq;

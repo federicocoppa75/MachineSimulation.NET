@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.MachineElements.Toolholder;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,10 +41,24 @@ namespace Machine.ViewModels.Helpers
         }
         private static ToolholderElementViewModel Convert(MDE.ToolholderElement th)
         {
-            var vm = Convert<ToolholderElementViewModel>(th);
+            ToolholderElementViewModel vm = null;
+
+            switch (th.ToolHolderType)
+            {
+                case MD.Enums.ToolHolderType.Static:
+                    vm = Convert<StaticToolholderElementViewModel>(th);
+                    break;
+                case MD.Enums.ToolHolderType.AutoSource:
+                    vm = Convert<AutoSourceToolholderElementViewModel>(th);
+                    break;
+                case MD.Enums.ToolHolderType.AutoSink:
+                    vm = Convert<AutoSyncToolholderElementViewModel>(th);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             vm.ToolHolderId = th.ToolHolderId;
-            vm.ToolHolderType = th.ToolHolderType;
             vm.Position = th.Position;
             vm.Direction = th.Direction;
 
