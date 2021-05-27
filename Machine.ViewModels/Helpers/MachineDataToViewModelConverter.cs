@@ -119,7 +119,7 @@ namespace Machine.ViewModels.Helpers
                 vm = new LinearLinkViewModel()
                 {
                     Id = linkToParent.Id,
-                    LinkID = linearLink.LinkID,
+                    //LinkID = linearLink.LinkID,
                     Direction = linearLink.Direction,
                     Type = linearLink.Type,
                     Max = linearLink.Max,
@@ -134,7 +134,7 @@ namespace Machine.ViewModels.Helpers
                 vm = new PneumaticLinkViewModel()
                 {
                     Id = pneumaticLink.Id,
-                    LinkID = pneumaticLink.LinkID,
+                    //LinkID = pneumaticLink.LinkID,
                     Direction = pneumaticLink.Direction,
                     Type = pneumaticLink.Type,
                     OffPos = pneumaticLink.OffPos,

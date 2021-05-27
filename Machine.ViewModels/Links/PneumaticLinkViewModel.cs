@@ -30,5 +30,11 @@ namespace Machine.ViewModels.Links
         }
         public override LinkMoveType MoveType => LinkMoveType.Pneumatic;
         #endregion
+
+        #region ctor
+        public PneumaticLinkViewModel() : base()
+        {
+        }
+        #endregion
     }
 }
