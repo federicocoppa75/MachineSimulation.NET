@@ -12,48 +12,16 @@ using System.Threading.Tasks;
 
 namespace Machine.Views.ViewModels
 {
-    class ToolchangeViewModel : BaseViewModel
+    class ToolchangeViewModel : BaseElementsCollectionViewModel
     {
-        public IKernelViewModel Kernel { get; private set; }
         public ObservableCollection<ToolSinkViewModel> ToolSinks { get; set; } = new ObservableCollection<ToolSinkViewModel>();
 
 
         public ToolchangeViewModel() : base()
         {
-            Kernel = Machine.ViewModels.Ioc.SimpleIoc<IKernelViewModel>.GetInstance();
-
-            if (Kernel.Machines is INotifyCollectionChanged ncc) ncc.CollectionChanged += OnMachineCollectionChanged;
         }
 
-        private void OnMachineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    AddElement(sender, e);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    RemoveElement(sender, e);
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    ReplaceElement(sender, e);
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    ToolSinks.Clear();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void AddElement(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            AddElement(e.NewItems.Cast<ElementViewModel>());
-        }
-
-        private void AddElement(IEnumerable<ElementViewModel> elements)
+        protected override void AddElement(IEnumerable<ElementViewModel> elements)
         {
             foreach (var item in elements)
             {
@@ -70,12 +38,7 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        private void RemoveElement(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            RemoveElement(e.OldItems.Cast<ElementViewModel>());
-        }
-
-        private void RemoveElement(IEnumerable<ElementViewModel> elements)
+        protected override void RemoveElement(IEnumerable<ElementViewModel> elements)
         {
             foreach (var item in elements)
             {
@@ -88,10 +51,6 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        private void ReplaceElement(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            RemoveElement(sender, e);
-            AddElement(sender, e);
-        }
+        protected override void Clear() => ToolSinks.Clear();
     }
 }
