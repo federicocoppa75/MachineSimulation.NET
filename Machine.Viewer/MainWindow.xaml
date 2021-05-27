@@ -78,6 +78,18 @@
                         <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Stop}"  DropDownBackground="White"/>
                     </MenuItem>
                 </MenuItem>
+                <MenuItem Header="Steps">
+                    <MenuItem Header="Load" Command="{Binding StepController.LoadStepsCommand}" />
+                    <MenuItem Header="UnLoad" Command="{Binding StepController.UnloadStepsCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Dynamic transition" IsCheckable="True" IsChecked="{Binding StepController.DynamicTransition}"/>
+                    <MenuItem Header="Auto step over" IsCheckable="True" IsChecked="{Binding StepController.AutoStepOver}"/>
+                    <MenuItem Header="Multi channel" IsCheckable="True" IsChecked="{Binding StepController.MultiChannel}" IsEnabled="{Binding StepController.AutoStepOver}"/>
+                    <Separator/>
+                    <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding StepController.MaterialRemoval}" />
+                    <Separator/>
+                    <MenuItem Header="Export panel" Command="{Binding StepController.ExportPanelCommand}"/>
+                </MenuItem>
             </Menu>
 
             <Grid>

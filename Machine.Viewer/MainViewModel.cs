@@ -26,36 +26,10 @@ namespace Machine.Viewer
         public ICollection<VMUI.IFlag> View3DFlags => ViewModels.Ioc.SimpleIoc<VMUI.IPeropertiesProvider>.GetInstance().Flags;
         public ICollection<VMUI.IOptionProvider> View3DOptions => ViewModels.Ioc.SimpleIoc<VMUI.IPeropertiesProvider>.GetInstance().Options;
         public VMUI.IOptionProvider DataSource => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider>.GetInstance();
-
-        //private ICommand _fileSaveCommand;
-        //public ICommand FileSaveCommand { get { return _fileSaveCommand ?? (_fileSaveCommand = new RelayCommand(() => FileSaveCommandImplementation())); } }
-
-        //private ICommand _toolingUnloadCommand;
-        //public ICommand ToolingUnloadCommand { get { return _toolingUnloadCommand ?? (_toolingUnloadCommand = new RelayCommand(() => ToolingUnloadCommandImplementation())); } }
+        public VMUI.IStepsController StepController => ViewModels.Ioc.SimpleIoc<VMUI.IStepsController>.GetInstance();
 
         public MainViewModel() : base()
         {
         }
-
-        //private void FileSaveCommandImplementation()
-        //{
-        //    var dlg = new Microsoft.Win32.SaveFileDialog() { DefaultExt = "json", AddExtension = true, Filter = "Machine JSON struct |*.json" };
-        //    var b = dlg.ShowDialog();
-
-        //    if (b.HasValue && b.Value)
-        //    {
-        //        JsonSerializer serializer = new JsonSerializer();
-
-        //        serializer.NullValueHandling = NullValueHandling.Ignore;
-        //        serializer.Converters.Add(new LinkJsonConverter());
-        //        serializer.Converters.Add(new MachineElementJsonConverter());
-
-        //        using (StreamWriter sw = new StreamWriter(dlg.FileName))
-        //        using (JsonWriter writer = new JsonTextWriter(sw))
-        //        {
-        //            //serializer.Serialize(writer, SelectedItem);
-        //        }
-        //    }
-        //}
     }
 }
