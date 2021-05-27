@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Machine.ViewModels.Messages
+namespace Machine.ViewModels.Messages.Tooling
 {
     public class MoveToolExecuteMessage
     {

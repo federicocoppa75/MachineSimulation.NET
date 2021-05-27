@@ -1,8 +1,6 @@
-﻿using Machine.ViewModels.Messages;
+﻿using Machine.ViewModels.Messages.Tooling;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Machine.ViewModels.MachineElements.Toolholder
 {

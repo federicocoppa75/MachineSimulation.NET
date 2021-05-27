@@ -1,5 +1,5 @@
 ﻿using Machine.ViewModels.Base;
-using Machine.ViewModels.Messages;
+using Machine.ViewModels.Messages.Tooling;
 using System.Windows.Input;
 
 namespace Machine.ViewModels

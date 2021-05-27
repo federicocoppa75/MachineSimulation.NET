@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels.Base;
 using Machine.ViewModels.Messages;
+using Machine.ViewModels.Messages.Tooling;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

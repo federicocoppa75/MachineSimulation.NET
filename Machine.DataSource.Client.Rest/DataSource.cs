@@ -1,22 +1,18 @@
 ﻿using Machine.Data;
 using Machine.Data.Converters;
 using Machine.ViewModels;
-using Machine.ViewModels.Base;
 using Machine.ViewModels.UI;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
-using System.Windows.Input;
 using MD = Machine.Data.MachineElements;
 using Machine.ViewModels.Helpers;
 using MDTooling = Machine.Data.Toolings;
 using MDTools = Machine.Data.Tools;
 using System.Threading.Tasks;
-using Machine.ViewModels.Messages;
+using Machine.ViewModels.Messages.Tooling;
 
 namespace Machine.DataSource.Client.Rest
 {

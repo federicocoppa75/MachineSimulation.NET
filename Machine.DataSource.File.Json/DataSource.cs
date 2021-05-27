@@ -4,6 +4,7 @@ using Machine.ViewModels;
 using Machine.ViewModels.Helpers;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.Messages;
+using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
 using Newtonsoft.Json;
 using System.Collections.Generic;

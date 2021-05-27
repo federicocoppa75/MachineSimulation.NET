@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Machine.ViewModels.Messages
+namespace Machine.ViewModels.Messages.Tooling
 {
-    class LoadToolToSinkMessage
+    public class UnloadAllToolMessage
     {
     }
 }
