@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:Machine.Views;assembly=Machine.Views"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding StepController.FileOpened}" Height="450" Width="800">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -87,8 +87,8 @@
                     <MenuItem Header="Multi channel" IsCheckable="True" IsChecked="{Binding StepController.MultiChannel}" IsEnabled="{Binding StepController.AutoStepOver}"/>
                     <Separator/>
                     <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding StepController.MaterialRemoval}" />
-                    <Separator/>
-                    <MenuItem Header="Export panel" Command="{Binding StepController.ExportPanelCommand}"/>
+                    <!--<Separator/>
+                    <MenuItem Header="Export panel" Command="{Binding StepController.ExportPanelCommand}"/>-->
                 </MenuItem>
             </Menu>
 
@@ -114,6 +114,9 @@
                     </TabItem>
                     <TabItem Header="Gantry">
                         <views:Gantry/>
+                    </TabItem>
+                    <TabItem Header="Steps">
+                        <views:Steps/>
                     </TabItem>
                 </TabControl>
                 

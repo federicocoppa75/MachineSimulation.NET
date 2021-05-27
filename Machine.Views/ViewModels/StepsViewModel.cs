@@ -1,12 +1,30 @@
 ﻿using Machine.ViewModels.Base;
 using Machine.ViewModels.UI;
+using MachineSteps.Models;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using MVMIoc = Machine.ViewModels.Ioc;
 
-namespace Machine.Views.UI
+namespace Machine.Views.ViewModels
 {
-    public class StepsControllerViewModel : BaseViewModel, IStepsController
+    class StepsViewModel : BaseViewModel, IStepsController
     {
+        public ObservableCollection<StepViewModel> Steps { get; private set; } = new ObservableCollection<StepViewModel>();
+
+        #region IStepController implementation
+
+        private string _fileOpened;
+        public string FileOpened
+        {
+            get => _fileOpened; 
+            set => Set(ref _fileOpened, value, nameof(FileOpened));
+        }
+
         private bool _dynamicTransition;
         public bool DynamicTransition
         {
@@ -68,17 +86,50 @@ namespace Machine.Views.UI
         private ICommand _unloadStepsCommand;
         public ICommand UnloadStepsCommand { get { return _unloadStepsCommand ?? (_unloadStepsCommand = new RelayCommand(() => UnloadStepsCommandImplementation())); } }
 
-        private ICommand _exportPanelCommand;
-        public ICommand ExportPanelCommand { get { return _exportPanelCommand ?? (_exportPanelCommand = new RelayCommand(() => ExportPanelCommandImplementation(), () => PanelPresenceConfirm())); } }
+        #endregion
 
+        #region private methods
         private void LoadStepsCommandImplementation()
         {
-            throw new NotImplementedException();
+            var dlg = MVMIoc.SimpleIoc<IFileDialog>.GetInstance("OpenFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "msteps";
+            dlg.Filter = "Machine step |*.msteps";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                var serializer = new System.Xml.Serialization.XmlSerializer(typeof(MachineStepsDocument));
+
+                using (var reader = new System.IO.StreamReader(dlg.FileName))
+                {
+                    var doc = (MachineStepsDocument)serializer.Deserialize(reader);
+
+                    if (doc != null)
+                    {
+                        Steps.Clear();
+
+                        for (int i = 0; i < doc.Steps.Count; i++)
+                        {
+                            Steps.Add(new StepViewModel(doc.Steps[i], i + 1));
+                        }
+                        //ShowMacineStepsDocument(doc);
+                        FileOpened = $"MainWindow - {dlg.FileName}";
+                    }
+                }
+            }
         }
 
         private void UnloadStepsCommandImplementation()
         {
-            throw new NotImplementedException();
+            if (Steps.Count > 0)
+            {
+                //Selected = Steps[0];
+                Steps.Clear();
+                //Selected = null;
+            }
         }
 
         private bool PanelPresenceConfirm()
@@ -90,5 +141,7 @@ namespace Machine.Views.UI
         {
             throw new NotImplementedException();
         }
+        #endregion
+
     }
 }

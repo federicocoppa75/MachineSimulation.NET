@@ -8,7 +8,8 @@ namespace Machine.ViewModels.UI
         bool DynamicTransition { get; set; }
         bool MaterialRemoval { get; set; }
         bool MultiChannel { get; set; }
-        ICommand ExportPanelCommand { get; }
+        //ICommand ExportPanelCommand { get; }
+        string FileOpened { get; }
         ICommand LoadStepsCommand { get; }
         ICommand UnloadStepsCommand { get; }
     }

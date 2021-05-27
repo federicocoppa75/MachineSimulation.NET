@@ -35,7 +35,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.Register<M3DGPIM.StlFileStreamProvider>("File.JSON");
             ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.Register<M3DGPIM.RestApiStreamProvider>("Client.REST");
             ViewModels.Ioc.SimpleIoc<MVMUI.IListDialog>.Register<MVUI.ListDialog>();
-            ViewModels.Ioc.SimpleIoc<MVMUI.IStepsController>.Register<MVUI.StepsControllerViewModel>();
+            //ViewModels.Ioc.SimpleIoc<MVMUI.IStepsController>.Register<MVUI.StepsControllerViewModel>();
         }
     }
 }
