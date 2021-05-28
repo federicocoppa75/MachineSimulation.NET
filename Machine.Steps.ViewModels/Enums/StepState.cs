@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Machine.Views.Enums
+namespace Machine.Steps.ViewModels.Enums
 {
-    enum StepState
+    public enum StepState
     {
         ToStart,
         Executing,

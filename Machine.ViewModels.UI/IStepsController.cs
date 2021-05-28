@@ -2,14 +2,14 @@
 
 namespace Machine.ViewModels.UI
 {
-    public interface IStepsController
+    public interface IStepsController : INameProvider
     {
-        bool AutoStepOver { get; set; }
-        bool DynamicTransition { get; set; }
-        bool MaterialRemoval { get; set; }
-        bool MultiChannel { get; set; }
+        //bool AutoStepOver { get; set; }
+        //bool DynamicTransition { get; set; }
+        //bool MaterialRemoval { get; set; }
+        //bool MultiChannel { get; set; }
         //ICommand ExportPanelCommand { get; }
-        string FileOpened { get; }
+        string SourceName { get; }
         ICommand LoadStepsCommand { get; }
         ICommand UnloadStepsCommand { get; }
     }

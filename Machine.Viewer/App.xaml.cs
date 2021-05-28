@@ -15,6 +15,7 @@ using MVUI = Machine.Views.UI;
 using MW32 = Microsoft.Win32;
 using M3DGPI = Machine._3D.Geometry.Provider.Interfaces;
 using M3DGPIM = Machine._3D.Geometry.Provider.Implementation;
+using MSFM = Machine.StepsSource.File.Msteps;
 
 namespace Machine.Viewer
 {
@@ -35,7 +36,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.Register<M3DGPIM.StlFileStreamProvider>("File.JSON");
             ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.Register<M3DGPIM.RestApiStreamProvider>("Client.REST");
             ViewModels.Ioc.SimpleIoc<MVMUI.IListDialog>.Register<MVUI.ListDialog>();
-            //ViewModels.Ioc.SimpleIoc<MVMUI.IStepsController>.Register<MVUI.StepsControllerViewModel>();
+            ViewModels.Ioc.SimpleIoc<MVMUI.IStepsSource>.Register<MSFM.StepsSource>();
         }
     }
 }
