@@ -1,12 +1,5 @@
 ﻿using Machine.Viewer.Helpers;
 using Machine.ViewModels;
-using Machine.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using MVMUI = Machine.ViewModels.UI;
 using MDFJ = Machine.DataSource.File.Json;
@@ -17,6 +10,8 @@ using M3DGPI = Machine._3D.Geometry.Provider.Interfaces;
 using M3DGPIM = Machine._3D.Geometry.Provider.Implementation;
 using MSFM = Machine.StepsSource.File.Msteps;
 using MVMI = Machine.ViewModels.Interfaces;
+using MSVMI = Machine.Steps.ViewModels.Interfaces;
+using MSVME = Machine.Steps.ViewModels.Extensions;
 
 namespace Machine.Viewer
 {
@@ -38,6 +33,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.Register<M3DGPIM.RestApiStreamProvider>("Client.REST");
             ViewModels.Ioc.SimpleIoc<MVMUI.IListDialog>.Register<MVUI.ListDialog>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IStepsSource>.Register<MSFM.StepsSource>();
+            ViewModels.Ioc.SimpleIoc<MSVMI.IDurationProvider>.Register<MSVME.DurationProvider>();
         }
     }
 }

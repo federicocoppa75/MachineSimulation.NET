@@ -1,4 +1,5 @@
-﻿using Machine.ViewModels.Base;
+﻿using Machine.Steps.ViewModels.Interfaces;
+using Machine.ViewModels.Base;
 using MachineSteps.Models.Actions;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,23 @@ namespace Machine.Steps.ViewModels
         {
             get
             {
-                //if (!_durationIsValid) InitDuration();
+                if (!_durationIsValid) InitDuration();
                 return _duration;
             }
         }
 
         public bool IsCompleted { get; set; }
+
+        public ActionViewModel(BaseAction action)
+        {
+            Id = _idSeed++;
+            Action = action;
+        }
+
+        private void InitDuration()
+        {
+            _duration = GetInstance<IDurationProvider>().GetDuration(Action);
+            _durationIsValid = true;
+        }
     }
 }

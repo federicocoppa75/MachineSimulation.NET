@@ -46,6 +46,12 @@ namespace Machine.Steps.ViewModels
             Description = step.Description;
             Index = index;
             Channel = step.Channel;
+
+            step.Actions.ForEach((a) =>
+            {
+                FarwardActions.Add(new ActionViewModel(a));
+                //BackActions.Add(new ActionViewModel(a.CreateBackStepAction()));
+            });
         }
 
         private void InitDuration()
