@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MVB = Machine.ViewModels.Base;
+using MVB = Machine.ViewModels.Interfaces;
 
 namespace Machine.Viewer.Helpers
 {

@@ -16,6 +16,7 @@ using MW32 = Microsoft.Win32;
 using M3DGPI = Machine._3D.Geometry.Provider.Interfaces;
 using M3DGPIM = Machine._3D.Geometry.Provider.Implementation;
 using MSFM = Machine.StepsSource.File.Msteps;
+using MVMI = Machine.ViewModels.Interfaces;
 
 namespace Machine.Viewer
 {
@@ -27,7 +28,7 @@ namespace Machine.Viewer
         public App()
         {
             ViewModels.Ioc.SimpleIoc<IKernelViewModel>.Register<KernelViewModel>();
-            ViewModels.Ioc.SimpleIoc<IMessenger>.Register<MessengerImplementation>();
+            ViewModels.Ioc.SimpleIoc<MVMI.IMessenger>.Register<MessengerImplementation>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDCR.DataSource>("Client.REST");
             ViewModels.Ioc.SimpleIoc<MVMUI.IFileDialog>.Register<MVUI.FileDialog<MW32.OpenFileDialog>>("OpenFile");

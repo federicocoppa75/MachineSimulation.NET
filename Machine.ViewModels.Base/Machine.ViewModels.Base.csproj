@@ -2,9 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Machine.ViewModels.Interfaces\Machine.ViewModels.Interfaces.csproj" />
     <ProjectReference Include="..\Machine.ViewModels.Ioc\Machine.ViewModels.Ioc.csproj" />
   </ItemGroup>
 
