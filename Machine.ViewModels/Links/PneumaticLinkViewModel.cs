@@ -1,11 +1,12 @@
 ﻿using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.Links;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.Links
 {
-    public class PneumaticLinkViewModel : LinkViewModel
+    public class PneumaticLinkViewModel : LinkViewModel, IPneumaticLinkViewModel, ILinkViewModel
     {
         #region data properties
         public double OffPos { get; set; }
@@ -17,12 +18,12 @@ namespace Machine.ViewModels.Links
 
         #region view properties
         private bool _state;
-        public bool State 
+        public bool State
         {
-            get => _state; 
+            get => _state;
             set
             {
-                if(Set(ref _state, value, nameof(State)))
+                if (Set(ref _state, value, nameof(State)))
                 {
                     Value = _state ? OnPos : OffPos;
                 }

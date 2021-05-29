@@ -1,13 +1,11 @@
 ﻿using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.Messages.Links.Gantry;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Machine.ViewModels.Links
 {
-    public class LinearLinkViewModel : LinkViewModel
+    public class LinearLinkViewModel : LinkViewModel, ILinearLinkViewModel, ILinkViewModel
     {
         #region private field
         private double _gantryGap;
@@ -33,23 +31,23 @@ namespace Machine.ViewModels.Links
         #region messages handlers
         private void OnGantryMessage(GantryMessage msg)
         {
-            if(msg.Slave == Id)
+            if (msg.Slave == Id)
             {
-                Messenger.Send(new GetLinkMessage() 
+                Messenger.Send(new GetLinkMessage()
                 {
                     Id = msg.Master,
                     SetLink = (link) =>
                     {
                         _gantryGap = Value - link.Value;
 
-                        if(msg.State)
+                        if (msg.State)
                         {
                             link.ValueChanged += OnGantryMasterChanged;
                         }
                         else
                         {
                             link.ValueChanged -= OnGantryMasterChanged;
-                        }                        
+                        }
                     }
                 });
             }

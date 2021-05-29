@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Interfaces\Machine.ViewModels.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -35,15 +35,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.DataSource.Client.R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.3D.Geometry.Provider", "Machine.3D.Geometry.Provider\Machine.3D.Geometry.Provider.csproj", "{2151000F-3AB9-436E-AEB7-50AAE32AFA8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.ViewModels.Base", "Machine.ViewModels.Base\Machine.ViewModels.Base.csproj", "{94BDA861-D742-43F4-AD4A-3166128C8CBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.ViewModels.Base", "Machine.ViewModels.Base\Machine.ViewModels.Base.csproj", "{94BDA861-D742-43F4-AD4A-3166128C8CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.ViewModels.Ioc", "Machine.ViewModels.Ioc\Machine.ViewModels.Ioc.csproj", "{B46EF964-1F47-42DF-AC3A-E6AC1A25F4C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.ViewModels.Ioc", "Machine.ViewModels.Ioc\Machine.ViewModels.Ioc.csproj", "{B46EF964-1F47-42DF-AC3A-E6AC1A25F4C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.ViewModels.UI", "Machine.ViewModels.UI\Machine.ViewModels.UI.csproj", "{A8FC6847-C010-40AE-9A27-F37429771324}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.ViewModels.UI", "Machine.ViewModels.UI\Machine.ViewModels.UI.csproj", "{A8FC6847-C010-40AE-9A27-F37429771324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.Steps.ViewModels", "Machine.Steps.ViewModels\Machine.Steps.ViewModels.csproj", "{5BE35F5E-F07F-4B86-99A5-1861418D3CD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.Steps.ViewModels", "Machine.Steps.ViewModels\Machine.Steps.ViewModels.csproj", "{5BE35F5E-F07F-4B86-99A5-1861418D3CD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.StepsSource.File.Msteps", "Machine.StepsSource.File.Msteps\Machine.StepsSource.File.Msteps.csproj", "{C1114F11-1DFE-4D07-B7DB-31DD39E75BAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.StepsSource.File.Msteps", "Machine.StepsSource.File.Msteps\Machine.StepsSource.File.Msteps.csproj", "{C1114F11-1DFE-4D07-B7DB-31DD39E75BAA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.ViewModels.Messages", "Machine.ViewModels.Messages\Machine.ViewModels.Messages.csproj", "{29691055-686F-4B89-BFFF-7726597DBAC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.ViewModels.Interfaces", "Machine.ViewModels.Interfaces\Machine.ViewModels.Interfaces.csproj", "{D12EE5AD-7FBB-42E0-9E03-E52E01B826F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +139,14 @@ Global
 		{C1114F11-1DFE-4D07-B7DB-31DD39E75BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1114F11-1DFE-4D07-B7DB-31DD39E75BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1114F11-1DFE-4D07-B7DB-31DD39E75BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29691055-686F-4B89-BFFF-7726597DBAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29691055-686F-4B89-BFFF-7726597DBAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29691055-686F-4B89-BFFF-7726597DBAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29691055-686F-4B89-BFFF-7726597DBAC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D12EE5AD-7FBB-42E0-9E03-E52E01B826F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12EE5AD-7FBB-42E0-9E03-E52E01B826F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12EE5AD-7FBB-42E0-9E03-E52E01B826F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12EE5AD-7FBB-42E0-9E03-E52E01B826F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

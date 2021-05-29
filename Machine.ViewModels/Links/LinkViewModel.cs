@@ -1,5 +1,6 @@
 ﻿using Machine.Data.Enums;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages.Links;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Machine.ViewModels.Links
 {
-    public abstract class LinkViewModel : BaseViewModel
+    public abstract class LinkViewModel : BaseViewModel, ILinkViewModel
     {
         #region data properties
         //public int LinkID { get; set; }
@@ -18,12 +19,12 @@ namespace Machine.ViewModels.Links
 
         #region view properties
         private double _value;
-        public double Value 
+        public double Value
         {
-            get => _value; 
+            get => _value;
             set
             {
-                if(Set(ref _value, value, nameof(Value)))
+                if (Set(ref _value, value, nameof(Value)))
                 {
                     ValueChanged?.Invoke(this, _value);
                 }
@@ -47,7 +48,7 @@ namespace Machine.ViewModels.Links
         #region private methods
         private void OnGetLinkMessage(GetLinkMessage msg)
         {
-            if((msg.Id == Id) || (msg.Id == -1))
+            if ((msg.Id == Id) || (msg.Id == -1))
             {
                 msg?.SetLink(this);
             }

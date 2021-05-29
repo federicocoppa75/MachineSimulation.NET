@@ -1,9 +1,6 @@
 ﻿using Machine.Data.Enums;
 using Machine.Data.MachineElements;
 using Machine.ViewModels.Messages;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Machine.ViewModels.MachineElements
 {
