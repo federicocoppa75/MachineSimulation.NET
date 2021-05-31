@@ -34,6 +34,8 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MVMUI.IListDialog>.Register<MVUI.ListDialog>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IStepsSource>.Register<MSFM.StepsSource>();
             ViewModels.Ioc.SimpleIoc<MSVMI.IDurationProvider>.Register<MSVME.DurationProvider>();
+            ViewModels.Ioc.SimpleIoc<MSVMI.IBackStepActionFactory>.Register<MSVME.BackStepActionFactory>();
+            ViewModels.Ioc.SimpleIoc<MSVMI.IActionExecuter>.Register<MSVME.ActionExecuter>();
         }
     }
 }

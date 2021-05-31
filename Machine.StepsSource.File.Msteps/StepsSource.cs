@@ -41,6 +41,8 @@ namespace Machine.StepsSource.File.Msteps
                     {
                         data.Steps.Clear();
 
+                        data.Steps.Add(new StepViewModel(-1, "Start", "Initial condition"));
+
                         for (int i = 0; i < doc.Steps.Count; i++)
                         {
                             data.Steps.Add(new StepViewModel(doc.Steps[i], i + 1));
