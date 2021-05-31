@@ -1,4 +1,7 @@
-﻿using Machine.Data.Base;
+﻿using Machine.Data.MachineElements;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using MDT = Machine.Data.Tools;
 
 namespace Machine.ViewModels.MachineElements

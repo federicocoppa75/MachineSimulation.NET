@@ -1,4 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Machine.Data.Converters;
+using Machine.Data.MachineElements;
+using Machine.ViewModels;
+using Machine.ViewModels.Base;
+using Machine.ViewModels.MachineElements;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Input;
+using MDTooling = Machine.Data.Toolings;
+using MDTools = Machine.Data.Tools;
+using System.Linq;
+using Machine.ViewModels.Messages;
 using M3DVE = Machine._3D.Views.Enums;
 using VMUI = Machine.ViewModels.UI;
 using M3DVI = Machine._3D.Views.Interfaces;

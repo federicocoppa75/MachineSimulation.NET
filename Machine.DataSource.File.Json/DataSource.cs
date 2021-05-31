@@ -3,6 +3,7 @@ using Machine.Data.Extensions.ViewModels;
 using Machine.Data.MachineElements;
 using Machine.ViewModels;
 using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
 using Newtonsoft.Json;
