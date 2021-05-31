@@ -1,8 +1,5 @@
-﻿using Machine.Data.MachineElements;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MDT = Machine.Data.Tools;
+﻿using MDT = Machine.Data.Tools;
+using MDB = Machine.Data.Base;
 
 namespace Machine.ViewModels.MachineElements
 {
@@ -10,7 +7,7 @@ namespace Machine.ViewModels.MachineElements
     {
         public MDT.Tool Tool { get; set; }
 
-        public Color ConeColor { get; set; }
+        public MDB.Color ConeColor { get; set; }
 
         public string ConeModelFile => (Tool != null) ? Tool.ConeModelFile : null;
 

@@ -1,5 +1,5 @@
-﻿using Machine.Data.Enums;
-using Machine.Data.MachineElements;
+﻿using Machine.Data.Base;
+using Machine.Data.Enums;
 using Machine.Data.Tools;
 using Machine.ViewModels.Messages.Tooling;
 

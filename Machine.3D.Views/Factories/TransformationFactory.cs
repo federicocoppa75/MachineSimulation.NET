@@ -1,18 +1,16 @@
 ﻿using Machine.Data.Enums;
-using Machine.Data.MachineElements;
 using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media.Media3D;
+using MDB = Machine.Data.Base;
 
 namespace Machine._3D.Views.Factories
 {
     class TransformationFactory : IViewTransformationFactory
     {
 
-        public object CreateTranslation(Matrix matrix, LinkViewModel link)
+        public object CreateTranslation(MDB.Matrix matrix, LinkViewModel link)
         {
             if (link == null)
             {
@@ -24,7 +22,7 @@ namespace Machine._3D.Views.Factories
             }
         }
 
-        public Transform3D CreateTranslation3D(Matrix matrix, LinkViewModel link)
+        public Transform3D CreateTranslation3D(MDB.Matrix matrix, LinkViewModel link)
         {
             var tg = new Transform3DGroup();
             var st = CreateTransformation3D(matrix);
@@ -53,7 +51,7 @@ namespace Machine._3D.Views.Factories
         }
 
 
-        private Transform3D CreateTransformation3D(Matrix matrix)
+        private Transform3D CreateTransformation3D(MDB.Matrix matrix)
         {
             var m3d = new Matrix3D(matrix.M11, matrix.M12, matrix.M13, 0.0,
                        matrix.M21, matrix.M22, matrix.M23, 0.0,
