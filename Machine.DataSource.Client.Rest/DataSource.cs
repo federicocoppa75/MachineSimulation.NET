@@ -8,11 +8,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using MD = Machine.Data.MachineElements;
-using Machine.ViewModels.Helpers;
 using MDTooling = Machine.Data.Toolings;
 using MDTools = Machine.Data.Tools;
 using System.Threading.Tasks;
 using Machine.ViewModels.Messages.Tooling;
+using Machine.Data.Extensions.ViewModels;
 
 namespace Machine.DataSource.Client.Rest
 {

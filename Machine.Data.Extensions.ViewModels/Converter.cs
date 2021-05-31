@@ -1,16 +1,16 @@
-﻿using Machine.ViewModels.Links;
-using Machine.ViewModels.MachineElements;
-using Machine.ViewModels.MachineElements.Toolholder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Machine.ViewModels.Links;
+using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.MachineElements.Toolholder;
 using MD = Machine.Data;
 using MDE = Machine.Data.MachineElements;
 using MDL = Machine.Data.Links;
 
-namespace Machine.ViewModels.Helpers
+namespace Machine.Data.Extensions.ViewModels
 {
-    public static class MachineDataToViewModelConverter
+    public static class Converter
     {
         public static ElementViewModel ToViewModel(this MDE.MachineElement me)
         {

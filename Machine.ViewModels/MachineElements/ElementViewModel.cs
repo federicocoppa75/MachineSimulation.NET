@@ -73,65 +73,6 @@ namespace Machine.ViewModels.MachineElements
         public ICommand ChangeChainVisibilityState { get { return _changeChainVisibilityState ?? (_changeChainVisibilityState = new RelayCommand(() => ChangeChainVisibilityStateImpl())); } }
         #endregion
 
-
-        //public static explicit operator ElementViewModel(MachineElement machineElement)
-        //{
-        //    var evm = new ElementViewModel()
-        //    {
-        //        MachineElementID = machineElement.MachineElementID,
-        //        Name = machineElement.Name,
-        //        ModelFile = machineElement.ModelFile,
-        //        Color = machineElement.Color,
-        //        Transformation = machineElement.Transformation,
-        //        LinkToParent = ConvertLink(machineElement.LinkToParent, machineElement.Name)
-        //    };
-
-        //    foreach (var item in machineElement.Children) evm.Children.Add((ElementViewModel)item);
-
-        //    foreach (var item in evm.Children) item.Parent = evm;
-
-        //    return evm;
-        //}
-
-        //private static LinkViewModel ConvertLink(Link linkToParent, string name)
-        //{
-        //    LinkViewModel vm = null;
-
-        //    if(linkToParent is LinearLink linearLink)
-        //    {
-        //        vm = new LinearLinkViewModel()
-        //        {
-        //            Id = linkToParent.Id,
-        //            //LinkID = linearLink.LinkID,
-        //            Direction = linearLink.Direction,
-        //            Type = linearLink.Type,
-        //            Max = linearLink.Max,
-        //            Min = linearLink.Min,
-        //            Pos = linearLink.Pos,
-        //            Value = linearLink.Pos,
-        //            Description = name
-        //        };
-        //    }
-        //    else if(linkToParent is PneumaticLink pneumaticLink)
-        //    {
-        //        vm = new PneumaticLinkViewModel()
-        //        {
-        //            Id = pneumaticLink.Id,
-        //            //LinkID = pneumaticLink.LinkID,
-        //            Direction = pneumaticLink.Direction,
-        //            Type = pneumaticLink.Type,
-        //            OffPos = pneumaticLink.OffPos,
-        //            OnPos = pneumaticLink.OnPos,
-        //            TOff = pneumaticLink.TOff,
-        //            TOn = pneumaticLink.TOn,
-        //            ToolActivator = pneumaticLink.ToolActivator,
-        //            Description = name
-        //        };
-        //    }
-
-        //    return vm;
-        //}
-
         #region implementation
         private static void RequestTreeviewVisibility(ElementViewModel vm)
         {

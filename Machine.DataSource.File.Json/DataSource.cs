@@ -1,9 +1,8 @@
 ﻿using Machine.Data.Converters;
+using Machine.Data.Extensions.ViewModels;
 using Machine.Data.MachineElements;
 using Machine.ViewModels;
-using Machine.ViewModels.Helpers;
 using Machine.ViewModels.MachineElements;
-using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
 using Newtonsoft.Json;
