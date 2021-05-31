@@ -4,11 +4,8 @@ using System.Text;
 
 namespace Machine.Data.MachineElements
 {
-    public class Point
+    public class Point : Base.Point
     {
         public int PointID { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double Z { get; set; }
     }
 }

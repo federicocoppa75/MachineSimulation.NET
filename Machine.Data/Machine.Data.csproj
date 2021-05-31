@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.NET</PackageProjectUrl>
   </PropertyGroup>
 
@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Machine.Data.Base\Machine.Data.Base.csproj" />
     <ProjectReference Include="..\Machine.Data.Enums\Machine.Data.Enums.csproj" />
   </ItemGroup>
 
