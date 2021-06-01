@@ -167,6 +167,7 @@ namespace Client.Machine.Helpers
 
                 var c = new MD.MachineElements.ColliderElement()
                 {
+                    Type = ConvertColliderType(pc.Type),
                     Radius = pc.Radius
                 };
 
@@ -215,6 +216,21 @@ namespace Client.Machine.Helpers
             else
             {
                 return isRoot ? new MD.MachineElements.RootElement() : new MD.MachineElements.MachineElement();
+            }
+        }
+
+        private static MD.Enums.ColliderType ConvertColliderType(MM.Enums.ColliderType type)
+        {
+            switch (type)
+            {
+                case MM.Enums.ColliderType.Detect:
+                    return MD.Enums.ColliderType.Detect;
+                case MM.Enums.ColliderType.Presser:
+                    return MD.Enums.ColliderType.Presser;
+                case MM.Enums.ColliderType.Gripper:
+                    return MD.Enums.ColliderType.Gripper;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

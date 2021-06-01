@@ -37,6 +37,10 @@ namespace Machine.Data.Extensions.ViewModels
         {
             var vm = Convert<ColliderElementViewModel>(ce);
 
+            vm.Radius = ce.Radius;
+            vm.Type = ce.Type;
+            foreach (var p in ce.Points) vm.Points.Add(p);
+
             return vm;
         }
         private static ToolholderElementViewModel Convert(MDE.ToolholderElement th)
