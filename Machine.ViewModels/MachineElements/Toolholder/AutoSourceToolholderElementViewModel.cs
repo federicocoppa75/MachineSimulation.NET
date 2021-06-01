@@ -13,5 +13,6 @@ namespace Machine.ViewModels.MachineElements.Toolholder
 
         protected override void OnLoadToolMessage(LoadToolMessage msg) => NotifyChildrenChangedAfterAction(() => base.OnLoadToolMessage(msg), msg.Tool.Name);
 
+        protected override void OnAngularTransmissionLoadMessage(AngularTransmissionLoadMessage msg) => NotifyChildrenChangedAfterAction(() => base.OnAngularTransmissionLoadMessage(msg), msg.AngularTransmission.Name);
     }
 }

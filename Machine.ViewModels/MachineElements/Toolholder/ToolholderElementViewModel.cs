@@ -24,7 +24,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
             Messenger.Register<AngularTransmissionLoadMessage>(this, OnAngularTransmissionLoadMessage);
         }
 
-        private void OnAngularTransmissionLoadMessage(AngularTransmissionLoadMessage msg)
+        protected virtual void OnAngularTransmissionLoadMessage(AngularTransmissionLoadMessage msg)
         {
             if (msg.ToolHolder == ToolHolderId)
             {
@@ -35,8 +35,6 @@ namespace Machine.ViewModels.MachineElements.Toolholder
                     IsVisible = true
                 };
 
-                //vm.ApplaySubSpindlesTooling();
-
                 msg.AppendSubSpindle((p, v, t) => vm.AppendSubSpindle(p, v, t));
 
                 Children.Add(vm);
@@ -46,33 +44,17 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         protected virtual void OnLoadToolMessage(LoadToolMessage msg)
         {
             if (msg.ToolHolder == ToolHolderId)
-            {
-                //if(msg.Tool is AngularTransmission at)
-                //{
-                //    var vm = new AngularTransmissionViewModel()
-                //    {
-                //        Name = at.Name,
-                //        Tool = at,
-                //        IsVisible = true
-                //    };
-
-                //    //vm.ApplaySubSpindlesTooling();
-
-                //    Children.Add(vm);
-                //}
-                //else
+            {               
+                var vm = new ToolViewModel()
                 {
-                    var vm = new ToolViewModel()
-                    {
-                        Name = msg.Tool.Name,
-                        Tool = msg.Tool,
-                        Color = _toolColor,
-                        ConeColor = _coneColor,
-                        IsVisible = true
-                    };
+                    Name = msg.Tool.Name,
+                    Tool = msg.Tool,
+                    Color = _toolColor,
+                    ConeColor = _coneColor,
+                    IsVisible = true
+                };
 
-                    Children.Add(vm);
-                }
+                Children.Add(vm);               
             }
         }
 
