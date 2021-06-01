@@ -17,6 +17,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
             if ((msg.Sink == ToolHolderId) && (Children.Count == 0))
             {
                 Children.Add(msg.Tool);
+                msg.Tool.Parent = this;
             }
         }
 
@@ -26,6 +27,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
             {
                 var t = Children.First();
 
+                t.Parent = null;
                 Children.Remove(t);
                 Messenger.Send(new MoveToolExecuteMessage() { Sink = msg.Sink, Tool = t });
             }

@@ -23,7 +23,8 @@ namespace Machine.ViewModels.MachineElements
             {
                 Name = $"spindle {i++}",
                 Position = position,
-                Direction = direction
+                Direction = direction,
+                Parent = this
             };
 
             if(tool != null)
@@ -33,7 +34,8 @@ namespace Machine.ViewModels.MachineElements
                     Name = tool.Name,
                     Tool = tool,
                     Color = _toolColor,
-                    IsVisible = true
+                    IsVisible = true,
+                    Parent = ssvm
                 });
             }
 

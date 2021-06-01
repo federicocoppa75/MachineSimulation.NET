@@ -30,7 +30,8 @@ namespace Machine.ViewModels.MachineElements.Toolholder
                 {
                     Name = msg.AngularTransmission.Name,
                     Tool = msg.AngularTransmission,
-                    IsVisible = true
+                    IsVisible = true,
+                    Parent = this
                 };
 
                 msg.AppendSubSpindle((p, v, t) => vm.AppendSubSpindle(p, v, t));
@@ -42,14 +43,15 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         protected virtual void OnLoadToolMessage(LoadToolMessage msg)
         {
             if (msg.ToolHolder == ToolHolderId)
-            {               
+            {
                 var vm = new ToolViewModel()
                 {
                     Name = msg.Tool.Name,
                     Tool = msg.Tool,
                     Color = _toolColor,
                     ConeColor = _coneColor,
-                    IsVisible = true
+                    IsVisible = true,
+                    Parent = this
                 };
 
                 Children.Add(vm);               
