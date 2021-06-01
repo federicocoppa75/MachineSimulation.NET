@@ -1,8 +1,6 @@
-﻿using Machine.Data.Enums;
-using Machine.Data.MachineElements;
-using Machine.Data.Tools;
+﻿using Machine.Data.Base;
+using Machine.Data.Enums;
 using Machine.ViewModels.Messages.Tooling;
-using System;
 
 namespace Machine.ViewModels.MachineElements.Toolholder
 {

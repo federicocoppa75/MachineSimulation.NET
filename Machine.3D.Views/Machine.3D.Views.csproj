@@ -4,7 +4,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>Machine._3D.Views</RootNamespace>
     <UseWPF>true</UseWPF>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Machine.3D.Geometry.Provider\Machine.3D.Geometry.Provider.csproj" />
+    <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
     <ProjectReference Include="..\Machine.ViewModels\Machine.ViewModels.csproj" />
   </ItemGroup>
 

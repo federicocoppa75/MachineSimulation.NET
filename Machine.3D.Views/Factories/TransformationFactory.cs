@@ -1,10 +1,8 @@
-﻿using Machine.Data.Enums;
-using Machine.Data.MachineElements;
+﻿using Machine.Data.Base;
+using Machine.Data.Enums;
 using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media.Media3D;
 
 namespace Machine._3D.Views.Factories

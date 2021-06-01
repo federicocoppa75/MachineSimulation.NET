@@ -1,4 +1,4 @@
-﻿using Machine.Data.MachineElements;
+﻿using Machine.Data.Base;
 using MDIT = Machine.Data.Interfaces.Tools;
 
 namespace Machine.ViewModels.MachineElements

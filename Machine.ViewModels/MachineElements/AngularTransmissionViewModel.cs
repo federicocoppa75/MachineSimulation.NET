@@ -1,6 +1,5 @@
-﻿using Machine.Data.MachineElements;
-using MDIT = Machine.Data.Interfaces.Tools;
-using MDB = Machine.Data.Base;
+﻿using MDIT = Machine.Data.Interfaces.Tools;
+using Machine.Data.Base;
 
 namespace Machine.ViewModels.MachineElements
 {
@@ -17,7 +16,7 @@ namespace Machine.ViewModels.MachineElements
             Color = _bodyColor;
         }
 
-        internal void AppendSubSpindle(MDB.Point position, MDB.Vector direction, MDIT.ITool tool)
+        internal void AppendSubSpindle(Point position, Vector direction, MDIT.ITool tool)
         {
             var i = 0;
             var ssvm = new ATToolholderViewModel()

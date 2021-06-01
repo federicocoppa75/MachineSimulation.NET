@@ -1,5 +1,5 @@
 ﻿using HelixToolkit.Wpf.SharpDX;
-using Machine.Data.MachineElements;
+using Machine.Data.Base;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
