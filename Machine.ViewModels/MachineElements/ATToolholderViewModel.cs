@@ -1,7 +1,4 @@
-﻿using Machine.Data.MachineElements;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Machine.Data.Base;
 
 namespace Machine.ViewModels.MachineElements
 {

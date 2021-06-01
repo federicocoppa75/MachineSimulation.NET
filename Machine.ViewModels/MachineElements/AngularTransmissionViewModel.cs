@@ -1,8 +1,6 @@
 ﻿using Machine.Data.MachineElements;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MDT = Machine.Data.Tools;
+using MDIT = Machine.Data.Interfaces.Tools;
+using MDB = Machine.Data.Base;
 
 namespace Machine.ViewModels.MachineElements
 {
@@ -11,7 +9,7 @@ namespace Machine.ViewModels.MachineElements
         private static Color _bodyColor = new Color() { A = 255, B = 128, G = 128, R = 128 };
         private static Color _toolColor = new Color() { A = 255, B = 255 };
 
-        public MDT.AngularTransmission Tool { get; set; }
+        public MDIT.IAngularTransmission Tool { get; set; }
         public string BodyModelFile => (Tool != null) ? Tool.BodyModelFile : null;
 
         public AngularTransmissionViewModel() : base()
@@ -19,32 +17,28 @@ namespace Machine.ViewModels.MachineElements
             Color = _bodyColor;
         }
 
-        public void ApplaySubSpindlesTooling()
+        internal void AppendSubSpindle(MDB.Point position, MDB.Vector direction, MDIT.ITool tool)
         {
-            int i = 1;
-
-            foreach (var item in Tool.Subspindles)
+            var i = 0;
+            var ssvm = new ATToolholderViewModel()
             {
-                var ssvm = new ATToolholderViewModel()
-                {
-                    Name = $"spindle {i++}",
-                    Position = item.Position,
-                    Direction = item.Direction
-                };
+                Name = $"spindle {i++}",
+                Position = position,
+                Direction = direction
+            };
 
-                if((item is MDT.SubspindleEx sse) && (sse.Tool != null))
+            if(tool != null)
+            {
+                ssvm.Children.Add(new ToolViewModel()
                 {
-                    ssvm.Children.Add(new ToolViewModel()
-                    {
-                        Name = sse.ToolName,
-                        Tool = sse.Tool,
-                        Color = _toolColor,
-                        IsVisible = true
-                    });
-                }
-
-                Children.Add(ssvm);
+                    Name = tool.Name,
+                    Tool = tool,
+                    Color = _toolColor,
+                    IsVisible = true
+                });
             }
+
+            Children.Add(ssvm);
         }
     }
 }

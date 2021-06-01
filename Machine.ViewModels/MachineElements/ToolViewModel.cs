@@ -1,14 +1,11 @@
 ﻿using Machine.Data.MachineElements;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MDT = Machine.Data.Tools;
+using MDIT = Machine.Data.Interfaces.Tools;
 
 namespace Machine.ViewModels.MachineElements
 {
     public class ToolViewModel : ElementViewModel
     {
-        public MDT.Tool Tool { get; set; }
+        public MDIT.ITool Tool { get; set; }
 
         public Color ConeColor { get; set; }
 

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MDT = Machine.Data.Tools;
+﻿using MDIT = Machine.Data.Interfaces.Tools;
 
 namespace Machine.ViewModels.Messages.Tooling
 {
     public class LoadToolMessage
     {
         public int ToolHolder { get; set; }
-        public MDT.Tool Tool { get; set; }
+        public MDIT.ITool Tool { get; set; }
     }
 }

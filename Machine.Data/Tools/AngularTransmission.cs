@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Machine.Data.Interfaces.Tools;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Machine.Data.Tools
 {
-    public class AngularTransmission : Tool
+    public class AngularTransmission : Tool, IAngularTransmission
     {
         public string BodyModelFile { get; set; }
         public virtual ICollection<Subspindle> Subspindles { get; protected set; } = new List<Subspindle>();

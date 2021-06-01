@@ -95,7 +95,26 @@ namespace Machine.DataSource.File.Json
 
                 if (t != null)
                 {
-                    Messenger.Send(new LoadToolMessage() { ToolHolder = item.ToolHolderId, Tool = t });
+                    if(t is MDTools.AngularTransmission at)
+                    {
+                        Messenger.Send(new AngularTransmissionLoadMessage() 
+                        {
+                            ToolHolder = item.ToolHolderId, 
+                            AngularTransmission = at,
+                            AppendSubSpindle = (addSubSpindle) =>
+                            {
+                                foreach (var item in at.Subspindles)
+                                {
+                                    var tool = ((item is MDTools.SubspindleEx sse) && (sse.Tool != null)) ? sse.Tool : null;
+                                    addSubSpindle(item.Position, item.Direction, tool);
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Messenger.Send(new LoadToolMessage() { ToolHolder = item.ToolHolderId, Tool = t });
+                    }
                 }
             }
         }

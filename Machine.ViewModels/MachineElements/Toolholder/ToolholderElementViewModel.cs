@@ -2,6 +2,7 @@
 using Machine.Data.MachineElements;
 using Machine.Data.Tools;
 using Machine.ViewModels.Messages.Tooling;
+using System;
 
 namespace Machine.ViewModels.MachineElements.Toolholder
 {
@@ -20,26 +21,46 @@ namespace Machine.ViewModels.MachineElements.Toolholder
             Messenger.Register<LoadToolMessage>(this, OnLoadToolMessage);
             Messenger.Register<UnloadToolMessage>(this, OnUnloadToolMessage);
             Messenger.Register<UnloadAllToolMessage>(this, OnUnloadAllToolMessage);
+            Messenger.Register<AngularTransmissionLoadMessage>(this, OnAngularTransmissionLoadMessage);
+        }
+
+        private void OnAngularTransmissionLoadMessage(AngularTransmissionLoadMessage msg)
+        {
+            if (msg.ToolHolder == ToolHolderId)
+            {
+                var vm = new AngularTransmissionViewModel()
+                {
+                    Name = msg.AngularTransmission.Name,
+                    Tool = msg.AngularTransmission,
+                    IsVisible = true
+                };
+
+                //vm.ApplaySubSpindlesTooling();
+
+                msg.AppendSubSpindle((p, v, t) => vm.AppendSubSpindle(p, v, t));
+
+                Children.Add(vm);
+            }
         }
 
         protected virtual void OnLoadToolMessage(LoadToolMessage msg)
         {
             if (msg.ToolHolder == ToolHolderId)
             {
-                if(msg.Tool is AngularTransmission at)
-                {
-                    var vm = new AngularTransmissionViewModel()
-                    {
-                        Name = at.Name,
-                        Tool = at,
-                        IsVisible = true
-                    };
+                //if(msg.Tool is AngularTransmission at)
+                //{
+                //    var vm = new AngularTransmissionViewModel()
+                //    {
+                //        Name = at.Name,
+                //        Tool = at,
+                //        IsVisible = true
+                //    };
 
-                    vm.ApplaySubSpindlesTooling();
+                //    //vm.ApplaySubSpindlesTooling();
 
-                    Children.Add(vm);
-                }
-                else
+                //    Children.Add(vm);
+                //}
+                //else
                 {
                     var vm = new ToolViewModel()
                     {

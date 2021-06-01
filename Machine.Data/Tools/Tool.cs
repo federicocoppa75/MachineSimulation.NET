@@ -1,10 +1,11 @@
 ﻿
 
 using Machine.Data.Enums;
+using Machine.Data.Interfaces.Tools;
 
 namespace Machine.Data.Tools
 {
-    public abstract class Tool
+    public abstract class Tool : ITool
     {
         public int ToolID { get; set; }
         public string Name { get; set; }
