@@ -64,7 +64,7 @@ namespace Machine.ViewModels.MachineElements
             set => Set(ref _isExpanded, value, nameof(IsExpanded)); 
         }
 
-        public ElementViewModel Parent { get; set; }
+        public virtual ElementViewModel Parent { get; set; }
          #endregion
 
         #region commands

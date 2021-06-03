@@ -62,10 +62,15 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         {
             if (msg.ToolHolder == ToolHolderId)
             {
+                foreach (var item in Children) item.Parent = null;
                 Children.Clear();
             }
         }
 
-        protected virtual void OnUnloadAllToolMessage(UnloadAllToolMessage msg) => Children.Clear();
+        protected virtual void OnUnloadAllToolMessage(UnloadAllToolMessage msg)
+        {
+            foreach (var item in Children) item.Parent = null;
+            Children.Clear();
+        }
     }
 }

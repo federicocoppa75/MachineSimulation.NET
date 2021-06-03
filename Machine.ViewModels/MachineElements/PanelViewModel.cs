@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Messages;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,7 +16,9 @@ namespace Machine.ViewModels.MachineElements
 
         public PanelViewModel()
         {
-
+            Messenger.Register<GetPanelMessage>(this, OnGetPanelMessage);
         }
+
+        private void OnGetPanelMessage(GetPanelMessage msg) => msg.SetPanel(this);
     }
 }

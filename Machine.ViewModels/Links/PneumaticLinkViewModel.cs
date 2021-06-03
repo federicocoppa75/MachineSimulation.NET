@@ -10,10 +10,23 @@ namespace Machine.ViewModels.Links
     {
         #region data properties
         public double OffPos { get; set; }
-        public double OnPos { get; set; }
+        
+        private double _onPos;
+        public double OnPos 
+        { 
+            get => _onPos; 
+            set
+            {
+                if(Set(ref _onPos, value, nameof(OnPos)))
+                {
+                    DynOnPos = _onPos;
+                }
+            }
+        }
         public double TOff { get; set; }
         public double TOn { get; set; }
         public bool ToolActivator { get; set; }
+        public double DynOnPos { get; set; }
         #endregion
 
         #region view properties
@@ -25,11 +38,17 @@ namespace Machine.ViewModels.Links
             {
                 if (Set(ref _state, value, nameof(State)))
                 {
-                    Value = _state ? OnPos : OffPos;
+                    StateChanging?.Invoke(this, value);
+                    Value = _state ? DynOnPos : OffPos;
+                    StateChanged?.Invoke(this, _state);
+                    if (!_state) DynOnPos = OnPos;
                 }
             }
         }
         public override LinkMoveType MoveType => LinkMoveType.Pneumatic;
+
+        public event EventHandler<bool> StateChanging;
+        public event EventHandler<bool> StateChanged;
         #endregion
 
         #region ctor

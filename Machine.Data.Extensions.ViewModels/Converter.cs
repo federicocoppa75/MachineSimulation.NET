@@ -12,20 +12,20 @@ namespace Machine.Data.Extensions.ViewModels
 {
     public static class Converter
     {
-        public static ElementViewModel ToViewModel(this MDE.MachineElement me)
+        public static ElementViewModel ToViewModel(this MDE.MachineElement me, ElementViewModel parent = null)
         {
-            if (me is MDE.RootElement re) return Convert(re);
-            else if (me is MDE.InserterElement ins) return Convert(ins);
-            else if (me is MDE.InjectorElement inj) return Convert(inj);
-            else if (me is MDE.ColliderElement ce) return Convert(ce);
-            else if (me is MDE.ToolholderElement th) return Convert(th);
-            else if (me is MDE.PanelHolderElement ph) return Convert(ph);
-            else return Convert<ElementViewModel>(me);
+            if (me is MDE.RootElement re) return Convert(re, parent);
+            else if (me is MDE.InserterElement ins) return Convert(ins, parent);
+            else if (me is MDE.InjectorElement inj) return Convert(inj, parent);
+            else if (me is MDE.ColliderElement ce) return Convert(ce, parent);
+            else if (me is MDE.ToolholderElement th) return Convert(th, parent);
+            else if (me is MDE.PanelHolderElement ph) return Convert(ph, parent);
+            else return Convert<ElementViewModel>(me, parent);
         }
 
-        private static RootElementViewModel Convert(MDE.RootElement re)
+        private static RootElementViewModel Convert(MDE.RootElement re, ElementViewModel parent)
         {
-            var revm = Convert<RootElementViewModel>(re);
+            var revm = Convert<RootElementViewModel>(re, parent);
 
             revm.AssemblyName = re.AssemblyName;
             revm.RootType = re.RootType;
@@ -33,9 +33,9 @@ namespace Machine.Data.Extensions.ViewModels
             return revm;
         }
 
-        private static ColliderElementViewModel Convert(MDE.ColliderElement ce)
+        private static ColliderElementViewModel Convert(MDE.ColliderElement ce, ElementViewModel parent)
         {
-            var vm = Convert<ColliderElementViewModel>(ce);
+            var vm = Convert<ColliderElementViewModel>(ce, parent);
 
             vm.Radius = ce.Radius;
             vm.Type = ce.Type;
@@ -43,20 +43,21 @@ namespace Machine.Data.Extensions.ViewModels
 
             return vm;
         }
-        private static ToolholderElementViewModel Convert(MDE.ToolholderElement th)
+
+        private static ToolholderElementViewModel Convert(MDE.ToolholderElement th, ElementViewModel parent)
         {
             ToolholderElementViewModel vm = null;
 
             switch (th.ToolHolderType)
             {
                 case MD.Enums.ToolHolderType.Static:
-                    vm = Convert<StaticToolholderElementViewModel>(th);
+                    vm = Convert<StaticToolholderElementViewModel>(th, parent);
                     break;
                 case MD.Enums.ToolHolderType.AutoSource:
-                    vm = Convert<AutoSourceToolholderElementViewModel>(th);
+                    vm = Convert<AutoSourceToolholderElementViewModel>(th, parent);
                     break;
                 case MD.Enums.ToolHolderType.AutoSink:
-                    vm = Convert<AutoSyncToolholderElementViewModel>(th);
+                    vm = Convert<AutoSyncToolholderElementViewModel>(th, parent);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -68,9 +69,9 @@ namespace Machine.Data.Extensions.ViewModels
 
             return vm;
         }
-        private static PanelHolderElementViewModel Convert(MDE.PanelHolderElement ph)
+        private static PanelHolderElementViewModel Convert(MDE.PanelHolderElement ph, ElementViewModel parent)
         {
-            var vm = Convert<PanelHolderElementViewModel>(ph);
+            var vm = Convert<PanelHolderElementViewModel>(ph, parent);
 
             vm.PanelHolderId = ph.PanelHolderId;
             vm.PanelHolderName = ph.PanelHolderName;
@@ -79,23 +80,23 @@ namespace Machine.Data.Extensions.ViewModels
 
             return vm;
         }
-        private static InserterElementViewMode Convert(MDE.InserterElement ins)
+        private static InserterElementViewMode Convert(MDE.InserterElement ins, ElementViewModel parent)
         {
-            var vm = ConverterInserter<InserterElementViewMode>(ins);
+            var vm = ConverterInserter<InserterElementViewMode>(ins, parent);
 
             return vm;
         }
-        private static InjectorElementViewModel Convert(MDE.InjectorElement inj) => ConverterInserter<InjectorElementViewModel>(inj);
+        private static InjectorElementViewModel Convert(MDE.InjectorElement inj, ElementViewModel parent) => ConverterInserter<InjectorElementViewModel>(inj, parent);
 
 
-        private static T ConverterInserter<T>(MDE.InjectorElement me) where T : InjectorElementViewModel, new()
+        private static T ConverterInserter<T>(MDE.InjectorElement me, ElementViewModel parent) where T : InjectorElementViewModel, new()
         {
-            var vm = Convert<T>(me);
+            var vm = Convert<T>(me, parent);
 
             return vm;
         }
 
-        private static T Convert<T>(MDE.MachineElement machineElement) where T : ElementViewModel, new()
+        private static T Convert<T>(MDE.MachineElement machineElement, ElementViewModel parent) where T : ElementViewModel, new()
         {
             var evm = new T()
             {
@@ -104,12 +105,13 @@ namespace Machine.Data.Extensions.ViewModels
                 ModelFile = machineElement.ModelFile,
                 Color = machineElement.Color,
                 Transformation = machineElement.Transformation,
-                LinkToParent = ConvertLink(machineElement.LinkToParent, machineElement.Name)
+                LinkToParent = ConvertLink(machineElement.LinkToParent, machineElement.Name),
+                Parent = parent
             };
 
-            foreach (var item in machineElement.Children) evm.Children.Add(item.ToViewModel());
+            foreach (var item in machineElement.Children) evm.Children.Add(item.ToViewModel(evm));
 
-            foreach (var item in evm.Children) item.Parent = evm;
+            //foreach (var item in evm.Children) item.Parent = evm;
 
             return evm;
         }

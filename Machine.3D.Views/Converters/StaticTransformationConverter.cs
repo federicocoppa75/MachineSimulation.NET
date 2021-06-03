@@ -20,7 +20,7 @@ namespace Machine._3D.Views.Converters
             throw new NotImplementedException();
         }
 
-        private Matrix3D Convert(Matrix matrix)
+        static public Matrix3D Convert(Matrix matrix)
         {
             return new Matrix3D(matrix.M11, matrix.M12, matrix.M13, 0.0,
                        matrix.M21, matrix.M22, matrix.M23, 0.0,

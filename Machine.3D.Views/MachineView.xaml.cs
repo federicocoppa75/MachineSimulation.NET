@@ -1,6 +1,8 @@
 ﻿using HelixToolkit.Wpf.SharpDX;
 using Machine._3D.Views.Factories;
+using Machine._3D.Views.Helpers;
 using Machine.ViewModels;
+using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.UI;
 using System;
@@ -27,6 +29,7 @@ namespace Machine._3D.Views
         {
             InitializeComponent();
             Machine.ViewModels.Ioc.SimpleIoc<IViewTransformationFactory>.Register<TransformationFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<IColliderHelperFactory>.Register<ColliderHelperFactory>();
             DataContext = new MainViewModel();
 
             view3DX.AddHandler(Element3D.MouseDown3DEvent, new RoutedEventHandler((s, e) =>
