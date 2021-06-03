@@ -29,6 +29,8 @@ namespace Machine.ViewModels.MachineElements
             if(msg.PanelHolderId == PanelHolderId)
             {
                 Children.Remove(LoadedPanel);
+                LoadedPanel.Parent = null;
+                if (LoadedPanel is System.IDisposable disposable) disposable.Dispose();
                 LoadedPanel = null;
                 msg?.NotifyExecution?.Invoke(true);
             }

@@ -22,6 +22,23 @@ namespace Machine._3D.Views.Helpers
         protected override Point3D GetPanelCenter() => new Point3D(_panel.CenterX, _panel.CenterY, _panel.CenterZ);
         protected override Size3D GetPanelSize() => new Size3D(_panel.SizeX, _panel.SizeY, _panel.SizeZ);
         protected override Matrix3D GetColliderChainTransformation() => _collider.GetChainTransformation();
-        protected override Matrix3D GetPanelChainTransformation() => _panel.GetChainTransformation();
+        protected override Matrix3D GetPanelChainTransformation()
+        {
+            var matrix = _panel.GetChainTransformation();
+            
+            if(_panel is IMovablePanel mp)
+            {
+                var m = Matrix3D.Identity;
+
+                m.OffsetX = mp.OffsetX;
+                m.Append(matrix);
+
+                return m;
+            }
+            else
+            {
+                return matrix;
+            }            
+        }
     }
 }

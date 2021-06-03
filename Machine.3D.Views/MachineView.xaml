@@ -334,9 +334,9 @@
         </DataTemplate>
         <DataTemplate x:Key="panelTemplate">
             <hx:CompositeModel3D>
-                <!--<hx:CompositeModel3D.Transform>
-                    <MatrixTransform3D Matrix="{Binding Transformation, Converter={StaticResource staticTransformationConverter}}" />
-                </hx:CompositeModel3D.Transform>-->
+                <hx:CompositeModel3D.Transform>
+                    <TranslateTransform3D OffsetX="{Binding OffsetX}"/>
+                </hx:CompositeModel3D.Transform>
                 <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
                 <hx:MeshGeometryModel3D Geometry="{Binding Converter={StaticResource panelToGeometryConverter}}"
                                         Material="{Binding Panel, Source={StaticResource materials}}"

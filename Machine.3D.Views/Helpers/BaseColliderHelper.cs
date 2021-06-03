@@ -61,6 +61,5 @@ namespace Machine._3D.Views.Helpers
             else if (direction.Z != 0.0) return v.Z;
             else throw new ArgumentException();
         }
-
     }
 }

@@ -32,6 +32,7 @@ namespace Machine.ViewModels.MachineElements.Collider
                 {
                     CollidingDirection = GetCollidingDirection(plink);
                     plink.StateChanging += OnPneumaticLinkStateChanging;
+                    plink.StateChanged += OnPneumaticLinkStateChanged;
                     break;
                 }
 
@@ -57,5 +58,6 @@ namespace Machine.ViewModels.MachineElements.Collider
         }
 
         protected abstract void OnPneumaticLinkStateChanging(object sender, bool e);
+        protected abstract void OnPneumaticLinkStateChanged(object sender, bool e);
     }
 }

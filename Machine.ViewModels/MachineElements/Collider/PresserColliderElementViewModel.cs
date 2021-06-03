@@ -9,6 +9,11 @@ namespace Machine.ViewModels.MachineElements.Collider
     {
         public override ColliderType Type => ColliderType.Presser;
 
+        protected override void OnPneumaticLinkStateChanged(object sender, bool e)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void OnPneumaticLinkStateChanging(object sender, bool e)
         {
             throw new NotImplementedException();
