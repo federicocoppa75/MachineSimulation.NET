@@ -1,7 +1,5 @@
 ﻿using Machine.ViewModels.MachineElements;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Machine.ViewModels.MachineElements.Collider;
 
 namespace Machine.ViewModels.Interfaces
 {

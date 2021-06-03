@@ -1,17 +1,14 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
-using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
-using Machine.ViewModels.Messages;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Machine.ViewModels.MachineElements
+namespace Machine.ViewModels.MachineElements.Collider
 {
-    public class ColliderElementViewModel : ElementViewModel
+    public abstract class ColliderElementViewModel : ElementViewModel
     {
-        public ColliderType Type { get; set; }
+        public abstract ColliderType Type { get; }
         public double Radius { get; set; }
         public virtual ICollection<Point> Points { get; set; } = new List<Point>();
         public override ElementViewModel Parent 
@@ -59,26 +56,6 @@ namespace Machine.ViewModels.MachineElements
             }
         }
 
-        private void OnPneumaticLinkStateChanging(object sender, bool e)
-        {
-            if(e && Type == ColliderType.Gripper) EvaluatePanelGripperCollision(sender as IPneumaticLinkViewModel);
-        }
-
-        private void EvaluatePanelGripperCollision(IPneumaticLinkViewModel link)
-        {
-            Messenger.Send(new GetPanelMessage()
-            {
-                SetPanel = (pvm) =>
-                {
-                    var th = GetInstance<IColliderHelperFactory>();
-                    var ch = th.GetColliderHelper(this, pvm);
-
-                    if(ch.Intersect(out double d))
-                    {
-                        link.DynOnPos = d;
-                    }
-                }
-            });
-        }
+        protected abstract void OnPneumaticLinkStateChanging(object sender, bool e);
     }
 }

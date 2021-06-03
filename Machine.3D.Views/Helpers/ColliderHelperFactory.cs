@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.MachineElements.Collider;
 
 namespace Machine._3D.Views.Helpers
 {

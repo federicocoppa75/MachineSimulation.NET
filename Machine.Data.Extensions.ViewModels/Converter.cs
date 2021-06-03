@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.MachineElements.Collider;
 using Machine.ViewModels.MachineElements.Toolholder;
 using MD = Machine.Data;
 using MDE = Machine.Data.MachineElements;
@@ -35,10 +36,23 @@ namespace Machine.Data.Extensions.ViewModels
 
         private static ColliderElementViewModel Convert(MDE.ColliderElement ce, ElementViewModel parent)
         {
-            var vm = Convert<ColliderElementViewModel>(ce, parent);
+            ColliderElementViewModel vm = null;
+
+            switch (ce.Type)
+            {
+                case Enums.ColliderType.Presser:
+                    vm = Convert<PresserColliderElementViewModel>(ce, parent);
+                    break;
+                case Enums.ColliderType.Gripper:
+                    vm = Convert<GripperColliderElementViewModel>(ce, parent);
+                    break;
+                case Enums.ColliderType.Detect:
+                default:
+                    throw new NotImplementedException();
+            }
 
             vm.Radius = ce.Radius;
-            vm.Type = ce.Type;
+
             foreach (var p in ce.Points) vm.Points.Add(p);
 
             return vm;
