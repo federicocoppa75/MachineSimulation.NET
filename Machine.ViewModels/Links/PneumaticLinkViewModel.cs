@@ -26,7 +26,19 @@ namespace Machine.ViewModels.Links
         public double TOff { get; set; }
         public double TOn { get; set; }
         public bool ToolActivator { get; set; }
-        public double DynOnPos { get; set; }
+
+        private double _dynOnPos;
+        public double DynOnPos 
+        { 
+            get => _dynOnPos; 
+            set
+            {
+                if(Set(ref _dynOnPos, value, nameof(DynOnPos)) && _state)
+                {
+                    Value = _dynOnPos;
+                }
+            }
+        }
         #endregion
 
         #region view properties

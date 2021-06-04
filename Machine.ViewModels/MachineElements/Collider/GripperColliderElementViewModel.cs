@@ -17,7 +17,7 @@ namespace Machine.ViewModels.MachineElements.Collider
 
         protected override void OnPneumaticLinkStateChanging(object sender, bool e)
         {
-            if (e) EvaluatePanelGripperCollision(sender as IPneumaticLinkViewModel);
+            if (e) EvaluatePanelCollision(sender as IPneumaticLinkViewModel);
         }
 
         protected override void OnPneumaticLinkStateChanged(object sender, bool e)
@@ -37,7 +37,7 @@ namespace Machine.ViewModels.MachineElements.Collider
             });
         }
 
-        private void EvaluatePanelGripperCollision(IPneumaticLinkViewModel link)
+        private void EvaluatePanelCollision(IPneumaticLinkViewModel link)
         {
             Messenger.Send(new GetPanelMessage()
             {

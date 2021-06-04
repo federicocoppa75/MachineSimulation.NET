@@ -31,14 +31,10 @@ namespace Machine._3D.Views.Helpers
                 var m = Matrix3D.Identity;
 
                 m.OffsetX = mp.OffsetX;
-                m.Append(matrix);
-
-                return m;
+                matrix.Append(m);
             }
-            else
-            {
-                return matrix;
-            }            
+
+            return matrix;
         }
     }
 }

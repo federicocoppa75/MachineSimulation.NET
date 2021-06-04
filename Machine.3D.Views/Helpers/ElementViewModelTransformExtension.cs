@@ -4,9 +4,6 @@ using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 namespace Machine._3D.Views.Helpers
@@ -21,7 +18,7 @@ namespace Machine._3D.Views.Helpers
 
             while (p != null)
             {
-                list.Insert(0, p);
+                list.Add(p);
                 p = p.Parent;
             }
 
@@ -40,12 +37,7 @@ namespace Machine._3D.Views.Helpers
             {
                 var ts = StaticTransformationConverter.Convert(e.Transformation);
 
-                if (e.LinkToParent != null)
-                {
-                    var tl = GetLinkTransformation(e.LinkToParent);
-
-                    ts.Append(tl);
-                }
+                if (e.LinkToParent != null) ts.Append(GetLinkTransformation(e.LinkToParent));
 
                 return ts;
             }
@@ -55,7 +47,7 @@ namespace Machine._3D.Views.Helpers
         {
             switch (link.MoveType)
             {
-                case Data.Enums.LinkMoveType.Linear:
+                case LinkMoveType.Linear:
                     return GetLinearLinkTransformation(link as LinearLinkViewModel);
                 case Data.Enums.LinkMoveType.Pneumatic:
                     return GetPenumaticLinkTRansformation(link as PneumaticLinkViewModel);
@@ -82,9 +74,9 @@ namespace Machine._3D.Views.Helpers
         {
             switch (link.Type)
             {
-                case Data.Enums.LinkType.Linear:
+                case LinkType.Linear:
                     return GetLinearTransformation(link.Direction, link.Value, link.Pos);
-                case Data.Enums.LinkType.Rotary:
+                case LinkType.Rotary:
                     throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -98,13 +90,13 @@ namespace Machine._3D.Views.Helpers
 
             switch (direction)
             {
-                case Data.Enums.LinkDirection.X:
+                case LinkDirection.X:
                     matrix.OffsetX = v;
                     break;
-                case Data.Enums.LinkDirection.Y:
+                case LinkDirection.Y:
                     matrix.OffsetY = v;
                     break;
-                case Data.Enums.LinkDirection.Z:
+                case LinkDirection.Z:
                     matrix.OffsetZ = v;
                     break;
                 default:
