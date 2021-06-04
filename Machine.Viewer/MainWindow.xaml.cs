@@ -17,6 +17,7 @@ using MColor = System.Windows.Media.Color;
 using DColor = System.Drawing.Color;
 using Machine.ViewModels;
 using VMUI = Machine.ViewModels.UI;
+using MVUI = Machine.Views.UI;
 
 namespace Machine.Viewer
 {
@@ -29,6 +30,7 @@ namespace Machine.Viewer
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+            MVUI.DispatcherHelper.Initialize();
 
             UpdateFromSettings();
         }
@@ -56,6 +58,8 @@ namespace Machine.Viewer
             Properties.Settings.Default.View3DFlags = Convert(vm.View3DFlags);
             Properties.Settings.Default.View3DOptions = Convert(vm.View3DOptions);
             Properties.Settings.Default.DataSource = vm.DataSource.ToString();
+            Properties.Settings.Default.AutoStepOver = vm.StepsExecutionController.AutoStepOver;
+            Properties.Settings.Default.DynamicTransition = vm.StepsExecutionController.DynamicTransition;
         }
 
         private void UpdateFromSettings()
@@ -68,6 +72,8 @@ namespace Machine.Viewer
             TryToParse(Properties.Settings.Default.View3DFlags, vm.View3DFlags);
             TryToParse(Properties.Settings.Default.View3DOptions, vm.View3DOptions);
             vm.DataSource.TryToParse(Properties.Settings.Default.DataSource);
+            vm.StepsExecutionController.AutoStepOver = Properties.Settings.Default.AutoStepOver;
+            vm.StepsExecutionController.DynamicTransition = Properties.Settings.Default.DynamicTransition;
         }
 
         private static MColor Convert(DColor color)

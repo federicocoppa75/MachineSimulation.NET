@@ -4,11 +4,13 @@ using Machine.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Machine.Steps.ViewModels
 {
-    public class StepsViewModel : BaseViewModel, IStepsContainer
+    public abstract class StepsViewModel : BaseViewModel, IStepsContainer
     {
         public string SourceName { get; set; }
         public IList<StepViewModel> Steps { get; private set; } = new ObservableCollection<StepViewModel>();
@@ -28,6 +30,9 @@ namespace Machine.Steps.ViewModels
             }
         }
 
+        public abstract bool AutoStepOver { get; set; }
+        public abstract bool MultiChannel { get; set; }
+
         public StepsViewModel() : base()
         {
             Messenger.Register<StepCompletedMessage>(this, OnStepCompletedMessage);
@@ -35,7 +40,17 @@ namespace Machine.Steps.ViewModels
 
         private void OnStepCompletedMessage(StepCompletedMessage msg)
         {
-            // ToDo: autostepover mangenment
+            if(AutoStepOver)
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(50);
+                    StepViewModel newSelection = GetNextStep();
+
+                    //if (newSelection != null) DispatcherHelperEx.CheckBeginInvokeOnUI(() => Selected = newSelection);
+                    if (newSelection != null) Selected = newSelection;
+                });
+            }
         }
 
         private void ManageSelectionChanged(StepViewModel selected, StepViewModel lastSelected)
@@ -73,6 +88,27 @@ namespace Machine.Steps.ViewModels
                 //_stepObserver.SetBackIndex(i);
                 Steps[i].ExecuteBack();
             }
+        }
+
+        private StepViewModel GetNextStep()
+        {
+            StepViewModel newSelection = null;
+
+            if (_selected == null)
+            {
+                newSelection = Steps[0];
+            }
+            else
+            {
+                int index = Steps.IndexOf(Selected) + 1;
+
+                if (index < Steps.Count())
+                {
+                    newSelection = Steps[index];
+                }
+            }
+
+            return newSelection;
         }
     }
 }

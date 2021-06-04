@@ -32,7 +32,7 @@ namespace Machine.Views.ViewModels
         }
 
         private bool _autoStepOver;
-        public bool AutoStepOver
+        public override bool AutoStepOver
         {
             get => _autoStepOver;
             set
@@ -47,7 +47,7 @@ namespace Machine.Views.ViewModels
         }
 
         private bool _multiChannel;
-        public bool MultiChannel
+        public override bool MultiChannel
         {
             get => _multiChannel;
             set

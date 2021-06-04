@@ -5,6 +5,7 @@ using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.Messages.Links.Gantry;
 using Machine.ViewModels.Messages.Tooling;
+using Machine.ViewModels.UI;
 using MachineSteps.Models.Actions;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace Machine.Steps.ViewModels.Extensions
     {
         IMessenger _messenger;
         private IMessenger Messenger => _messenger ?? (_messenger = Machine.ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance());
+
+        IDispatcherHelper _dispatcherHelper;
+        private IDispatcherHelper DispatcherHelper => _dispatcherHelper ?? (_dispatcherHelper = Machine.ViewModels.Ioc.SimpleIoc<IDispatcherHelper>.GetInstance());
 
         public void Execute(BaseAction action, int notifyId)
         {
@@ -39,12 +43,15 @@ namespace Machine.Steps.ViewModels.Extensions
 
         public void Execute(AddPanelAction action, int notifyId)
         {
-            Messenger.Send(new LoadPanelMessage()
+            DispatcherHelper.CheckBeginInvokeOnUi(() =>
             {
-                PanelHolderId = action.PanelHolder,
-                Length = action.XDimension,
-                Width = action.YDimension,
-                Height = action.ZDimension
+                Messenger.Send(new LoadPanelMessage()
+                {
+                    PanelHolderId = action.PanelHolder,
+                    Length = action.XDimension,
+                    Width = action.YDimension,
+                    Height = action.ZDimension
+                });
             });
 
             NotifyExecuted(notifyId);

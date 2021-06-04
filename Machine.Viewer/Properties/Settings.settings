@@ -84,5 +84,11 @@
     <Setting Name="DataSource" Type="System.String" Scope="User">
       <Value Profile="(Default)">File.JSON</Value>
     </Setting>
+    <Setting Name="AutoStepOver" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DynamicTransition" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
