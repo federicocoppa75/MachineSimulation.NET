@@ -122,8 +122,12 @@ namespace Machine.ViewModels.MachineElements.Collider
         private void InitializeParallelChange()
         {
             _parallelLink = GetParallelLinearLink(_presserLink.Direction);
-            _parallelLink.ValueChanged += ParallelLinkValueChanged;
-            _intersectionLinkValue = _parallelLink.Value;
+
+            if (_parallelLink != null)
+            {
+                _parallelLink.ValueChanged += ParallelLinkValueChanged;
+                _intersectionLinkValue = _parallelLink.Value;
+            }
         }
 
         private void ParallelLinkValueChanged(object sender, double e)
