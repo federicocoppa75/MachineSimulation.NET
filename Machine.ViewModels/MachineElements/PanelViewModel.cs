@@ -35,7 +35,11 @@ namespace Machine.ViewModels.MachineElements
         #region IDisposable
         private bool _disposed = false;
 
-        public void Dispose() => Dispose(true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         protected virtual void Dispose(bool disposing)
         {
