@@ -1,4 +1,5 @@
 ﻿using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace Machine.ViewModels
 {
     public class KernelViewModel : BaseViewModel, IKernelViewModel
     {
-        private ObservableCollection<ElementViewModel> _machines = new ObservableCollection<ElementViewModel>();
-        public IList<ElementViewModel> Machines => _machines;
+        private ObservableCollection<IMachineElement> _machines = new ObservableCollection<IMachineElement>();
+        public IList<IMachineElement> Machines => _machines;
 
-        private ElementViewModel _selected;
-        public ElementViewModel Selected 
+        private IMachineElement _selected;
+        public IMachineElement Selected 
         {
             get => _selected;
             set => Set(ref _selected, value, nameof(Selected));

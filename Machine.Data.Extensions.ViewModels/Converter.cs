@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Collider;
@@ -13,7 +14,7 @@ namespace Machine.Data.Extensions.ViewModels
 {
     public static class Converter
     {
-        public static ElementViewModel ToViewModel(this MDE.MachineElement me, ElementViewModel parent = null)
+        public static IMachineElement ToViewModel(this MDE.MachineElement me, IMachineElement parent = null)
         {
             if (me is MDE.RootElement re) return Convert(re, parent);
             else if (me is MDE.InserterElement ins) return Convert(ins, parent);
@@ -24,7 +25,7 @@ namespace Machine.Data.Extensions.ViewModels
             else return Convert<ElementViewModel>(me, parent);
         }
 
-        private static RootElementViewModel Convert(MDE.RootElement re, ElementViewModel parent)
+        private static RootElementViewModel Convert(MDE.RootElement re, IMachineElement parent)
         {
             var revm = Convert<RootElementViewModel>(re, parent);
 
@@ -34,7 +35,7 @@ namespace Machine.Data.Extensions.ViewModels
             return revm;
         }
 
-        private static ColliderElementViewModel Convert(MDE.ColliderElement ce, ElementViewModel parent)
+        private static ColliderElementViewModel Convert(MDE.ColliderElement ce, IMachineElement parent)
         {
             ColliderElementViewModel vm = null;
 
@@ -58,7 +59,7 @@ namespace Machine.Data.Extensions.ViewModels
             return vm;
         }
 
-        private static ToolholderElementViewModel Convert(MDE.ToolholderElement th, ElementViewModel parent)
+        private static ToolholderElementViewModel Convert(MDE.ToolholderElement th, IMachineElement parent)
         {
             ToolholderElementViewModel vm = null;
 
@@ -83,7 +84,7 @@ namespace Machine.Data.Extensions.ViewModels
 
             return vm;
         }
-        private static PanelHolderElementViewModel Convert(MDE.PanelHolderElement ph, ElementViewModel parent)
+        private static PanelHolderElementViewModel Convert(MDE.PanelHolderElement ph, IMachineElement parent)
         {
             var vm = Convert<PanelHolderElementViewModel>(ph, parent);
 
@@ -94,23 +95,23 @@ namespace Machine.Data.Extensions.ViewModels
 
             return vm;
         }
-        private static InserterElementViewMode Convert(MDE.InserterElement ins, ElementViewModel parent)
+        private static InserterElementViewMode Convert(MDE.InserterElement ins, IMachineElement parent)
         {
             var vm = ConverterInserter<InserterElementViewMode>(ins, parent);
 
             return vm;
         }
-        private static InjectorElementViewModel Convert(MDE.InjectorElement inj, ElementViewModel parent) => ConverterInserter<InjectorElementViewModel>(inj, parent);
+        private static InjectorElementViewModel Convert(MDE.InjectorElement inj, IMachineElement parent) => ConverterInserter<InjectorElementViewModel>(inj, parent);
 
 
-        private static T ConverterInserter<T>(MDE.InjectorElement me, ElementViewModel parent) where T : InjectorElementViewModel, new()
+        private static T ConverterInserter<T>(MDE.InjectorElement me, IMachineElement parent) where T : InjectorElementViewModel, new()
         {
             var vm = Convert<T>(me, parent);
 
             return vm;
         }
 
-        private static T Convert<T>(MDE.MachineElement machineElement, ElementViewModel parent) where T : ElementViewModel, new()
+        private static T Convert<T>(MDE.MachineElement machineElement, IMachineElement parent) where T : ElementViewModel, new()
         {
             var evm = new T()
             {

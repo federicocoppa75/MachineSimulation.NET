@@ -1,4 +1,5 @@
 ﻿using Machine._3D.Views.Enums;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Toolholder;
 using System;
@@ -114,7 +115,7 @@ namespace Machine._3D.Views.Selectors
                     it = ElementViewType.ToolHolderEle;
                 }
             }
-            else if(item is ElementViewModel evm)
+            else if(item is IMachineElement evm)
             {
                 if(evm.LinkToParent != null)
                 {
