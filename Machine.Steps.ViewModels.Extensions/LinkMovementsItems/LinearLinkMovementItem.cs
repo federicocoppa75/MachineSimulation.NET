@@ -26,7 +26,7 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
             LinkId = linkId;
             Value = value;
             TargetValue = targetValue;
-            Duration = TimeSpan.FromSeconds(duration * 2.0);
+            Duration = TimeSpan.FromSeconds(duration);
             Start = DateTime.Now;
             NotifyId = notifyId;
         }

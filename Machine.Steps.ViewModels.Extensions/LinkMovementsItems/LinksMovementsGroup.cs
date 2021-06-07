@@ -21,7 +21,7 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
         public LinksMovementsGroup(int groupId, double duration, int notifyId = 0)
         {
             GroupId = groupId;
-            Duration = TimeSpan.FromSeconds(duration * 2.0);
+            Duration = TimeSpan.FromSeconds(duration);
             Start = DateTime.Now;
             NotifyId = notifyId;
         }

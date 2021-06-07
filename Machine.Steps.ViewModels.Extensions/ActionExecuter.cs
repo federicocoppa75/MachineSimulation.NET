@@ -105,9 +105,12 @@ namespace Machine.Steps.ViewModels.Extensions
 
         private void Execute(TwoPositionLinkAction action, int notifyId)
         {
-            //if (IsDynamic) ExecuteDynamic(action, notifyId);
-            //else ExecuteStatic(action, notifyId);
+            if (IsDynamic) ExecuteDynamic(action, notifyId);
+            else ExecuteStatic(action, notifyId);
+        }
 
+        private void ExecuteStatic(TwoPositionLinkAction action, int notifyId)
+        {
             Messenger.Send(new GetLinkMessage()
             {
                 Id = action.LinkId,
@@ -120,24 +123,18 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        //private void ExecuteStatic(TwoPositionLinkAction action, int notifyId)
-        //{
-        //    Messenger.Send(new GetLinkMessage()
-        //    {
-        //        Id = action.LinkId,
-        //        SetLink = (link) =>
-        //        {
-        //            (link as IPneumaticLinkViewModel).State = action.RequestedState == MachineSteps.Models.Enums.TwoPositionLinkActionRequestedState.On;
-        //        }
-        //    });
-
-        //    NotifyExecuted(notifyId);
-        //}
-
-        //private void ExecuteDynamic(TwoPositionLinkAction action, int notifyId)
-        //{
-
-        //}
+        private void ExecuteDynamic(TwoPositionLinkAction action, int notifyId)
+        {
+            Messenger.Send(new GetLinkMessage()
+            {
+                Id = action.LinkId,
+                SetLink = (link) =>
+                {
+                    var state = action.RequestedState == MachineSteps.Models.Enums.TwoPositionLinkActionRequestedState.On;
+                    (link as IPneumaticLinkViewModel).ChangeStatus(state, notifyId);
+                }
+            });
+        }
 
         private void Execute(LoadToolAction action, int notifyId)
         {

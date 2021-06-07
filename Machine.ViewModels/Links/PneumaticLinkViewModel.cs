@@ -8,6 +8,11 @@ namespace Machine.ViewModels.Links
 {
     public class PneumaticLinkViewModel : LinkViewModel, IPneumaticLinkViewModel, ILinkViewModel
     {
+        #region private properties
+        private ILinkMovementManager _linkMovementManager;
+        private ILinkMovementManager LinkMovementManager => _linkMovementManager ?? (_linkMovementManager = Ioc.SimpleIoc<ILinkMovementManager>.GetInstance());
+        #endregion
+
         #region data properties
         public double OffPos { get; set; }
         
@@ -46,16 +51,7 @@ namespace Machine.ViewModels.Links
         public bool State
         {
             get => _state;
-            set
-            {
-                if (Set(ref _state, value, nameof(State)))
-                {
-                    StateChanging?.Invoke(this, value);
-                    Value = _state ? DynOnPos : OffPos;
-                    StateChanged?.Invoke(this, _state);
-                    if (!_state) DynOnPos = OnPos;
-                }
-            }
+            set => ChangeStatus(value, -1);
         }
         public override LinkMoveType MoveType => LinkMoveType.Pneumatic;
 
@@ -68,5 +64,41 @@ namespace Machine.ViewModels.Links
         {
         }
         #endregion
+
+        public bool ChangeStatus(bool value, int notifyId)
+        {
+            bool result = false;
+
+            if (_state != value)
+            {
+                StateChanging?.Invoke(this, value);
+                _state = value;
+                ApplyStatus(_state, notifyId);
+                StateChanged?.Invoke(this, _state);
+                if (!_state) DynOnPos = OnPos;
+                RisePropertyChanged(nameof(State));
+                result = true;
+            }
+
+            return result;
+        }
+
+        private void ApplyStatus(bool state, int notifyId)
+        {
+            var value = state ? DynOnPos : OffPos;
+
+            if (LinkMovementManager.Enable)
+            {
+                var t = state ? TOn : TOff;
+
+                if(DynOnPos != OnPos) t *= (DynOnPos - OffPos) / (OnPos - OffPos);
+
+                LinkMovementManager.Add(Id, Value, value, t, notifyId);
+            }
+            else
+            {
+                Value = value;
+            }            
+        }
     }
 }

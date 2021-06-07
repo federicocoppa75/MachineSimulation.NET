@@ -14,5 +14,7 @@ namespace Machine.ViewModels.Interfaces.Links
 
         event EventHandler<bool> StateChanging;
         event EventHandler<bool> StateChanged;
+
+        bool ChangeStatus(bool value, int notifyId);
     }
 }
