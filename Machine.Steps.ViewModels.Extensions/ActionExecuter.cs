@@ -21,8 +21,8 @@ namespace Machine.Steps.ViewModels.Extensions
         IMessenger _messenger;
         private IMessenger Messenger => _messenger ?? (_messenger = Machine.ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance());
 
-        IDispatcherHelper _dispatcherHelper;
-        private IDispatcherHelper DispatcherHelper => _dispatcherHelper ?? (_dispatcherHelper = Machine.ViewModels.Ioc.SimpleIoc<IDispatcherHelper>.GetInstance());
+        //IDispatcherHelper _dispatcherHelper;
+        //private IDispatcherHelper DispatcherHelper => _dispatcherHelper ?? (_dispatcherHelper = Machine.ViewModels.Ioc.SimpleIoc<IDispatcherHelper>.GetInstance());
 
         ILinkMovementManager _linkMovementManager;
         private ILinkMovementManager LinkMovementManager => _linkMovementManager ?? (_linkMovementManager = Machine.ViewModels.Ioc.SimpleIoc<ILinkMovementManager>.GetInstance());
@@ -51,15 +51,12 @@ namespace Machine.Steps.ViewModels.Extensions
 
         private void Execute(AddPanelAction action, int notifyId)
         {
-            DispatcherHelper.CheckBeginInvokeOnUi(() =>
+            Messenger.Send(new LoadPanelMessage()
             {
-                Messenger.Send(new LoadPanelMessage()
-                {
-                    PanelHolderId = action.PanelHolder,
-                    Length = action.XDimension,
-                    Width = action.YDimension,
-                    Height = action.ZDimension
-                });
+                PanelHolderId = action.PanelHolder,
+                Length = action.XDimension,
+                Width = action.YDimension,
+                Height = action.ZDimension
             });
 
             NotifyExecuted(notifyId);

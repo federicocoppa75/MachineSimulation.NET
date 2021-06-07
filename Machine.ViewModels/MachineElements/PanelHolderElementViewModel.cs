@@ -1,6 +1,7 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
 using Machine.ViewModels.Messages;
+using Machine.ViewModels.UI;
 
 namespace Machine.ViewModels.MachineElements
 {
@@ -42,20 +43,22 @@ namespace Machine.ViewModels.MachineElements
             {
                 var center = GetPanelCenter(msg.Length, msg.Width, msg.Height);
 
-                LoadedPanel = new PanelViewModel()
+                GetInstance<IDispatcherHelper>().CheckBeginInvokeOnUi(() =>
                 {
-                    Name = "Panel",
-                    Parent = this,
-                    CenterX = center.X + Position.X,
-                    CenterY = center.Y + Position.Y,
-                    CenterZ = center.Z + Position.Z,
-                    SizeX = msg.Length,
-                    SizeY = msg.Width,
-                    SizeZ = msg.Height
-                };
+                    LoadedPanel = new PanelViewModel()
+                    {
+                        Name = "Panel",
+                        Parent = this,
+                        CenterX = center.X + Position.X,
+                        CenterY = center.Y + Position.Y,
+                        CenterZ = center.Z + Position.Z,
+                        SizeX = msg.Length,
+                        SizeY = msg.Width,
+                        SizeZ = msg.Height
+                    };
 
-                Children.Add(LoadedPanel);
-                msg?.NotifyExecution?.Invoke(true);
+                    Children.Add(LoadedPanel);
+                });
             }
         }
 
