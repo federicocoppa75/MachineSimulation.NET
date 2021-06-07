@@ -142,5 +142,17 @@ namespace Machine.Viewer.Properties {
                 this["DynamicTransition"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Factor1")]
+        public string TimespanFactor {
+            get {
+                return ((string)(this["TimespanFactor"]));
+            }
+            set {
+                this["TimespanFactor"] = value;
+            }
+        }
     }
 }

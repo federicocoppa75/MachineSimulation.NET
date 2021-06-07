@@ -4,9 +4,12 @@ using System.Text;
 
 namespace Machine.ViewModels.Interfaces.Links
 {
+
+
     public interface ILinkMovementController
     {
         int MinTimespam { get; set; }
         bool Enable { get; set; }
+        double TimespanFactor { get; set; }
     }
 }

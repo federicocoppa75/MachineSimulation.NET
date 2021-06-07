@@ -54,12 +54,13 @@ namespace Machine.Steps.ViewModels.Extensions
                 }                
             }
         }
+        public double TimespanFactor { get; set; } = 1.0;
 
         public void Add(int linkId, double value, double targetValue, double duration, int notifyId)
         {
             lock (_lockObj1)
             {
-                _items.Add(new LinearLinkMovementItem(linkId, value, targetValue, duration, notifyId));
+                _items.Add(new LinearLinkMovementItem(linkId, value, targetValue, duration * TimespanFactor, notifyId));
             }
         }
 
@@ -69,7 +70,7 @@ namespace Machine.Steps.ViewModels.Extensions
             {
                 if (!_itemsGroups.TryGetValue(groupId, out LinksMovementsGroup group))
                 {
-                    group = new LinksMovementsGroup(groupId, duration, notifyId);
+                    group = new LinksMovementsGroup(groupId, duration * TimespanFactor, notifyId);
                     _itemsGroups.Add(groupId, group);
                 }
 
@@ -83,7 +84,7 @@ namespace Machine.Steps.ViewModels.Extensions
             {
                 if (!_itemsGroups.TryGetValue(data.GroupId, out LinksMovementsGroup group))
                 {
-                    group = new LinksMovementsGroup(data.GroupId, duration, notifyId);
+                    group = new LinksMovementsGroup(data.GroupId, duration * TimespanFactor, notifyId);
                     _itemsGroups.Add(data.GroupId, group);
                 }
 

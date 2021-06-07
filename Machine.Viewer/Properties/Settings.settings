@@ -90,5 +90,8 @@
     <Setting Name="DynamicTransition" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="TimespanFactor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Factor1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

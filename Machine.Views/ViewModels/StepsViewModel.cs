@@ -77,6 +77,21 @@ namespace Machine.Views.ViewModels
                 }
             }
         }
+
+        private TimeSpanFactor _timeSpanFactor;
+        public TimeSpanFactor TimeSpanFactor 
+        { 
+            get => _timeSpanFactor; 
+            set
+            {
+                if(Set(ref _timeSpanFactor, value, nameof(TimeSpanFactor)))
+                {
+                    LinkMovementController.TimespanFactor = ToValue(_timeSpanFactor);
+                }
+            }
+        }
+
+        public IEnumerable<TimeSpanFactor> TimeSpanFactors => Enum.GetValues(typeof(TimeSpanFactor)).Cast<TimeSpanFactor>();
         #endregion
 
         #region IStepController implementation
@@ -96,6 +111,11 @@ namespace Machine.Views.ViewModels
         public ICommand UnloadStepsCommand { get { return _unloadStepsCommand ?? (_unloadStepsCommand = new RelayCommand(() => UnloadStepsCommandImplementation())); } }
 
         #endregion
+
+        public StepsViewModel() : base()
+        {
+            MVMIoc.SimpleIoc<IOptionProvider<TimeSpanFactor>>.Register(new EnumOptionProxy<TimeSpanFactor>(() => TimeSpanFactors, () => TimeSpanFactor, (v) => TimeSpanFactor = v));
+        }
 
         private void UnloadStepsCommandImplementation()
         {
@@ -118,6 +138,31 @@ namespace Machine.Views.ViewModels
         {
             base.OnBackSelectionChangeEnd();
             DynamicTransition = _memDynamicTransition;
+        }
+
+        private double ToValue(TimeSpanFactor timeSpanFactor)
+        {
+            var result = 1.0;
+
+            switch (timeSpanFactor)
+            {
+                case TimeSpanFactor.Factor1:
+                    result = 1.0;
+                    break;
+                case TimeSpanFactor.Factor2:
+                    result = 2.0;
+                    break;
+                case TimeSpanFactor.Factor5:
+                    result = 5.0;
+                    break;
+                case TimeSpanFactor.Factor10:
+                    result = 10.0;
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
         }
     }
 }
