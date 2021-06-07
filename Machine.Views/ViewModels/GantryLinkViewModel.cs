@@ -63,6 +63,7 @@ namespace Machine.Views.ViewModels
                 {
                     Messenger.Send(new GetLinkMessage()
                     {
+                        Id = -1,
                         SetLink = (link) =>
                         {
                             if((link.MoveType == Data.Enums.LinkMoveType.Linear) && 

@@ -208,16 +208,6 @@ namespace Machine.Steps.ViewModels.Extensions
 
             foreach (var p in action.Positions)
             {
-                //Messenger.Send(new GetLinkMessage() 
-                //{
-                //    Id = p.LinkId,
-                //    SetLink = (link) =>
-                //    {
-                //        LinkMovementManager.Add(_interpolationGroupId, p.LinkId, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
-                //        isFirst = false;
-                //    }
-                //});
-
                 LinkMovementManager.Add(_interpolationGroupId, p.LinkId, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
                 isFirst = false;
             }

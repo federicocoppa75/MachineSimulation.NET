@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Machine.ViewModels.Messages.Tooling
 {
-    public class UnloadToolMessage
+    public struct UnloadToolMessage
     {
         public int ToolHolder { get; set; }
     }

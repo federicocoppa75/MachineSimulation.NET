@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Machine.ViewModels.Messages
 {
-    public class ActionExecutedMessage
+    public struct ActionExecutedMessage
     {
         public int Id { get; set; }
     }

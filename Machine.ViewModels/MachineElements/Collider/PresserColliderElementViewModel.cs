@@ -107,6 +107,7 @@ namespace Machine.ViewModels.MachineElements.Collider
         {
             Messenger.Send(new GetLinkMessage()
             {
+                Id = -1,
                 SetLink = (link) =>
                 {
                     if((link.MoveType == LinkMoveType.Linear) &&

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Machine.ViewModels.Messages
 {
-    public class LoadPanelMessage
+    public struct LoadPanelMessage
     {
         public int PanelHolderId { get; set; }
         public double Length { get; set; }

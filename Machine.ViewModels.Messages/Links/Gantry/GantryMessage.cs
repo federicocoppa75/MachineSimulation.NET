@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Machine.ViewModels.Messages.Links.Gantry
 {
-    public class GantryMessage
+    public struct GantryMessage
     {
         public bool State { get; set; }
         public int Master { get; set; }

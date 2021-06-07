@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Machine.ViewModels.Messages.Tooling
 {
-    public class MoveToolRequestMessage
+    public struct MoveToolRequestMessage
     {
         public int Source { get; set; }
         public int Sink { get; set; }

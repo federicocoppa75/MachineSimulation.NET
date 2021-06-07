@@ -50,7 +50,7 @@ namespace Machine.ViewModels.Links
         {
             if ((msg.Id == Id) || (msg.Id == -1))
             {
-                msg?.SetLink(this);
+                msg.SetLink(this);
             }
         }
         #endregion
