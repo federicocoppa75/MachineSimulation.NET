@@ -15,8 +15,8 @@ namespace Machine.Steps.ViewModels.Extensions
 {
     public class LinkMovementManager : ILinkMovementManager
     {
-        List<LinearLinkMovementItem> _items = new List<LinearLinkMovementItem>();
-        Dictionary<int, LinksMovementsGroup> _itemsGroups = new Dictionary<int, LinksMovementsGroup>();
+        List<ILinearLinkMovementItem> _items = new List<ILinearLinkMovementItem>();
+        Dictionary<int, ILinksMovementsGroup> _itemsGroups = new Dictionary<int, ILinksMovementsGroup>();
         object _lockObj1 = new object();
         object _lockObj2 = new object();
         DateTime _lastProcess;
@@ -65,7 +65,7 @@ namespace Machine.Steps.ViewModels.Extensions
                     Id = linkId,
                     SetLink = (link) =>
                     {
-                        _items.Add(new LinearLinkMovementItem(link, targetValue, duration * TimespanFactor, notifyId));
+                        _items.Add(LinearLinkMovementItem.Create(link, targetValue, duration * TimespanFactor, notifyId));
                     }
                 });
             }
@@ -75,9 +75,9 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             lock (_lockObj2)
             {
-                if (!_itemsGroups.TryGetValue(groupId, out LinksMovementsGroup group))
+                if (!_itemsGroups.TryGetValue(groupId, out ILinksMovementsGroup group))
                 {
-                    group = new LinksMovementsGroup(groupId, duration * TimespanFactor, notifyId);
+                    group = LinksMovementsGroup.Create(groupId, duration * TimespanFactor, notifyId);
                     _itemsGroups.Add(groupId, group);
                 }
 
@@ -97,9 +97,9 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             lock (_lockObj2)
             {
-                if (!_itemsGroups.TryGetValue(data.GroupId, out LinksMovementsGroup group))
+                if (!_itemsGroups.TryGetValue(data.GroupId, out ILinksMovementsGroup group))
                 {
-                    group = new LinksMovementsGroup(data.GroupId, duration * TimespanFactor, notifyId);
+                    group = LinksMovementsGroup.Create(data.GroupId, duration * TimespanFactor, notifyId);
                     _itemsGroups.Add(data.GroupId, group);
                 }
 
@@ -164,7 +164,7 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             lock (_lockObj1)
             {
-                var completed = new Stack<LinearLinkMovementItem>();
+                var completed = new Stack<ILinearLinkMovementItem>();
 
                 _items.ForEach(i =>
                 {

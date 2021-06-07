@@ -5,15 +5,24 @@ using System.Text;
 
 namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
 {
-    class LinearMovementItem : MovementItem
+    struct LinearMovementItem : ILinearMovementItem
     {
         public double Value { get; private set; }
 
-        public LinearMovementItem(ILinkViewModel link, double targetValue) : base(link, targetValue)
+        public ILinkViewModel Link { get; private set; }
+
+        public double TargetValue { get; private set; }
+
+        public static LinearMovementItem Create(ILinkViewModel link, double targetValue)
         {
-            Value = link.Value;
+            return new LinearMovementItem()
+            {
+                Link = link,
+                Value = link.Value,
+                TargetValue = targetValue
+            };
         }
 
-        public override void SetValue(double k) => Link.Value = (TargetValue - Value) * k + Value;
+        public void SetValue(double k) => Link.Value = (TargetValue - Value) * k + Value;
     }
 }

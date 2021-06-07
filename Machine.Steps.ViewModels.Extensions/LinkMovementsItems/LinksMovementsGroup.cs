@@ -6,7 +6,7 @@ using static Machine.ViewModels.Interfaces.Links.ILinkMovementManager;
 
 namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
 {
-    class LinksMovementsGroup
+    struct LinksMovementsGroup : ILinksMovementsGroup
     {
         public int GroupId { get; private set; }
 
@@ -16,48 +16,34 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
 
         public bool IsCompleted { get; private set; }
 
-        public List<MovementItem> Items { get; private set; } = new List<MovementItem>();
+        public List<IMovementItem> Items { get; private set; }
         public int NotifyId { get; set; }
 
-        public LinksMovementsGroup(int groupId, double duration, int notifyId = 0)
+        public static LinksMovementsGroup Create(int groupId, double duration, int notifyId = 0)
         {
-            GroupId = groupId;
-            Duration = TimeSpan.FromSeconds(duration);
-            Start = DateTime.Now;
-            NotifyId = notifyId;
+            return new LinksMovementsGroup()
+            {
+                GroupId = groupId,
+                Duration = TimeSpan.FromSeconds(duration),
+                Start = DateTime.Now,
+                NotifyId = notifyId,
+                Items = new List<IMovementItem>()
+            };
         }
 
-        public void Add(ILinkViewModel link, double targetValue) => Items.Add(new LinearMovementItem(link, targetValue));
+        public void Add(ILinkViewModel link, double targetValue) => Items.Add(LinearMovementItem.Create(link, targetValue));
 
-        internal void Add(ILinkViewModel link, double targetValue, ArcComponentData data)
+        public void Add(ILinkViewModel link, double targetValue, ArcComponentData data)
         {
-            ArcMovementItem md = null;
+            IArcMovementItem md = ArcMovementItem.Create(link, targetValue);
 
-            switch (data.Component)
-            {
-                case ArcComponent.X:
-                    md = new XArcMovementItem(link, targetValue);
-                    break;
-                case ArcComponent.Y:
-                    md = new YArcMovementItem(link, targetValue);
-                    break;
-                default:
-                    break;
-            }
+            md.Angle = data.Angle;
+            md.StartAngle = data.StartAngle;
+            md.CenterCoordinate = data.CenterCoordinate;
+            md.Radius = data.Radius;
+            md.ArcComponent = data.Component;
 
-            if (md != null)
-            {
-                md.Angle = data.Angle;
-                md.StartAngle = data.StartAngle;
-                md.CenterCoordinate = data.CenterCoordinate;
-                md.Radius = data.Radius;
-
-                Items.Add(md);
-            }
-            else
-            {
-                throw new ArgumentException("Invalid arc component!");
-            }
+            Items.Add(md);
         }
 
         public bool Progress(DateTime now)

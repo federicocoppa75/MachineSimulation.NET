@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
 {
-    class LinearLinkMovementItem
+    struct LinearLinkMovementItem : ILinearLinkMovementItem
     {
         public ILinkViewModel Link { get; private set; }
         public double Value { get; private set; }
@@ -15,14 +15,17 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
         public bool IsCompleted { get; set; }
         public int NotifyId { get; private set; }
 
-        public LinearLinkMovementItem(ILinkViewModel link, double targetValue, double duration, int notifyId = 0)
+        public static LinearLinkMovementItem Create(ILinkViewModel link, double targetValue, double duration, int notifyId = 0)
         {
-            Link = link;
-            Value = link.Value;
-            TargetValue = targetValue;
-            Duration = TimeSpan.FromSeconds(duration);
-            Start = DateTime.Now;
-            NotifyId = notifyId;
+            return new LinearLinkMovementItem()
+            {
+                Link = link,
+                Value = link.Value,
+                TargetValue = targetValue,
+                Duration = TimeSpan.FromSeconds(duration),
+                Start = DateTime.Now,
+                NotifyId = notifyId
+            };
         }
 
         public bool Progress(DateTime now)
