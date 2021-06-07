@@ -22,8 +22,8 @@ namespace Machine.ViewModels.Interfaces.Links
             public ArcComponent Component { get; set; }
         }
 
-        void Add(int linkId, double value, double targetValue, double duration, int notifyId);
-        void Add(int groupId, int linkId, double value, double targetValue, double duration, int notifyId);
+        void Add(int linkId, double targetValue, double duration, int notifyId);
+        void Add(int groupId, int linkId, double targetValue, double duration, int notifyId);
         void Add(int linkId, double targetValue, double duration, ArcComponentData data, int notifyId);
     }
 }

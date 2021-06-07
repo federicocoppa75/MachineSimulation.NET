@@ -95,7 +95,7 @@ namespace Machine.Steps.ViewModels.Extensions
                 Id = action.LinkId,
                 SetLink = (link) =>
                 {
-                    LinkMovementManager.Add(action.LinkId, link.Value, action.RequestedPosition, action.Duration, notifyId);
+                    LinkMovementManager.Add(action.LinkId, action.RequestedPosition, action.Duration, notifyId);
                 }
             });            
         }
@@ -208,22 +208,18 @@ namespace Machine.Steps.ViewModels.Extensions
 
             foreach (var p in action.Positions)
             {
-                //LinkMovementManager.Add(_interpolationGroupId, p.LinkId, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
-                //isFirst = false;
+                //Messenger.Send(new GetLinkMessage() 
+                //{
+                //    Id = p.LinkId,
+                //    SetLink = (link) =>
+                //    {
+                //        LinkMovementManager.Add(_interpolationGroupId, p.LinkId, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
+                //        isFirst = false;
+                //    }
+                //});
 
-                //Messenger.Default.Send(new UpdateLinearLinkStateMessage(p.LinkId, p.RequestPosition));
-                //Messenger.Default.Send(new LinearInterpolationLinkMessage(_interpolationGroupId, p.LinkId, p.RequestPosition, a.Duration) { BackNotifyId = isFirst ? actionId : 0 });
-                //isFirst = false;
-
-                Messenger.Send(new GetLinkMessage() 
-                {
-                    Id = p.LinkId,
-                    SetLink = (link) =>
-                    {
-                        LinkMovementManager.Add(_interpolationGroupId, p.LinkId, link.Value, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
-                        isFirst = false;
-                    }
-                });
+                LinkMovementManager.Add(_interpolationGroupId, p.LinkId, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
+                isFirst = false;
             }
 
             _interpolationGroupId++;
@@ -268,14 +264,6 @@ namespace Machine.Steps.ViewModels.Extensions
                     CenterCoordinate = item.CenterCoordinate,
                     Component = component
                 };
-
-                //Messenger.Default.Send(new ArcInterpolationLinkMessage(item.LinkId, item.TargetCoordinate, a.Duration, data) { BackNotifyId = isFirst ? actionId : 0 });
-                ////isFirst = false;
-
-                //_backNotifyId = msg.BackNotifyId;
-
-                //LinkMovementManager.Add(item.LinkId, item.TargetCoordinate, action.Duration, data, isFirst ? notifyId : 0);
-                //isFirst = false;
 
                 Messenger.Send(new GetLinkMessage()
                 {

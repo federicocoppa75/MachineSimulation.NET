@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Interfaces.Links;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,25 +7,18 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
 {
     class LinearLinkMovementItem
     {
-        public int LinkId { get; private set; }
-
+        public ILinkViewModel Link { get; private set; }
         public double Value { get; private set; }
-
         public double TargetValue { get; private set; }
-
-        public double ActualValue { get; set; }
-
         public TimeSpan Duration { get; private set; }
-
         public DateTime Start { get; private set; }
-
         public bool IsCompleted { get; set; }
         public int NotifyId { get; private set; }
 
-        public LinearLinkMovementItem(int linkId, double value, double targetValue, double duration, int notifyId = 0)
+        public LinearLinkMovementItem(ILinkViewModel link, double targetValue, double duration, int notifyId = 0)
         {
-            LinkId = linkId;
-            Value = value;
+            Link = link;
+            Value = link.Value;
             TargetValue = targetValue;
             Duration = TimeSpan.FromSeconds(duration);
             Start = DateTime.Now;
@@ -56,7 +50,7 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
             return result;
         }
 
-        private void SetValue(double value) => ActualValue = value;
+        private void SetValue(double value) => Link.Value = value;
 
     }
 }

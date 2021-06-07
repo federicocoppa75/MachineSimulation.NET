@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Interfaces.Links;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,20 +7,17 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
 {
     abstract class MovementItem
     {
-        public int LinkId { get; private set; }
-
+        public ILinkViewModel Link { get; private set; }
         public double TargetValue { get; private set; }
 
-        public double ActualValue { get; protected set; }
-
-        public MovementItem(int linkId, double targetValue)
+        public MovementItem(ILinkViewModel link, double targetValue)
         {
-            LinkId = linkId;
+            Link = link;
             TargetValue = targetValue;
         }
 
         public abstract void SetValue(double k);
 
-        public void SetTargetValue() => ActualValue = TargetValue;
+        public void SetTargetValue() => Link.Value = TargetValue;
     }
 }

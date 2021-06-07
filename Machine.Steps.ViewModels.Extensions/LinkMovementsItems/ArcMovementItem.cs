@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Interfaces.Links;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,7 +12,7 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
         public double CenterCoordinate { get; set; }
         public double Radius { get; set; }
 
-        public ArcMovementItem(int linkId, double targetValue) : base(linkId, targetValue)
+        public ArcMovementItem(ILinkViewModel link, double targetValue) : base(link, targetValue)
         {
         }
 

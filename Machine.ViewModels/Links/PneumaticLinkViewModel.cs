@@ -93,7 +93,7 @@ namespace Machine.ViewModels.Links
 
                 if(DynOnPos != OnPos) t *= (DynOnPos - OffPos) / (OnPos - OffPos);
 
-                LinkMovementManager.Add(Id, Value, value, t, notifyId);
+                LinkMovementManager.Add(Id, value, t, notifyId);
             }
             else
             {

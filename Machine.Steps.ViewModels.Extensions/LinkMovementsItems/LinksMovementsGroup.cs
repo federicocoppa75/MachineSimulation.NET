@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Interfaces.Links;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using static Machine.ViewModels.Interfaces.Links.ILinkMovementManager;
@@ -26,19 +27,19 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
             NotifyId = notifyId;
         }
 
-        public void Add(int linkId, double value, double targetValue) => Items.Add(new LinearMovementItem(linkId, value, targetValue));
+        public void Add(ILinkViewModel link, double targetValue) => Items.Add(new LinearMovementItem(link, targetValue));
 
-        internal void Add(int linkId, double targetValue, ArcComponentData data)
+        internal void Add(ILinkViewModel link, double targetValue, ArcComponentData data)
         {
             ArcMovementItem md = null;
 
             switch (data.Component)
             {
                 case ArcComponent.X:
-                    md = new XArcMovementItem(linkId, targetValue);
+                    md = new XArcMovementItem(link, targetValue);
                     break;
                 case ArcComponent.Y:
-                    md = new YArcMovementItem(linkId, targetValue);
+                    md = new YArcMovementItem(link, targetValue);
                     break;
                 default:
                     break;

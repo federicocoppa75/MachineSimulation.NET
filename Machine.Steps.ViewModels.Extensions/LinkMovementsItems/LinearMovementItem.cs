@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Interfaces.Links;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,11 +9,11 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
     {
         public double Value { get; private set; }
 
-        public LinearMovementItem(int linkId, double value, double targetValue) : base(linkId, targetValue)
+        public LinearMovementItem(ILinkViewModel link, double targetValue) : base(link, targetValue)
         {
-            Value = value;
+            Value = link.Value;
         }
 
-        public override void SetValue(double k) => ActualValue = (TargetValue - Value) * k + Value;
+        public override void SetValue(double k) => Link.Value = (TargetValue - Value) * k + Value;
     }
 }

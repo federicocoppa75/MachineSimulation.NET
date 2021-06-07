@@ -56,15 +56,22 @@ namespace Machine.Steps.ViewModels.Extensions
         }
         public double TimespanFactor { get; set; } = 1.0;
 
-        public void Add(int linkId, double value, double targetValue, double duration, int notifyId)
+        public void Add(int linkId, double targetValue, double duration, int notifyId)
         {
             lock (_lockObj1)
             {
-                _items.Add(new LinearLinkMovementItem(linkId, value, targetValue, duration * TimespanFactor, notifyId));
+                Messenger.Send(new GetLinkMessage()
+                {
+                    Id = linkId,
+                    SetLink = (link) =>
+                    {
+                        _items.Add(new LinearLinkMovementItem(link, targetValue, duration * TimespanFactor, notifyId));
+                    }
+                });
             }
         }
 
-        public void Add(int groupId, int linkId, double value, double targetValue, double duration, int notifyId)
+        public void Add(int groupId, int linkId, double targetValue, double duration, int notifyId)
         {
             lock (_lockObj2)
             {
@@ -74,7 +81,15 @@ namespace Machine.Steps.ViewModels.Extensions
                     _itemsGroups.Add(groupId, group);
                 }
 
-                group.Add(linkId, value, targetValue);
+
+                Messenger.Send(new GetLinkMessage()
+                {
+                    Id = linkId,
+                    SetLink = (link) =>
+                    {
+                        group.Add(link, targetValue);
+                    }
+                });
             }
         }
 
@@ -88,7 +103,14 @@ namespace Machine.Steps.ViewModels.Extensions
                     _itemsGroups.Add(data.GroupId, group);
                 }
 
-                group.Add(linkId, targetValue, data);
+                Messenger.Send(new GetLinkMessage()
+                {
+                    Id = linkId,
+                    SetLink = (link) =>
+                    {
+                        group.Add(link, targetValue, data);
+                    }
+                });
             }
         }
 
@@ -121,16 +143,20 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             lock (_lockObj2)
             {
+                var completed = new Stack<int>();
+
                 foreach (var ig in _itemsGroups.Values)
                 {
                     ig.Progress(now);
-
-                    ig.Items.ForEach((i) => SetLinkValue(i.LinkId, i.ActualValue));
                     
-                    if(ig.IsCompleted && (ig.NotifyId > 0)) Messenger.Send(new ActionExecutedMessage() { Id = ig.NotifyId });
+                    if(ig.IsCompleted)
+                    {
+                        completed.Push(ig.GroupId);
+                        if (ig.NotifyId > 0) Messenger.Send(new ActionExecutedMessage() { Id = ig.NotifyId });
+                    }
                 }
 
-                _itemsGroups = _itemsGroups.Where(ig => !ig.Value.IsCompleted).ToDictionary(kp => kp.Key, kp => kp.Value);
+                foreach (var item in completed) _itemsGroups.Remove(item);
             }
         }
 
@@ -138,29 +164,21 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             lock (_lockObj1)
             {
+                var completed = new Stack<LinearLinkMovementItem>();
+
                 _items.ForEach(i =>
                 {
                     i.Progress(now);
 
-                    SetLinkValue(i.LinkId, i.ActualValue);
-
-                    if(i.IsCompleted && i.NotifyId > 0) Messenger.Send(new ActionExecutedMessage() { Id = i.NotifyId });
+                    if(i.IsCompleted)
+                    {
+                        completed.Push(i);
+                        if(i.NotifyId > 0) Messenger.Send(new ActionExecutedMessage() { Id = i.NotifyId });
+                    }
                 });
 
-                _items = _items.Where((ii) => !ii.IsCompleted).ToList();
+                foreach (var item in completed) _items.Remove(item);
             }
-        }
-
-        private void SetLinkValue(int linkId, double value)
-        {
-            Messenger.Send(new GetLinkMessage()
-            {
-                Id = linkId,
-                SetLink = (link) =>
-                {
-                    link.Value = value;
-                }
-            });
         }
     }
 }

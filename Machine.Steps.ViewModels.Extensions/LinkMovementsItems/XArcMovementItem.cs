@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Interfaces.Links;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
 {
     class XArcMovementItem : ArcMovementItem
     {
-        public XArcMovementItem(int linkId, double targetValue) : base(linkId, targetValue)
+        public XArcMovementItem(ILinkViewModel link, double targetValue) : base(link, targetValue)
         {
         }
 
@@ -14,7 +15,7 @@ namespace Machine.Steps.ViewModels.Extensions.LinkMovementsItems
         {
             double a = Normalize(StartAngle + Angle * k);
 
-            ActualValue = CenterCoordinate + Math.Cos(a) * Radius;
+            Link.Value = CenterCoordinate + Math.Cos(a) * Radius;
         }
     }
 }
