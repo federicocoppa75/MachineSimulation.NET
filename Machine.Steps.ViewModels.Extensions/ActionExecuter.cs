@@ -10,16 +10,24 @@ using MachineSteps.Models.Actions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Machine.ViewModels.Interfaces.Links.ILinkMovementManager;
 
 namespace Machine.Steps.ViewModels.Extensions
 {
     public class ActionExecuter : IActionExecuter
     {
+        static int _interpolationGroupId = 0;
+
         IMessenger _messenger;
         private IMessenger Messenger => _messenger ?? (_messenger = Machine.ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance());
 
         IDispatcherHelper _dispatcherHelper;
         private IDispatcherHelper DispatcherHelper => _dispatcherHelper ?? (_dispatcherHelper = Machine.ViewModels.Ioc.SimpleIoc<IDispatcherHelper>.GetInstance());
+
+        ILinkMovementManager _linkMovementManager;
+        private ILinkMovementManager LinkMovementManager => _linkMovementManager ?? (_linkMovementManager = Machine.ViewModels.Ioc.SimpleIoc<ILinkMovementManager>.GetInstance());
+
+        private bool IsDynamic => LinkMovementManager.Enable;
 
         public void Execute(BaseAction action, int notifyId)
         {
@@ -41,7 +49,7 @@ namespace Machine.Steps.ViewModels.Extensions
             else if (action is NotOperationAction noa) Execute(noa, notifyId);
         }
 
-        public void Execute(AddPanelAction action, int notifyId)
+        private void Execute(AddPanelAction action, int notifyId)
         {
             DispatcherHelper.CheckBeginInvokeOnUi(() =>
             {
@@ -57,13 +65,19 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(RemovePanelAction action, int notifyId)
+        private void Execute(RemovePanelAction action, int notifyId)
         {
             Messenger.Send(new UnloadPanelMessage() { PanelHolderId = action.PanelHolder });
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(LinearPositionLinkAction action, int notifyId)
+        private void Execute(LinearPositionLinkAction action, int notifyId)
+        {
+            if (IsDynamic) ExecuteDynamic(action, notifyId);
+            else ExecuteStatic(action, notifyId);
+        }
+
+        private void ExecuteStatic(LinearPositionLinkAction action, int notifyId)
         {
             Messenger.Send(new GetLinkMessage()
             {
@@ -77,8 +91,23 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(TwoPositionLinkAction action, int notifyId)
+        private void ExecuteDynamic(LinearPositionLinkAction action, int notifyId)
         {
+            Messenger.Send(new GetLinkMessage()
+            {
+                Id = action.LinkId,
+                SetLink = (link) =>
+                {
+                    LinkMovementManager.Add(action.LinkId, link.Value, action.RequestedPosition, action.Duration, notifyId);
+                }
+            });            
+        }
+
+        private void Execute(TwoPositionLinkAction action, int notifyId)
+        {
+            //if (IsDynamic) ExecuteDynamic(action, notifyId);
+            //else ExecuteStatic(action, notifyId);
+
             Messenger.Send(new GetLinkMessage()
             {
                 Id = action.LinkId,
@@ -91,7 +120,26 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(LoadToolAction action, int notifyId)
+        //private void ExecuteStatic(TwoPositionLinkAction action, int notifyId)
+        //{
+        //    Messenger.Send(new GetLinkMessage()
+        //    {
+        //        Id = action.LinkId,
+        //        SetLink = (link) =>
+        //        {
+        //            (link as IPneumaticLinkViewModel).State = action.RequestedState == MachineSteps.Models.Enums.TwoPositionLinkActionRequestedState.On;
+        //        }
+        //    });
+
+        //    NotifyExecuted(notifyId);
+        //}
+
+        //private void ExecuteDynamic(TwoPositionLinkAction action, int notifyId)
+        //{
+
+        //}
+
+        private void Execute(LoadToolAction action, int notifyId)
         {
             Messenger.Send(new MoveToolRequestMessage()
             {
@@ -102,7 +150,7 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(UnloadToolAction action, int notifyId)
+        private void Execute(UnloadToolAction action, int notifyId)
         {
             Messenger.Send(new MoveToolRequestMessage()
             {
@@ -113,7 +161,7 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(LinearPositionLinkGantryOnAction action, int notifyId)
+        private void Execute(LinearPositionLinkGantryOnAction action, int notifyId)
         {
             Messenger.Send(new GantryMessage()
             {
@@ -125,7 +173,7 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(LinearPositionLinkGantryOffAction action, int notifyId)
+        private void Execute(LinearPositionLinkGantryOffAction action, int notifyId)
         {
             Messenger.Send(new GantryMessage()
             {
@@ -137,7 +185,13 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(LinearInterpolatedPositionLinkAction action, int notifyId)
+        private void Execute(LinearInterpolatedPositionLinkAction action, int notifyId)
+        {
+            if (IsDynamic) ExecuteDynamic(action, notifyId);
+            else ExecuteStatic(action, notifyId);
+        }
+
+        private void ExecuteStatic(LinearInterpolatedPositionLinkAction action, int notifyId)
         {
             foreach (var item in action.Positions)
             {
@@ -154,7 +208,40 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(ArcInterpolatedPositionLinkAction action, int notifyId)
+        private void ExecuteDynamic(LinearInterpolatedPositionLinkAction action, int notifyId)
+        {
+            bool isFirst = true;
+
+            foreach (var p in action.Positions)
+            {
+                //LinkMovementManager.Add(_interpolationGroupId, p.LinkId, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
+                //isFirst = false;
+
+                //Messenger.Default.Send(new UpdateLinearLinkStateMessage(p.LinkId, p.RequestPosition));
+                //Messenger.Default.Send(new LinearInterpolationLinkMessage(_interpolationGroupId, p.LinkId, p.RequestPosition, a.Duration) { BackNotifyId = isFirst ? actionId : 0 });
+                //isFirst = false;
+
+                Messenger.Send(new GetLinkMessage() 
+                {
+                    Id = p.LinkId,
+                    SetLink = (link) =>
+                    {
+                        LinkMovementManager.Add(_interpolationGroupId, p.LinkId, link.Value, p.RequestPosition, action.Duration, isFirst ? notifyId : 0);
+                        isFirst = false;
+                    }
+                });
+            }
+
+            _interpolationGroupId++;
+        }
+
+        private void Execute(ArcInterpolatedPositionLinkAction action, int notifyId)
+        {
+            if (IsDynamic) ExecuteDynamic(action, notifyId);
+            else ExecuteStatic(action, notifyId);
+        }
+
+        private void ExecuteStatic(ArcInterpolatedPositionLinkAction action, int notifyId)
         {
             foreach (var item in action.Components)
             {
@@ -171,32 +258,71 @@ namespace Machine.Steps.ViewModels.Extensions
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(InjectAction action, int notifyId)
+        private void ExecuteDynamic(ArcInterpolatedPositionLinkAction action, int notifyId)
+        {
+            bool isFirst = true;
+
+            foreach (var item in action.Components)
+            {
+                var component = item.Type == ArcInterpolatedPositionLinkAction.ArcComponent.ArcComponentType.X ? ArcComponent.X : ArcComponent.Y;
+                var data = new ArcComponentData
+                {
+                    GroupId = _interpolationGroupId,
+                    StartAngle = action.StartAngle,
+                    Angle = action.Angle,
+                    Radius = action.Radius,
+                    CenterCoordinate = item.CenterCoordinate,
+                    Component = component
+                };
+
+                //Messenger.Default.Send(new ArcInterpolationLinkMessage(item.LinkId, item.TargetCoordinate, a.Duration, data) { BackNotifyId = isFirst ? actionId : 0 });
+                ////isFirst = false;
+
+                //_backNotifyId = msg.BackNotifyId;
+
+                //LinkMovementManager.Add(item.LinkId, item.TargetCoordinate, action.Duration, data, isFirst ? notifyId : 0);
+                //isFirst = false;
+
+                Messenger.Send(new GetLinkMessage()
+                {
+                    Id = item.LinkId,
+                    SetLink = (link) =>
+                    {
+                        LinkMovementManager.Add(item.LinkId, link.Value, action.Duration, data, isFirst ? notifyId : 0);
+                        isFirst = false;
+                    }
+                });
+            }
+
+            _interpolationGroupId++;
+        }
+
+        private void Execute(InjectAction action, int notifyId)
         {
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(TurnOffInverterAction action, int notifyId)
+        private void Execute(TurnOffInverterAction action, int notifyId)
         {
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(TurnOnInverterAction action, int notifyId)
+        private void Execute(TurnOnInverterAction action, int notifyId)
         {
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(UpdateRotationSpeedAction action, int notifyId)
+        private void Execute(UpdateRotationSpeedAction action, int notifyId)
         {
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(ChannelWaiterAction action, int notifyId)
+        private void Execute(ChannelWaiterAction action, int notifyId)
         {
             NotifyExecuted(notifyId);
         }
 
-        public void Execute(NotOperationAction action, int notifyId)
+        private void Execute(NotOperationAction action, int notifyId)
         {
             NotifyExecuted(notifyId);
         }

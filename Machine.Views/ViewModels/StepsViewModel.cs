@@ -9,24 +9,30 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MVMIoc = Machine.ViewModels.Ioc;
 using MSVM = Machine.Steps.ViewModels;
+using Machine.ViewModels.Interfaces.Links;
 
 namespace Machine.Views.ViewModels
 {
     partial class StepsViewModel : MSVM.StepsViewModel, IStepsController, IStepsExecutionController
     {
+        private bool _memDynamicTransition;
+
         private IStepsSource _stepsSource;
 
+        private ILinkMovementController _linkMovementController;
+        private ILinkMovementController LinkMovementController => _linkMovementController ?? (_linkMovementController = GetInstance<ILinkMovementManager>());
+
         #region IStepExecutionController implementation
-        private bool _dynamicTransition;
         public bool DynamicTransition
         {
-            get => _dynamicTransition;
+            get => LinkMovementController.Enable;
             set
             {
-                if (Set(ref _dynamicTransition, value, nameof(DynamicTransition)))
+                if(LinkMovementController.Enable != value)
                 {
-                    //NotifyDynamicTransitionChanged();
-                    if (!_dynamicTransition) AutoStepOver = false;
+                    LinkMovementController.Enable = value;
+                    RisePropertyChanged(nameof(DynamicTransition));
+                    if (!value) AutoStepOver = false;
                 }
             }
         }
@@ -99,6 +105,19 @@ namespace Machine.Views.ViewModels
                 Steps.Clear();
                 Selected = null;
             }
+        }
+
+        protected override void OnBackSelectionChangeStart()
+        {
+            base.OnBackSelectionChangeStart();
+            _memDynamicTransition = DynamicTransition;
+            DynamicTransition = false;
+        }
+
+        protected override void OnBackSelectionChangeEnd()
+        {
+            base.OnBackSelectionChangeEnd();
+            DynamicTransition = _memDynamicTransition;
         }
     }
 }

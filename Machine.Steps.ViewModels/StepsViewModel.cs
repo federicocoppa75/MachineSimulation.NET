@@ -12,6 +12,11 @@ namespace Machine.Steps.ViewModels
 {
     public abstract class StepsViewModel : BaseViewModel, IStepsContainer
     {
+        private bool _memAutoStepOver;
+        private bool _memMultiChannel;
+        private int _autoStepOverLimit = -1;
+        private int _subGroupIndex;
+
         public string SourceName { get; set; }
         public IList<StepViewModel> Steps { get; private set; } = new ObservableCollection<StepViewModel>();
 
@@ -51,6 +56,14 @@ namespace Machine.Steps.ViewModels
                     if (newSelection != null) Selected = newSelection;
                 });
             }
+            else if(_autoStepOverLimit > 0)
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(50);
+                    ManageFarwardSubGroupExecution();
+                });
+            }
         }
 
         private void ManageSelectionChanged(StepViewModel selected, StepViewModel lastSelected)
@@ -75,19 +88,33 @@ namespace Machine.Steps.ViewModels
 
         private void ManageFarwardSelectionChanged(StepViewModel selected, StepViewModel lastSelected)
         {
-            for (int i = lastSelected.Index + 1; i <= selected.Index; i++)
+            int nSteps = selected.Index - lastSelected.Index;
+
+            if (AutoStepOver && (nSteps > 1))
             {
-                Steps[i].ExecuteFarward();
+                ManageFarwardSubgroupStartExecution(lastSelected.Index + 1, selected.Index);
             }
+            else
+            {
+                for (int i = lastSelected.Index + 1; i <= selected.Index; i++)
+                {
+                    Steps[i].ExecuteFarward();
+                }
+            }
+
         }
 
         private void ManageBackSelectionChanged(StepViewModel selected, StepViewModel lastSelected)
         {
+            OnBackSelectionChangeStart();
+
             for (int i = lastSelected.Index; i > selected.Index; i--)
             {
                 //_stepObserver.SetBackIndex(i);
                 Steps[i].ExecuteBack();
             }
+
+            OnBackSelectionChangeEnd();
         }
 
         private StepViewModel GetNextStep()
@@ -109,6 +136,44 @@ namespace Machine.Steps.ViewModels
             }
 
             return newSelection;
+        }
+
+        protected virtual void OnBackSelectionChangeStart() 
+        {
+            _memAutoStepOver = AutoStepOver;
+            _memMultiChannel = MultiChannel;
+            AutoStepOver = false;
+            MultiChannel = false;
+        }
+        
+        protected virtual void OnBackSelectionChangeEnd() 
+        {
+            AutoStepOver = _memAutoStepOver;
+            MultiChannel = _memMultiChannel;
+        }
+
+        private void ManageFarwardSubgroupStartExecution(int startIndex, int endIndex)
+        {
+            if (_autoStepOverLimit == -1)
+            {
+                AutoStepOver = false;
+                _subGroupIndex = startIndex;
+                _autoStepOverLimit = endIndex;
+                Steps[_subGroupIndex++].ExecuteFarward();
+            }
+        }
+
+        private void ManageFarwardSubGroupExecution()
+        {
+            if (_subGroupIndex <= _autoStepOverLimit)
+            {
+                Steps[_subGroupIndex++].ExecuteFarward();
+            }
+            else
+            {
+                _autoStepOverLimit = -1;
+                AutoStepOver = true;
+            }
         }
     }
 }
