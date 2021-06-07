@@ -1,5 +1,7 @@
 ﻿using Machine.ViewModels;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
 using System;
@@ -13,28 +15,28 @@ namespace Machine.Views.ViewModels
 {
     class LinksViewModel : BaseElementsCollectionViewModel
     {
-        public ObservableCollection<LinkViewModel> Links { get; private set; } = new ObservableCollection<LinkViewModel>();
+        public ObservableCollection<ILinkViewModel> Links { get; private set; } = new ObservableCollection<ILinkViewModel>();
 
         public LinksViewModel() : base()
         {
         }
 
-        protected override void AddElement(IEnumerable<ElementViewModel> elements)
+        protected override void AddElement(IEnumerable<IMachineElement> elements)
         {
             foreach (var item in elements)
             {
-                var evm = item as ElementViewModel;
+                //var evm = item as ElementViewModel;
 
-                if (evm.LinkToParent != null)
+                if (item.LinkToParent != null)
                 {
-                    Links.Add(evm.LinkToParent);
+                    Links.Add(item.LinkToParent);
                 }
 
                 AddElement(item.Children);
             }
         }
 
-        protected override void RemoveElement(IEnumerable<ElementViewModel> elements)
+        protected override void RemoveElement(IEnumerable<IMachineElement> elements)
         {
             foreach (var item in elements)
             {

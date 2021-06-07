@@ -1,6 +1,7 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
 using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace Machine.ViewModels.MachineElements.Collider
         public abstract ColliderType Type { get; }
         public double Radius { get; set; }
         public virtual ICollection<Point> Points { get; set; } = new List<Point>();
-        public override ElementViewModel Parent 
+        public override IMachineElement Parent 
         {
             get => base.Parent;
             set
@@ -24,7 +25,7 @@ namespace Machine.ViewModels.MachineElements.Collider
 
         private void AttachActivator()
         {
-            ElementViewModel p = this;
+            IMachineElement p = this;
 
             while(p != null)
             {

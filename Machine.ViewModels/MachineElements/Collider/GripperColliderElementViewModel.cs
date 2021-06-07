@@ -1,6 +1,7 @@
 ﻿using Machine.Data.Enums;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace Machine.ViewModels.MachineElements.Collider
 
         private ILinearLinkViewModel GetFirstLinearLink()
         {
-            ElementViewModel p = this;
+            IMachineElement p = this;
 
             while (p != null)
             {

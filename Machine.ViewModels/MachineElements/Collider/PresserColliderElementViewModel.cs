@@ -1,6 +1,7 @@
 ﻿using Machine.Data.Enums;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Links;
 using System;
@@ -92,7 +93,7 @@ namespace Machine.ViewModels.MachineElements.Collider
 
         private ILinearLinkViewModel GetParallelLinearLink(LinkDirection direction)
         {
-            ElementViewModel p = this;
+            IMachineElement p = this;
 
             while (p != null)
             {

@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Toolholder;
 using System;
@@ -21,7 +22,7 @@ namespace Machine.Views.ViewModels
         {
         }
 
-        protected override void AddElement(IEnumerable<ElementViewModel> elements)
+        protected override void AddElement(IEnumerable<IMachineElement> elements)
         {
             foreach (var item in elements)
             {
@@ -38,7 +39,7 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        protected override void RemoveElement(IEnumerable<ElementViewModel> elements)
+        protected override void RemoveElement(IEnumerable<IMachineElement> elements)
         {
             foreach (var item in elements)
             {

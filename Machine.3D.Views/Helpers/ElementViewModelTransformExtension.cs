@@ -1,5 +1,7 @@
 ﻿using Machine._3D.Views.Converters;
 using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
 using System;
@@ -8,12 +10,12 @@ using System.Windows.Media.Media3D;
 
 namespace Machine._3D.Views.Helpers
 {
-    static class ElementViewModelTransformExtension
+    internal static class ElementViewModelTransformExtension
     {
-        public static Matrix3D GetChainTransformation(this ElementViewModel endOfChain)
+        public static Matrix3D GetChainTransformation(this IMachineElement endOfChain)
         {
-            ElementViewModel p = endOfChain;
-            var list = new List<ElementViewModel>();
+            IMachineElement p = endOfChain;
+            var list = new List<IMachineElement>();
             var matrix = Matrix3D.Identity;
 
             while (p != null)
@@ -27,7 +29,7 @@ namespace Machine._3D.Views.Helpers
             return matrix;
         }
 
-        private static Matrix3D GetElementTransformation(ElementViewModel e)
+        private static Matrix3D GetElementTransformation(IMachineElement e)
         {
             if ((e == null) || (e.Transformation == null))
             {
@@ -43,21 +45,21 @@ namespace Machine._3D.Views.Helpers
             }
         }
 
-        private static Matrix3D GetLinkTransformation(LinkViewModel link)
+        private static Matrix3D GetLinkTransformation(ILinkViewModel link)
         {
             switch (link.MoveType)
             {
                 case LinkMoveType.Linear:
-                    return GetLinearLinkTransformation(link as LinearLinkViewModel);
+                    return GetLinearLinkTransformation(link as ILinearLinkViewModel);
                 case Data.Enums.LinkMoveType.Pneumatic:
-                    return GetPenumaticLinkTRansformation(link as PneumaticLinkViewModel);
+                    return GetPenumaticLinkTRansformation(link as IPneumaticLinkViewModel);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
             throw new NotImplementedException();
         }
 
-        private static Matrix3D GetPenumaticLinkTRansformation(PneumaticLinkViewModel link)
+        private static Matrix3D GetPenumaticLinkTRansformation(IPneumaticLinkViewModel link)
         {
             switch (link.Type)
             {
@@ -70,7 +72,7 @@ namespace Machine._3D.Views.Helpers
             }
         }
 
-        private static Matrix3D GetLinearLinkTransformation(LinearLinkViewModel link)
+        private static Matrix3D GetLinearLinkTransformation(ILinearLinkViewModel link)
         {
             switch (link.Type)
             {

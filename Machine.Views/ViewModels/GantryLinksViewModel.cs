@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,15 @@ namespace Machine.Views.ViewModels
         {
         }
 
-        protected override void AddElement(IEnumerable<ElementViewModel> elements)
+        protected override void AddElement(IEnumerable<IMachineElement> elements)
         {
             foreach (var item in elements)
             {
-                var evm = item as ElementViewModel;
+                //var evm = item as ElementViewModel;
 
-                if ((evm.LinkToParent != null) && (evm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
+                if ((item.LinkToParent != null) && (item.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
                 {
-                    var vm = new GantryLinkViewModel() { Master = evm.LinkToParent.Id };
+                    var vm = new GantryLinkViewModel() { Master = item.LinkToParent.Id };
 
                     vm.Initialize();
                     Links.Add(vm);
@@ -37,15 +38,15 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        protected override void RemoveElement(IEnumerable<ElementViewModel> elements)
+        protected override void RemoveElement(IEnumerable<IMachineElement> elements)
         {
             foreach (var item in elements)
             {
-                var evm = item as ElementViewModel;
+                //var evm = item as ElementViewModel;
 
-                if ((evm.LinkToParent != null) && (evm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
+                if ((item.LinkToParent != null) && (item.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
                 {
-                    var o = Links.FirstOrDefault(g => g.Master == evm.LinkToParent.Id);
+                    var o = Links.FirstOrDefault(g => g.Master == item.LinkToParent.Id);
                     if (o != null) Links.Remove(o);
                 }
             }

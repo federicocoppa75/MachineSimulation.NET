@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,9 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        private void AddElement(object sender, NotifyCollectionChangedEventArgs e) => AddElement(e.NewItems.Cast<ElementViewModel>());
+        private void AddElement(object sender, NotifyCollectionChangedEventArgs e) => AddElement(e.NewItems.Cast<IMachineElement>());
  
-        private void RemoveElement(object sender, NotifyCollectionChangedEventArgs e) => RemoveElement(e.OldItems.Cast<ElementViewModel>());
+        private void RemoveElement(object sender, NotifyCollectionChangedEventArgs e) => RemoveElement(e.OldItems.Cast<IMachineElement>());
 
         private void ReplaceElement(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -56,8 +57,8 @@ namespace Machine.Views.ViewModels
 
         private void Clear(object sender, NotifyCollectionChangedEventArgs e) => Clear();
 
-        protected abstract void AddElement(IEnumerable<ElementViewModel> elements);
-        protected abstract void RemoveElement(IEnumerable<ElementViewModel> elements);
+        protected abstract void AddElement(IEnumerable<IMachineElement> elements);
+        protected abstract void RemoveElement(IEnumerable<IMachineElement> elements);
         protected abstract void Clear();
 
     }

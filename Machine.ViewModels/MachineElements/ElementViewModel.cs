@@ -1,5 +1,7 @@
 ﻿using Machine.Data.Base;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Links;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Windows.Input;
 
 namespace Machine.ViewModels.MachineElements
 {
-    public class ElementViewModel : BaseViewModel
+    public class ElementViewModel : BaseViewModel, IMachineElement, IViewElementData
     {
         #region data properties
         public int MachineElementID { get; set; }
@@ -16,10 +18,10 @@ namespace Machine.ViewModels.MachineElements
         public string ModelFile { get; set; }
         public Color Color { get; set; }
         public Matrix Transformation { get; set; }
-        public ICollection<ElementViewModel> Children { get; protected set; } = new ObservableCollection<ElementViewModel>();
+        public ICollection<IMachineElement> Children { get; protected set; } = new ObservableCollection<IMachineElement>();
 
-        private LinkViewModel _linkToParent;
-        public LinkViewModel LinkToParent 
+        private ILinkViewModel _linkToParent;
+        public ILinkViewModel LinkToParent 
         { 
             get => _linkToParent;
             set => Set(ref _linkToParent, value, nameof(LinkToParent));
@@ -64,7 +66,7 @@ namespace Machine.ViewModels.MachineElements
             set => Set(ref _isExpanded, value, nameof(IsExpanded)); 
         }
 
-        public virtual ElementViewModel Parent { get; set; }
+        public virtual IMachineElement Parent { get; set; }
          #endregion
 
         #region commands
@@ -73,24 +75,24 @@ namespace Machine.ViewModels.MachineElements
         #endregion
 
         #region implementation
-        private static void RequestTreeviewVisibility(ElementViewModel vm)
+        private static void RequestTreeviewVisibility(IMachineElement me)
         {
-            if ((vm != null) && !vm.IsExpanded)
+            if ((me != null) && (me is IViewElementData ved) && !ved.IsExpanded)
             {
-                RequestTreeviewVisibility(vm.Parent);
-                vm.IsExpanded = true;
+                RequestTreeviewVisibility(me.Parent);
+                ved.IsExpanded = true;
             }
         }
 
         private void ChangeChainVisibilityStateImpl() => ChangeVisibleProperty(this, !IsVisible);
 
-        private void ChangeVisibleProperty(ElementViewModel vm, bool value)
+        private void ChangeVisibleProperty(IMachineElement me, bool value)
         {
-            vm.IsVisible = value;
-            ChangeChildrenVisibleProperty(vm, value);
+            if(me is IViewElementData ved) ved.IsVisible = value;
+            ChangeChildrenVisibleProperty(me, value);
         }
 
-        private void ChangeChildrenVisibleProperty(ElementViewModel me, bool value)
+        private void ChangeChildrenVisibleProperty(IMachineElement me, bool value)
         {
             foreach (var item in me.Children)
             {

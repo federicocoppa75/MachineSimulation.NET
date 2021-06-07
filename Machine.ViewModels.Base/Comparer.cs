@@ -22,6 +22,7 @@ namespace Machine.ViewModels.Base
 
                     if (type.IsValueType) _instance = new ValueComparer();
                     else if (type.IsClass) _instance = new ReferenceComparer();
+                    else if(type.IsInterface) _instance = new ReferenceComparer();
                     else throw new NotImplementedException();
                 }
 
