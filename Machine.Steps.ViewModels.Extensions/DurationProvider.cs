@@ -1,4 +1,5 @@
 ﻿using Machine.Steps.ViewModels.Interfaces;
+using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages.Links;

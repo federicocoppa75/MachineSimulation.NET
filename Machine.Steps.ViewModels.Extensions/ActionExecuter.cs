@@ -1,15 +1,11 @@
 ﻿using Machine.Steps.ViewModels.Interfaces;
-using Machine.ViewModels.Interfaces;
+using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.Messages.Links.Gantry;
 using Machine.ViewModels.Messages.Tooling;
-using Machine.ViewModels.UI;
 using MachineSteps.Models.Actions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using static Machine.ViewModels.Interfaces.Links.ILinkMovementManager;
 
 namespace Machine.Steps.ViewModels.Extensions

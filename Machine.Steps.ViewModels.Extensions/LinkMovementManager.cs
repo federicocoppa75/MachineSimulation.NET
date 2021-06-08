@@ -1,14 +1,11 @@
 ﻿using Machine.Steps.ViewModels.Extensions.LinkMovementsItems;
-using Machine.Steps.ViewModels.Interfaces;
+using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Links;
-using Machine.ViewModels.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Machine.Steps.ViewModels.Extensions

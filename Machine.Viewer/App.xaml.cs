@@ -12,6 +12,7 @@ using MSFM = Machine.StepsSource.File.Msteps;
 using MVMI = Machine.ViewModels.Interfaces;
 using MSVMI = Machine.Steps.ViewModels.Interfaces;
 using MSVME = Machine.Steps.ViewModels.Extensions;
+using MVMB = Machine.ViewModels.Base;
 
 namespace Machine.Viewer
 {
@@ -23,7 +24,7 @@ namespace Machine.Viewer
         public App()
         {
             ViewModels.Ioc.SimpleIoc<IKernelViewModel>.Register<KernelViewModel>();
-            ViewModels.Ioc.SimpleIoc<MVMI.IMessenger>.Register<MessengerImplementation>();
+            ViewModels.Ioc.SimpleIoc<MVMB.IMessenger>.Register<MessengerImplementation>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDCR.DataSource>("Client.REST");
             ViewModels.Ioc.SimpleIoc<MVMUI.IFileDialog>.Register<MVUI.FileDialog<MW32.OpenFileDialog>>("OpenFile");

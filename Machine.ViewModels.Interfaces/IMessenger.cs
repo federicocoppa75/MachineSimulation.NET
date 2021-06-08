@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Machine.ViewModels.Interfaces
 {
-    public interface IMessenger
-    {
-        void Register<TMessage>(object recipient, Action<TMessage> action);
-        void Send<TMessage>(TMessage message);
-        void Unregister(object recipient);
-    }
+    //public interface IMessenger
+    //{
+    //    void Register<TMessage>(object recipient, Action<TMessage> action);
+    //    void Send<TMessage>(TMessage message);
+    //    void Unregister(object recipient);
+    //}
 }
