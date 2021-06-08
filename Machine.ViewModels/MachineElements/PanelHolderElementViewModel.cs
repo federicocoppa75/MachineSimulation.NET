@@ -59,6 +59,8 @@ namespace Machine.ViewModels.MachineElements
 
                     Children.Add(LoadedPanel);
                 });
+
+                msg.NotifyExecution?.Invoke(true);
             }
         }
 
