@@ -46,6 +46,20 @@ namespace MaterialRemove.Test.ViewModels
         public ToolPositionViewModel ToolPosition { get; private set; } = new ToolPositionViewModel();
         public IPanel Panel { get; set; } = new PanelViewModel() { NumCells = 16, SectionsX100mm = 3 };
 
+        private bool _isFacesVisible = true;
+        public bool IsFacesVisible
+        {
+            get => _isFacesVisible;
+            set => Set(ref _isFacesVisible, value, nameof(IsFacesVisible));
+        }
+
+        private bool _isVolumesVisible = true;
+        public bool IsVolumesVisible
+        {
+            get => _isVolumesVisible;
+            set => Set(ref _isVolumesVisible, value, nameof(IsVolumesVisible));
+        }
+
         public MainViewModel()
         {
             EffectsManager = new DefaultEffectsManager();

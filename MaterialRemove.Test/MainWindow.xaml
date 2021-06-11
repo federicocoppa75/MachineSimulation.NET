@@ -12,46 +12,54 @@
     <Window.Resources>
         <const:Materials x:Key="materials"/>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="4"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="View">
+                <MenuItem Header="Faces" IsCheckable="True" IsChecked="{Binding IsFacesVisible}"/>
+                <MenuItem Header="Volumes" IsCheckable="True" IsChecked="{Binding IsVolumesVisible}" />
+            </MenuItem>
+        </Menu>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
 
-        <StackPanel>
-            <GroupBox Header="Panel position" Margin="5,0,5,0">
-                <local:Position DataContext="{Binding PanelPosition}" Margin="5,0,5,0"/>
-            </GroupBox>
-            <GroupBox Header="Tool position" Margin="5,0,5,0">
-                <local:Position DataContext="{Binding ToolPosition}" Margin="5,0,5,0"/>
-            </GroupBox>
-            <GroupBox Header="Tool data" Margin="5">
-                <xctk:PropertyGrid ShowAdvancedOptions="False" 
+            <StackPanel>
+                <GroupBox Header="Panel position" Margin="5,0,5,0">
+                    <local:Position DataContext="{Binding PanelPosition}" Margin="5,0,5,0"/>
+                </GroupBox>
+                <GroupBox Header="Tool position" Margin="5,0,5,0">
+                    <local:Position DataContext="{Binding ToolPosition}" Margin="5,0,5,0"/>
+                </GroupBox>
+                <GroupBox Header="Tool data" Margin="5">
+                    <xctk:PropertyGrid ShowAdvancedOptions="False" 
                         ShowSearchBox="False"
                         ShowPreview="False"
                         ShowSortOptions="False"
                         ShowTitle="False"
                         ShowSummary="False"
                         SelectedObject="{Binding ToolData}"/>
-            </GroupBox>
-            <GroupBox Header="Panel size" Margin="5">
-                <xctk:PropertyGrid ShowAdvancedOptions="False" 
+                </GroupBox>
+                <GroupBox Header="Panel size" Margin="5">
+                    <xctk:PropertyGrid ShowAdvancedOptions="False" 
                             ShowSearchBox="False"
                             ShowPreview="False"
                             ShowSortOptions="False"
                             ShowTitle="False"
                             ShowSummary="False"
                             SelectedObject="{Binding PanelData}"/>
-            </GroupBox>
-        </StackPanel>
+                </GroupBox>
+            </StackPanel>
 
-        <GridSplitter Grid.Column="1"
+            <GridSplitter Grid.Column="1"
                           ResizeDirection="Columns"
                           ResizeBehavior="PreviousAndNext"
                           HorizontalAlignment="Stretch"/>
 
-        <hx:Viewport3DX
+            <hx:Viewport3DX
             x:Name="view1"
             Grid.Column="2"
             BackgroundColor="Aquamarine"
@@ -69,31 +77,31 @@
             TextBrush="Black"
             ShowFrameRate="False"
             UseDefaultGestures="False">
-            <hx:Viewport3DX.InputBindings>
-                <KeyBinding Key="B" Command="hx:ViewportCommands.BackView" />
-                <KeyBinding Key="F" Command="hx:ViewportCommands.FrontView" />
-                <KeyBinding Key="U" Command="hx:ViewportCommands.TopView" />
-                <KeyBinding Key="D" Command="hx:ViewportCommands.BottomView" />
-                <KeyBinding Key="L" Command="hx:ViewportCommands.LeftView" />
-                <KeyBinding Key="R" Command="hx:ViewportCommands.RightView" />
-                <KeyBinding Command="hx:ViewportCommands.ZoomExtents" Gesture="Control+E" />
-                <MouseBinding Command="hx:ViewportCommands.Rotate" Gesture="RightClick" />
-                <MouseBinding Command="hx:ViewportCommands.Zoom" Gesture="MiddleClick" />
-                <MouseBinding Command="hx:ViewportCommands.Pan" Gesture="LeftClick" />
-            </hx:Viewport3DX.InputBindings>
-            <hx:AmbientLight3D Color="{Binding AmbientLightColor}" />
-            <hx:DirectionalLight3D Direction="{Binding Camera.LookDirection}" Color="{Binding DirectionalLightColor}" />
+                <hx:Viewport3DX.InputBindings>
+                    <KeyBinding Key="B" Command="hx:ViewportCommands.BackView" />
+                    <KeyBinding Key="F" Command="hx:ViewportCommands.FrontView" />
+                    <KeyBinding Key="U" Command="hx:ViewportCommands.TopView" />
+                    <KeyBinding Key="D" Command="hx:ViewportCommands.BottomView" />
+                    <KeyBinding Key="L" Command="hx:ViewportCommands.LeftView" />
+                    <KeyBinding Key="R" Command="hx:ViewportCommands.RightView" />
+                    <KeyBinding Command="hx:ViewportCommands.ZoomExtents" Gesture="Control+E" />
+                    <MouseBinding Command="hx:ViewportCommands.Rotate" Gesture="RightClick" />
+                    <MouseBinding Command="hx:ViewportCommands.Zoom" Gesture="MiddleClick" />
+                    <MouseBinding Command="hx:ViewportCommands.Pan" Gesture="LeftClick" />
+                </hx:Viewport3DX.InputBindings>
+                <hx:AmbientLight3D Color="{Binding AmbientLightColor}" />
+                <hx:DirectionalLight3D Direction="{Binding Camera.LookDirection}" Color="{Binding DirectionalLightColor}" />
 
-            <hx:MeshGeometryModel3D
+                <hx:MeshGeometryModel3D
                 x:Name="tool"
                 Geometry="{Binding ToolGeometry}"
                 Material="{Binding ToolMaterial}">
-                <hx:MeshGeometryModel3D.Transform>
-                    <TranslateTransform3D OffsetX="{Binding ToolPosition.X}" OffsetY="{Binding ToolPosition.Y}" OffsetZ="{Binding ToolPosition.Z}"/>
-                </hx:MeshGeometryModel3D.Transform>
-            </hx:MeshGeometryModel3D>
+                    <hx:MeshGeometryModel3D.Transform>
+                        <TranslateTransform3D OffsetX="{Binding ToolPosition.X}" OffsetY="{Binding ToolPosition.Y}" OffsetZ="{Binding ToolPosition.Z}"/>
+                    </hx:MeshGeometryModel3D.Transform>
+                </hx:MeshGeometryModel3D>
 
-            <!--<hx:MeshGeometryModel3D
+                <!--<hx:MeshGeometryModel3D
                 x:Name="panel"
                 Geometry="{Binding PanelGeometry}"
                 Material="{Binding PanelMaterial}">
@@ -102,32 +110,34 @@
                 </hx:MeshGeometryModel3D.Transform>                
             </hx:MeshGeometryModel3D>-->
 
-            <hx:ItemsModel3D ItemsSource="{Binding Faces}">
-                <hx:ItemsModel3D.Transform>
-                    <TranslateTransform3D OffsetX="{Binding PanelPosition.X}" OffsetY="{Binding PanelPosition.Y}" OffsetZ="{Binding PanelPosition.Z}"/>
-                </hx:ItemsModel3D.Transform>
-                <hx:ItemsModel3D.ItemTemplate>
-                    <DataTemplate>
-                        <hx:MeshGeometryModel3D
+                <hx:ItemsModel3D ItemsSource="{Binding Faces}" IsRendering="{Binding IsFacesVisible}">
+                    <hx:ItemsModel3D.Transform>
+                        <TranslateTransform3D OffsetX="{Binding PanelPosition.X}" OffsetY="{Binding PanelPosition.Y}" OffsetZ="{Binding PanelPosition.Z}"/>
+                    </hx:ItemsModel3D.Transform>
+                    <hx:ItemsModel3D.ItemTemplate>
+                        <DataTemplate>
+                            <hx:MeshGeometryModel3D
                             Geometry="{Binding Geometry}"
                             Material="{Binding Panel, Source={StaticResource materials}}" />
-                    </DataTemplate>
-                </hx:ItemsModel3D.ItemTemplate>
-            </hx:ItemsModel3D>
+                        </DataTemplate>
+                    </hx:ItemsModel3D.ItemTemplate>
+                </hx:ItemsModel3D>
 
-            <hx:ItemsModel3D ItemsSource="{Binding Volumes}">
-                <hx:ItemsModel3D.Transform>
-                    <TranslateTransform3D OffsetX="{Binding PanelPosition.X}" OffsetY="{Binding PanelPosition.Y}" OffsetZ="{Binding PanelPosition.Z}"/>
-                </hx:ItemsModel3D.Transform>
-                <hx:ItemsModel3D.ItemTemplate>
-                    <DataTemplate>
-                        <hx:MeshGeometryModel3D
+                <hx:ItemsModel3D ItemsSource="{Binding Volumes}" IsRendering="{Binding IsVolumesVisible}">
+                    <hx:ItemsModel3D.Transform>
+                        <TranslateTransform3D OffsetX="{Binding PanelPosition.X}" OffsetY="{Binding PanelPosition.Y}" OffsetZ="{Binding PanelPosition.Z}"/>
+                    </hx:ItemsModel3D.Transform>
+                    <hx:ItemsModel3D.ItemTemplate>
+                        <DataTemplate>
+                            <hx:MeshGeometryModel3D
                             Geometry="{Binding Geometry}"
                             Material="{Binding PanelIntern, Source={StaticResource materials}}" />
-                    </DataTemplate>
-                </hx:ItemsModel3D.ItemTemplate>
-            </hx:ItemsModel3D>
+                        </DataTemplate>
+                    </hx:ItemsModel3D.ItemTemplate>
+                </hx:ItemsModel3D>
 
-        </hx:Viewport3DX>
-    </Grid>
+            </hx:Viewport3DX>
+        </Grid>
+
+    </DockPanel>
 </Window>
