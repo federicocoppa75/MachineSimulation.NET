@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cyotek.Drawing.BitmapFont" Version="2.0.1" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.2" />
+    <PackageReference Include="geometry3Sharp" Version="1.0.324" />
+    <PackageReference Include="HelixToolkit" Version="2.14.0" />
+    <PackageReference Include="HelixToolkit.Wpf.SharpDX" Version="2.14.0" />
+    <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.ViewModels.Base\Machine.ViewModels.Base.csproj" />
+    <ProjectReference Include="..\MaterialRemove.ViewModels.3D\MaterialRemove.ViewModels.3D.csproj" />
+    <ProjectReference Include="..\MaterialRemove.ViewModels\MaterialRemove.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

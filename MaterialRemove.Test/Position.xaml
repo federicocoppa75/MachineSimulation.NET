@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="MaterialRemove.Test.Position"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MaterialRemove.Test"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <Slider Grid.Row="0" Value="{Binding X}" ToolTip="{Binding X}" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" VerticalAlignment="Center"/>
+        <Slider Grid.Row="1" Value="{Binding Y}" ToolTip="{Binding Y}" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" VerticalAlignment="Center"/>
+        <Slider Grid.Row="2" Value="{Binding Z}" ToolTip="{Binding Z}" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>
