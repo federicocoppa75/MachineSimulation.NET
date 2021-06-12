@@ -60,6 +60,13 @@ namespace MaterialRemove.Test.ViewModels
             set => Set(ref _isVolumesVisible, value, nameof(IsVolumesVisible));
         }
 
+        private bool _viewWireFrame = true;
+        public bool ViewWireFrame
+        {
+            get => _viewWireFrame;
+            set => Set(ref _viewWireFrame, value, nameof(ViewWireFrame));
+        }
+
         public MainViewModel()
         {
             EffectsManager = new DefaultEffectsManager();
