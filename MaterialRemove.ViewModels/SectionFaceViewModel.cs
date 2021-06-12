@@ -24,9 +24,7 @@ namespace MaterialRemove.ViewModels
 
         internal void ApplyAction(ToolActionData toolActionData)
         {
-            if (_toolApplications == null) _toolApplications = new List<BoundedImplicitFunction3d>();
-
-            _toolApplications.Add(toolActionData.ToApplication());
+            AddToolActionData(toolActionData);
 
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = _toolApplications };
             var box = this.GetBound();

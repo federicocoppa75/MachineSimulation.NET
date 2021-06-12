@@ -24,17 +24,36 @@ namespace MaterialRemove.ViewModels
 
         internal void ApplyAction(ToolActionData toolActionData)
         {
-            if (_toolApplications == null) _toolApplications = new List<BoundedImplicitFunction3d>();
-
-            _toolApplications.Add(toolActionData.ToApplication());
+            AddToolActionData(toolActionData);
 
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = _toolApplications };
             var box = this.GetBound();
             var cubeSize = box.MaxDim / RemovalParameters.NumCells;
-            var filterBox = box;
+            var filterBox = GetDecreaseBound(0.1);
+
+            //filterBox.Min -= new Vector3d(1.0, 1.0, 1.0);
+            //filterBox.Max -= new Vector3d(1.0, 1.0, 1.0);
 
             InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
             OnActionApplied();
+        }
+
+        private AxisAlignedBox3d GetExpandedBound(double radius)
+        {
+            var box = this.GetBound();
+            box.Expand(radius);
+            return box;
+        }
+
+        private AxisAlignedBox3d GetDecreaseBound(double radius)
+        {
+            var box = this.GetBound();
+            var v = new Vector3d(radius, radius, radius);
+
+            box.Min += v;
+            box.Max -= v;
+
+            return box;
         }
 
         protected abstract void OnActionApplied();
@@ -42,7 +61,7 @@ namespace MaterialRemove.ViewModels
         #region BoundedImplicitFunction3d
         public AxisAlignedBox3d Bounds() => this.GetBound();
 
-        public double Value(ref Vector3d pt) => this.GetBound().SignedDistance(pt);
+        public double Value(ref Vector3d pt) => GetExpandedBound(5.0).SignedDistance(pt);
         #endregion
     }
 }

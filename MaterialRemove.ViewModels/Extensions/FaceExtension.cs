@@ -57,8 +57,8 @@ namespace MaterialRemove.ViewModels.Extensions
             var N = face.GetNormal();
             var U = face.GetU();
             var V = face.GetV();
-            var halfW = face.SizeX / 2.0;
-            var halfH = face.SizeY / 2.0;
+            var halfW = (face.SizeX + 5.0) / 2.0;
+            var halfH = (face.SizeY + 5.0) / 2.0;
             var du = U.Dot(ref D);
             var dv = V.Dot(ref D);
             var uuul = du <= halfW;
@@ -108,7 +108,7 @@ namespace MaterialRemove.ViewModels.Extensions
                 case Orientation.ZPos:
                     return new Vector3d(0.0, 0.0, 1.0);
                 case Orientation.ZNeg:
-                    return new Vector3d(1.0, 0.0, -1.0);
+                    return new Vector3d(0.0, 0.0, -1.0);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

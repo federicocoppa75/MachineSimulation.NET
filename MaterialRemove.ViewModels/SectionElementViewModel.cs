@@ -1,6 +1,7 @@
 ﻿using g3;
 using Machine.ViewModels.Base;
 using MaterialRemove.Interfaces;
+using MaterialRemove.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,19 @@ namespace MaterialRemove.ViewModels
         public double CenterZ { get; set; }
         public bool IsCorrupted => (_toolApplications != null) && (_toolApplications.Count > 0);
         public IRemovalParameters RemovalParameters { get; set; }
+
+        protected void AddToolActionData(ToolActionData toolActionData)
+        {
+            if (_toolApplications == null)
+            {
+                _toolApplications = new List<BoundedImplicitFunction3d>();
+                _toolApplications.Add(toolActionData.ToApplication());
+                RisePropertyChanged(nameof(IsCorrupted));
+            }
+            else
+            {
+                _toolApplications.Add(toolActionData.ToApplication());
+            }
+        }
     }
 }

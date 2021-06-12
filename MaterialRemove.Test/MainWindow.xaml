@@ -116,9 +116,9 @@
                     </hx:ItemsModel3D.Transform>
                     <hx:ItemsModel3D.ItemTemplate>
                         <DataTemplate>
-                            <hx:MeshGeometryModel3D
-                            Geometry="{Binding Geometry}"
-                            Material="{Binding Panel, Source={StaticResource materials}}" />
+                            <hx:MeshGeometryModel3D RenderWireframe="{Binding IsCorrupted}"
+                                                    Geometry="{Binding Geometry}"
+                                                    Material="{Binding Panel, Source={StaticResource materials}}" />
                         </DataTemplate>
                     </hx:ItemsModel3D.ItemTemplate>
                 </hx:ItemsModel3D>
@@ -129,9 +129,9 @@
                     </hx:ItemsModel3D.Transform>
                     <hx:ItemsModel3D.ItemTemplate>
                         <DataTemplate>
-                            <hx:MeshGeometryModel3D
-                            Geometry="{Binding Geometry}"
-                            Material="{Binding PanelIntern, Source={StaticResource materials}}" />
+                            <hx:MeshGeometryModel3D RenderWireframe="{Binding IsCorrupted}"
+                                                    Geometry="{Binding Geometry}"
+                                                    Material="{Binding PanelIntern, Source={StaticResource materials}}" />
                         </DataTemplate>
                     </hx:ItemsModel3D.ItemTemplate>
                 </hx:ItemsModel3D>
