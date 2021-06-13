@@ -42,8 +42,8 @@ namespace MaterialRemove.Test.ViewModels
 
         public PanelDataViewModel PanelData { get; private set; } = new PanelDataViewModel();
         public PanelPositionViewModel PanelPosition { get; private set; } = new PanelPositionViewModel();
-        public ToolDataViewModel ToolData { get; private set; } = new ToolDataViewModel();
-        public ToolPositionViewModel ToolPosition { get; private set; } = new ToolPositionViewModel();
+        public ToolDataViewModel ToolData { get; private set; } = new ToolDataViewModel() { Radius = 5.0};
+        public ToolPositionViewModel ToolPosition { get; private set; } = new ToolPositionViewModel() { X= -20.0, Y = -20.0, Z = 10.0 };
         public IPanel Panel { get; set; } = new PanelViewModel() { NumCells = 16, SectionsX100mm = 3 };
 
         private bool _isFacesVisible = true;
@@ -60,11 +60,18 @@ namespace MaterialRemove.Test.ViewModels
             set => Set(ref _isVolumesVisible, value, nameof(IsVolumesVisible));
         }
 
-        private bool _viewWireFrame = true;
+        private bool _viewWireFrame = false;
         public bool ViewWireFrame
         {
             get => _viewWireFrame;
             set => Set(ref _viewWireFrame, value, nameof(ViewWireFrame));
+        }
+
+        private bool _isParallel;
+        public bool IsParallel
+        {
+            get => _isParallel;
+            set => Set(ref _isParallel, value, nameof(IsParallel));
         }
 
         public MainViewModel()
@@ -94,7 +101,7 @@ namespace MaterialRemove.Test.ViewModels
 
         private void OnPositionChanged()
         {
-            Panel.ApplyAction(new ToolActionData()
+            var tad = new ToolActionData()
             {
                 Length = (float)ToolData.Length,
                 Radius = (float)ToolData.Radius,
@@ -102,7 +109,16 @@ namespace MaterialRemove.Test.ViewModels
                 X = (float)(ToolPosition.X - PanelPosition.X),
                 Y = (float)(ToolPosition.Y - PanelPosition.Y),
                 Z = (float)(ToolPosition.Z - PanelPosition.Z)
-            });
+            };
+
+            if(IsParallel)
+            {
+                Panel.ApplyActionAsync(tad);
+            }
+            else
+            {
+                Panel.ApplyAction(tad);
+            }
         }
 
         private void OnToolPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPositionChanged();

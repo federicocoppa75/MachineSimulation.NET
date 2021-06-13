@@ -32,5 +32,16 @@ namespace MaterialRemove.ViewModels
                 _panelSectionsProxy.ApplyAction(toolActionData);
             }
         }
+
+        public Task ApplyActionAsync(ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                if(await this.IntersectAsync(toolActionData))
+                {
+                    await _panelSectionsProxy.ApplyActionAsync(toolActionData);
+                }
+            });
+        }
     }
 }

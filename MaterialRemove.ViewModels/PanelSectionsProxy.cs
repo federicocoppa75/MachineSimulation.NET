@@ -22,5 +22,23 @@ namespace MaterialRemove.ViewModels
                 }
             }
         }
+
+        public Task ApplyActionAsync(ToolActionData toolActionData)
+        {
+            var tasks = new List<Task>();
+
+            foreach (var section in Sections)
+            {
+                tasks.Add(Task.Run(async () =>
+                {
+                    if (await section.IntersectAsync(toolActionData))
+                    {
+                        await section.ApplyActionAsync(toolActionData);
+                    }
+                }));
+            }
+
+            return Task.WhenAll(tasks);
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace MaterialRemove.ViewModels
         {
             AddToolActionData(toolActionData);
 
-            var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = _toolApplications };
+            var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
             var box = this.GetBound();
             var cubeSize = box.MaxDim / RemovalParameters.NumCells;
             var filterBox = GetDecreaseBound(0.1);
@@ -36,6 +36,22 @@ namespace MaterialRemove.ViewModels
 
             InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
             OnActionApplied();
+        }
+
+        internal Task ApplyActionAsync(ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                AddToolActionData(toolActionData);
+
+                var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
+                var box = await TaskHelper.ToAsync(() => this.GetBound());
+                var cubeSize = box.MaxDim / RemovalParameters.NumCells;
+                var filterBox = await TaskHelper.ToAsync(() => GetDecreaseBound(0.1));
+
+                InternalGeometry = await TaskHelper.ToAsync(() => MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize));
+                OnActionApplied();
+            });
         }
 
         private AxisAlignedBox3d GetExpandedBound(double radius)

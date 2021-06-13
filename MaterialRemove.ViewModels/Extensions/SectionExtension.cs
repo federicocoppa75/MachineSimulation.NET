@@ -134,6 +134,17 @@ namespace MaterialRemove.ViewModels.Extensions
             return sectionBox.Intersects(toolBox);
         }
 
+        internal static Task<bool> IntersectAsync(this IPanelSection section, ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                var sectionBox = await TaskHelper.ToAsync(() => section.GetBound());
+                var toolBox = await TaskHelper.ToAsync(() => toolActionData.GetBound());
+
+                return sectionBox.Intersects(toolBox);
+            });
+        }
+
         internal static void ApplyAction(this IPanelSection section, ToolActionData toolActionData)
         {
             foreach (var face in section.Faces)
@@ -152,6 +163,49 @@ namespace MaterialRemove.ViewModels.Extensions
             {
                 throw new NotImplementedException();
             }
+        }
+
+        internal static Task ApplyActionAsync(this IPanelSection section, ToolActionData toolActionData)
+        {
+            Task[] tasks = {
+                ApplyActionToFacesAsync(section, toolActionData),
+                ApplyActionToVolumeAsync(section, toolActionData)
+            };
+
+            return Task.WhenAll(tasks);
+        }
+
+        internal static Task ApplyActionToFacesAsync(this IPanelSection section, ToolActionData toolActionData)
+        {
+            var tasks = new List<Task>();
+
+            foreach (var face in section.Faces)
+            {
+                tasks.Add(Task.Run(async () =>
+                {
+                    if (await face.IntersectAsync(toolActionData))
+                    {
+                        await face .ApplyActionAsync(toolActionData);
+                    }
+                }));
+            }
+
+            return Task.WhenAll(tasks);
+        }
+
+        internal static Task ApplyActionToVolumeAsync(this IPanelSection section, ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                if (section.Volume is SectionVolumeViewModel svvm)
+                {
+                    await svvm.ApplyActionAsync(toolActionData);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            });
         }
     }
 }

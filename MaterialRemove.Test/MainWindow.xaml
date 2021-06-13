@@ -17,6 +17,9 @@
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Process">
+                <MenuItem Header="Parallel" IsCheckable="True" IsChecked="{Binding IsParallel}"/>
+            </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Faces" IsCheckable="True" IsChecked="{Binding IsFacesVisible}"/>
                 <MenuItem Header="Volumes" IsCheckable="True" IsChecked="{Binding IsVolumesVisible}" />

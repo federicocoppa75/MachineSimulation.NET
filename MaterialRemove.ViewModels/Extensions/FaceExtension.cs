@@ -18,6 +18,17 @@ namespace MaterialRemove.ViewModels.Extensions
             return faceBox.Intersects(toolBox);
         }
 
+        internal static Task<bool> IntersectAsync(this ISectionFace face, ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                var toolBox = await TaskHelper.ToAsync(() => toolActionData.GetBound());
+                var faceBox = await TaskHelper.ToAsync(() =>  face.GetBound());
+
+                return faceBox.Intersects(toolBox);
+            });
+        }
+
         internal static void ApplyAction(this ISectionFace face, ToolActionData toolActionData)
         {
             if(face is SectionFaceViewModel sfvm)
@@ -28,6 +39,21 @@ namespace MaterialRemove.ViewModels.Extensions
             {
                 throw new NotImplementedException();
             }
+        }
+
+        internal static Task ApplyActionAsync(this ISectionFace face, ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                if (face is SectionFaceViewModel sfvm)
+                {
+                    await sfvm.ApplyActionAsync(toolActionData);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            });
         }
 
         internal static AxisAlignedBox3d GetBound(this ISectionFace face)

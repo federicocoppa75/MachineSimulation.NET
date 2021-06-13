@@ -12,7 +12,9 @@ namespace MaterialRemove.ViewModels
 {
     public abstract class SectionElementViewModel : BaseViewModel ,ISectionElement
     {
-        protected List<BoundedImplicitFunction3d> _toolApplications;
+        private object _lockObj = new object();
+        private List<BoundedImplicitFunction3d> _toolApplications;
+        protected List<BoundedImplicitFunction3d> ToolApplications => _toolApplications;
         protected DMesh3 InternalGeometry { get; set; }
 
         public int Id { get; protected set; }
@@ -24,16 +26,19 @@ namespace MaterialRemove.ViewModels
 
         protected void AddToolActionData(ToolActionData toolActionData)
         {
-            if (_toolApplications == null)
+            bool notify = false;
+
+            lock (_lockObj)
             {
-                _toolApplications = new List<BoundedImplicitFunction3d>();
-                _toolApplications.Add(toolActionData.ToApplication());
-                RisePropertyChanged(nameof(IsCorrupted));
+                if (_toolApplications == null)
+                {
+                    _toolApplications = new List<BoundedImplicitFunction3d>();
+                    notify = true;
+                }
             }
-            else
-            {
-                _toolApplications.Add(toolActionData.ToApplication());
-            }
+
+            _toolApplications.Add(toolActionData.ToApplication());
+            if (notify) RisePropertyChanged(nameof(IsCorrupted));
         }
     }
 }
