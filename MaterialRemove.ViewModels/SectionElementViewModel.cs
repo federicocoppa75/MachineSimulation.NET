@@ -2,15 +2,11 @@
 using Machine.ViewModels.Base;
 using MaterialRemove.Interfaces;
 using MaterialRemove.ViewModels.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MaterialRemove.ViewModels
 {
-    public abstract class SectionElementViewModel : BaseViewModel ,ISectionElement
+    public abstract class SectionElementViewModel : BaseViewModel, ISectionElement
     {
         private object _lockObj = new object();
         private List<BoundedImplicitFunction3d> _toolApplications;

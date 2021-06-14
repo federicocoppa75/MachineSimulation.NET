@@ -31,9 +31,6 @@ namespace MaterialRemove.ViewModels
             var cubeSize = box.MaxDim / RemovalParameters.NumCells;
             var filterBox = GetDecreaseBound(0.1);
 
-            //filterBox.Min -= new Vector3d(1.0, 1.0, 1.0);
-            //filterBox.Max -= new Vector3d(1.0, 1.0, 1.0);
-
             InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
             OnActionApplied();
         }

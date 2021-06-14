@@ -10,6 +10,8 @@ namespace MaterialRemove.ViewModels.Extensions
 {
     static class FaceExtension
     {
+        private static Tuple<double, double, int, double> _calcolatedCubeSize;
+
         internal static bool Intersect(this ISectionFace face, ToolActionData toolActionData)
         {
             var toolBox = toolActionData.GetBound();
@@ -179,6 +181,103 @@ namespace MaterialRemove.ViewModels.Extensions
                     return new Vector3d(0.0, -1.0, 0.0);
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        internal static AxisAlignedBox3d GetFilterBox(this ISectionFace face)
+        {
+            switch (face.Orientation)
+            {
+                case Orientation.XPos:
+                case Orientation.XNeg:
+                    return GetFilterBoxX(face);
+                case Orientation.YPos:
+                case Orientation.YNeg:
+                    return GetFilterBoxY(face);
+                case Orientation.ZPos:
+                case Orientation.ZNeg:
+                    return GetFilterBoxZ(face);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static AxisAlignedBox3d GetFilterBoxZ(ISectionFace face)
+        {
+            var box = face.GetBound();
+
+            box.Min.z -= 0.0001;
+            box.Max.z += 0.0001;
+            box.Max.x -= 0.0001;
+            box.Max.y -= 0.0001;
+
+            return box;
+        }
+
+        private static AxisAlignedBox3d GetFilterBoxX(ISectionFace face)
+        {
+            var box = face.GetBound();
+
+            box.Min.x -= 0.0001;
+            box.Max.x += 0.0001;
+            box.Max.z -= 0.0001;
+            box.Max.y -= 0.0001;
+
+            return box;
+        }
+
+        private static AxisAlignedBox3d GetFilterBoxY(ISectionFace face)
+        {
+            var box = face.GetBound();
+
+            box.Min.y -= 0.0001;
+            box.Max.y += 0.0001;
+            box.Max.x -= 0.0001;
+            box.Max.z -= 0.0001;
+
+            return box;
+        }
+
+        internal static double GetCubeSize(this ISectionFace face, int numCells)
+        {
+            var vStd = face.SizeX / numCells;
+
+            if(face.SizeX == face.SizeY)
+            {
+                return vStd;
+            }
+            else
+            {
+                if((_calcolatedCubeSize != null) && (_calcolatedCubeSize.Item1 == face.SizeX) && (_calcolatedCubeSize.Item2 == face.SizeY) && (_calcolatedCubeSize.Item3 == numCells))
+                {
+                    return _calcolatedCubeSize.Item4;
+                }
+                else
+                {
+                    var n1 = numCells;
+                    var retVal = vStd;
+
+                    while (true)
+                    {
+                        var v = face.SizeX / n1;
+                        var n2 = Math.Round(face.SizeY / v);
+                        var d = Math.Abs(face.SizeY - (v * n2));
+
+                        if (d <= 0.1)
+                        {
+                            retVal = v;
+                            break;
+                        }
+
+                        n1++;
+
+                        if ((n1 - numCells) > 10) break;
+                    }
+
+                    _calcolatedCubeSize = new Tuple<double, double, int, double>(face.SizeX, face.SizeY, numCells, retVal);
+
+                    return retVal;
+                }
             }
         }
     }

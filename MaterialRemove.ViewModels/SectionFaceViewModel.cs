@@ -27,11 +27,8 @@ namespace MaterialRemove.ViewModels
             AddToolActionData(toolActionData);
 
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-            var box = this.GetBound();
-            var cubeSize = box.MaxDim / RemovalParameters.NumCells;
-            var filterBox = box;
-
-            filterBox.Expand(0.0001);
+            var cubeSize = this.GetCubeSize(RemovalParameters.NumCells);
+            var filterBox = this.GetFilterBox();
 
             InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
             OnActionApplied();
@@ -44,11 +41,8 @@ namespace MaterialRemove.ViewModels
                 AddToolActionData(toolActionData);
 
                 var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-                var box = await TaskHelper.ToAsync(() => this.GetBound());
-                var cubeSize = box.MaxDim / RemovalParameters.NumCells;
-                var filterBox = box;
-
-                filterBox.Expand(0.0001);
+                var cubeSize = await TaskHelper.ToAsync(() => this.GetCubeSize(RemovalParameters.NumCells));
+                var filterBox = await TaskHelper.ToAsync(() => this.GetFilterBox());
 
                 InternalGeometry = await TaskHelper.ToAsync(() => MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize));
                 OnActionApplied();
