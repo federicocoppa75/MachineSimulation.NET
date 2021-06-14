@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Machine.ViewModels.Base\Machine.ViewModels.Base.csproj" />
     <ProjectReference Include="..\MaterialRemove.ViewModels.3D\MaterialRemove.ViewModels.3D.csproj" />
-    <ProjectReference Include="..\MaterialRemove.ViewModels\MaterialRemove.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
