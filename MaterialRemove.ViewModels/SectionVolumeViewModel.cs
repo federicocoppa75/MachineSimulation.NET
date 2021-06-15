@@ -13,6 +13,8 @@ namespace MaterialRemove.ViewModels
     {
         static int _seedId;
 
+        //private double _cubeSize;
+
         public double SizeX { get; set; }
         public double SizeY { get; set; }
         public double SizeZ { get; set; }
@@ -27,8 +29,7 @@ namespace MaterialRemove.ViewModels
             AddToolActionData(toolActionData);
 
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-            var box = this.GetBound();
-            var cubeSize = box.MaxDim / RemovalParameters.NumCells;
+            var cubeSize = RemovalParameters.CubeSize;
             var filterBox = GetDecreaseBound(0.1);
 
             InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
@@ -42,8 +43,7 @@ namespace MaterialRemove.ViewModels
                 AddToolActionData(toolActionData);
 
                 var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-                var box = await TaskHelper.ToAsync(() => this.GetBound());
-                var cubeSize = box.MaxDim / RemovalParameters.NumCells;
+                var cubeSize = RemovalParameters.CubeSize;
                 var filterBox = await TaskHelper.ToAsync(() => GetDecreaseBound(0.1));
 
                 InternalGeometry = await TaskHelper.ToAsync(() => MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize));
@@ -74,7 +74,7 @@ namespace MaterialRemove.ViewModels
         #region BoundedImplicitFunction3d
         public AxisAlignedBox3d Bounds() => this.GetBound();
 
-        public double Value(ref Vector3d pt) => GetExpandedBound(5.0).SignedDistance(pt);
+        public double Value(ref Vector3d pt) => GetExpandedBound(RemovalParameters.CubeSize * 2.0).SignedDistance(pt);
         #endregion
     }
 }

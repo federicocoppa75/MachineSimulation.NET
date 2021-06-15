@@ -25,6 +25,8 @@ namespace MaterialRemove.ViewModels.Extensions
             double cornerX = /*panel.CenterX +*/ startOffsetX;
             double cornerY = /*panel.CenterY +*/ startOffsetY;
             double cornerZ = /*panel.CenterZ -*/ panel.SizeZ / 2.0;
+            
+            panel.CubeSize = AdjustCubeSize(sectionSizeX, sectionSizeY, panel.SizeZ, panel.NumCells, 0.1);
 
             for (int i = 0; i < nxSection; i++)
             {
@@ -46,7 +48,7 @@ namespace MaterialRemove.ViewModels.Extensions
                     };
 
                     section.Faces = section.CreateFaces(GetSectionPosition(nxSection, nySection, i, j), panel);
-                    
+
                     var vm = MVMIoc.SimpleIoc<MRVMI.IElementViewModelFactory>.GetInstance().CreateSectionVolumeViewModel();
 
                     vm.CenterX = centerX;
@@ -149,6 +151,35 @@ namespace MaterialRemove.ViewModels.Extensions
             }
 
             return result;
+        }
+
+        private static double AdjustCubeSize(double sectionSizeX, double sectionSizeY, double sectionSizeZ, int startNumCells, double maxDiff = 0.1)
+        {
+            var retVal = sectionSizeX / startNumCells;
+
+            if (sectionSizeX != sectionSizeZ)
+            {
+                var n1 = startNumCells;
+
+                while (true)
+                {
+                    var v = sectionSizeX / n1;
+                    var n2 = Math.Round(sectionSizeZ / v);
+                    var d = Math.Abs(sectionSizeZ - (v * n2));
+
+                    if (d <= maxDiff)
+                    {
+                        retVal = v;
+                        break;
+                    }
+
+                    n1++;
+
+                    if ((n1 - startNumCells) > 10) break;
+                }                
+            }
+
+            return retVal;
         }
     }
 }

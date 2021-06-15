@@ -189,24 +189,27 @@ namespace MaterialRemove.ViewModels.Extensions
             switch (face.Orientation)
             {
                 case Orientation.XPos:
+                    return GetFilterBoxXPos(face);
                 case Orientation.XNeg:
-                    return GetFilterBoxX(face);
+                    return GetFilterBoxXNeg(face);
                 case Orientation.YPos:
+                    return GetFilterBoxYPos(face);
                 case Orientation.YNeg:
-                    return GetFilterBoxY(face);
+                    return GetFilterBoxYNeg(face);
                 case Orientation.ZPos:
+                    return GetFilterBoxZPos(face);
                 case Orientation.ZNeg:
-                    return GetFilterBoxZ(face);
+                    return GetFilterBoxZNeg(face);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private static AxisAlignedBox3d GetFilterBoxZ(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxZPos(ISectionFace face)
         {
             var box = face.GetBound();
 
-            box.Min.z -= 0.0001;
+            box.Min.z -= 0.0001;//0.1;
             box.Max.z += 0.0001;
             box.Max.x -= 0.0001;
             box.Max.y -= 0.0001;
@@ -214,11 +217,23 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        private static AxisAlignedBox3d GetFilterBoxX(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxZNeg(ISectionFace face)
         {
             var box = face.GetBound();
 
-            box.Min.x -= 0.0001;
+            box.Min.z -= 0.0001;
+            box.Max.z += 0.0001; //0.1;
+            box.Max.x -= 0.0001;
+            box.Max.y -= 0.0001;
+
+            return box;
+        }
+
+        private static AxisAlignedBox3d GetFilterBoxXPos(ISectionFace face)
+        {
+            var box = face.GetBound();
+
+            box.Min.x -= 0.0001; // 0.1;
             box.Max.x += 0.0001;
             box.Max.z -= 0.0001;
             box.Max.y -= 0.0001;
@@ -226,11 +241,23 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        private static AxisAlignedBox3d GetFilterBoxY(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxXNeg(ISectionFace face)
         {
             var box = face.GetBound();
 
-            box.Min.y -= 0.0001;
+            box.Min.x -= 0.0001;
+            box.Max.x += 0.0001;//0.1;
+            box.Max.z -= 0.0001;
+            box.Max.y -= 0.0001;
+
+            return box;
+        }
+
+        private static AxisAlignedBox3d GetFilterBoxYPos(ISectionFace face)
+        {
+            var box = face.GetBound();
+
+            box.Min.y -= 0.0001;//0.1;
             box.Max.y += 0.0001;
             box.Max.x -= 0.0001;
             box.Max.z -= 0.0001;
@@ -238,47 +265,16 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        internal static double GetCubeSize(this ISectionFace face, int numCells)
+        private static AxisAlignedBox3d GetFilterBoxYNeg(ISectionFace face)
         {
-            var vStd = face.SizeX / numCells;
+            var box = face.GetBound();
 
-            if(face.SizeX == face.SizeY)
-            {
-                return vStd;
-            }
-            else
-            {
-                if((_calcolatedCubeSize != null) && (_calcolatedCubeSize.Item1 == face.SizeX) && (_calcolatedCubeSize.Item2 == face.SizeY) && (_calcolatedCubeSize.Item3 == numCells))
-                {
-                    return _calcolatedCubeSize.Item4;
-                }
-                else
-                {
-                    var n1 = numCells;
-                    var retVal = vStd;
+            box.Min.y -= 0.0001;
+            box.Max.y += 0.0001;//0.1;
+            box.Max.x -= 0.0001;
+            box.Max.z -= 0.0001;
 
-                    while (true)
-                    {
-                        var v = face.SizeX / n1;
-                        var n2 = Math.Round(face.SizeY / v);
-                        var d = Math.Abs(face.SizeY - (v * n2));
-
-                        if (d <= 0.1)
-                        {
-                            retVal = v;
-                            break;
-                        }
-
-                        n1++;
-
-                        if ((n1 - numCells) > 10) break;
-                    }
-
-                    _calcolatedCubeSize = new Tuple<double, double, int, double>(face.SizeX, face.SizeY, numCells, retVal);
-
-                    return retVal;
-                }
-            }
+            return box;
         }
     }
 }
