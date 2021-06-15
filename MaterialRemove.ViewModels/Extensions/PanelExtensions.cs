@@ -11,9 +11,9 @@ using MRVMI = MaterialRemove.ViewModels.Interfaces;
 
 namespace MaterialRemove.ViewModels.Extensions
 {
-    static class PanelExtensions
+    public static class PanelExtensions
     {
-        public static IList<IPanelSection> CreateSections(this IPanel panel)
+        public static IList<IPanelSection> CreateSections(this IPanel panel, double panelCenterX = 0.0, double panelCenterY = 0.0, double panelCenterZ = 0.0)
         {
             var list = new List<IPanelSection>();
             InitializeSectionsNumber(panel, out int nxSection, out int nySection);
@@ -22,9 +22,9 @@ namespace MaterialRemove.ViewModels.Extensions
             double sectionSizeY = panel.SizeY / nySection;
             double startOffsetX = -panel.SizeX / 2.0;
             double startOffsetY = -panel.SizeY / 2.0;
-            double cornerX = /*panel.CenterX +*/ startOffsetX;
-            double cornerY = /*panel.CenterY +*/ startOffsetY;
-            double cornerZ = /*panel.CenterZ -*/ panel.SizeZ / 2.0;
+            double cornerX = panelCenterX + startOffsetX;
+            double cornerY = panelCenterY + startOffsetY;
+            double cornerZ = panelCenterZ - panel.SizeZ / 2.0;
             
             panel.CubeSize = AdjustCubeSize(sectionSizeX, sectionSizeY, panel.SizeZ, panel.NumCells, 0.1);
 
@@ -40,7 +40,7 @@ namespace MaterialRemove.ViewModels.Extensions
                     {
                         CenterX = centerX,
                         CenterY = centerY,
-                        CenterZ = 0.0,
+                        CenterZ = panelCenterZ,
                         SizeX = sectionSizeX,
                         SizeY = sectionSizeY,
                         SizeZ = panel.SizeZ,
@@ -53,7 +53,7 @@ namespace MaterialRemove.ViewModels.Extensions
 
                     vm.CenterX = centerX;
                     vm.CenterY = centerY;
-                    vm.CenterZ = 0.0;
+                    vm.CenterZ = panelCenterZ;
                     vm.SizeX = sectionSizeX;
                     vm.SizeY = sectionSizeY;
                     vm.SizeZ = panel.SizeZ;

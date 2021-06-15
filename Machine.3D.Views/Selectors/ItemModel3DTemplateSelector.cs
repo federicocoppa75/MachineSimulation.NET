@@ -2,6 +2,7 @@
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Toolholder;
+using MaterialRemove.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,9 +71,9 @@ namespace Machine._3D.Views.Selectors
             {
                 it = ElementViewType.ToolEle;
             }
-            else if(item is PanelViewModel pvm)
+            else if(item is IPanelElement pvm)
             {
-                it = ElementViewType.Panel;
+                it = (pvm is IPanel) ? ElementViewType.SectionedPanel : ElementViewType.Panel;
             }
             else if(item is AngularTransmissionViewModel)
             {

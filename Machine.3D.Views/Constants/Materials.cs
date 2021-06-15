@@ -10,5 +10,6 @@ namespace Machine._3D.Views.Constants
     public class Materials
     {
         public Material Panel => PhongMaterials.Orange;
+        public Material PanelIntern => PhongMaterials.Bronze;
     }
 }

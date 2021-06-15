@@ -27,6 +27,7 @@ namespace Machine._3D.Views.Enums
         ToolHolderEleZPneu,
         ToolHolderEleRotary,
         AngularTransmission,
-        ATToolholder
+        ATToolholder,
+        SectionedPanel
     }
 }

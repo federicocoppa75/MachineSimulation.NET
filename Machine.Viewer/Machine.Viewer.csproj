@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>1.0.14</Version>
+    <Version>1.0.15</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +24,8 @@
     <ProjectReference Include="..\Machine.StepsSource.File.Msteps\Machine.StepsSource.File.Msteps.csproj" />
     <ProjectReference Include="..\Machine.ViewModels\Machine.ViewModels.csproj" />
     <ProjectReference Include="..\Machine.Views\Machine.Views.csproj" />
+    <ProjectReference Include="..\MaterialRemove.Machine.Bridge\MaterialRemove.Machine.Bridge.csproj" />
+    <ProjectReference Include="..\MaterialRemove.ViewModels.3D\MaterialRemove.ViewModels.3D.csproj" />
   </ItemGroup>
 
   <ItemGroup>

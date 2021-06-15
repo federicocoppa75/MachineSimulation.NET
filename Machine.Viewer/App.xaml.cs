@@ -13,6 +13,10 @@ using MVMI = Machine.ViewModels.Interfaces;
 using MSVMI = Machine.Steps.ViewModels.Interfaces;
 using MSVME = Machine.Steps.ViewModels.Extensions;
 using MVMB = Machine.ViewModels.Base;
+using MRVM3D = MaterialRemove.ViewModels._3D;
+using MRVMI = MaterialRemove.ViewModels.Interfaces;
+using MVMIF = Machine.ViewModels.Interfaces.Factories;
+using MRMB = MaterialRemove.Machine.Bridge;
 
 namespace Machine.Viewer
 {
@@ -39,6 +43,8 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MSVMI.IActionExecuter>.Register<MSVME.ActionExecuter>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDispatcherHelper>.Register<MVUI.DispatcherHelper>();
             ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementManager>.Register<MSVME.LinkMovementManager>();
+            ViewModels.Ioc.SimpleIoc<MRVMI.IElementViewModelFactory>.Register<MRVM3D.ElementViewModelFactory>();
+            ViewModels.Ioc.SimpleIoc<MVMIF.IPanelElementFactory>.Register<MRMB.PanelViewModelFactory>();
         }
     }
 }

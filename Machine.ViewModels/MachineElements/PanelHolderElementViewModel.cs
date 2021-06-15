@@ -1,7 +1,9 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.UI;
+using MVMIF = Machine.ViewModels.Interfaces.Factories;
 
 namespace Machine.ViewModels.MachineElements
 {
@@ -12,8 +14,8 @@ namespace Machine.ViewModels.MachineElements
         public virtual Vector Position { get; set; }
         public PanelLoadType Corner { get; set; }
 
-        private PanelViewModel _loadedPanel;
-        public PanelViewModel LoadedPanel 
+        private IPanelElement _loadedPanel;
+        public IPanelElement LoadedPanel 
         {
             get => _loadedPanel;
             set => Set(ref _loadedPanel, value, nameof(LoadedPanel)); 
@@ -45,17 +47,15 @@ namespace Machine.ViewModels.MachineElements
 
                 GetInstance<IDispatcherHelper>().CheckBeginInvokeOnUi(() =>
                 {
-                    LoadedPanel = new PanelViewModel()
-                    {
-                        Name = "Panel",
-                        Parent = this,
-                        CenterX = center.X + Position.X,
-                        CenterY = center.Y + Position.Y,
-                        CenterZ = center.Z + Position.Z,
-                        SizeX = msg.Length,
-                        SizeY = msg.Width,
-                        SizeZ = msg.Height
-                    };
+                    LoadedPanel = GetInstance<MVMIF.IPanelElementFactory>().Create(center.X + Position.X,
+                                                                                     center.Y + Position.Y,
+                                                                                     center.Z + Position.Z,
+                                                                                     msg.Length,
+                                                                                     msg.Width,
+                                                                                     msg.Height);
+
+                    LoadedPanel.Name = "Panel";
+                    LoadedPanel.Parent = this;
 
                     Children.Add(LoadedPanel);
                 });

@@ -1,4 +1,5 @@
 ﻿using Machine.ViewModels.Interfaces;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Machine.ViewModels.MachineElements
 {
-    public class PanelViewModel : ElementViewModel, IMovablePanel, IDisposable
+    public class PanelViewModel : ElementViewModel, IPanelElement, IMovablePanel, IDisposable
     {        
         public double SizeX { get; set; }
         public double SizeY { get; set; }
