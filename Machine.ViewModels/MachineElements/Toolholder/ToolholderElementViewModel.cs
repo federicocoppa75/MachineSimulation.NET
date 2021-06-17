@@ -7,7 +7,7 @@ using Machine.ViewModels.Messages.Tooling;
 
 namespace Machine.ViewModels.MachineElements.Toolholder
 {
-    public abstract class ToolholderElementViewModel : ElementViewModel
+    public abstract class ToolholderElementViewModel : ElementViewModel, IToolholderElement
     {
         private static Color _toolColor = new Color() { A = 255, B = 255 };
         private static Color _coneColor = new Color() { A = 255, B = 128, G = 128, R = 128 };

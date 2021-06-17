@@ -1,8 +1,7 @@
 ﻿using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Tools;
-using Machine.ViewModels.MachineElements;
-using Machine.ViewModels.MachineElements.Toolholder;
+using System;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 using MDB = Machine.Data.Base;
@@ -54,16 +53,78 @@ namespace Machine._3D.Views.Helpers
 
         private Point3D GetToolPosition(IToolElement tool)
         {
-            var p = (tool.Parent as ToolholderElementViewModel).Position;
+            if(tool.Parent is IToolholderElement th)
+            {
+                return new Point3D(th.Position.X, th.Position.Y, th.Position.Z);
+            }
+            else if(tool.Parent is IATToolholder atth)
+            {
+                return GetToolPositionOnATTH(atth);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-            return new Point3D(p.X, p.Y, p.Z);
+        private Point3D GetToolPositionOnATTH(IATToolholder atth)
+        {
+            if((atth.Parent is IAngularTransmission at) && (at.Parent is IToolholderElement th))
+            {
+                var p = new Point3D(th.Position.X, th.Position.Y, th.Position.Z);
+                var v = new Vector3D(atth.Position.X, atth.Position.Y, atth.Position.Z);
+
+                return p + v;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         private Vector3D GetToolDirection(IToolElement tool)
         {
-            var d = (tool.Parent as ToolholderElementViewModel).Direction;
+            if (tool.Parent is IToolholderElement th)
+            {
+                return new Vector3D(th.Direction.X, th.Direction.Y, th.Direction.Z);
+            }
+            else if (tool.Parent is IATToolholder atth)
+            {
+                return GetToolDirectionOnATTH(atth);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-            return new Vector3D(d.X, d.Y, d.Z);
+        private Vector3D GetToolDirectionOnATTH(IATToolholder atth)
+        {
+            if ((atth.Parent is IAngularTransmission at) && (at.Parent is IToolholderElement th))
+            {
+                if((th.Direction.X == 0.0) && (th.Direction.Y == 0.0) && (th.Direction.Z == -1.0))
+                {
+                    return new Vector3D(atth.Direction.X, atth.Direction.Y, atth.Direction.Z);
+                }
+                else
+                {
+                    var v1 = new Vector3D(0.0, 0.0, -1.0);
+                    var v2 = new Vector3D(th.Direction.X, th.Direction.Y, th.Direction.Z);
+                    var n = Vector3D.CrossProduct(v1, v2);
+                    var a = Vector3D.AngleBetween(v1, v2);
+
+                    n.Normalize();
+
+                    var aat = new AxisAngleRotation3D() { Axis = n, Angle = a };
+                    var rt = new RotateTransform3D(aat);
+
+                    return rt.Transform(new Vector3D(atth.Direction.X, atth.Direction.Y, atth.Direction.Z));
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         private Matrix3D GetPanelChainTransformation()
