@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Machine.ViewModels.Interfaces.Tools
 {
@@ -16,5 +17,6 @@ namespace Machine.ViewModels.Interfaces.Tools
     public interface IToolToPanelTransformer
     {
         IEnumerable<ToolPosition> Transform();
+        Task<IEnumerable<ToolPosition>> TransformAsync();
     }
 }

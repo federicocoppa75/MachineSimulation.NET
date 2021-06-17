@@ -2,7 +2,10 @@
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Tools;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using MDB = Machine.Data.Base;
 
@@ -28,15 +31,7 @@ namespace Machine._3D.Views.Helpers
 
             foreach (var tool in _tools)
             {
-                var matrix = tool.GetChainTransformation();
-                var p0 = GetToolPosition(tool);
-                var d0 = GetToolDirection(tool);
-                var p1 = matrix.Transform(p0);
-                var d1 = matrix.Transform(d0);
-                var p2 = matrix1.Transform(p1);
-                var d2 = matrix1.Transform(d1);
-
-                var tp = p2 + d2 * tool.WorkLength;
+                GetToolPositionAndDirection(tool, matrix1, out Point3D tp, out Vector3D d2);
 
                 positions.Add(new ToolPosition()
                 {
@@ -49,6 +44,55 @@ namespace Machine._3D.Views.Helpers
             }
 
             return positions;
+        }
+
+        public Task<IEnumerable<ToolPosition>> TransformAsync()
+        {
+            return Task.Run(async () =>
+            {
+                var positions = new List<ToolPosition>();
+                var matrix1 = GetPanelChainTransformation();
+                var tasks = new List<Task<ToolPosition>>();
+
+                matrix1.Invert();
+
+                foreach (var tool in _tools)
+                {
+                    tasks.Add(Task.Run(() =>
+                    {
+                        GetToolPositionAndDirection(tool, matrix1, out Point3D tp, out Vector3D d2);
+
+                        return new ToolPosition()
+                        {
+                            Point = new MDB.Point() { X = tp.X, Y = tp.Y, Z = tp.Z },
+                            Direction = new MDB.Vector() { X = d2.X, Y = d2.Y, Z = d2.Z },
+                            Radius = tool.WorkRadius,
+                            Length = tool.UsefulLength
+                        };
+                    }));
+                }
+
+                return await Task.WhenAll(tasks).ContinueWith((t) =>
+                {
+                    return t.Result as IEnumerable<ToolPosition>;
+                });
+
+                //return Task.WhenAll(tasks).ContinueWith((t) => t.Result as IEnumerable<ToolPosition>);
+            });
+        }
+
+        private void GetToolPositionAndDirection(IToolElement tool, Matrix3D panelMatrix, out Point3D position, out Vector3D direction)
+        {
+            var matrix = tool.GetChainTransformation();
+            var p0 = GetToolPosition(tool);
+            var d0 = GetToolDirection(tool);
+            var p1 = matrix.Transform(p0);
+            var d1 = matrix.Transform(d0);
+            var p2 = panelMatrix.Transform(p1);
+            var d2 = panelMatrix.Transform(d1);
+
+            position = p2 + d2 * tool.WorkLength;
+            direction = d2;
         }
 
         private Point3D GetToolPosition(IToolElement tool)

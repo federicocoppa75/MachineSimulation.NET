@@ -51,11 +51,12 @@ namespace MaterialRemove.Machine.Bridge
             {
                 _lastProcess = e;
 
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     if (Interlocked.CompareExchange(ref _shiftHappens, 0, 1) == 1)
                     {
-                        ApplyTools();
+                        //ApplyTools();
+                        await ApplyToolsAsync();
                     }
 
                     Interlocked.Exchange(ref _processing, 0);                    
@@ -63,7 +64,7 @@ namespace MaterialRemove.Machine.Bridge
             }
         }
 
-        public void ApplyTools()
+        private void ApplyTools()
         {
             var t = MVMIoc.SimpleIoc<IToolToPanelTransformerFactory>.GetInstance().GetTransformer(_panel, _tools);
             var tTools = t.Transform();
@@ -82,6 +83,33 @@ namespace MaterialRemove.Machine.Bridge
 
                 _panel.ApplyAction(ta);
             }
+        }
+
+        private Task ApplyToolsAsync()
+        {
+            return Task.Run(async () =>
+            {
+                var tasks = new List<Task>();
+                var t = MVMIoc.SimpleIoc<IToolToPanelTransformerFactory>.GetInstance().GetTransformer(_panel, _tools);
+                var tTools = await t.TransformAsync();
+
+                foreach (var tt in tTools)
+                {
+                    var ta = new ToolActionData()
+                    {
+                        X = (float)tt.Point.X,
+                        Y = (float)tt.Point.Y,
+                        Z = (float)tt.Point.Z,
+                        Orientation = ToOrientatio(tt.Direction),
+                        Length = (float)tt.Length,
+                        Radius = (float)tt.Radius
+                    };
+
+                    tasks.Add(_panel.ApplyActionAsync(ta));
+                }
+
+                await Task.WhenAll(tasks);
+            });
         }
 
         private Orientation ToOrientatio(Vector direction)
