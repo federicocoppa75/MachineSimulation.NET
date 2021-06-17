@@ -16,31 +16,49 @@ namespace MaterialRemove.Machine.Bridge
     {
         List<IToolElement> _tools = new List<IToolElement>();
         Dictionary<int, int> _links = new Dictionary<int, int>();
-        private int _linkMoved = 0;
+        private int _shiftHappens = 0;
         DateTime _lastProcess = DateTime.MinValue;
         private IProcessCaller _processCaller;
         private int _processTimestamp = 100;
         private int _processing = 0;
         private PanelViewModel _panel;
+        private object _toolsLockObj = new object();
+
+        private int ToolsCount 
+        {
+            get
+            {
+                lock(_toolsLockObj)
+                {
+                    return _tools.Count;
+                }
+            }
+        }
 
         public ToolsObserver(PanelViewModel panel)
         {
             _panel = panel;
+            _panel.ValueChanged += OnPanelOffsetValueChanged;
             _processCaller = MVMIoc.SimpleIoc<IProcessCaller>.GetInstance();
             _processCaller.ProcessRequest += OnProcessRequest;
         }
 
         private void OnProcessRequest(object sender, DateTime e)
         {
-            if(((_lastProcess == DateTime.MinValue) || ((e - _lastProcess >= TimeSpan.FromMilliseconds(_processTimestamp))) && 
+            if((ToolsCount > 0) && 
+                ((_lastProcess == DateTime.MinValue) || ((e - _lastProcess >= TimeSpan.FromMilliseconds(_processTimestamp))) &&  
                 Interlocked.CompareExchange(ref _processing, 1, 0) == 0))
             {
+                _lastProcess = e;
+
                 Task.Run(() =>
                 {
-                    ApplyTools();
-                    _lastProcess = e;
-                    Interlocked.Exchange(ref _processing, 0);
-                    Interlocked.Exchange(ref _linkMoved, 0);
+                    if (Interlocked.CompareExchange(ref _shiftHappens, 0, 1) == 1)
+                    {
+                        ApplyTools();
+                    }
+
+                    Interlocked.Exchange(ref _processing, 0);                    
                 });                
             }
         }
@@ -88,14 +106,23 @@ namespace MaterialRemove.Machine.Bridge
 
         public void Register(IToolElement tool)
         {
-            _tools.Add(tool);
-            RegisterLinks(tool);
+            lock (_toolsLockObj)
+            {
+                _tools.Add(tool);
+                RegisterLinks(tool);
+            }
         }
 
         public void Unregister(IToolElement tool)
         {
-            UnregisterLinks(tool);
-            _tools.Remove(tool);
+            lock(_toolsLockObj)
+            {
+                if (_tools.Contains(tool))
+                {
+                    UnregisterLinks(tool);
+                    _tools.Remove(tool);
+                }
+            }
         }
 
         private void RegisterLinks(IToolElement tool)
@@ -147,10 +174,10 @@ namespace MaterialRemove.Machine.Bridge
             }
         }
 
-        private void OnLinkValueChanged(object sender, double e)
-        {
-            Interlocked.Exchange(ref _linkMoved, 1);
-        }
+        private void OnLinkValueChanged(object sender, double e) => Interlocked.Exchange(ref _shiftHappens, 1);
+
+        private void OnPanelOffsetValueChanged(object sender, double e) => Interlocked.Exchange(ref _shiftHappens, 1);
+
 
         #region IDisposable
         private bool _disposed = false;
@@ -170,6 +197,9 @@ namespace MaterialRemove.Machine.Bridge
                 // Dispose managed state (managed objects).
                 _processCaller.ProcessRequest -= OnProcessRequest;
                 _processCaller = null;
+                _panel.ValueChanged -= OnPanelOffsetValueChanged;
+                foreach (var tool in _tools) UnregisterLinks(tool);
+                _tools.Clear();
             }
 
             _disposed = true;

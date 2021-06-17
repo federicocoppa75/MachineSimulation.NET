@@ -19,12 +19,20 @@ namespace Machine.ViewModels.MachineElements
         private double _offsetX;
         public double OffsetX
         {
-            get => _offsetX; 
-            set => Set(ref _offsetX, value, nameof(OffsetX));
+            get => _offsetX;
+            set
+            {
+                if(Set(ref _offsetX, value, nameof(OffsetX)))
+                {
+                    ValueChanged?.Invoke(this, _offsetX);
+                }
+            }
         }
 
         private IHookablePanel _hookingHandle;
         public IHookablePanel HookingHandle => (_hookingHandle ?? (_hookingHandle = new HookablePanelHandle(this)));
+
+        public event EventHandler<double> ValueChanged;
 
         public PanelViewModel()
         {

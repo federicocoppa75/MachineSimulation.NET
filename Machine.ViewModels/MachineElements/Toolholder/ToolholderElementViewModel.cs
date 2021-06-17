@@ -66,14 +66,19 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         {
             if (msg.ToolHolder == ToolHolderId)
             {
-                foreach (var item in Children) item.Parent = null;
-                Children.Clear();
+                UnloadTool();
             }
         }
 
-        protected virtual void OnUnloadAllToolMessage(UnloadAllToolMessage msg)
+        protected virtual void OnUnloadAllToolMessage(UnloadAllToolMessage msg) => UnloadTool();
+
+        private void UnloadTool()
         {
-            foreach (var item in Children) item.Parent = null;
+            foreach (var item in Children)
+            {
+                ForceDeactivation(item);
+                item.Parent = null;
+            }
             Children.Clear();
         }
 
@@ -107,6 +112,21 @@ namespace Machine.ViewModels.MachineElements.Toolholder
                 foreach (var item in me.Children)
                 {
                     ManageActivation(item, value);
+                }
+            }
+        }
+
+        private void ForceDeactivation(IMachineElement me)
+        {
+            if (me is IToolElement tool)
+            {
+                GetInstance<IToolObserverProvider>().Observer.Unregister(tool);
+            }
+            else
+            {
+                foreach (var item in me.Children)
+                {
+                    ForceDeactivation(me);
                 }
             }
         }
