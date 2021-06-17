@@ -3,6 +3,8 @@ using Machine.ViewModels.Interfaces.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MVMIoc = Machine.ViewModels.Ioc;
+using MVMI = Machine.ViewModels.Interfaces;
 
 namespace MaterialRemove.Machine.Bridge
 {

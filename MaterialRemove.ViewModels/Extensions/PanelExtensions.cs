@@ -13,7 +13,7 @@ namespace MaterialRemove.ViewModels.Extensions
 {
     public static class PanelExtensions
     {
-        public static IList<IPanelSection> CreateSections(this IPanel panel, double panelCenterX = 0.0, double panelCenterY = 0.0, double panelCenterZ = 0.0)
+        public static IList<IPanelSection> CreateSections(this IPanel panel)
         {
             var list = new List<IPanelSection>();
             InitializeSectionsNumber(panel, out int nxSection, out int nySection);
@@ -22,9 +22,9 @@ namespace MaterialRemove.ViewModels.Extensions
             double sectionSizeY = panel.SizeY / nySection;
             double startOffsetX = -panel.SizeX / 2.0;
             double startOffsetY = -panel.SizeY / 2.0;
-            double cornerX = panelCenterX + startOffsetX;
-            double cornerY = panelCenterY + startOffsetY;
-            double cornerZ = panelCenterZ - panel.SizeZ / 2.0;
+            double cornerX = startOffsetX;
+            double cornerY = startOffsetY;
+            double panelCenterZ = 0.0;
             
             panel.CubeSize = AdjustCubeSize(sectionSizeX, sectionSizeY, panel.SizeZ, panel.NumCells, 0.1);
 

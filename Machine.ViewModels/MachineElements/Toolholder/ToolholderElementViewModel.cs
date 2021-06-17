@@ -1,5 +1,8 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.Interfaces.Tools;
 using Machine.ViewModels.Messages.Tooling;
 
 namespace Machine.ViewModels.MachineElements.Toolholder
@@ -13,6 +16,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         public abstract ToolHolderType ToolHolderType { get; }
         public Vector Position { get; set; }
         public Vector Direction { get; set; }
+        public bool ActiveTool { get; set; }
 
         public ToolholderElementViewModel() : base()
         {
@@ -71,6 +75,40 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         {
             foreach (var item in Children) item.Parent = null;
             Children.Clear();
+        }
+
+        protected void AttachActivator()
+        {
+            IMachineElement p = this;
+
+            while (p != null)
+            {
+                if (p.LinkToParent is IPneumaticLinkViewModel plink)
+                {
+                    plink.StateChanged += OnPneumaticLinkStateChanged;
+                    break;
+                }
+
+                p = p.Parent;
+            }
+        }
+
+        protected virtual void OnPneumaticLinkStateChanged(object sender, bool e) => ManageActivation(this, e);
+
+        private void ManageActivation(IMachineElement me, bool value)
+        {
+            if(me is IToolElement tool)
+            {
+                if(value) GetInstance<IToolObserverProvider>().Observer.Register(tool);
+                else GetInstance<IToolObserverProvider>().Observer.Unregister(tool);
+            }
+            else
+            {
+                foreach (var item in me.Children)
+                {
+                    ManageActivation(item, value);
+                }
+            }
         }
     }
 }

@@ -10,8 +10,6 @@ namespace MaterialRemove.ViewModels.Extensions
 {
     static class FaceExtension
     {
-        private static Tuple<double, double, int, double> _calcolatedCubeSize;
-
         internal static bool Intersect(this ISectionFace face, ToolActionData toolActionData)
         {
             var toolBox = toolActionData.GetBound();

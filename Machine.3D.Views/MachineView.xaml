@@ -13,6 +13,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <const:Materials x:Key="materials" />
+        <const:Geometries x:Key="geometries"/>
         <converters:DirectionToAxisConverter x:Key="directionToAxisConverter"/>
         <converters:LinearLinkPositionConverter x:Key="linearLinkPositionConverter"/>
         <converters:ColorToMaterialConverter x:Key="colorToMaterialConverter" />
@@ -352,7 +353,10 @@
         <DataTemplate x:Key="sectionedPanelTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
-                    <TranslateTransform3D OffsetX="{Binding OffsetX}"/>
+                    <Transform3DGroup>
+                        <TranslateTransform3D OffsetX="{Binding CenterX}" OffsetY="{Binding CenterY}" OffsetZ="{Binding CenterZ}"/>
+                        <TranslateTransform3D OffsetX="{Binding OffsetX}"/>
+                    </Transform3DGroup>                    
                 </hx:CompositeModel3D.Transform>
                 <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
                 <!--<hx:ItemsModel3D ItemsSource="{Binding Faces}" IsRendering="{Binding IsFacesVisible}">-->
@@ -387,7 +391,23 @@
                         </DataTemplate>
                     </hx:ItemsModel3D.ItemTemplate>
                 </hx:ItemsModel3D>
-
+            </hx:CompositeModel3D>
+        </DataTemplate>
+        <DataTemplate x:Key="debugTemplate">
+            <hx:CompositeModel3D>
+                <hx:CompositeModel3D.Transform>
+                    <MatrixTransform3D Matrix="{Binding Transformation, Converter={StaticResource staticTransformationConverter}}" />
+                </hx:CompositeModel3D.Transform>
+                <hx:MeshGeometryModel3D Geometry="{Binding Debug, Source={StaticResource geometries}}"
+                                        Material="{Binding Debug, Source={StaticResource materials}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                        IsRendering="{Binding IsVisible}"
+                                        PostEffects="{Binding PostEffects}"/>
+                <!--<lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />-->
             </hx:CompositeModel3D>
         </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
@@ -407,6 +427,7 @@
             <selectors:ItemModel3DTemplateSelectorItem When="ATToolholder" Then="{StaticResource atToolholderDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="Panel" Then="{StaticResource panelTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="SectionedPanel"  Then="{StaticResource sectionedPanelTemplate}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="Debug" Then="{StaticResource debugTemplate}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

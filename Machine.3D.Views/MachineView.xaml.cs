@@ -3,6 +3,7 @@ using Machine._3D.Views.Factories;
 using Machine._3D.Views.Helpers;
 using Machine.ViewModels;
 using Machine.ViewModels.Interfaces;
+using Machine.ViewModels.Interfaces.Tools;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.UI;
 using System;
@@ -31,6 +32,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IViewTransformationFactory>.Register<TransformationFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IColliderHelperFactory>.Register<ColliderHelperFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IProcessCaller>.Register<RenderProcessCaller>();
+            Machine.ViewModels.Ioc.SimpleIoc<IToolToPanelTransformerFactory>.Register<ToolToPanelTransformerFactory>();
             DataContext = new MainViewModel();
 
             view3DX.AddHandler(Element3D.MouseDown3DEvent, new RoutedEventHandler((s, e) =>

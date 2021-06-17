@@ -83,6 +83,10 @@ namespace Machine._3D.Views.Selectors
             {
                 it = ElementViewType.ATToolholder;
             }
+            else if(item is DebugElementViewModel)
+            {
+                it = ElementViewType.Debug;
+            }
             else if(item is ToolholderElementViewModel thvm)
             {
                 if (thvm.LinkToParent != null)
