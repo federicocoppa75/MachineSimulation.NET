@@ -27,6 +27,7 @@
         <converters3D:DirectionToMatrixConverter x:Key="directionToMatrixConverter"/>
         <converters3D:ColorToBitmapStreamConverter x:Key="colorToBitmapStreamConverter" />
         <converters3D:PanelToGemetryConverter x:Key="panelToGeometryConverter"/>
+        <converters3D:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter"/>
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -547,7 +548,7 @@
                             <lhx2D:ItemsModel2D ItemsSource="{Binding LinearLinks}" Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}">
                                 <lhx2D:ItemsModel2D.ItemTemplate>
                                     <DataTemplate>
-                                        <hx2D:TextModel2D Text="{Binding Id}" Margin="0, 0, 5, 0" HorizontalAlignment="Left"/>
+                                        <hx2D:TextModel2D Text="{Binding Id, Converter={StaticResource axIdToLabelCharConverter}}" Margin="0, 0, 5, 0" HorizontalAlignment="Left"/>
                                     </DataTemplate>
                                 </lhx2D:ItemsModel2D.ItemTemplate>
                             </lhx2D:ItemsModel2D>
