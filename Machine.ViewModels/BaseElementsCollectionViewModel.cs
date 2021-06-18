@@ -1,17 +1,14 @@
-﻿using Machine.ViewModels;
-using Machine.ViewModels.Base;
+﻿using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces.MachineElements;
-using Machine.ViewModels.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Machine.Views.ViewModels
+namespace Machine.ViewModels
 {
-    abstract class BaseElementsCollectionViewModel : BaseViewModel
+    public abstract class BaseElementsCollectionViewModel : BaseViewModel
     {
         public IKernelViewModel Kernel { get; private set; }
 
@@ -46,7 +43,7 @@ namespace Machine.Views.ViewModels
         }
 
         private void AddElement(object sender, NotifyCollectionChangedEventArgs e) => AddElement(e.NewItems.Cast<IMachineElement>());
- 
+
         private void RemoveElement(object sender, NotifyCollectionChangedEventArgs e) => RemoveElement(e.OldItems.Cast<IMachineElement>());
 
         private void ReplaceElement(object sender, NotifyCollectionChangedEventArgs e)
@@ -62,4 +59,5 @@ namespace Machine.Views.ViewModels
         protected abstract void Clear();
 
     }
+
 }
