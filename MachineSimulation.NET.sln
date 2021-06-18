@@ -67,7 +67,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaterialRemove.Interfaces",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaterialRemove.ViewModels", "MaterialRemove.ViewModels\MaterialRemove.ViewModels.csproj", "{E7A8F2FD-72C9-4A88-BAC0-15CF98EECEEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialRemove.Machine.Bridge", "MaterialRemove.Machine.Bridge\MaterialRemove.Machine.Bridge.csproj", "{4E939886-24FD-4E20-8DD4-75F6367FB4BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaterialRemove.Machine.Bridge", "MaterialRemove.Machine.Bridge\MaterialRemove.Machine.Bridge.csproj", "{4E939886-24FD-4E20-8DD4-75F6367FB4BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.Views.Converters", "Machine.Views.Converters\Machine.Views.Converters.csproj", "{CA89CC2F-9841-4383-B28F-DBB0A08430C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -207,6 +209,10 @@ Global
 		{4E939886-24FD-4E20-8DD4-75F6367FB4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E939886-24FD-4E20-8DD4-75F6367FB4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E939886-24FD-4E20-8DD4-75F6367FB4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA89CC2F-9841-4383-B28F-DBB0A08430C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA89CC2F-9841-4383-B28F-DBB0A08430C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA89CC2F-9841-4383-B28F-DBB0A08430C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA89CC2F-9841-4383-B28F-DBB0A08430C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

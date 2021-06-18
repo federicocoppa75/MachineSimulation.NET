@@ -92,6 +92,21 @@ namespace Machine.Views.ViewModels
         }
 
         public IEnumerable<TimeSpanFactor> TimeSpanFactors => Enum.GetValues(typeof(TimeSpanFactor)).Cast<TimeSpanFactor>();
+
+        private bool _isStepTimeVisible;
+        public bool IsStepTimeVisible 
+        { 
+            get => _isStepTimeVisible; 
+            set => Set(ref _isStepTimeVisible, value, nameof(IsStepTimeVisible)); 
+        }
+
+        private TimeSpan _stepTime;
+        public TimeSpan StepTime 
+        { 
+            get => _stepTime; 
+            set => Set(ref _stepTime, value, nameof(StepTime)); 
+        }
+
         #endregion
 
         #region IStepController implementation
@@ -115,6 +130,25 @@ namespace Machine.Views.ViewModels
         public StepsViewModel() : base()
         {
             MVMIoc.SimpleIoc<IOptionProvider<TimeSpanFactor>>.Register(new EnumOptionProxy<TimeSpanFactor>(() => TimeSpanFactors, () => TimeSpanFactor, (v) => TimeSpanFactor = v));
+            (Steps as ObservableCollection<MSVM.StepViewModel>).CollectionChanged += OnStepsChanged;
+        }
+
+        protected override void OnSelectionChanged()
+        {
+            StepTime = TimeSpan.FromSeconds((Selected != null) ? Selected.EvolutionTime : 0.0);
+        }
+
+        private void OnStepsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(Steps.Count > 0)
+            {
+                UpdateEvolutionTime();
+                IsStepTimeVisible = true;
+            }
+            else
+            {
+                IsStepTimeVisible = false;
+            }
         }
 
         private void UnloadStepsCommandImplementation()
@@ -163,6 +197,17 @@ namespace Machine.Views.ViewModels
             }
 
             return result;
+        }
+
+        private void UpdateEvolutionTime()
+        {
+            double time = 0.0;
+
+            for (int i = 0; i < Steps.Count; i++)
+            {
+                time += Steps[i].Duration;
+                Steps[i].EvolutionTime = time;
+            }
         }
     }
 }

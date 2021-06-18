@@ -31,54 +31,15 @@ namespace Machine._3D.Views
     {
         public IKernelViewModel Kernel { get; private set; }
 
-
-        //private Camera camera;
         public Camera Camera { get; protected set; }
-        //{
-        //    get
-        //    {
-        //        return camera;
-        //    }
-
-        //    protected set
-        //    {
-        //        SetValue(ref camera, value, "Camera");
-        //        CameraModel = value is PerspectiveCamera
-        //                               ? Perspective
-        //                               : value is OrthographicCamera ? Orthographic : null;
-        //    }
-        //}
-        //private IEffectsManager effectsManager;
         public IEffectsManager EffectsManager { get; protected set; }
-        //{
-        //    get { return effectsManager; }
-        //    protected set
-        //    {
-        //        SetValue(ref effectsManager, value);
-        //    }
-        //}
 
-        public MeshGeometry3D Model { get; private set; }
-        public MeshGeometry3D Model2 { private set; get; }
-        public LineGeometry3D Lines { get; private set; }
-        public LineGeometry3D Grid { get; private set; }
-
-        public PhongMaterial Material1 { get; private set; }
-        public PhongMaterial Material2 { get; private set; }
-        public PhongMaterial Material3 { get; private set; }
-        public Color GridColor { get; private set; }
-
-        public Transform3D Model1Transform { get; set; }
-        public Transform3D Model2Transform { get; set; }
-        public Transform3D Model3Transform { get; set; }
-        public Transform3D GridTransform { get; set; }
+        public IStepsExecutionController StepsExecutionController { get; protected set; }
 
         public Vector3D DirectionalLightDirection { get; private set; }
         public Color DirectionalLightColor { get; private set; }
         public Color AmbientLightColor { get; private set; }
 
-        public Element3D Target { set; get; }
-        public Vector3 CenterOffset { set; get; }
 
         #region View settings
 
@@ -119,11 +80,9 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.LightType>>.Register(new EnumOptionProxy<M3DVE.LightType>(() => LightTypes, () => LightType, (v) => LightType = v));
             Machine.ViewModels.Ioc.SimpleIoc<IBackgroundColor>.Register(BackgroudColor);
             Kernel = Machine.ViewModels.Ioc.SimpleIoc<IKernelViewModel>.GetInstance();
+            StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.GetInstance();
 
             EffectsManager = new DefaultEffectsManager();
-
-            //this.Title = "Manipulator Demo";
-            //this.SubTitle = null;
 
             // camera setup
             //this.Camera = new OrthographicCamera { Position = new Point3D(0, 0, 30), LookDirection = new Vector3D(0, 0, -5), UpDirection = new Vector3D(0, 1, 0) };
@@ -133,41 +92,6 @@ namespace Machine._3D.Views
             this.AmbientLightColor = Colors.DimGray;
             this.DirectionalLightColor = Colors.White;
             this.DirectionalLightDirection = new Vector3D(-2, -5, -2);
-
-            // floor plane grid
-            this.Grid = LineBuilder.GenerateGrid();
-            this.GridColor = Colors.Black;
-            this.GridTransform = new TranslateTransform3D(-5, -1, -5);
-
-            // scene model3d
-            var b1 = new MeshBuilder();
-            b1.AddSphere(new Vector3(0, 0, 0), 0.5);
-            b1.AddBox(new Vector3(0, 0, 0), 1, 0.5, 1.5, BoxFaces.All);
-            this.Model = b1.ToMeshGeometry3D();
-            //var m1 = Load3ds("suzanne.3ds");
-            //this.Model2 = m1[0].Geometry as MeshGeometry3D;
-            //Manully set an offset for test
-            //for (int i = 0; i < Model2.Positions.Count; ++i)
-            //{
-            //    Model2.Positions[i] = Model2.Positions[i] + new Vector3(2, 3, 4);
-            //}
-            //Model2.UpdateBounds();
-
-            // lines model3d
-            var e1 = new LineBuilder();
-            e1.AddBox(new Vector3(0, 0, 0), 1, 0.5, 1.5);
-            this.Lines = e1.ToLineGeometry3D();
-
-            // model trafos
-            this.Model1Transform = new TranslateTransform3D(0, 0, 0);
-            this.Model2Transform = new TranslateTransform3D(-3, 0, 0);
-            this.Model3Transform = new TranslateTransform3D(+3, 0, 0);
-
-            // model materials
-            this.Material1 = PhongMaterials.Orange;
-            this.Material2 = PhongMaterials.Orange;
-            this.Material3 = PhongMaterials.Red;
-
         }
 
         private void SetLights()

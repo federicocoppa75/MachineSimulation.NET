@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Machine._3D.Views"
              xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
-             xmlns:converters="clr-namespace:Machine._3D.Views.Converters"
+             xmlns:hx2D="clr-namespace:HelixToolkit.Wpf.SharpDX.Elements2D;assembly=HelixToolkit.Wpf.SharpDX"
+             xmlns:converters="clr-namespace:Machine.Views.Converters;assembly=Machine.Views.Converters"
+             xmlns:converters3D="clr-namespace:Machine._3D.Views.Converters"
              xmlns:lhx3D="clr-namespace:Machine._3D.Views.Models.Elements3D"
              xmlns:selectors="clr-namespace:Machine._3D.Views.Selectors"
              xmlns:const="clr-namespace:Machine._3D.Views.Constants"
@@ -14,15 +16,16 @@
     <UserControl.Resources>
         <const:Materials x:Key="materials" />
         <const:Geometries x:Key="geometries"/>
-        <converters:DirectionToAxisConverter x:Key="directionToAxisConverter"/>
-        <converters:LinearLinkPositionConverter x:Key="linearLinkPositionConverter"/>
-        <converters:ColorToMaterialConverter x:Key="colorToMaterialConverter" />
-        <converters:ModelNameToGeometryConverter x:Key="modelNameToGeometryConverter" />
-        <converters:StaticTransformationConverter x:Key="staticTransformationConverter"/>
-        <converters:ToolToGeometryConverter x:Key="toolToGeometryConverter"/>
-        <converters:DirectionToMatrixConverter x:Key="directionToMatrixConverter"/>
-        <converters:ColorToBitmapStreamConverter x:Key="colorToBitmapStreamConverter" />
-        <converters:PanelToGemetryConverter x:Key="panelToGeometryConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <converters3D:DirectionToAxisConverter x:Key="directionToAxisConverter"/>
+        <converters3D:LinearLinkPositionConverter x:Key="linearLinkPositionConverter"/>
+        <converters3D:ColorToMaterialConverter x:Key="colorToMaterialConverter" />
+        <converters3D:ModelNameToGeometryConverter x:Key="modelNameToGeometryConverter" />
+        <converters3D:StaticTransformationConverter x:Key="staticTransformationConverter"/>
+        <converters3D:ToolToGeometryConverter x:Key="toolToGeometryConverter"/>
+        <converters3D:DirectionToMatrixConverter x:Key="directionToMatrixConverter"/>
+        <converters3D:ColorToBitmapStreamConverter x:Key="colorToBitmapStreamConverter" />
+        <converters3D:PanelToGemetryConverter x:Key="panelToGeometryConverter"/>
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -530,6 +533,16 @@
                     </MultiBinding>
                 </hx:ScreenQuadModel3D.Texture>
             </hx:ScreenQuadModel3D>
+
+            <hx:Viewport3DX.Content2D>
+                <hx2D:StackPanel2D 
+                    Orientation="Vertical" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    Margin="5">
+                    <hx2D:TextModel2D Text="{Binding StepsExecutionController.StepTime, StringFormat={}{0:mm\\:ss\\.ff}}" Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}" TextAlignment="Left" />
+                </hx2D:StackPanel2D>
+            </hx:Viewport3DX.Content2D>
 
         </hx:Viewport3DX>
 

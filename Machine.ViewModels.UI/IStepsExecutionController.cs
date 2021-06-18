@@ -19,5 +19,7 @@ namespace Machine.ViewModels.UI
         //bool MaterialRemoval { get; set; }
         bool MultiChannel { get; set; }
         TimeSpanFactor TimeSpanFactor { get; set; }
+        bool IsStepTimeVisible { get; set; }
+        TimeSpan StepTime { get; set; }
     }
 }

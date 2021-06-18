@@ -31,6 +31,7 @@ namespace Machine.Steps.ViewModels
                 if(Set(ref _selected, value, nameof(Selected)))
                 {
                     ManageSelectionChanged(_selected, lastSelected);
+                    OnSelectionChanged();
                 }
             }
         }
@@ -65,6 +66,8 @@ namespace Machine.Steps.ViewModels
                 });
             }
         }
+
+        protected abstract void OnSelectionChanged();
 
         private void ManageSelectionChanged(StepViewModel selected, StepViewModel lastSelected)
         {
