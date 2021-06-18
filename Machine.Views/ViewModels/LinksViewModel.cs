@@ -40,11 +40,11 @@ namespace Machine.Views.ViewModels
         {
             foreach (var item in elements)
             {
-                var evm = item as ElementViewModel;
+                //var evm = item as ElementViewModel;
 
-                if (evm.LinkToParent != null)
+                if (item.LinkToParent != null)
                 {
-                    Links.Remove(evm.LinkToParent);
+                    Links.Remove(item.LinkToParent);
                 }
             }
         }

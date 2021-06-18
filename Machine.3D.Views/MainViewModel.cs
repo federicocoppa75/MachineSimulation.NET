@@ -24,12 +24,14 @@ using System;
 using System.Linq;
 using Machine._3D.Views.ViewModels;
 using Machine._3D.Views.Interfaces;
+using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.Interfaces.Links;
 
 namespace Machine._3D.Views
 {
-    class MainViewModel : BaseViewModel, IPeropertiesProvider
+    class MainViewModel : BaseElementsCollectionViewModel, IPeropertiesProvider
     {
-        public IKernelViewModel Kernel { get; private set; }
+        public ObservableCollection<ILinkViewModel> LinearLinks { get; private set; } = new ObservableCollection<ILinkViewModel>();
 
         public Camera Camera { get; protected set; }
         public IEffectsManager EffectsManager { get; protected set; }
@@ -79,7 +81,6 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IPeropertiesProvider>.Register(this);
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.LightType>>.Register(new EnumOptionProxy<M3DVE.LightType>(() => LightTypes, () => LightType, (v) => LightType = v));
             Machine.ViewModels.Ioc.SimpleIoc<IBackgroundColor>.Register(BackgroudColor);
-            Kernel = Machine.ViewModels.Ioc.SimpleIoc<IKernelViewModel>.GetInstance();
             StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.GetInstance();
 
             EffectsManager = new DefaultEffectsManager();
@@ -176,5 +177,33 @@ namespace Machine._3D.Views
             SpotLights.Add(new SpotLightViewModel() { Color = System.Windows.Media.Colors.WhiteSmoke });
             AmbientLights.Add(new AmbientLightViewModel() { Color = System.Windows.Media.Colors.Black });
         }
+
+        #region BaseElementsCollectionViewModel abstract methods
+        protected override void AddElement(IEnumerable<IMachineElement> elements)
+        {
+            foreach (var item in elements)
+            {
+                if ((item.LinkToParent != null) && (item.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
+                {
+                    LinearLinks.Add(item.LinkToParent);
+                }
+
+                AddElement(item.Children);
+            }
+        }
+
+        protected override void RemoveElement(IEnumerable<IMachineElement> elements)
+        {
+            foreach (var item in elements)
+            {
+                if ((item.LinkToParent != null) && (item.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
+                {
+                    LinearLinks.Remove(item.LinkToParent);
+                }
+            }
+        }
+
+        protected override void Clear() => LinearLinks.Clear();
+        #endregion
     }
 }
