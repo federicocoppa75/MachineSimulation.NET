@@ -120,13 +120,13 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         {
             if (me is IToolElement tool)
             {
-                GetInstance<IToolObserverProvider>().Observer.Unregister(tool);
+                GetInstance<IToolObserverProvider>().Observer?.Unregister(tool);
             }
             else
             {
                 foreach (var item in me.Children)
                 {
-                    ForceDeactivation(me);
+                    ForceDeactivation(item);
                 }
             }
         }

@@ -1,10 +1,8 @@
 ﻿using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces.MachineElements;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 
 namespace Machine.ViewModels
 {
@@ -14,7 +12,7 @@ namespace Machine.ViewModels
 
         public BaseElementsCollectionViewModel() : base()
         {
-            Kernel = Machine.ViewModels.Ioc.SimpleIoc<IKernelViewModel>.GetInstance();
+            Kernel = Ioc.SimpleIoc<IKernelViewModel>.GetInstance();
 
             if (Kernel.Machines is INotifyCollectionChanged ncc) ncc.CollectionChanged += OnMachineCollectionChanged;
         }
