@@ -1,4 +1,5 @@
 ﻿using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Messages.Tooling;
 using System.Windows.Input;
 

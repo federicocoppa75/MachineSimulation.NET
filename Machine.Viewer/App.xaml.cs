@@ -27,7 +27,7 @@ namespace Machine.Viewer
     {
         public App()
         {
-            ViewModels.Ioc.SimpleIoc<IKernelViewModel>.Register<KernelViewModel>();
+            ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<KernelViewModel>();
             ViewModels.Ioc.SimpleIoc<MVMB.IMessenger>.Register<MessengerImplementation>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDCR.DataSource>("Client.REST");

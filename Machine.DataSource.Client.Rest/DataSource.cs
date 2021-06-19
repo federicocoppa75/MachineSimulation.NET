@@ -1,6 +1,5 @@
 ﻿using Machine.Data;
 using Machine.Data.Converters;
-using Machine.ViewModels;
 using Machine.ViewModels.UI;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ using MDTools = Machine.Data.Tools;
 using System.Threading.Tasks;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.Data.Extensions.ViewModels;
+using Machine.ViewModels.Interfaces;
 
 namespace Machine.DataSource.Client.Rest
 {

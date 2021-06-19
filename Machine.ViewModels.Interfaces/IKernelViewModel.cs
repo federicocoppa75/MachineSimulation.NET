@@ -1,7 +1,7 @@
 ﻿using Machine.ViewModels.Interfaces.MachineElements;
 using System.Collections.Generic;
 
-namespace Machine.ViewModels
+namespace Machine.ViewModels.Interfaces
 {
     public interface IKernelViewModel
     {

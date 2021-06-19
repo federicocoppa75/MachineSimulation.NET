@@ -1,8 +1,5 @@
-﻿using Machine.ViewModels;
-using Machine.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces;
 
 namespace Machine.Views.ViewModels
 {
