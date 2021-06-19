@@ -94,10 +94,10 @@
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
-                    <!--<Separator/>
-                    <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding StepsExecutionController.MaterialRemoval}" />-->
-                    <!--<Separator/>
-                    <MenuItem Header="Export panel" Command="{Binding StepController.ExportPanelCommand}"/>-->
+                    <Separator/>
+                    <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoveData.Enable}" />
+                    <Separator/>
+                    <MenuItem Header="Export panel" Command="{Binding StepController.ExportPanelCommand}"/>
                 </MenuItem>
             </Menu>
 

@@ -23,6 +23,7 @@ namespace MaterialRemove.Machine.Bridge
         private int _processing = 0;
         private PanelViewModel _panel;
         private object _toolsLockObj = new object();
+        private IMaterialRemoveData _materialRemoveData;
 
         private int ToolsCount 
         {
@@ -37,6 +38,7 @@ namespace MaterialRemove.Machine.Bridge
 
         public ToolsObserver(PanelViewModel panel)
         {
+            _materialRemoveData = MVMIoc.SimpleIoc<IMaterialRemoveData>.GetInstance();
             _panel = panel;
             _panel.ValueChanged += OnPanelOffsetValueChanged;
             _processCaller = MVMIoc.SimpleIoc<IProcessCaller>.GetInstance();
@@ -45,7 +47,8 @@ namespace MaterialRemove.Machine.Bridge
 
         private void OnProcessRequest(object sender, DateTime e)
         {
-            if((ToolsCount > 0) && 
+            if(_materialRemoveData.Enable &&
+                (ToolsCount > 0) && 
                 ((_lastProcess == DateTime.MinValue) || ((e - _lastProcess >= TimeSpan.FromMilliseconds(_processTimestamp))) &&  
                 Interlocked.CompareExchange(ref _processing, 1, 0) == 0))
             {

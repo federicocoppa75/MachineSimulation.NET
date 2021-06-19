@@ -93,5 +93,8 @@
     <Setting Name="TimespanFactor" Type="System.String" Scope="User">
       <Value Profile="(Default)">Factor1</Value>
     </Setting>
+    <Setting Name="MaterialRemove" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

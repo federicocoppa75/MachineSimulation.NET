@@ -1,20 +1,8 @@
-﻿using Machine.Data.Converters;
-using Machine.Data.MachineElements;
-using Machine.ViewModels;
-using Machine.ViewModels.Base;
-using Machine.ViewModels.MachineElements;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows.Input;
-using MDTooling = Machine.Data.Toolings;
-using MDTools = Machine.Data.Tools;
-using System.Linq;
-using Machine.ViewModels.Messages;
+﻿using System.Collections.Generic;
 using M3DVE = Machine._3D.Views.Enums;
 using VMUI = Machine.ViewModels.UI;
 using M3DVI = Machine._3D.Views.Interfaces;
+using MRI = MaterialRemove.Interfaces;
 
 namespace Machine.Viewer
 {
@@ -28,6 +16,7 @@ namespace Machine.Viewer
         public VMUI.IStepsController StepController => ViewModels.Ioc.SimpleIoc<VMUI.IStepsController>.GetInstance();
         public VMUI.IStepsExecutionController StepsExecutionController => ViewModels.Ioc.SimpleIoc<VMUI.IStepsExecutionController>.GetInstance();
         public VMUI.IOptionProvider<VMUI.TimeSpanFactor> TimespanFactor => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<VMUI.TimeSpanFactor>>.GetInstance();
+        public MRI.IMaterialRemoveData MaterialRemoveData => ViewModels.Ioc.SimpleIoc<MRI.IMaterialRemoveData>.GetInstance();
 
         public MainViewModel() : base()
         {

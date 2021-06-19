@@ -65,19 +65,6 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        private bool _materialRemoval;
-        public bool MaterialRemoval
-        {
-            get => _materialRemoval;
-            set
-            {
-                if (Set(ref _materialRemoval, value, nameof(MaterialRemoval)))
-                {
-                    //MessengerInstance.Send(new MaterialRemovalMessage() { Active = _materialRemoval });
-                }
-            }
-        }
-
         private TimeSpanFactor _timeSpanFactor;
         public TimeSpanFactor TimeSpanFactor 
         { 

@@ -17,6 +17,7 @@ using MRVM3D = MaterialRemove.ViewModels._3D;
 using MRVMI = MaterialRemove.ViewModels.Interfaces;
 using MVMIF = Machine.ViewModels.Interfaces.Factories;
 using MRMB = MaterialRemove.Machine.Bridge;
+using MRI = MaterialRemove.Interfaces;
 
 namespace Machine.Viewer
 {
@@ -46,6 +47,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MRVMI.IElementViewModelFactory>.Register<MRVM3D.ElementViewModelFactory>();
             ViewModels.Ioc.SimpleIoc<MVMIF.IPanelElementFactory>.Register<MRMB.PanelViewModelFactory>();
             ViewModels.Ioc.SimpleIoc<MVMI.Tools.IToolObserverProvider>.Register<MRMB.ToolsObserverProvider>();
+            ViewModels.Ioc.SimpleIoc<MRI.IMaterialRemoveData>.Register<MRMB.MaterialRemoveData>();
         }
     }
 }

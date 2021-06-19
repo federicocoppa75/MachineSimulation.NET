@@ -10,40 +10,61 @@ namespace Machine._3D.Views.Helpers
 {
     class RenderProcessCaller : IProcessCaller, IDisposable
     {
+        object _lockObj = new object();
+        int _references;
         CompositionTargetEx _compositionTarget;
 
-        private bool _enable;
         public bool Enable 
         {
-            get => _enable;
-            set
-            {
-                if(_enable != value)
-                {
-                    _enable = value;
-
-                    if(_enable && (_compositionTarget == null))
-                    {
-                        _compositionTarget = new CompositionTargetEx();
-                        _compositionTarget.Rendering += OnRendering;
-                    }
-                    else if(!_enable && (_compositionTarget != null))
-                    {
-                        _compositionTarget.Rendering -= OnRendering;
-                        _compositionTarget.Dispose();
-                        _compositionTarget = null;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException();
-                    }
-                }
-            } 
+            get => _compositionTarget != null;
+            set => throw new NotSupportedException();
         }
 
-        public event EventHandler<DateTime> ProcessRequest;
+        private event EventHandler<DateTime> _processRequest;
+        public event EventHandler<DateTime> ProcessRequest
+        {
+            add
+            {
+                lock (_lockObj)
+                {
+                    ManageRegister();
 
-        private void OnRendering(object sender, System.Windows.Media.RenderingEventArgs e) => ProcessRequest?.Invoke(this, DateTime.Now);
+                    _processRequest += value;
+                    _references++;
+                }
+            }
+            remove
+            {
+                lock(_lockObj)
+                {
+                    _processRequest -= value;
+                    _references--;
+
+                    if(_references < 1) ManageUnregister();
+                }
+            }
+        }
+
+        private void ManageRegister()
+        {
+            if (_compositionTarget == null)
+            {
+                _compositionTarget = new CompositionTargetEx();
+                _compositionTarget.Rendering += OnRendering;
+            }
+        }
+
+        private void ManageUnregister()
+        {
+            if (_compositionTarget != null)
+            {
+                _compositionTarget.Rendering -= OnRendering;
+                _compositionTarget.Dispose();
+                _compositionTarget = null;
+            }
+        }
+
+        private void OnRendering(object sender, System.Windows.Media.RenderingEventArgs e) => _processRequest?.Invoke(this, DateTime.Now);
 
         #region IDisposable
         private bool _disposed = false;
@@ -60,7 +81,10 @@ namespace Machine._3D.Views.Helpers
 
             if(disposing)
             {
-                Enable = false;
+                lock(_lockObj)
+                {
+                    ManageUnregister();
+                }
             }
 
             _disposed = true;

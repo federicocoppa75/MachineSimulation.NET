@@ -61,6 +61,7 @@ namespace Machine.Viewer
             Properties.Settings.Default.AutoStepOver = vm.StepsExecutionController.AutoStepOver;
             Properties.Settings.Default.DynamicTransition = vm.StepsExecutionController.DynamicTransition;
             Properties.Settings.Default.TimespanFactor = vm.StepsExecutionController.TimeSpanFactor.ToString();
+            Properties.Settings.Default.MaterialRemove = vm.MaterialRemoveData.Enable;
         }
 
         private void UpdateFromSettings()
@@ -76,6 +77,7 @@ namespace Machine.Viewer
             vm.StepsExecutionController.AutoStepOver = Properties.Settings.Default.AutoStepOver;
             vm.StepsExecutionController.DynamicTransition = Properties.Settings.Default.DynamicTransition;
             vm.TimespanFactor.TryToParse(Properties.Settings.Default.TimespanFactor);
+            vm.MaterialRemoveData.Enable = Properties.Settings.Default.MaterialRemove;
         }
 
         private static MColor Convert(DColor color)

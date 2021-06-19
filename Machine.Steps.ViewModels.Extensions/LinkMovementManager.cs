@@ -30,25 +30,27 @@ namespace Machine.Steps.ViewModels.Extensions
         private IMessenger Messenger => _messenger ?? (_messenger = Machine.ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance());
 
         public int MinTimespam { get; set; } = 50;
+
+        private bool _enable;
         public bool Enable 
-        { 
-            get => ProcessCaller.Enable;
+        {
+            get => _enable;
             set
             {
-                if(ProcessCaller.Enable != value)
+                if(_enable != value)
                 {
-                    if(value)
+                    _enable = value;
+
+                    if(_enable)
                     {
                         _firtProcessCall = true;
                         ProcessCaller.ProcessRequest += OnProcess;
-                        ProcessCaller.Enable = true;
                     }
                     else
                     {
-                        ProcessCaller.Enable = false;
                         ProcessCaller.ProcessRequest -= OnProcess;
                     }
-                }                
+                }             
             }
         }
         public double TimespanFactor { get; set; } = 1.0;
