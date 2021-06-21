@@ -33,6 +33,9 @@
                     <Separator/>
                     <MenuItem Header="Load Tooling" Command="{Binding DataSource.Value.LoadToolingCommand}" />
                     <MenuItem Header="Unload Tooling" Command="{Binding UnloadToolingCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Load Environment" Command="{Binding DataSource.Value.LoadEnvironmentCommand}" />
+                    <MenuItem Header="Save Environment" Command="{Binding DataSource.Value.SaveEnvironmentCommand}" />
                 </MenuItem>
                 <MenuItem Header="View">
                     <MenuItem Header="View settings" ItemsSource="{Binding View3DFlags}" >

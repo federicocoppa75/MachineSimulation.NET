@@ -6,6 +6,7 @@ using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,10 @@ namespace Machine.DataSource.File.Json
 {
     public class DataSource : DataSourceBase, IDataSource, INameProvider
     {
+        private string _lastMachineFile;
+        private string _lastToolingFile;
+        private string _lastToolsFile;
+
         private IKernelViewModel _kernel;
         public IKernelViewModel Kernel => _kernel ?? (_kernel = GetInstance<IKernelViewModel>());
 
@@ -33,19 +38,12 @@ namespace Machine.DataSource.File.Json
 
             if (b.HasValue && b.Value)
             {
-                JsonSerializer serializer = new JsonSerializer();
-
-                serializer.NullValueHandling = NullValueHandling.Ignore;
-                serializer.Converters.Add(new LinkJsonConverter());
-                serializer.Converters.Add(new MachineElementJsonConverter());
-
-                using (StreamReader sr = new StreamReader(dlg.FileName))
-                using (JsonReader reader = new JsonTextReader(sr))
+                LoadMachine(dlg.FileName, (m) =>
                 {
-                    var m = serializer.Deserialize<MachineElement>(reader);
-
                     if (m != null) Kernel.Machines.Add(m.ToViewModel());
-                }
+                });
+
+                _lastMachineFile = dlg.FileName;
             }
         }
 
@@ -62,10 +60,83 @@ namespace Machine.DataSource.File.Json
             if (b.HasValue && b.Value)
             {
                 LoadTooling(dlg.FileName);
+
+                _lastToolingFile = dlg.FileName;
             }
         }
 
-        private void LoadTooling(string fileName)
+        protected override void LoadEnvironmentCommandImplementation()
+        {
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("OpenFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "jEnv";
+            dlg.Filter = "Environment (JSON) |*.jEnv";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                if(ZipArchiveHelper.ImportEnvironment(dlg.FileName, out string machineFile, out string toolsFile,  out string toolingFile))
+                {
+                    LoadMachine(machineFile, (m) =>
+                    {
+                        if (m != null)
+                        {
+                            Kernel.Machines.Add(m.ToViewModel());
+                            _lastMachineFile = machineFile;
+
+                            LoadTooling(toolingFile, (tooling) =>
+                            {
+                                var toolset = LoadTools(tooling.Tools);
+
+                                SetTooling(tooling, toolset);
+                                _lastToolingFile = tooling.Tools;
+                            });                            
+                        }
+                    });
+                }
+            }
+        }
+
+        protected override bool LoadEnvironmentCommandCanExecute() => true;
+
+        protected override void SaveEnvironmentCommandImplementation()
+        {
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("SaveFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "jEnv";
+            dlg.Filter = "Environment (JSON) |*.jEnv";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                ZipArchiveHelper.ExportEnvironment(dlg.FileName, _lastMachineFile, _lastToolsFile, _lastToolingFile);
+            }
+        }
+
+        protected override bool SaveEnvironmentCommandCanExecute() => true;
+
+        internal static void LoadMachine(string fileName, Action<MachineElement> manageData)
+        {
+            JsonSerializer serializer = new JsonSerializer();
+
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.Converters.Add(new LinkJsonConverter());
+            serializer.Converters.Add(new MachineElementJsonConverter());
+
+            using (StreamReader sr = new StreamReader(fileName))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                var m = serializer.Deserialize<MachineElement>(reader);
+
+                manageData?.Invoke(m);
+            }
+        }
+
+        internal static void LoadTooling(string fileName, Action<MDTooling.Tooling> manageData)
         {
             JsonSerializer serializer = new JsonSerializer() { NullValueHandling = NullValueHandling.Ignore };
 
@@ -74,6 +145,72 @@ namespace Machine.DataSource.File.Json
             {
                 var m = serializer.Deserialize<MDTooling.Tooling>(reader);
 
+                manageData?.Invoke(m);
+            }
+        }
+
+        internal static MDTools.ToolSet LoadTools(string fileName)
+        {
+            JsonSerializer serializer = new JsonSerializer();
+
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.Converters.Add(new ToolJsonConverter());
+
+            using (StreamReader sr = new StreamReader(fileName))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                var m = serializer.Deserialize<MDTools.ToolSet>(reader);
+
+                ProcessForAngolarTransmissions(m);
+
+                return m;
+                //if (m != null) Toolsets.Add(m);
+            }
+        }
+
+        internal static void SaveMachine(string fileName, MachineElement machine)
+        {
+            JsonSerializer serializer = new JsonSerializer();
+
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.Converters.Add(new LinkJsonConverter());
+            serializer.Converters.Add(new MachineElementJsonConverter());
+
+            using (StreamWriter sw = new StreamWriter(fileName))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, machine);
+            }
+        }
+
+        internal static void SaveTooling(string fileName, MDTooling.Tooling tooling)
+        {
+            JsonSerializer serializer = new JsonSerializer() { NullValueHandling = NullValueHandling.Ignore };
+
+            using (StreamWriter sw = new StreamWriter(fileName))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, tooling);
+            }
+        }
+
+        internal static void SaveTools(string fileName, MDTools.ToolSet toolSet)
+        {
+            JsonSerializer serializer = new JsonSerializer();
+
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter sw = new StreamWriter(fileName))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, toolSet);
+            }
+        }
+
+        private void LoadTooling(string fileName)
+        {
+            LoadTooling(fileName, (m) =>
+            {
                 if ((m != null) && CheckToolingMachine(m.Machine))
                 {
                     string path = Path.GetDirectoryName(fileName);
@@ -82,8 +219,10 @@ namespace Machine.DataSource.File.Json
                     var toolset = LoadTools(toolFile);
 
                     SetTooling(m, toolset);
+
+                    _lastToolsFile = toolFile;
                 }
-            }
+            });
         }
 
         private void SetTooling(MDTooling.Tooling tooling, MDTools.ToolSet toolset)
@@ -118,26 +257,7 @@ namespace Machine.DataSource.File.Json
             }
         }
 
-        private MDTools.ToolSet LoadTools(string fileName)
-        {
-            JsonSerializer serializer = new JsonSerializer();
-
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-            serializer.Converters.Add(new ToolJsonConverter());
-
-            using (StreamReader sr = new StreamReader(fileName))
-            using (JsonReader reader = new JsonTextReader(sr))
-            {
-                var m = serializer.Deserialize<MDTools.ToolSet>(reader);
-
-                ProcessForAngolarTransmissions(m);
-
-                return m;
-                //if (m != null) Toolsets.Add(m);
-            }
-        }
-
-        private void ProcessForAngolarTransmissions(MDTools.ToolSet toolSet)
+        static void ProcessForAngolarTransmissions(MDTools.ToolSet toolSet)
         {
             Dictionary<string, MDTools.Tool> dictionary = null;
 

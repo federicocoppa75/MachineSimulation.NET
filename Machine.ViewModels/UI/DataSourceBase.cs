@@ -16,9 +16,23 @@ namespace Machine.ViewModels.UI
         private ICommand _loadToolingCommand;
         public ICommand LoadToolingCommand => _loadToolingCommand ?? (_loadToolingCommand = new RelayCommand(() => LoadToolingCommandImplementation()));
 
+        private ICommand _loadEnvironmentCommand;
+        public ICommand LoadEnvironmentCommand => _loadEnvironmentCommand ?? (_loadEnvironmentCommand = new RelayCommand(() => LoadEnvironmentCommandImplementation(), () => LoadEnvironmentCommandCanExecute()));
+
+        private ICommand _saveEnvironmentCommand;
+        public ICommand SaveEnvironmentCommand => _saveEnvironmentCommand ?? (_saveEnvironmentCommand = new RelayCommand(() => SaveEnvironmentCommandImplementation(), () => SaveEnvironmentCommandCanExecute()));
+
         protected abstract void LoadMachineCommandImplementation();
         protected abstract void LoadToolingCommandImplementation();
 
         public override string ToString() => Name;
+
+        protected virtual void LoadEnvironmentCommandImplementation() { }
+
+        protected virtual bool LoadEnvironmentCommandCanExecute() => false;
+
+        protected virtual void SaveEnvironmentCommandImplementation() { }
+
+        protected virtual bool SaveEnvironmentCommandCanExecute() => false;
     }
 }

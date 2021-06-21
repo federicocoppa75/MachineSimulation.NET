@@ -9,5 +9,7 @@ namespace Machine.ViewModels.UI
     {
         ICommand LoadMachineCommand { get; }
         ICommand LoadToolingCommand { get; }
+        ICommand LoadEnvironmentCommand { get; }
+        ICommand SaveEnvironmentCommand { get; }
     }
 }
