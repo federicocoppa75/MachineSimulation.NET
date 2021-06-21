@@ -1,15 +1,9 @@
-﻿using Machine.Data.Converters;
-using Machine.Data.MachineElements;
+﻿using Machine.Data.MachineElements;
 using Machine.Data.Toolings;
 using Machine.Data.Tools;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Machine.DataSource.File.Json
 {
@@ -167,17 +161,7 @@ namespace Machine.DataSource.File.Json
 
             var entry = archive.CreateEntry(_machineFileName);
 
-            JsonSerializer serializer = new JsonSerializer();
-
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-            serializer.Converters.Add(new LinkJsonConverter());
-            serializer.Converters.Add(new MachineElementJsonConverter());
-
-            using (var sw = new StreamWriter(entry.Open()))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, me);
-            }
+            DataSource.SaveMachine(me, () => new StreamWriter(entry.Open()));
 
             return result;
         }
@@ -256,16 +240,7 @@ namespace Machine.DataSource.File.Json
 
             var entry = archive.CreateEntry(_tooSetFileName);
 
-            JsonSerializer serializer = new JsonSerializer();
-
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-
-            using (var sw = new StreamWriter(entry.Open()))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, toolSet);
-            }
-
+            DataSource.SaveTools(toolSet, () => new StreamWriter(entry.Open()));
 
             return true;
         }
@@ -274,13 +249,7 @@ namespace Machine.DataSource.File.Json
         {
             var entry = archive.CreateEntry(_toolingFileName);
 
-            JsonSerializer serializer = new JsonSerializer() { NullValueHandling = NullValueHandling.Ignore };
-
-            using (var sw = new StreamWriter(entry.Open()))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, tooling);
-            }
+            DataSource.SaveTooling(tooling, () => new StreamWriter(entry.Open()));
 
             return true;
         }

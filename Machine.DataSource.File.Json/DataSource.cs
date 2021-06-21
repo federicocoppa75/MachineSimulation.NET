@@ -168,7 +168,9 @@ namespace Machine.DataSource.File.Json
             }
         }
 
-        internal static void SaveMachine(string fileName, MachineElement machine)
+        internal static void SaveMachine(string fileName, MachineElement machine) => SaveMachine(machine, () => new StreamWriter(fileName));
+
+        internal static void SaveMachine(MachineElement machine, Func<StreamWriter> getSTreamWriter)
         {
             JsonSerializer serializer = new JsonSerializer();
 
@@ -176,31 +178,35 @@ namespace Machine.DataSource.File.Json
             serializer.Converters.Add(new LinkJsonConverter());
             serializer.Converters.Add(new MachineElementJsonConverter());
 
-            using (StreamWriter sw = new StreamWriter(fileName))
+            using (StreamWriter sw = getSTreamWriter())
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, machine);
             }
         }
 
-        internal static void SaveTooling(string fileName, MDTooling.Tooling tooling)
+        internal static void SaveTooling(string fileName, MDTooling.Tooling tooling) => SaveTooling(tooling, () => new StreamWriter(fileName));
+
+        internal static void SaveTooling(MDTooling.Tooling tooling, Func<StreamWriter> getStreamWriter)
         {
             JsonSerializer serializer = new JsonSerializer() { NullValueHandling = NullValueHandling.Ignore };
 
-            using (StreamWriter sw = new StreamWriter(fileName))
+            using (StreamWriter sw = getStreamWriter())
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, tooling);
             }
         }
 
-        internal static void SaveTools(string fileName, MDTools.ToolSet toolSet)
+        internal static void SaveTools(string fileName, MDTools.ToolSet toolSet) => SaveTools(toolSet, () => new StreamWriter(fileName));
+
+        internal static void SaveTools(MDTools.ToolSet toolSet, Func<StreamWriter> getStreamWriter)
         {
             JsonSerializer serializer = new JsonSerializer();
 
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
-            using (StreamWriter sw = new StreamWriter(fileName))
+            using (StreamWriter sw = getStreamWriter())
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, toolSet);
