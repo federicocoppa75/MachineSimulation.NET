@@ -95,18 +95,28 @@ namespace Machine.Data.Extensions.ViewModels
 
             return vm;
         }
-        private static InserterElementViewMode Convert(MDE.InserterElement ins, IMachineElement parent)
+        private static InserterElementViewModel Convert(MDE.InserterElement ins, IMachineElement parent)
         {
-            var vm = ConverterInserter<InserterElementViewMode>(ins, parent);
+            var vm = ConverterInserter<InserterElementViewModel>(ins, parent);
+
+            vm.Diameter = ins.Diameter;
+            vm.Length = ins.Length;
+            vm.LoaderLinkId = ins.LoaderLinkId;
+            vm.DischargerLinkId = ins.DischargerLinkId;
 
             return vm;
         }
+
         private static InjectorElementViewModel Convert(MDE.InjectorElement inj, IMachineElement parent) => ConverterInserter<InjectorElementViewModel>(inj, parent);
 
-
-        private static T ConverterInserter<T>(MDE.InjectorElement me, IMachineElement parent) where T : InjectorElementViewModel, new()
+        private static T ConverterInserter<T>(MDE.InjectorElement me, IMachineElement parent) where T : InjectorBaseElementViewModel, new()
         {
             var vm = Convert<T>(me, parent);
+
+            vm.InserterId = me.InserterId;
+            vm.Position = new Base.Point() { X = me.Position.X, Y = me.Position.Y, Z = me.Position.Z };
+            vm.Direction = me.Direction;
+            vm.InserterColor = me.InserterColor;
 
             return vm;
         }

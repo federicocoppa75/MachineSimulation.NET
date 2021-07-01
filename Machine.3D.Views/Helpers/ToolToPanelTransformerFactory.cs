@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Machine._3D.Views.Helpers
 {
-    public class ToolToPanelTransformerFactory : IToolToPanelTransformerFactory
+    class ToolToPanelTransformerFactory : IToolToPanelTransformerFactory
     {
         public IToolToPanelTransformer GetTransformer(IPanelElement panel, IEnumerable<IToolElement> tools) => new ToolToPanelTransformer(panel, tools);
     }

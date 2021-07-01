@@ -29,6 +29,8 @@ namespace Machine._3D.Views.Enums
         AngularTransmission,
         ATToolholder,
         SectionedPanel,
-        Debug
+        Debug,
+        InjectedObj,
+        InsertedObj
     }
 }

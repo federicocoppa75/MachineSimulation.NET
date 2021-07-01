@@ -1,5 +1,6 @@
 ﻿using Machine._3D.Views.Converters;
 using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Links;
@@ -12,6 +13,29 @@ namespace Machine._3D.Views.Helpers
 {
     internal static class ElementViewModelTransformExtension
     {
+        public static Matrix3D GetChainTransformation(this IPanelElement panel)
+        {
+            var matrix = (panel as IMachineElement).GetChainTransformation();
+
+            if (panel is IMovablePanel mp)
+            {
+                var m = Matrix3D.Identity;
+
+                m.OffsetX = mp.OffsetX;
+                matrix.Append(m);
+            }
+
+            var mc = Matrix3D.Identity;
+
+            mc.OffsetX = panel.CenterX;
+            mc.OffsetY = panel.CenterY;
+            mc.OffsetZ = panel.CenterZ;
+
+            matrix.Append(mc);
+
+            return matrix;
+        }
+
         public static Matrix3D GetChainTransformation(this IMachineElement endOfChain)
         {
             IMachineElement p = endOfChain;

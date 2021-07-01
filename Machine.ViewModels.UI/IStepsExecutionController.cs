@@ -16,7 +16,6 @@ namespace Machine.ViewModels.UI
     {
         bool AutoStepOver { get; set; }
         bool DynamicTransition { get; set; }
-        //bool MaterialRemoval { get; set; }
         bool MultiChannel { get; set; }
         TimeSpanFactor TimeSpanFactor { get; set; }
         bool IsStepTimeVisible { get; set; }

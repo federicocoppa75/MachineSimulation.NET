@@ -1,4 +1,5 @@
 ﻿using Machine._3D.Views.Enums;
+using Machine.ViewModels.Insertions;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Toolholder;
@@ -45,29 +46,11 @@ namespace Machine._3D.Views.Selectors
         {
             var it = ElementViewType.Default;
 
-            //if ((item is IPanelHooker) || (item is PanelHolderViewModel))
-            //{
-            //    it = ElementViewType.PanelHandler;
-            //}
-            //else if (item is IPanelViewModel)
-            //{
-            //    it = ElementViewType.Panel;
-            //}
-
-            //if (item is PanelHolderViewModel)
-            //{
-            //    it = ElementViewType.PanelHolder;
-            //}
-            //else if (item is IPanelHooker)
-            //{
-            //    it = ElementViewType.PanelHooker;
-            //}
-            //else if (item is PointsDistanceViewModel)
-            //{
-            //    it = ElementViewType.PointDistance;
-            //}
-
-            if(item is ToolViewModel tvm)
+            if(item is InjectedViewModel)
+            {
+                it = ElementViewType.InjectedObj;
+            }
+            else if(item is ToolViewModel tvm)
             {
                 it = ElementViewType.ToolEle;
             }

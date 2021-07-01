@@ -130,6 +130,9 @@
                     <TabItem Header="Steps">
                         <views:Steps/>
                     </TabItem>
+                    <TabItem Header="Injectors">
+                        <views:Injectors/>
+                    </TabItem>
                 </TabControl>
                 
 

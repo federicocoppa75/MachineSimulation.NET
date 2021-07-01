@@ -25,7 +25,7 @@ namespace Machine._3D.Views.Helpers
         public IEnumerable<ToolPosition> Transform()
         {
             var positions = new List<ToolPosition>();
-            var matrix1 = GetPanelChainTransformation();
+            var matrix1 = _panel.GetChainTransformation();
 
             matrix1.Invert();
 
@@ -51,7 +51,7 @@ namespace Machine._3D.Views.Helpers
             return Task.Run(async () =>
             {
                 var positions = new List<ToolPosition>();
-                var matrix1 = GetPanelChainTransformation();
+                var matrix1 = _panel.GetChainTransformation();
                 var tasks = new List<Task<ToolPosition>>();
 
                 matrix1.Invert();
@@ -169,29 +169,6 @@ namespace Machine._3D.Views.Helpers
             {
                 throw new ArgumentException();
             }
-        }
-
-        private Matrix3D GetPanelChainTransformation()
-        {
-            var matrix = _panel.GetChainTransformation();
-
-            if (_panel is IMovablePanel mp)
-            {
-                var m = Matrix3D.Identity;
-
-                m.OffsetX = mp.OffsetX;
-                matrix.Append(m);
-            }
-
-            var mc = Matrix3D.Identity;
-
-            mc.OffsetX = _panel.CenterX;
-            mc.OffsetY = _panel.CenterY;
-            mc.OffsetZ = _panel.CenterZ;
-
-            matrix.Append(mc);
-
-            return matrix;
         }
     }
 }

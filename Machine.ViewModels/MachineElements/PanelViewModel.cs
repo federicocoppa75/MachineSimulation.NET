@@ -1,4 +1,5 @@
 ﻿using Machine.ViewModels.Interfaces;
+using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Machine.ViewModels.MachineElements
 {
-    public class PanelViewModel : ElementViewModel, IPanelElement, IMovablePanel, IDisposable
+    public class PanelViewModel : ElementViewModel, IPanelElement, IMovablePanel, IInsertionsSink, IDisposable
     {        
         public double SizeX { get; set; }
         public double SizeY { get; set; }
@@ -37,9 +38,24 @@ namespace Machine.ViewModels.MachineElements
         public PanelViewModel()
         {
             Messenger.Register<GetPanelMessage>(this, OnGetPanelMessage);
+            RegisterAsInsertionSink();
         }
 
         private void OnGetPanelMessage(GetPanelMessage msg) => msg.SetPanel(this);
+
+        private void RegisterAsInsertionSink()
+        {
+            var sp = GetInstance<IInsertionsSinkProvider>();
+
+            if (sp != null) sp.InsertionsSink = this;
+        }
+
+        private void UnregisterAsInsertionSink()
+        {
+            var sp = GetInstance<IInsertionsSinkProvider>();
+
+            if (sp != null) sp.InsertionsSink = null;
+        }
 
         #region IDisposable
         private bool _disposed = false;
@@ -58,6 +74,7 @@ namespace Machine.ViewModels.MachineElements
             {
                 // Dispose managed state (managed objects).
                 Messenger.Unregister(this);
+                UnregisterAsInsertionSink();
             }
 
             _disposed = true;

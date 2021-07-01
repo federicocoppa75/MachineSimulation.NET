@@ -14,7 +14,7 @@ namespace Machine._3D.Views.Helpers
             var matrix2 = GetPanelChainTransformation();
             var colliderPoints = GetColliderPoints();
             var colliderDirection = GetColliderDirection();
-            var panelCenter = GetPanelCenter();
+            var panelCenter = new Point3D();
             var panelSize = GetPanelSize();
 
             distance = 0.0;
@@ -52,7 +52,6 @@ namespace Machine._3D.Views.Helpers
         protected abstract Matrix3D GetPanelChainTransformation();
         protected abstract Point3D[] GetColliderPoints();
         protected abstract Vector3D GetColliderDirection();
-        protected abstract Point3D GetPanelCenter();
         protected abstract Size3D GetPanelSize();
         protected double GetDistance(Vector3D v, Vector3D direction)
         {
