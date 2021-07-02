@@ -34,6 +34,7 @@ namespace Machine.ViewModels.MachineElements
                 var position = transformer.Transform();
                 var injected = new InjectedViewModel()
                 {
+                    Name = $"Injected({InserterId})",
                     InserterId = InserterId,
                     Color = InserterColor,
                     Position = position.Position,

@@ -4,7 +4,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>Machine._3D.Views</RootNamespace>
     <UseWPF>true</UseWPF>
-    <Version>1.5.0</Version>
+    <Version>1.5.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

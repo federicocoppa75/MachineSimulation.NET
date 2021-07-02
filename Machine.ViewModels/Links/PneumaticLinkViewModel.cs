@@ -57,6 +57,23 @@ namespace Machine.ViewModels.Links
 
         public event EventHandler<bool> StateChanging;
         public event EventHandler<bool> StateChanged;
+
+        private bool _firstSubscribe = true;
+        private event EventHandler<bool> _stateChangeCompleted;
+        public event EventHandler<bool> StateChangeCompleted
+        {
+            add
+            {
+                if(_firstSubscribe)
+                {
+                    ValueChanged += OnValueChanged;
+                    _firstSubscribe = false;
+                }
+
+                _stateChangeCompleted += value;
+            }
+            remove { _stateChangeCompleted -= value; }
+        }
         #endregion
 
         #region ctor
@@ -99,6 +116,16 @@ namespace Machine.ViewModels.Links
             {
                 Value = value;
             }            
+        }
+
+        private void OnValueChanged(object sender, double e)
+        {
+            var pos = State ? DynOnPos : OffPos;
+
+            if(e == pos)
+            {
+                _stateChangeCompleted?.Invoke(this, State);
+            }
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
                     Parent = this
                 };
 
-                Children.Add(vm);               
+                Children.Add(vm);
             }
         }
 
@@ -79,6 +79,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
                 ForceDeactivation(item);
                 item.Parent = null;
             }
+
             Children.Clear();
         }
 

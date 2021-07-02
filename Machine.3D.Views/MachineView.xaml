@@ -28,7 +28,7 @@
         <converters3D:ColorToBitmapStreamConverter x:Key="colorToBitmapStreamConverter" />
         <converters3D:PanelToGemetryConverter x:Key="panelToGeometryConverter"/>
         <converters3D:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter"/>
-        <converters3D:InjectedToGeometryConverter x:Key="injectedToGeometryConverter"/>
+        <converters3D:InsertedToGeometryConverter x:Key="insertedToGeometryConverter"/>
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -416,8 +416,8 @@
                 <!--<lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />-->
             </hx:CompositeModel3D>
         </DataTemplate>
-        <DataTemplate x:Key="injectedObject">
-            <hx:MeshGeometryModel3D Geometry="{Binding Converter={StaticResource injectedToGeometryConverter}}"
+        <DataTemplate x:Key="insertedObject">
+            <hx:MeshGeometryModel3D Geometry="{Binding Converter={StaticResource insertedToGeometryConverter}}"
                                         Material="{Binding Color, Converter={StaticResource colorToMaterialConverter}}"
                                         CullMode="Back"
                                         DepthBias="-100"
@@ -445,7 +445,8 @@
             <selectors:ItemModel3DTemplateSelectorItem When="Panel" Then="{StaticResource panelTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="SectionedPanel"  Then="{StaticResource sectionedPanelTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="Debug" Then="{StaticResource debugTemplate}"/>
-            <selectors:ItemModel3DTemplateSelectorItem When="InjectedObj" Then="{StaticResource injectedObject}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="InjectedObj" Then="{StaticResource insertedObject}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="InsertedObj" Then="{StaticResource insertedObject}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

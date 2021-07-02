@@ -46,7 +46,11 @@ namespace Machine._3D.Views.Selectors
         {
             var it = ElementViewType.Default;
 
-            if(item is InjectedViewModel)
+            if(item is InsertedViewModel)
+            {
+                it = ElementViewType.InsertedObj;
+            }
+            else if(item is InjectedViewModel)
             {
                 it = ElementViewType.InjectedObj;
             }
