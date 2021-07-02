@@ -3,6 +3,7 @@ using Machine.ViewModels.Insertions;
 using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
+using Machine.ViewModels.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,7 +42,10 @@ namespace Machine.ViewModels.MachineElements
                     Direction = position.Direction
                 };
 
-                sink.Children.Add(injected);
+                GetInstance<IDispatcherHelper>().CheckBeginInvokeOnUi(() =>
+                {
+                    sink.Children.Add(injected);
+                });                
             }
         }
     }

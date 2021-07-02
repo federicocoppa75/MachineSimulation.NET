@@ -3,6 +3,7 @@ using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages.Links;
+using Machine.ViewModels.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,15 +60,18 @@ namespace Machine.ViewModels.MachineElements
         {
             if(e)
             {
-                Children.Add(new InsertedViewModel()
+                GetInstance<IDispatcherHelper>().CheckBeginInvokeOnUi(() =>
                 {
-                    Name = $"Inserted({InserterId})",
-                    InserterId = InserterId,
-                    Position = Position,
-                    Direction = Direction,
-                    Length = Length,
-                    Diameter = Diameter,
-                    Color = InserterColor
+                    Children.Add(new InsertedViewModel()
+                    {
+                        Name = $"Inserted({InserterId})",
+                        InserterId = InserterId,
+                        Position = Position,
+                        Direction = Direction,
+                        Length = Length,
+                        Diameter = Diameter,
+                        Color = InserterColor
+                    });
                 });
             }
         }
@@ -82,12 +86,22 @@ namespace Machine.ViewModels.MachineElements
                 {
                     var transformer = GetInstance<IInserterToSinkTransformerFactory>().GetTransformer(sink, this);
                     var position = transformer.Transform();
-                    var inserted = Children.First() as InsertedViewModel;
 
-                    Children.Remove(inserted);
-                    inserted.Position = position.Position;
-                    inserted.Direction = position.Direction;
-                    sink.Children.Add(inserted);
+                    GetInstance<IDispatcherHelper>().CheckBeginInvokeOnUi(() =>
+                    {
+                        sink.Children.Add(new InsertedViewModel()
+                        {
+                            Name = $"Inserted({InserterId})",
+                            InserterId = InserterId,
+                            Position = position.Position,
+                            Direction = position.Direction,
+                            Length = Length,
+                            Diameter = Diameter,
+                            Color = InserterColor
+                        });
+
+                        Children.Clear();
+                    });                    
                 }
             }
         }

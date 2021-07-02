@@ -6,6 +6,8 @@ using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.Messages.Links.Gantry;
 using Machine.ViewModels.Messages.Tooling;
 using MachineSteps.Models.Actions;
+using System;
+using System.Threading.Tasks;
 using static Machine.ViewModels.Interfaces.Links.ILinkMovementManager;
 
 namespace Machine.Steps.ViewModels.Extensions
@@ -267,7 +269,9 @@ namespace Machine.Steps.ViewModels.Extensions
 
         private void Execute(InjectAction action, int notifyId)
         {
-            NotifyExecuted(notifyId);
+            Messenger.Send(new InjectMessage() { InjectorId = action.InjectorId });
+
+            NotifyExecuted(notifyId, action.Duration);            
         }
 
         private void Execute(TurnOffInverterAction action, int notifyId)
@@ -298,6 +302,25 @@ namespace Machine.Steps.ViewModels.Extensions
         private void NotifyExecuted(int notifyId)
         {
             if (notifyId > 0) Messenger.Send(new ActionExecutedMessage() { Id = notifyId });
+        }
+
+        private void NotifyExecuted(int notifyId, double duration)
+        {
+            if (notifyId > 0)
+            {
+                if (IsDynamic)
+                {
+                    Task.Delay(TimeSpan.FromSeconds(duration))
+                        .ContinueWith((t) =>
+                        {
+                            NotifyExecuted(notifyId);
+                        });
+                }
+                else
+                {
+                    NotifyExecuted(notifyId);
+                }
+            }
         }
     }
 }
