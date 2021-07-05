@@ -17,7 +17,13 @@ namespace Machine.Steps.ViewModels
         private int _autoStepOverLimit = -1;
         private int _subGroupIndex;
 
-        public string SourceName { get; set; }
+        private string _sourceName;
+        public string SourceName 
+        {
+            get => _sourceName; 
+            set => Set(ref _sourceName, value, nameof(SourceName)); 
+        }
+
         public IList<StepViewModel> Steps { get; private set; } = new ObservableCollection<StepViewModel>();
 
         private StepViewModel _selected;

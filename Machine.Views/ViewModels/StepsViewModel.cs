@@ -145,6 +145,7 @@ namespace Machine.Views.ViewModels
                 Selected = Steps[0];
                 Steps.Clear();
                 Selected = null;
+                SourceName = string.Empty;
             }
         }
 
