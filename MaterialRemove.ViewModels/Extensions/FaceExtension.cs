@@ -10,6 +10,8 @@ namespace MaterialRemove.ViewModels.Extensions
 {
     static class FaceExtension
     {
+        static double filterMargin = 0.1;
+
         internal static bool Intersect(this ISectionFace face, ToolActionData toolActionData)
         {
             var toolBox = toolActionData.GetBound();
@@ -207,10 +209,10 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             var box = face.GetBound();
 
-            box.Min.z -= 0.0001;//0.1;
-            box.Max.z += 0.0001;
-            box.Max.x -= 0.0001;
-            box.Max.y -= 0.0001;
+            box.Min.z -= filterMargin;//0.1;
+            box.Max.z += filterMargin;
+            box.Max.x -= filterMargin;
+            box.Max.y -= filterMargin;
 
             return box;
         }
@@ -219,10 +221,10 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             var box = face.GetBound();
 
-            box.Min.z -= 0.0001;
-            box.Max.z += 0.0001; //0.1;
-            box.Max.x -= 0.0001;
-            box.Max.y -= 0.0001;
+            box.Min.z -= filterMargin;
+            box.Max.z += filterMargin; //0.1;
+            box.Max.x -= filterMargin;
+            box.Max.y -= filterMargin;
 
             return box;
         }
@@ -231,10 +233,10 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             var box = face.GetBound();
 
-            box.Min.x -= 0.0001; // 0.1;
-            box.Max.x += 0.0001;
-            box.Max.z -= 0.0001;
-            box.Max.y -= 0.0001;
+            box.Min.x -= filterMargin; // 0.1;
+            box.Max.x += filterMargin;
+            box.Max.z -= filterMargin;
+            box.Max.y -= filterMargin;
 
             return box;
         }
@@ -243,10 +245,10 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             var box = face.GetBound();
 
-            box.Min.x -= 0.0001;
-            box.Max.x += 0.0001;//0.1;
-            box.Max.z -= 0.0001;
-            box.Max.y -= 0.0001;
+            box.Min.x -= filterMargin;
+            box.Max.x += filterMargin;//0.1;
+            box.Max.z -= filterMargin;
+            box.Max.y -= filterMargin;
 
             return box;
         }
@@ -255,10 +257,10 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             var box = face.GetBound();
 
-            box.Min.y -= 0.0001;//0.1;
-            box.Max.y += 0.0001;
-            box.Max.x -= 0.0001;
-            box.Max.z -= 0.0001;
+            box.Min.y -= filterMargin;//0.1;
+            box.Max.y += filterMargin;
+            box.Max.x -= filterMargin;
+            box.Max.z -= filterMargin;
 
             return box;
         }
@@ -267,10 +269,10 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             var box = face.GetBound();
 
-            box.Min.y -= 0.0001;
-            box.Max.y += 0.0001;//0.1;
-            box.Max.x -= 0.0001;
-            box.Max.z -= 0.0001;
+            box.Min.y -= filterMargin;
+            box.Max.y += filterMargin;//0.1;
+            box.Max.x -= filterMargin;
+            box.Max.z -= filterMargin;
 
             return box;
         }

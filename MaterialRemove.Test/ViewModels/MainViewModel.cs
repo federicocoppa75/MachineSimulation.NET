@@ -44,7 +44,7 @@ namespace MaterialRemove.Test.ViewModels
         public PanelPositionViewModel PanelPosition { get; private set; } = new PanelPositionViewModel();
         public ToolDataViewModel ToolData { get; private set; } = new ToolDataViewModel() { Radius = 5.0};
         public ToolPositionViewModel ToolPosition { get; private set; } = new ToolPositionViewModel() { X= -20.0, Y = -20.0, Z = 10.0 };
-        public IPanel Panel { get; set; } = new PanelViewModel() { NumCells = 16, SectionsX100mm = 3 };
+        public IPanel Panel { get; set; } //= new PanelViewModel() { NumCells = 16, SectionsX100mm = 3 };
 
         private bool _isFacesVisible = true;
         public bool IsFacesVisible
@@ -131,11 +131,17 @@ namespace MaterialRemove.Test.ViewModels
     
         private void UpdatePanelData()
         {
+            Panel = new PanelViewModel() { NumCells = 16, SectionsX100mm = 3 };
+
             Panel.SizeX = PanelData.SizeX;
             Panel.SizeY = PanelData.SizeY;
             Panel.SizeZ = PanelData.SizeZ;
 
             Panel.Initialize();
+
+            RisePropertyChanged(nameof(Panel));
+            RisePropertyChanged(nameof(Faces));
+            RisePropertyChanged(nameof(Volumes));
         }
 
         private void UpdateToolDataData() => ToolGeometry = GetToolGeometry();
