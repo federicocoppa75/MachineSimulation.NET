@@ -97,13 +97,13 @@ namespace Machine.Views.ViewModels
         #endregion
 
         #region IStepController implementation
-        public string Name => "File.msteps";
+        public string Name => "File.iso";
 
         public ICommand LoadStepsCommand 
         { 
             get 
             {
-                if (_stepsSource == null) _stepsSource = MVMIoc.SimpleIoc<IStepsSource>.GetInstance();
+                if (_stepsSource == null) _stepsSource = MVMIoc.SimpleIoc<IStepsSource>.GetInstance("File.iso");
 
                 return _stepsSource.LoadStepsCommand;
             } 

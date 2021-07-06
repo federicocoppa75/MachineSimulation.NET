@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MachineSteps.Plugins.IsoParser" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.Steps.ViewModels\Machine.Steps.ViewModels.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.UI\Machine.ViewModels.UI.csproj" />
+  </ItemGroup>
+
+</Project>

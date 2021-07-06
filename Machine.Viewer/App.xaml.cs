@@ -9,6 +9,7 @@ using MW32 = Microsoft.Win32;
 using M3DGPI = Machine._3D.Geometry.Provider.Interfaces;
 using M3DGPIM = Machine._3D.Geometry.Provider.Implementation;
 using MSFM = Machine.StepsSource.File.Msteps;
+using MSFI = Machine.StepsSource.File.Iso;
 using MVMI = Machine.ViewModels.Interfaces;
 using MSVMI = Machine.Steps.ViewModels.Interfaces;
 using MSVME = Machine.Steps.ViewModels.Extensions;
@@ -40,7 +41,8 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.Register<M3DGPIM.StlFileStreamProvider>("File.JSON");
             ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.Register<M3DGPIM.RestApiStreamProvider>("Client.REST");
             ViewModels.Ioc.SimpleIoc<MVMUI.IListDialog>.Register<MVUI.ListDialog>();
-            ViewModels.Ioc.SimpleIoc<MVMUI.IStepsSource>.Register<MSFM.StepsSource>();
+            ViewModels.Ioc.SimpleIoc<MVMUI.IStepsSource>.Register<MSFM.StepsSource>("File.msteps");
+            ViewModels.Ioc.SimpleIoc<MVMUI.IStepsSource>.Register<MSFI.StepsSource>("File.iso");
             ViewModels.Ioc.SimpleIoc<MSVMI.IDurationProvider>.Register<MSVME.DurationProvider>();
             ViewModels.Ioc.SimpleIoc<MSVMI.IBackStepActionFactory>.Register<MSVME.BackStepActionFactory>();
             ViewModels.Ioc.SimpleIoc<MSVMI.IActionExecuter>.Register<MSVME.ActionExecuter>();
