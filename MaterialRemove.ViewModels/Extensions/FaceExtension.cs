@@ -58,6 +58,8 @@ namespace MaterialRemove.ViewModels.Extensions
             });
         }
 
+        internal static void RemoveAction(this ISectionFace face, int index) => (face as SectionFaceViewModel).RemoveAction(index);
+
         internal static AxisAlignedBox3d GetBound(this ISectionFace face)
         {
             var c = new Vector3d(face.CenterX, face.CenterY, face.CenterZ);

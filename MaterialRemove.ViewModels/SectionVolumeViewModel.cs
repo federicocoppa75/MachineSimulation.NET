@@ -51,6 +51,27 @@ namespace MaterialRemove.ViewModels
             });
         }
 
+        internal void RemoveAction(int actionIndex)
+        {
+            var n = RemoveActionData(actionIndex);
+
+            if (n > 0)
+            {
+                InternalGeometry = GenerateMesh();
+
+                OnActionApplied();
+            }
+        }
+
+        private DMesh3 GenerateMesh()
+        {
+            var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
+            var cubeSize = RemovalParameters.CubeSize;
+            var filterBox = GetDecreaseBound(0.1);
+
+            return MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
+        }
+
         private AxisAlignedBox3d GetExpandedBound(double radius)
         {
             var box = this.GetBound();

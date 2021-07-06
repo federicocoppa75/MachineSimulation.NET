@@ -10,6 +10,7 @@ using System.Windows.Input;
 using MVMIoc = Machine.ViewModels.Ioc;
 using MSVM = Machine.Steps.ViewModels;
 using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces;
 
 namespace Machine.Views.ViewModels
 {
@@ -117,6 +118,7 @@ namespace Machine.Views.ViewModels
         public StepsViewModel() : base()
         {
             MVMIoc.SimpleIoc<IOptionProvider<TimeSpanFactor>>.Register(new EnumOptionProxy<TimeSpanFactor>(() => TimeSpanFactors, () => TimeSpanFactor, (v) => TimeSpanFactor = v));
+            MVMIoc.SimpleIoc<IProgressState>.Register(this);
             (Steps as ObservableCollection<MSVM.StepViewModel>).CollectionChanged += OnStepsChanged;
         }
 

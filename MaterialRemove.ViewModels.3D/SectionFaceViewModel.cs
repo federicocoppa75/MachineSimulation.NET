@@ -20,7 +20,7 @@ namespace MaterialRemove.ViewModels._3D
             set => Set(ref _geometry, value, nameof(Geometry));
         }
 
-        protected override void OnActionApplied() => Geometry = GeometryHelper.Convert(InternalGeometry);
+        protected override void OnActionApplied() => Geometry = IsCorrupted ? GeometryHelper.Convert(InternalGeometry) : GetIntactGeometry();
 
         private Geometry3D GetIntactGeometry()
         {

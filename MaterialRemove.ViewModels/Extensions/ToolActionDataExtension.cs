@@ -18,12 +18,13 @@ namespace MaterialRemove.ViewModels.Extensions
                                         toolActionData.Orientation);
         }
 
-        static internal ToolApplication ToApplication(this ToolActionData toolActionData)
+        static internal ToolApplication ToApplication(this ToolActionData toolActionData, int index = -1)
         {
             return new ToolApplication(new Vector3d(toolActionData.X, toolActionData.Y, toolActionData.Z),
                                         toolActionData.Radius,
                                         toolActionData.Length,
-                                        toolActionData.Orientation);
+                                        toolActionData.Orientation,
+                                        index);
         }
     }
 }

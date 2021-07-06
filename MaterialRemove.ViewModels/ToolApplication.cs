@@ -1,6 +1,7 @@
 ﻿using g3;
 using MaterialRemove.Interfaces;
 using MaterialRemove.ViewModels.Extensions;
+using MaterialRemove.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,21 @@ using System.Threading.Tasks;
 
 namespace MaterialRemove.ViewModels
 {
-    internal struct ToolApplication : BoundedImplicitFunction3d
+    internal struct ToolApplication : BoundedImplicitFunction3d, IIndexed
     {
         public float Radius { get; }
         public float Length { get; }
         public Orientation Orientation { get; }
         public Vector3d Position { get; }
+        public int Index { get; }
 
-        public ToolApplication(Vector3d position, float radius, float length, Orientation orientation)
+        public ToolApplication(Vector3d position, float radius, float length, Orientation orientation, int index)
         {
             Position = position;
             Radius = radius;
             Length = length;
             Orientation = orientation;
+            Index = index;
         }
 
         #region BoundedImplicitFunction3d

@@ -40,5 +40,22 @@ namespace MaterialRemove.ViewModels
 
             return Task.WhenAll(tasks);
         }
+
+        public void RemoveData(int index)
+        {
+            foreach (var section in Sections) section.RemoveAction(index);
+        }
+
+        public Task RemoveActionAsync(int index)
+        {
+            var tasks = new List<Task>();
+
+            foreach (var section in Sections)
+            {
+                tasks.Add(section.RemoveActionAsync(index));
+            }
+
+            return Task.WhenAll(tasks);
+        }
     }
 }

@@ -26,30 +26,55 @@ namespace MaterialRemove.ViewModels
         {
             AddToolActionData(toolActionData);
 
-            var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-            var cubeSize = RemovalParameters.CubeSize;
-            var filterBox = this.GetFilterBox();
+            //var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
+            //var cubeSize = RemovalParameters.CubeSize;
+            //var filterBox = this.GetFilterBox();
 
-            InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
+            //InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
+            InternalGeometry = GenerateMesh();
+
             OnActionApplied();
         }
 
         internal Task ApplyActionAsync(ToolActionData toolActionData)
         {
-            return Task.Run(async () =>
+            return Task.Run(/*async*/ () =>
             {
                 AddToolActionData(toolActionData);
 
-                var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-                var cubeSize = RemovalParameters.CubeSize;
-                var filterBox = await TaskHelper.ToAsync(() => this.GetFilterBox());
+                //var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
+                //var cubeSize = RemovalParameters.CubeSize;
+                //var filterBox = await TaskHelper.ToAsync(() => this.GetFilterBox());
 
-                InternalGeometry = await TaskHelper.ToAsync(() => MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize));
+                //InternalGeometry = await TaskHelper.ToAsync(() => MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize));
+                InternalGeometry = GenerateMesh();
+
                 OnActionApplied();
             });
         }
 
         protected abstract void OnActionApplied();
+
+        internal void RemoveAction(int actionIndex)
+        {
+            var n = RemoveActionData(actionIndex);
+
+            if(n > 0)
+            {
+                InternalGeometry = IsCorrupted ? GenerateMesh() : null;
+
+                OnActionApplied();
+            }
+        }
+
+        private DMesh3 GenerateMesh()
+        {
+            var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
+            var cubeSize = RemovalParameters.CubeSize;
+            var filterBox = this.GetFilterBox();
+
+            return MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
+        }
 
         #region BoundedImplicitFunction3d
         public AxisAlignedBox3d Bounds() => this.GetBound();

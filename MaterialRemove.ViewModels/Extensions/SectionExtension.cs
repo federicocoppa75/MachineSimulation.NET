@@ -175,7 +175,7 @@ namespace MaterialRemove.ViewModels.Extensions
             return Task.WhenAll(tasks);
         }
 
-        internal static Task ApplyActionToFacesAsync(this IPanelSection section, ToolActionData toolActionData)
+        private static Task ApplyActionToFacesAsync(this IPanelSection section, ToolActionData toolActionData)
         {
             var tasks = new List<Task>();
 
@@ -193,7 +193,7 @@ namespace MaterialRemove.ViewModels.Extensions
             return Task.WhenAll(tasks);
         }
 
-        internal static Task ApplyActionToVolumeAsync(this IPanelSection section, ToolActionData toolActionData)
+        private static Task ApplyActionToVolumeAsync(this IPanelSection section, ToolActionData toolActionData)
         {
             return Task.Run(async () =>
             {
@@ -206,6 +206,63 @@ namespace MaterialRemove.ViewModels.Extensions
                     throw new NotImplementedException();
                 }
             });
+        }
+
+        internal static void RemoveAction(this IPanelSection section, int index)
+        {
+            foreach (var face in section.Faces)
+            {
+                face.RemoveAction(index);
+            }
+
+            if (section.Volume is SectionVolumeViewModel svvm)
+            {
+                svvm.RemoveAction(index);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        internal static Task RemoveActionAsync(this IPanelSection section, int index)
+        {
+            Task[] tasks = {
+                RemoveActionFromFacesAsync(section, index),
+                RemoveActionFromVolumeAsync(section, index)
+            };
+
+            return Task.WhenAll(tasks);
+        }
+
+        private static Task RemoveActionFromVolumeAsync(this IPanelSection section, int index)
+        {
+            return Task.Run(() =>
+            {
+                if (section.Volume is SectionVolumeViewModel svvm)
+                {
+                    svvm.RemoveAction(index);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            });
+        }
+
+        private static Task RemoveActionFromFacesAsync(this IPanelSection section, int index)
+        {
+            var tasks = new List<Task>();
+
+            foreach (var face in section.Faces)
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    face.RemoveAction(index);
+                }));
+            }
+
+            return Task.WhenAll(tasks);
         }
     }
 }

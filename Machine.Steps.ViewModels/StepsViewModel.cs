@@ -1,6 +1,7 @@
 ﻿using Machine.Steps.ViewModels.Interfaces;
 using Machine.Steps.ViewModels.Messages;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Machine.Steps.ViewModels
 {
-    public abstract class StepsViewModel : BaseViewModel, IStepsContainer
+    public abstract class StepsViewModel : BaseViewModel, IStepsContainer, IProgressState
     {
         private bool _memAutoStepOver;
         private bool _memMultiChannel;
@@ -45,8 +46,31 @@ namespace Machine.Steps.ViewModels
         public abstract bool AutoStepOver { get; set; }
         public abstract bool MultiChannel { get; set; }
 
+        private ProgressDirection _progressDirection;
+        public ProgressDirection ProgressDirection
+        {
+            get => _progressDirection;
+            set => Set(ref _progressDirection, value, nameof(ProgressDirection));
+        }
+
+        private int _progressIndex = -1;
+        public int ProgressIndex
+        {
+            get => _progressIndex;
+            set
+            {
+                if(Set(ref _progressIndex, value, nameof(Index)))
+                {
+                    ProgressIndexChanged?.Invoke(this, _progressIndex);
+                }
+            }
+        }
+
+        public event EventHandler<int> ProgressIndexChanged;
+
         public StepsViewModel() : base()
         {
+            
             Messenger.Register<StepCompletedMessage>(this, OnStepCompletedMessage);
         }
 
@@ -107,7 +131,7 @@ namespace Machine.Steps.ViewModels
             {
                 for (int i = lastSelected.Index + 1; i <= selected.Index; i++)
                 {
-                    Steps[i].ExecuteFarward();
+                    ExecuteStepFarawars(i);
                 }
             }
 
@@ -119,8 +143,7 @@ namespace Machine.Steps.ViewModels
 
             for (int i = lastSelected.Index; i > selected.Index; i--)
             {
-                //_stepObserver.SetBackIndex(i);
-                Steps[i].ExecuteBack();
+                ExecuteStepBack(i);
             }
 
             OnBackSelectionChangeEnd();
@@ -168,7 +191,8 @@ namespace Machine.Steps.ViewModels
                 AutoStepOver = false;
                 _subGroupIndex = startIndex;
                 _autoStepOverLimit = endIndex;
-                Steps[_subGroupIndex++].ExecuteFarward();
+                ExecuteStepFarawars(_subGroupIndex);
+                _subGroupIndex++;
             }
         }
 
@@ -176,13 +200,28 @@ namespace Machine.Steps.ViewModels
         {
             if (_subGroupIndex <= _autoStepOverLimit)
             {
-                Steps[_subGroupIndex++].ExecuteFarward();
+                ExecuteStepFarawars(_subGroupIndex);
+                _subGroupIndex++;
             }
             else
             {
                 _autoStepOverLimit = -1;
                 AutoStepOver = true;
             }
+        }
+
+        private void ExecuteStepFarawars(int index)
+        {
+            ProgressDirection = ProgressDirection.Farward;
+            ProgressIndex = index;
+            Steps[index].ExecuteFarward();
+        }
+
+        private void ExecuteStepBack(int index)
+        {
+            ProgressDirection = ProgressDirection.Back;
+            ProgressIndex = index;
+            Steps[index].ExecuteBack();
         }
     }
 }

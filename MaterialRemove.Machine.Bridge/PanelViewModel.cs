@@ -13,6 +13,7 @@ using Machine.Data.Base;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.UI;
 using MVMIoc = Machine.ViewModels.Ioc;
+using Machine.ViewModels.Interfaces;
 
 namespace MaterialRemove.Machine.Bridge
 {
@@ -20,6 +21,7 @@ namespace MaterialRemove.Machine.Bridge
     {
         private PanelSectionsProxy _panelSectionsProxy;
         private ToolsObserver _toolsObserver;
+        private IProgressState _progressObserver;
 
         public int NumCells { get; set; }
         public int SectionsX100mm { get; set; }
@@ -34,10 +36,15 @@ namespace MaterialRemove.Machine.Bridge
             _panelSectionsProxy = new PanelSectionsProxy() { Sections = this.CreateSections() };
             _toolsObserver = new ToolsObserver(this);
             (GetInstance<MVMI.IToolObserverProvider>() as ToolsObserverProvider).Observer = this;
+            _progressObserver = GetInstance<IProgressState>();
+
+            if(_progressObserver != null) _progressObserver.ProgressIndexChanged += OnProgressIndexChanged;
         }
 
         public void ApplyAction(ToolActionData toolActionData)
         {
+            if ((_progressObserver != null) && (_progressObserver.ProgressDirection == ProgressDirection.Back)) return;
+
             if (this.Intersect(toolActionData))
             {
                 _panelSectionsProxy.ApplyAction(toolActionData);
@@ -48,11 +55,22 @@ namespace MaterialRemove.Machine.Bridge
         {
             return Task.Run(async () =>
             {
+                if ((_progressObserver != null) && (_progressObserver.ProgressDirection == ProgressDirection.Back)) return;
+
                 if (await this.IntersectAsync(toolActionData))
                 {
                     await _panelSectionsProxy.ApplyActionAsync(toolActionData);
                 }
             });
+        }
+
+        private void OnProgressIndexChanged(object sender, int e)
+        {
+            if(_progressObserver.ProgressDirection == ProgressDirection.Back)
+            {
+                //_panelSectionsProxy.RemoveData(e);
+                _panelSectionsProxy.RemoveActionAsync(e);
+            }
         }
 
         public void Register(IToolElement tool) => _toolsObserver.Register(tool);
