@@ -16,7 +16,7 @@ namespace MaterialRemove.ViewModels
         protected List<BoundedImplicitFunction3d> ToolApplications => _toolApplications;
         protected DMesh3 InternalGeometry { get; set; }
 
-        protected IProgressState _progressObserver;
+        protected IProgressState _stateProgressState;
 
         public int Id { get; protected set; }
         public double CenterX { get; set; }
@@ -27,7 +27,7 @@ namespace MaterialRemove.ViewModels
 
         public SectionElementViewModel() : base()
         {
-            _progressObserver = GetInstance<IProgressState>();
+            _stateProgressState = GetInstance<IProgressState>();
         }
 
         protected void AddToolActionData(ToolActionData toolActionData)
@@ -47,7 +47,7 @@ namespace MaterialRemove.ViewModels
             if (notify) RisePropertyChanged(nameof(IsCorrupted));
         }
 
-        private int GetIndex() => (_progressObserver != null) ? _progressObserver.ProgressIndex : -1;
+        private int GetIndex() => (_stateProgressState != null) ? _stateProgressState.ProgressIndex : -1;
 
         protected int RemoveActionData(int actionIndex)
         {
