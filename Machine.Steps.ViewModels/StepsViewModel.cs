@@ -18,14 +18,16 @@ namespace Machine.Steps.ViewModels
         private int _autoStepOverLimit = -1;
         private int _subGroupIndex;
 
+        #region IStepsContainer
         private string _sourceName;
-        public string SourceName 
+        public string SourceName
         {
-            get => _sourceName; 
-            set => Set(ref _sourceName, value, nameof(SourceName)); 
+            get => _sourceName;
+            set => Set(ref _sourceName, value, nameof(SourceName));
         }
 
         public IList<StepViewModel> Steps { get; private set; } = new ObservableCollection<StepViewModel>();
+        #endregion
 
         private StepViewModel _selected;
         public StepViewModel Selected
@@ -46,6 +48,7 @@ namespace Machine.Steps.ViewModels
         public abstract bool AutoStepOver { get; set; }
         public abstract bool MultiChannel { get; set; }
 
+        #region IProgressState
         private ProgressDirection _progressDirection;
         public ProgressDirection ProgressDirection
         {
@@ -59,7 +62,7 @@ namespace Machine.Steps.ViewModels
             get => _progressIndex;
             set
             {
-                if(Set(ref _progressIndex, value, nameof(Index)))
+                if (Set(ref _progressIndex, value, nameof(Index)))
                 {
                     ProgressIndexChanged?.Invoke(this, _progressIndex);
                 }
@@ -67,6 +70,7 @@ namespace Machine.Steps.ViewModels
         }
 
         public event EventHandler<int> ProgressIndexChanged;
+        #endregion
 
         public StepsViewModel() : base()
         {
