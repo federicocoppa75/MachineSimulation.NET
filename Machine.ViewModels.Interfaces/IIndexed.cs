@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MaterialRemove.ViewModels.Interfaces
+namespace Machine.ViewModels.Interfaces
 {
-    internal interface IIndexed
+    public interface IIndexed
     {
         int Index { get; }
     }

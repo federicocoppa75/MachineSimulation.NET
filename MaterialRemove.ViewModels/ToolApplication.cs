@@ -1,12 +1,8 @@
 ﻿using g3;
+using Machine.ViewModels.Interfaces;
 using MaterialRemove.Interfaces;
 using MaterialRemove.ViewModels.Extensions;
-using MaterialRemove.ViewModels.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MaterialRemove.ViewModels
 {

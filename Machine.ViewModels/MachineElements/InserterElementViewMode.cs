@@ -1,4 +1,5 @@
 ﻿using Machine.ViewModels.Insertions;
+using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
@@ -81,8 +82,10 @@ namespace Machine.ViewModels.MachineElements
             if(e && (Children.Count > 0))
             {
                 var sink = GetInstance<IInsertionsSinkProvider>().InsertionsSink;
+                var sps = GetInstance<IProgressState>();
+                var exe = (sps != null) ? (sps.ProgressDirection == ProgressDirection.Farward) : true;
 
-                if (sink != null)
+                if ((sink != null) && exe)
                 {
                     var transformer = GetInstance<IInserterToSinkTransformerFactory>().GetTransformer(sink, this);
                     var position = transformer.Transform();
@@ -97,12 +100,13 @@ namespace Machine.ViewModels.MachineElements
                             Direction = position.Direction,
                             Length = Length,
                             Diameter = Diameter,
-                            Color = InserterColor
+                            Color = InserterColor,
+                            Index = (sps != null) ? sps.ProgressIndex : -1
                         });
-
-                        Children.Clear();
                     });                    
                 }
+
+                Children.Clear();
             }
         }
     }

@@ -70,7 +70,34 @@ namespace MaterialRemove.Machine.Bridge
             {
                 //_panelSectionsProxy.RemoveData(e);
                 _panelSectionsProxy.RemoveActionAsync(e);
+                RemoveIndexedChildrenAsyn(e);
             }
+        }
+
+        private void RemoveIndexedChildren(int index)
+        {
+            var items = new List<IMachineElement>();
+
+            foreach (var item in Children)
+            {
+                if((item is IIndexed idx) && (idx.Index == index)) items.Add(item);
+            }
+
+            if (items.Count() > 0)
+            {
+                foreach (var item in items)
+                {
+                    MVMIoc.SimpleIoc<IDispatcherHelper>.GetInstance().CheckBeginInvokeOnUi(() =>
+                    {
+                        Children.Remove(item);
+                    });
+                }
+            }
+        }
+
+        private Task RemoveIndexedChildrenAsyn(int index)
+        {
+            return Task.Run(() => RemoveIndexedChildren(index));
         }
 
         public void Register(IToolElement tool) => _toolsObserver.Register(tool);

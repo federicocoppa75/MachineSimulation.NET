@@ -1,5 +1,6 @@
 ﻿using Machine.Data.Base;
 using Machine.ViewModels.Insertions;
+using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
@@ -28,8 +29,10 @@ namespace Machine.ViewModels.MachineElements
         private void ExecuteInjection()
         {
             var sink = GetInstance<IInsertionsSinkProvider>().InsertionsSink;
+            var sps = GetInstance<IProgressState>();
+            var exe = (sps != null) ? (sps.ProgressDirection == ProgressDirection.Farward) : true;
 
-            if(sink != null)
+            if((sink != null) && exe)
             {
                 var transformer = GetInstance<IInserterToSinkTransformerFactory>().GetTransformer(sink, this);
                 var position = transformer.Transform();
@@ -39,7 +42,8 @@ namespace Machine.ViewModels.MachineElements
                     InserterId = InserterId,
                     Color = InserterColor,
                     Position = position.Position,
-                    Direction = position.Direction
+                    Direction = position.Direction,
+                    Index = (sps != null) ? sps.ProgressIndex : -1
                 };
 
                 GetInstance<IDispatcherHelper>().CheckBeginInvokeOnUi(() =>
