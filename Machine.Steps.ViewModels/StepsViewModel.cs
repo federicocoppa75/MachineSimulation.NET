@@ -62,7 +62,7 @@ namespace Machine.Steps.ViewModels
             get => _progressIndex;
             set
             {
-                if (Set(ref _progressIndex, value, nameof(Index)))
+                if (Set(ref _progressIndex, value, nameof(Index)) && (_progressIndex >= 0))
                 {
                     ProgressIndexChanged?.Invoke(this, _progressIndex);
                 }

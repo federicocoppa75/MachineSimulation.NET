@@ -148,6 +148,7 @@ namespace Machine.Views.ViewModels
                 Steps.Clear();
                 Selected = null;
                 SourceName = string.Empty;
+                ProgressIndex = -1;
             }
         }
 
