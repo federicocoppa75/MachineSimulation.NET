@@ -10,8 +10,6 @@ namespace MaterialRemove.ViewModels.Extensions
 {
     static class FaceExtension
     {
-        static double filterMargin = 0.1;
-
         internal static bool Intersect(this ISectionFace face, ToolActionData toolActionData)
         {
             var toolBox = toolActionData.GetBound();
@@ -186,28 +184,28 @@ namespace MaterialRemove.ViewModels.Extensions
             }
         }
 
-        internal static AxisAlignedBox3d GetFilterBox(this ISectionFace face)
+        internal static AxisAlignedBox3d GetFilterBox(this ISectionFace face, double filterMargin)
         {
             switch (face.Orientation)
             {
                 case Orientation.XPos:
-                    return GetFilterBoxXPos(face);
+                    return GetFilterBoxXPos(face, filterMargin);
                 case Orientation.XNeg:
-                    return GetFilterBoxXNeg(face);
+                    return GetFilterBoxXNeg(face, filterMargin);
                 case Orientation.YPos:
-                    return GetFilterBoxYPos(face);
+                    return GetFilterBoxYPos(face, filterMargin);
                 case Orientation.YNeg:
-                    return GetFilterBoxYNeg(face);
+                    return GetFilterBoxYNeg(face, filterMargin);
                 case Orientation.ZPos:
-                    return GetFilterBoxZPos(face);
+                    return GetFilterBoxZPos(face, filterMargin);
                 case Orientation.ZNeg:
-                    return GetFilterBoxZNeg(face);
+                    return GetFilterBoxZNeg(face, filterMargin);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private static AxisAlignedBox3d GetFilterBoxZPos(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxZPos(ISectionFace face, double filterMargin)
         {
             var box = face.GetBound();
 
@@ -219,7 +217,7 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        private static AxisAlignedBox3d GetFilterBoxZNeg(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxZNeg(ISectionFace face, double filterMargin)
         {
             var box = face.GetBound();
 
@@ -231,7 +229,7 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        private static AxisAlignedBox3d GetFilterBoxXPos(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxXPos(ISectionFace face, double filterMargin)
         {
             var box = face.GetBound();
 
@@ -243,7 +241,7 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        private static AxisAlignedBox3d GetFilterBoxXNeg(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxXNeg(ISectionFace face, double filterMargin)
         {
             var box = face.GetBound();
 
@@ -255,7 +253,7 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        private static AxisAlignedBox3d GetFilterBoxYPos(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxYPos(ISectionFace face, double filterMargin)
         {
             var box = face.GetBound();
 
@@ -267,7 +265,7 @@ namespace MaterialRemove.ViewModels.Extensions
             return box;
         }
 
-        private static AxisAlignedBox3d GetFilterBoxYNeg(ISectionFace face)
+        private static AxisAlignedBox3d GetFilterBoxYNeg(ISectionFace face, double filterMargin)
         {
             var box = face.GetBound();
 

@@ -15,6 +15,7 @@ namespace MaterialRemove.ViewModels
         public int NumCells { get; set; }
         public int SectionsX100mm { get; set; }
         public double CubeSize { get; set; }
+        public double FilterMargin { get; set; }
         public double SizeX { get; set; }
         public double SizeY { get; set; }
         public double SizeZ { get; set; }

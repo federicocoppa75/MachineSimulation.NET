@@ -11,5 +11,6 @@ namespace MaterialRemove.Interfaces
         int NumCells { get; set; }
         int SectionsX100mm { get; set; }
         public double CubeSize { get; set; }
+        public double FilterMargin { get; set; }
     }
 }

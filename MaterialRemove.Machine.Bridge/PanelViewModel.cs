@@ -26,6 +26,7 @@ namespace MaterialRemove.Machine.Bridge
         public int NumCells { get; set; }
         public int SectionsX100mm { get; set; }
         public double CubeSize { get; set; }
+        public double FilterMargin { get; set; }
 
         public IList<IPanelSection> Sections => (_panelSectionsProxy != null) ? _panelSectionsProxy.Sections : null;
         public IEnumerable<ISectionFace> Faces => Sections.SelectMany(s => s.Faces);

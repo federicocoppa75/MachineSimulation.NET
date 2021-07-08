@@ -26,7 +26,7 @@ namespace MaterialRemove.ViewModels.Extensions
             double cornerY = startOffsetY;
             double panelCenterZ = 0.0;
             
-            panel.CubeSize = AdjustCubeSize(sectionSizeX, sectionSizeY, panel.SizeZ, panel.NumCells, 0.1);
+            panel.CubeSize = AdjustCubeSize(sectionSizeX, sectionSizeY, panel.SizeZ, panel.NumCells, panel.FilterMargin);
 
             for (int i = 0; i < nxSection; i++)
             {

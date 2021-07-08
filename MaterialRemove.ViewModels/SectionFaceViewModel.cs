@@ -26,7 +26,7 @@ namespace MaterialRemove.ViewModels
         {
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
             var cubeSize = RemovalParameters.CubeSize;
-            var filterBox = this.GetFilterBox();
+            var filterBox = this.GetFilterBox(RemovalParameters.FilterMargin);
 
             return MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
         }

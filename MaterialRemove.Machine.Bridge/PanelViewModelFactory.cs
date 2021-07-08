@@ -21,7 +21,8 @@ namespace MaterialRemove.Machine.Bridge
                 SizeY = sizeY,
                 SizeZ = sizeZ,
                 NumCells = 16,
-                SectionsX100mm = 3
+                SectionsX100mm = 3,
+                FilterMargin = 0.1
             };
 
             panel.Initialize();
