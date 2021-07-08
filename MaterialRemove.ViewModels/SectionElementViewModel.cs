@@ -6,6 +6,7 @@ using MaterialRemove.ViewModels.Extensions;
 using MaterialRemove.ViewModels.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MaterialRemove.ViewModels
 {
@@ -29,6 +30,39 @@ namespace MaterialRemove.ViewModels
         {
             _stateProgressState = GetInstance<IProgressState>();
         }
+
+        internal void ApplyAction(ToolActionData toolActionData)
+        {
+            AddToolActionData(toolActionData);
+            InternalGeometry = GenerateMesh();
+            OnActionApplied();
+        }
+
+        internal Task ApplyActionAsync(ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                AddToolActionData(toolActionData);
+                InternalGeometry = await Task.Run(() => GenerateMesh());
+                OnActionApplied();
+            });
+        }
+
+        internal void RemoveAction(int actionIndex)
+        {
+            var n = RemoveActionData(actionIndex);
+
+            if (n > 0)
+            {
+                InternalGeometry = IsCorrupted ? GenerateMesh() : null;
+                OnActionApplied();
+            }
+        }
+
+        protected abstract void OnActionApplied();
+
+        protected abstract DMesh3 GenerateMesh();
+
 
         protected void AddToolActionData(ToolActionData toolActionData)
         {

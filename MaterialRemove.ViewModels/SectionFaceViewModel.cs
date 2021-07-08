@@ -22,52 +22,7 @@ namespace MaterialRemove.ViewModels
             Id = _seedId++;
         }
 
-        internal void ApplyAction(ToolActionData toolActionData)
-        {
-            AddToolActionData(toolActionData);
-
-            //var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-            //var cubeSize = RemovalParameters.CubeSize;
-            //var filterBox = this.GetFilterBox();
-
-            //InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
-            InternalGeometry = GenerateMesh();
-
-            OnActionApplied();
-        }
-
-        internal Task ApplyActionAsync(ToolActionData toolActionData)
-        {
-            return Task.Run(/*async*/ () =>
-            {
-                AddToolActionData(toolActionData);
-
-                //var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-                //var cubeSize = RemovalParameters.CubeSize;
-                //var filterBox = await TaskHelper.ToAsync(() => this.GetFilterBox());
-
-                //InternalGeometry = await TaskHelper.ToAsync(() => MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize));
-                InternalGeometry = GenerateMesh();
-
-                OnActionApplied();
-            });
-        }
-
-        protected abstract void OnActionApplied();
-
-        internal void RemoveAction(int actionIndex)
-        {
-            var n = RemoveActionData(actionIndex);
-
-            if(n > 0)
-            {
-                InternalGeometry = IsCorrupted ? GenerateMesh() : null;
-
-                OnActionApplied();
-            }
-        }
-
-        private DMesh3 GenerateMesh()
+        protected override DMesh3 GenerateMesh()
         {
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
             var cubeSize = RemovalParameters.CubeSize;

@@ -13,8 +13,6 @@ namespace MaterialRemove.ViewModels
     {
         static int _seedId;
 
-        //private double _cubeSize;
-
         public double SizeX { get; set; }
         public double SizeY { get; set; }
         public double SizeZ { get; set; }
@@ -24,46 +22,7 @@ namespace MaterialRemove.ViewModels
             Id = _seedId++;
         }
 
-        internal void ApplyAction(ToolActionData toolActionData)
-        {
-            AddToolActionData(toolActionData);
-
-            var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-            var cubeSize = RemovalParameters.CubeSize;
-            var filterBox = GetDecreaseBound(0.1);
-
-            InternalGeometry = MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize);
-            OnActionApplied();
-        }
-
-        internal Task ApplyActionAsync(ToolActionData toolActionData)
-        {
-            return Task.Run(async () =>
-            {
-                AddToolActionData(toolActionData);
-
-                var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
-                var cubeSize = RemovalParameters.CubeSize;
-                var filterBox = await TaskHelper.ToAsync(() => GetDecreaseBound(0.1));
-
-                InternalGeometry = await TaskHelper.ToAsync(() => MeshProcessHelper.GenerateMeshBase(procFunction, filterBox, cubeSize));
-                OnActionApplied();
-            });
-        }
-
-        internal void RemoveAction(int actionIndex)
-        {
-            var n = RemoveActionData(actionIndex);
-
-            if (n > 0)
-            {
-                InternalGeometry = GenerateMesh();
-
-                OnActionApplied();
-            }
-        }
-
-        private DMesh3 GenerateMesh()
+        protected override DMesh3 GenerateMesh()
         {
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
             var cubeSize = RemovalParameters.CubeSize;
@@ -89,8 +48,6 @@ namespace MaterialRemove.ViewModels
 
             return box;
         }
-
-        protected abstract void OnActionApplied();
 
         #region BoundedImplicitFunction3d
         public AxisAlignedBox3d Bounds() => this.GetBound();
