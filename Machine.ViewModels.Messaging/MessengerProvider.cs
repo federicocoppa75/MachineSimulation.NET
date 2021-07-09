@@ -6,8 +6,15 @@ namespace Machine.ViewModels.Messaging
 {
     static class MessengerProvider
     {
-        static List<MessengerImplementation> _istances;
-        public static ICollection<MessengerImplementation> IStances => _istances ?? (_istances = new List<MessengerImplementation>());
+        static object _lockObj = new object();
+        static List<IMessengerImplementation> _istances;
+
+        static MessengerProvider()
+        {
+            _istances = new List<IMessengerImplementation>();
+        }
+
+        public static ICollection<IMessengerImplementation> IStances => _istances;
 
         public static IMessengerImplementation<T> GetInstance<T>() => MessengerImplementation<T>.GetInstance();
     }

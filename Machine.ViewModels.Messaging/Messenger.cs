@@ -10,6 +10,8 @@ namespace Machine.ViewModels.Messaging
 
         public void Send<TMessage>(TMessage message) => MessengerProvider.GetInstance<TMessage>().Send(message);
 
+        public void Unregister<TMessage>(object recipient) => MessengerProvider.GetInstance<TMessage>().Unregister(recipient);
+
         public void Unregister(object recipient)
         {
             foreach (var item in MessengerProvider.IStances)

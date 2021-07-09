@@ -8,6 +8,7 @@ namespace Machine.ViewModels.Messaging
     {
         void Register<TMessage>(object recipient, Action<TMessage> action);
         void Send<TMessage>(TMessage message);
+        void Unregister<TMessage>(object recipient);
         void Unregister(object recipient);
     }
 }

@@ -1,38 +1,34 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Machine.ViewModels.Messaging
 {
-    abstract class MessengerImplementation : IMessengerImplementation
+    class MessengerImplementation<T> : IMessengerImplementation<T>
     {
         static int _seedId = 0;
-
-        public abstract void Unregister(object recipient);
-
-        protected int GetKey() => _seedId++;
-    }
-
-    class MessengerImplementation<T> : MessengerImplementation, IMessengerImplementation<T>
-    {
+        static object _lockObj = new object();
         static MessengerImplementation<T> _instance;
-        Dictionary<int, ActionHandle<T>> _actions = new Dictionary<int, ActionHandle<T>>();
+        ConcurrentDictionary<int, ActionHandle<T>> _actions = new ConcurrentDictionary<int, ActionHandle<T>>();
 
         public static MessengerImplementation<T> GetInstance()
         {
-            if (_instance == null)
+            lock (_lockObj)
             {
-                _instance = new MessengerImplementation<T>();
-                MessengerProvider.IStances.Add(_instance);
+                if (_instance == null)
+                {
+                    _instance = new MessengerImplementation<T>();
+                    MessengerProvider.IStances.Add(_instance);
+                }
             }
 
             return _instance;
         }
 
-        public void Register(object recipient, Action<T> action)
-        {
-            _actions.Add(GetKey(), new ActionHandle<T>(recipient, action));
-        }
+        public void Register(object recipient, Action<T> action) => _actions.TryAdd(GetKey(), new ActionHandle<T>(recipient, action));
 
         public void Send(T message)
         {
@@ -53,7 +49,7 @@ namespace Machine.ViewModels.Messaging
             if (toRemove.Count > 0) Remove(toRemove);
         }
 
-        public override void Unregister(object recipient)
+        public void Unregister(object recipient)
         {
             var toRemove = new List<int>();
 
@@ -67,10 +63,15 @@ namespace Machine.ViewModels.Messaging
 
         private void Remove(IEnumerable<int> keys)
         {
-            foreach (var k in keys)
+            Task.Run(() =>
             {
-                _actions.Remove(k);
-            }
+                foreach (var k in keys)
+                {
+                    _actions.TryRemove(k, out ActionHandle<T> v);
+                }
+            });
         }
+
+        protected int GetKey() => Interlocked.Increment(ref _seedId);
     }
 }
