@@ -1,11 +1,7 @@
-﻿using Machine.ViewModels.Base;
-using Machine.ViewModels.Interfaces;
-using Machine.ViewModels.Interfaces.Links;
+﻿using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages.Links;
+using Machine.ViewModels.Messaging;
 using MachineSteps.Models.Actions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MVMIoc = Machine.ViewModels.Ioc;
 
 namespace Machine.Steps.ViewModels.Extensions.Models

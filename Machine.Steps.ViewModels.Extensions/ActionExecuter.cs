@@ -5,6 +5,7 @@ using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.Messages.Links.Gantry;
 using Machine.ViewModels.Messages.Tooling;
+using Machine.ViewModels.Messaging;
 using MachineSteps.Models.Actions;
 using System;
 using System.Threading.Tasks;

@@ -3,6 +3,7 @@ using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages.Links;
+using Machine.ViewModels.Messaging;
 using MachineSteps.Models.Actions;
 using MachineSteps.Models.Enums;
 

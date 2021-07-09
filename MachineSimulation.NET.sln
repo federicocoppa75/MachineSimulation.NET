@@ -71,7 +71,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaterialRemove.Machine.Brid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.Views.Converters", "Machine.Views.Converters\Machine.Views.Converters.csproj", "{CA89CC2F-9841-4383-B28F-DBB0A08430C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.StepsSource.File.Iso", "Machine.StepsSource.File.Iso\Machine.StepsSource.File.Iso.csproj", "{7E92891E-AFC9-4B22-805F-CE8194BFC3AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.StepsSource.File.Iso", "Machine.StepsSource.File.Iso\Machine.StepsSource.File.Iso.csproj", "{7E92891E-AFC9-4B22-805F-CE8194BFC3AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.ViewModels.Messaging", "Machine.ViewModels.Messaging\Machine.ViewModels.Messaging.csproj", "{08792AF5-988E-457C-946F-D299A4009D84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,6 +221,10 @@ Global
 		{7E92891E-AFC9-4B22-805F-CE8194BFC3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E92891E-AFC9-4B22-805F-CE8194BFC3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E92891E-AFC9-4B22-805F-CE8194BFC3AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08792AF5-988E-457C-946F-D299A4009D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08792AF5-988E-457C-946F-D299A4009D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08792AF5-988E-457C-946F-D299A4009D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08792AF5-988E-457C-946F-D299A4009D84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

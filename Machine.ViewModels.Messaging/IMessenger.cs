@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Machine.ViewModels.Base
+namespace Machine.ViewModels.Messaging
 {
     public interface IMessenger
     {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Machine.ViewModels.Messaging;
+using System.ComponentModel;
 
 namespace Machine.ViewModels.Base
 {

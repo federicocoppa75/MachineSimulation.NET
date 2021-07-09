@@ -1,5 +1,4 @@
-﻿using Machine.Viewer.Helpers;
-using Machine.ViewModels;
+﻿using Machine.ViewModels;
 using System.Windows;
 using MVMUI = Machine.ViewModels.UI;
 using MDFJ = Machine.DataSource.File.Json;
@@ -21,6 +20,7 @@ using MRMB = MaterialRemove.Machine.Bridge;
 using MRI = MaterialRemove.Interfaces;
 using MVMII = Machine.ViewModels.Interfaces.Insertions;
 using MVMIns = Machine.ViewModels.Insertions;
+using MVMM = Machine.ViewModels.Messaging;
 
 namespace Machine.Viewer
 {
@@ -32,7 +32,7 @@ namespace Machine.Viewer
         public App()
         {
             ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<KernelViewModel>();
-            ViewModels.Ioc.SimpleIoc<MVMB.IMessenger>.Register<MessengerImplementation>();
+            ViewModels.Ioc.SimpleIoc<MVMM.IMessenger>.Register<MVMM.Messenger>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDCR.DataSource>("Client.REST");
             ViewModels.Ioc.SimpleIoc<MVMUI.IFileDialog>.Register<MVUI.FileDialog<MW32.OpenFileDialog>>("OpenFile");
