@@ -7,20 +7,6 @@ namespace Machine.ViewModels.Messaging
     abstract class MessengerImplementation : IMessengerImplementation
     {
         static int _seedId = 0;
-        //static List<MessengerImplementation> _istances;
-        //protected static ICollection<MessengerImplementation> IStances => _istances ?? (_istances = new List<MessengerImplementation>());
-
-        //public static void Unregister(object recipient)
-        //{
-        //    foreach (var item in IStances)
-        //    {
-        //        item.UregisterRecipient(recipient);
-        //    }
-        //}
-
-        //protected abstract void UregisterRecipient(object recipient);
-
-        //public static IMessengerImplementation<T> GetInstance<T>() => MessengerImplementation<T>.GetInstance();
 
         public abstract void Unregister(object recipient);
 
@@ -37,7 +23,6 @@ namespace Machine.ViewModels.Messaging
             if (_instance == null)
             {
                 _instance = new MessengerImplementation<T>();
-                //IStances.Add(_instance);
                 MessengerProvider.IStances.Add(_instance);
             }
 
@@ -68,7 +53,6 @@ namespace Machine.ViewModels.Messaging
             if (toRemove.Count > 0) Remove(toRemove);
         }
 
-        //protected override void UregisterRecipient(object recipient)
         public override void Unregister(object recipient)
         {
             var toRemove = new List<int>();
