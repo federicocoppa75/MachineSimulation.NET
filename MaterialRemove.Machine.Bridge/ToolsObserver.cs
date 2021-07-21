@@ -117,15 +117,19 @@ namespace MaterialRemove.Machine.Bridge
 
         private Orientation ToOrientatio(Vector direction)
         {
-            if((direction.X == 0.0) && (direction.Y == 0.0) && (direction.Z != 0.0))
+            var xIsNull = IsNull(direction.X);
+            var yIsNull = IsNull(direction.Y);
+            var zIsNull = IsNull(direction.Z);
+
+            if (xIsNull && yIsNull && !zIsNull)
             {
                 return (direction.Z > 0.0) ? Orientation.ZPos : Orientation.ZNeg;
             }
-            else if ((direction.X == 0.0) && (direction.Y != 0.0) && (direction.Z == 0.0))
+            else if (xIsNull && !yIsNull && zIsNull)
             {
                 return (direction.Y > 0.0) ? Orientation.YPos : Orientation.YNeg;
             }
-            else if ((direction.X != 0.0) && (direction.Y == 0.0) && (direction.Z == 0.0))
+            else if (!xIsNull && yIsNull && zIsNull)
             {
                 return (direction.X > 0.0) ? Orientation.XPos : Orientation.XNeg;
             }
@@ -134,6 +138,8 @@ namespace MaterialRemove.Machine.Bridge
                 throw new NotImplementedException();
             }
         }
+
+        private static bool IsNull(double value, double tolerance = 0.001) => (value < tolerance) && (value > -tolerance);
 
         public void Register(IToolElement tool)
         {

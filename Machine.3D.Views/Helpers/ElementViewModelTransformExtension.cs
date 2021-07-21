@@ -76,14 +76,14 @@ namespace Machine._3D.Views.Helpers
                 case LinkMoveType.Linear:
                     return GetLinearLinkTransformation(link as ILinearLinkViewModel);
                 case Data.Enums.LinkMoveType.Pneumatic:
-                    return GetPenumaticLinkTRansformation(link as IPneumaticLinkViewModel);
+                    return GetPenumaticLinkTransformation(link as IPneumaticLinkViewModel);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
             throw new NotImplementedException();
         }
 
-        private static Matrix3D GetPenumaticLinkTRansformation(IPneumaticLinkViewModel link)
+        private static Matrix3D GetPenumaticLinkTransformation(IPneumaticLinkViewModel link)
         {
             switch (link.Type)
             {

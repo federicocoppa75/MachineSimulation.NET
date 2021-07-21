@@ -89,7 +89,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
 
             while (p != null)
             {
-                if (p.LinkToParent is IPneumaticLinkViewModel plink)
+                if ((p.LinkToParent is IPneumaticLinkViewModel plink) && (plink.Type == LinkType.Linear))
                 {
                     plink.StateChanged += OnPneumaticLinkStateChanged;
                     break;
