@@ -11,10 +11,10 @@ namespace MaterialRemove.ViewModels
         public float Radius { get; }
         public float Length { get; }
         public Orientation Orientation { get; }
-        public Vector3d Position { get; }
+        public Vector3f Position { get; }
         public int Index { get; }
 
-        public ToolApplication(Vector3d position, float radius, float length, Orientation orientation, int index)
+        public ToolApplication(Vector3f position, float radius, float length, Orientation orientation, int index)
         {
             Position = position;
             Radius = radius;

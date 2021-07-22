@@ -12,7 +12,7 @@ namespace MaterialRemove.ViewModels.Extensions
     {
         static internal AxisAlignedBox3d GetBound(this ToolActionData toolActionData)
         {
-            return ToolHelper.GetBound(new Vector3d(toolActionData.X, toolActionData.Y, toolActionData.Z), 
+            return ToolHelper.GetBound(new Vector3f(toolActionData.X, toolActionData.Y, toolActionData.Z), 
                                         toolActionData.Radius,
                                         toolActionData.Length,
                                         toolActionData.Orientation);
@@ -20,7 +20,7 @@ namespace MaterialRemove.ViewModels.Extensions
 
         static internal ToolApplication ToApplication(this ToolActionData toolActionData, int index = -1)
         {
-            return new ToolApplication(new Vector3d(toolActionData.X, toolActionData.Y, toolActionData.Z),
+            return new ToolApplication(new Vector3f(toolActionData.X, toolActionData.Y, toolActionData.Z),
                                         toolActionData.Radius,
                                         toolActionData.Length,
                                         toolActionData.Orientation,
