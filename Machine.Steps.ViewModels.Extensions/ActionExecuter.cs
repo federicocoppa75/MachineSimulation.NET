@@ -127,7 +127,8 @@ namespace Machine.Steps.ViewModels.Extensions
                 SetLink = (link) =>
                 {
                     var state = action.RequestedState == MachineSteps.Models.Enums.TwoPositionLinkActionRequestedState.On;
-                    (link as IPneumaticLinkViewModel).ChangeStatus(state, notifyId);
+                    if (!(link as IPneumaticLinkViewModel).ChangeStatus(state, notifyId)) NotifyExecuted(notifyId);
+                    // se il cambiamento non è avvenuto è perché lo stato del link era già quello desiderato => va notificata l'avvenuta esecuzione
                 }
             });
         }
