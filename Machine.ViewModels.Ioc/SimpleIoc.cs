@@ -41,5 +41,9 @@ namespace Machine.ViewModels.Ioc
         public static IEnumerable<string> GetKeys() => _instances.Keys;
 
         public static IEnumerable<T> GetInstances() => _instances.Values;
+
+        public static bool HasInstance() => _instances.Count > 0;
+
+        public static bool HasInstance(string key) => _instances.ContainsKey(key);
     }
 }

@@ -44,5 +44,6 @@ namespace Machine.ViewModels.Base
         }
 
         protected T GetInstance<T>() => Ioc.SimpleIoc<T>.GetInstance();
+        protected bool HasInstance<T>() => Ioc.SimpleIoc<T>.HasInstance();
     }
 }
