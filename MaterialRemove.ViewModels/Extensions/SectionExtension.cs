@@ -145,6 +145,13 @@ namespace MaterialRemove.ViewModels.Extensions
             });
         }
 
+        internal static bool Intersect(this IPanelSection section, ToolSectionActionData toolSectionActionData)
+        {
+            var sectionBox = section.GetBound();
+
+            return toolSectionActionData.ToApplication().Intersect(new AxisAlignedBox3f(new Vector3f(sectionBox.Min), new Vector3f(sectionBox.Max)));
+        }
+
         internal static void ApplyAction(this IPanelSection section, ToolActionData toolActionData)
         {
             foreach (var face in section.Faces)
@@ -263,6 +270,26 @@ namespace MaterialRemove.ViewModels.Extensions
             }
 
             return Task.WhenAll(tasks);
+        }
+
+        internal static void ApplyAction(this IPanelSection section, ToolSectionActionData toolSectionActionData)
+        {
+            foreach (var face in section.Faces)
+            {
+                if (face.Intersect(toolSectionActionData))
+                {
+                    face.ApplyAction(toolSectionActionData);
+                }
+            }
+
+            if (section.Volume is SectionVolumeViewModel svvm)
+            {
+                svvm.ApplyAction(toolSectionActionData);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

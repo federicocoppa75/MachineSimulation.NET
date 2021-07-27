@@ -45,5 +45,13 @@ namespace MaterialRemove.ViewModels
                 }
             });
         }
+
+        public void ApplyAction(ToolSectionActionData toolSectionActionData)
+        {
+            if(this.Intersect(toolSectionActionData))
+            {
+                _panelSectionsProxy.ApplyAction(toolSectionActionData);
+            }
+        }
     }
 }

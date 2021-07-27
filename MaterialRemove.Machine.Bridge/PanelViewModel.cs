@@ -65,6 +65,11 @@ namespace MaterialRemove.Machine.Bridge
             });
         }
 
+        public void ApplyAction(ToolSectionActionData toolSectionActionData)
+        {
+            throw new NotImplementedException();
+        }
+
         private void OnProgressIndexChanged(object sender, int e)
         {
             if(_stepsProgressState.ProgressDirection == ProgressDirection.Back)

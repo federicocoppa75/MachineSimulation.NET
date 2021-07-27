@@ -29,11 +29,43 @@ namespace MaterialRemove.ViewModels.Extensions
             });
         }
 
+        internal static bool Intersect(this ISectionFace face, ToolSectionActionData toolSectionActionData)
+        {
+            var result = false;
+            var segments = GetSegments(face);
+            var box = toolSectionActionData.ToApplication().Box;
+
+            for (int i = 0; i < segments.Length; i++)
+            {
+                var intersect = new IntrSegment3Box3(segments[i], box, true);
+
+                if (intersect.Compute().Result == IntersectionResult.Intersects)
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         internal static void ApplyAction(this ISectionFace face, ToolActionData toolActionData)
         {
             if(face is SectionFaceViewModel sfvm)
             {
                 sfvm.ApplyAction(toolActionData);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        internal static void ApplyAction(this ISectionFace face, ToolSectionActionData toolSectionActionData)
+        {
+            if (face is SectionFaceViewModel sfvm)
+            {
+                sfvm.ApplyAction(toolSectionActionData);
             }
             else
             {
@@ -275,6 +307,21 @@ namespace MaterialRemove.ViewModels.Extensions
             box.Max.z -= filterMargin;
 
             return box;
+        }
+
+        private static Segment3f[] GetSegments(ISectionFace face)
+        {
+            var segments = new Segment3f[12];
+            var C = new Vector3f(face.CenterX, face.CenterY, face.CenterZ);
+            var X = (Vector3f)(face.GetU() * face.SizeX / 2.0);
+            var Y = (Vector3f)(face.GetV() * face.SizeY / 2.0);
+
+            segments[0] = new Segment3f(C - X - Y, C + X - Y);
+            segments[1] = new Segment3f(C + X - Y, C + X + Y);
+            segments[2] = new Segment3f(C + X + Y, C - X + Y);
+            segments[3] = new Segment3f(C - X + Y, C - X - Y);
+
+            return segments;
         }
     }
 }

@@ -41,6 +41,17 @@ namespace MaterialRemove.ViewModels
             return Task.WhenAll(tasks);
         }
 
+        public void ApplyAction(ToolSectionActionData toolSectionActionData)
+        {
+            foreach (var section in Sections)
+            {
+                if (section.Intersect(toolSectionActionData))
+                {
+                    section.ApplyAction(toolSectionActionData);
+                }
+            }
+        }
+
         public void RemoveData(int index)
         {
             foreach (var section in Sections) section.RemoveAction(index);

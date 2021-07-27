@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Point3D = System.Windows.Media.Media3D.Point3D;
 using Vector3D = System.Windows.Media.Media3D.Vector3D;
+using Matrix3D = System.Windows.Media.Media3D.Matrix3D;
+using Quaternion = System.Windows.Media.Media3D.Quaternion;
 using Color = System.Windows.Media.Color;
 using Colors = System.Windows.Media.Colors;
 
@@ -101,6 +103,18 @@ namespace MaterialRemove.Test.ViewModels
 
         private void OnPositionChanged()
         {
+            if(ToolData.Radius < 50.0)
+            {
+                ApplyToolActionData();
+            }
+            else
+            {
+                ApplyToolSectionActionData();
+            }            
+        }
+
+        private void ApplyToolActionData()
+        {
             var tad = new ToolActionData()
             {
                 Length = (float)ToolData.Length,
@@ -111,7 +125,7 @@ namespace MaterialRemove.Test.ViewModels
                 Z = (float)(ToolPosition.Z - PanelPosition.Z)
             };
 
-            if(IsParallel)
+            if (IsParallel)
             {
                 Panel.ApplyActionAsync(tad);
             }
@@ -119,6 +133,80 @@ namespace MaterialRemove.Test.ViewModels
             {
                 Panel.ApplyAction(tad);
             }
+        }
+
+        private void ApplyToolSectionActionData()
+        {
+            var nSection = 20; // numero di sezioni
+            var sa = 360.0 / 20; // ampiezza angolare delle sezioni
+            var sh = 5.0; // altezza sezione;
+            var sw = ToolData.Radius * sa * (Math.PI * 2.0) / 360.0; // larghezza sezione
+            var sl = ToolData.Length; // linghezza sezione
+            var n = GetOrientation(ToolData.Direction);
+            var r = GetRadial(ToolData.Direction);
+            var p = new Point3D(ToolPosition.X, ToolPosition.Y, ToolPosition.Z) + n * sl / 2.0;
+
+            for (int i = 0; i < nSection; i++)
+            {
+                var matrix = Matrix3D.Identity;
+                matrix.Rotate(new Quaternion(n, i * sa));
+                var radial = matrix.Transform(r);
+                var sc = p + radial * (ToolData.Radius - sh / 2.0);
+                var section = new ToolSectionActionData()
+                {
+                    PX = (float)sc.X,
+                    PY = (float)sc.Y,
+                    PZ = (float)sc.Z,
+                    DX = (float)radial.X,
+                    DY = (float)radial.Y,
+                    DZ = (float)radial.Z,
+                    L = (float)sl,
+                    W = (float)sw,
+                    H = (float)sh,
+                    FixBaseAx = ToolData.Direction
+                };
+
+                Panel.ApplyAction(section);
+            }
+        }
+
+        private Vector3D GetRadial(Orientation direction)
+        {
+            switch (direction)
+            {
+                case Orientation.XPos:
+                case Orientation.XNeg:
+                    return new Vector3D(0.0, 0.0, 1.0);
+                case Orientation.YPos:
+                case Orientation.YNeg:
+                    return new Vector3D(1.0, 0.0, 0.0);
+                case Orientation.ZPos:
+                case Orientation.ZNeg:
+                    return new Vector3D(1.0, 0.0, 0.0);
+                default:
+                    throw new NotImplementedException();
+            }            
+        }
+
+        private Vector3D GetOrientation(Orientation direction)
+        {
+            switch (direction)
+            {
+                case Orientation.XPos:
+                    return new Vector3D(-1.0, 0.0, 0.0);
+                case Orientation.XNeg:
+                    return new Vector3D(1.0, 0.0, 0.0);
+                case Orientation.YPos:
+                    return new Vector3D(0.0, -1.0, 0.0);
+                case Orientation.YNeg:
+                    return new Vector3D(0.0, 1.0, 0.0);
+                case Orientation.ZPos:
+                    return new Vector3D(0.0, 0.0, -1.0);
+                case Orientation.ZNeg:
+                    return new Vector3D(0.0, 0.0, 1.0);
+                default:
+                    throw new NotImplementedException();
+            }            
         }
 
         private void OnToolPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPositionChanged();

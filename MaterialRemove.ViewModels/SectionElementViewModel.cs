@@ -28,12 +28,19 @@ namespace MaterialRemove.ViewModels
 
         public SectionElementViewModel() : base()
         {
-            _stateProgressState = GetInstance<IProgressState>();
+            _stateProgressState = HasInstance<IProgressState>() ? GetInstance<IProgressState>() : null;
         }
 
         internal void ApplyAction(ToolActionData toolActionData)
         {
             AddToolActionData(toolActionData);
+            InternalGeometry = GenerateMesh();
+            OnActionApplied();
+        }
+
+        internal void ApplyAction(ToolSectionActionData toolSectionActionData)
+        {
+            AddToolActionData(toolSectionActionData);
             InternalGeometry = GenerateMesh();
             OnActionApplied();
         }
@@ -78,6 +85,23 @@ namespace MaterialRemove.ViewModels
             }
 
             _toolApplications.Add(toolActionData.ToApplication(GetIndex()));
+            if (notify) RisePropertyChanged(nameof(IsCorrupted));
+        }
+
+        protected void AddToolActionData(ToolSectionActionData toolSectionActionData)
+        {
+            bool notify = false;
+
+            lock (_lockObj)
+            {
+                if (_toolApplications == null)
+                {
+                    _toolApplications = new List<BoundedImplicitFunction3d>();
+                    notify = true;
+                }
+            }
+
+            _toolApplications.Add(toolSectionActionData.ToApplication(GetIndex()));
             if (notify) RisePropertyChanged(nameof(IsCorrupted));
         }
 
