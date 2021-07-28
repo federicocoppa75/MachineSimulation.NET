@@ -76,26 +76,11 @@ namespace MaterialRemove.ViewModels.Extensions
             return panelBox.Intersects(toolBox);
         }
 
-        public static bool Intersect(this IPanel panel, ToolSectionActionData toolSectionActionData)
+        internal static bool Intersect(this IPanel panel, ToolSectionApplication toolSectionApplication)
         {
-            //var result = false;
-            //var panelBox = new AxisAlignedBox3d(new Vector3d(), panel.SizeX / 2.0, panel.SizeY / 2.0, panel.SizeZ / 2.0);
-            //var vertexes = toolSectionActionData.ToApplication().GetVertexes();
+            var panelBox = new AxisAlignedBox3d(new Vector3d(), panel.SizeX / 2.0, panel.SizeY / 2.0, panel.SizeZ / 2.0);
 
-            //for (int i = 0; i < vertexes.Length; i++)
-            //{
-            //    if(panelBox.Contains(vertexes[i]))
-            //    {
-            //        result = true;
-            //        break;
-            //    }
-            //}
-
-            //return result;
-
-            var panelBox = new AxisAlignedBox3f(new Vector3f(), (float)(panel.SizeX / 2.0), (float)(panel.SizeY / 2.0), (float)(panel.SizeZ / 2.0));
-
-            return toolSectionActionData.ToApplication().Intersect(panelBox);
+            return toolSectionApplication.Bounds().Intersects(panelBox);
         }
 
         public static Task<bool> IntersectAsync(this IPanel panel, ToolActionData toolActionData)

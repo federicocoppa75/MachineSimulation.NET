@@ -29,26 +29,6 @@ namespace MaterialRemove.ViewModels.Extensions
             });
         }
 
-        internal static bool Intersect(this ISectionFace face, ToolSectionActionData toolSectionActionData)
-        {
-            var result = false;
-            var segments = GetSegments(face);
-            var box = toolSectionActionData.ToApplication().Box;
-
-            for (int i = 0; i < segments.Length; i++)
-            {
-                var intersect = new IntrSegment3Box3(segments[i], box, true);
-
-                if (intersect.Compute().Result == IntersectionResult.Intersects)
-                {
-                    result = true;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
         internal static void ApplyAction(this ISectionFace face, ToolActionData toolActionData)
         {
             if(face is SectionFaceViewModel sfvm)
@@ -61,11 +41,11 @@ namespace MaterialRemove.ViewModels.Extensions
             }
         }
 
-        internal static void ApplyAction(this ISectionFace face, ToolSectionActionData toolSectionActionData)
+        internal static void ApplyAction(this ISectionFace face, ToolSectionApplication toolSectionApplication)
         {
             if (face is SectionFaceViewModel sfvm)
             {
-                sfvm.ApplyAction(toolSectionActionData);
+                sfvm.ApplyAction(toolSectionApplication);
             }
             else
             {

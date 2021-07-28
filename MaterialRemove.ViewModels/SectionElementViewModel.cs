@@ -38,9 +38,9 @@ namespace MaterialRemove.ViewModels
             OnActionApplied();
         }
 
-        internal void ApplyAction(ToolSectionActionData toolSectionActionData)
+        internal void ApplyAction(ToolSectionApplication toolSectionApplication)
         {
-            AddToolActionData(toolSectionActionData);
+            AddToolActionData(toolSectionApplication);
             InternalGeometry = GenerateMesh();
             OnActionApplied();
         }
@@ -88,7 +88,7 @@ namespace MaterialRemove.ViewModels
             if (notify) RisePropertyChanged(nameof(IsCorrupted));
         }
 
-        protected void AddToolActionData(ToolSectionActionData toolSectionActionData)
+        internal void AddToolActionData(ToolSectionApplication toolSectionApplication)
         {
             bool notify = false;
 
@@ -101,7 +101,8 @@ namespace MaterialRemove.ViewModels
                 }
             }
 
-            _toolApplications.Add(toolSectionActionData.ToApplication(GetIndex()));
+            toolSectionApplication.Index = GetIndex();
+            _toolApplications.Add(toolSectionApplication);
             if (notify) RisePropertyChanged(nameof(IsCorrupted));
         }
 

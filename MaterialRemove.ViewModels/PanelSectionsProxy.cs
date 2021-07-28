@@ -41,13 +41,13 @@ namespace MaterialRemove.ViewModels
             return Task.WhenAll(tasks);
         }
 
-        public void ApplyAction(ToolSectionActionData toolSectionActionData)
+        internal void ApplyAction(ToolSectionApplication toolSectionApplication)
         {
             foreach (var section in Sections)
             {
-                if (section.Intersect(toolSectionActionData))
+                if(toolSectionApplication.Intersect(section.GetBound()))
                 {
-                    section.ApplyAction(toolSectionActionData);
+                    section.ApplyAction(toolSectionApplication);
                 }
             }
         }

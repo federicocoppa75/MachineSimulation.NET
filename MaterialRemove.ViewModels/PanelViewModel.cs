@@ -48,9 +48,11 @@ namespace MaterialRemove.ViewModels
 
         public void ApplyAction(ToolSectionActionData toolSectionActionData)
         {
-            if(this.Intersect(toolSectionActionData))
+            var tsa = toolSectionActionData.ToApplication();
+
+            if (this.Intersect(tsa))
             {
-                _panelSectionsProxy.ApplyAction(toolSectionActionData);
+                _panelSectionsProxy.ApplyAction(tsa);
             }
         }
     }
