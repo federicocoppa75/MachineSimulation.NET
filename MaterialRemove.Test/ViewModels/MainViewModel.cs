@@ -111,6 +111,8 @@ namespace MaterialRemove.Test.ViewModels
             {
                 ApplyToolSectionActionData();
             }
+
+            ToolPosition.ResetD();
         }
 
         private void ApplyToolActionData()
@@ -145,6 +147,7 @@ namespace MaterialRemove.Test.ViewModels
             var n = GetOrientation(ToolData.Direction);
             var r = GetRadial(ToolData.Direction);
             var p = new Point3D(ToolPosition.X, ToolPosition.Y, ToolPosition.Z) + n * sl / 2.0;
+            var d = new Vector3D(ToolPosition.DX, ToolPosition.DY, ToolPosition.DZ);
 
             for (int i = 0; i < nSection; i++)
             {
@@ -166,6 +169,8 @@ namespace MaterialRemove.Test.ViewModels
                     FixBaseAx = ToolData.Direction
                 };
 
+                if (Vector3D.DotProduct(radial, d) < 0.0) continue;
+                                
                 Panel.ApplyAction(section);
             }
         }
@@ -209,7 +214,20 @@ namespace MaterialRemove.Test.ViewModels
             }            
         }
 
-        private void OnToolPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPositionChanged();
+        private void OnToolPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if ((string.Compare(e.PropertyName, "DX") == 0) ||
+                (string.Compare(e.PropertyName, "DY") == 0) ||
+                (string.Compare(e.PropertyName, "DZ") == 0))
+            {
+                if((ToolPosition.DX != 0.0) || 
+                    (ToolPosition.DY != 0.0) || 
+                    (ToolPosition.DZ != 0.0))
+                {
+                    OnPositionChanged();
+                }                
+            }
+        }
 
         private void OnPanelPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPositionChanged();
 

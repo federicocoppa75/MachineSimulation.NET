@@ -106,11 +106,10 @@ namespace MaterialRemove.ViewModels
         {
             var ax1 = GetFixAx(_fixBaseAx);
             var ax2 = Vector3f.Cross(_upDirection, ax1);
-            var ax3 = _upDirection;
             var v = (Vector3f)pt - _position;
             var a = v.Dot(ax1);
             var b = v.Dot(ax2);
-            var c = v.Dot(ax3);
+            var c = v.Dot(_upDirection);
             var insX = (a >= -_halfLength) && (a <= _halfLength);
             var insY = (b >= -_halfWeigth) && (a <= _halfWeigth);
             var insZ = (c >= -_halfHeigth) && (a <= _halfHeigth);
