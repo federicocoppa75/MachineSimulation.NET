@@ -113,6 +113,7 @@ namespace MaterialRemove.Test.ViewModels
             }
 
             ToolPosition.ResetD();
+            PanelPosition.ResetD();
         }
 
         private void ApplyToolActionData()
@@ -146,8 +147,12 @@ namespace MaterialRemove.Test.ViewModels
             var sl = ToolData.Length; // linghezza sezione
             var n = GetOrientation(ToolData.Direction);
             var r = GetRadial(ToolData.Direction);
-            var p = new Point3D(ToolPosition.X, ToolPosition.Y, ToolPosition.Z) + n * sl / 2.0;
-            var d = new Vector3D(ToolPosition.DX, ToolPosition.DY, ToolPosition.DZ);
+            var p = new Point3D(ToolPosition.X - PanelPosition.X, 
+                                ToolPosition.Y - PanelPosition.Y, 
+                                ToolPosition.Z - PanelPosition.Z) + n * sl / 2.0;
+            var d = new Vector3D(ToolPosition.DX - PanelPosition.DX, 
+                                 ToolPosition.DY - PanelPosition.DY, 
+                                 ToolPosition.DZ - PanelPosition.DZ);
 
             for (int i = 0; i < nSection; i++)
             {
@@ -236,7 +241,20 @@ namespace MaterialRemove.Test.ViewModels
             }
         }
 
-        private void OnPanelPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPositionChanged();
+        private void OnPanelPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if ((string.Compare(e.PropertyName, "DX") == 0) ||
+                (string.Compare(e.PropertyName, "DY") == 0) ||
+                (string.Compare(e.PropertyName, "DZ") == 0))
+            {
+                if ((PanelPosition.DX != 0.0) ||
+                    (PanelPosition.DY != 0.0) ||
+                    (PanelPosition.DZ != 0.0))
+                {
+                    OnPositionChanged();
+                }
+            }
+        }
 
         private void OnToolDataChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => UpdateToolDataData();
 
