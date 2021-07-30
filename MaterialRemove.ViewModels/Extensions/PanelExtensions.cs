@@ -94,6 +94,8 @@ namespace MaterialRemove.ViewModels.Extensions
             });
         }
 
+        internal static Task<bool> IntersectAsync(this IPanel panel, ToolSectionApplication toolSectionApplication) => Task.Run(() => panel.Intersect(toolSectionApplication));
+
         private static void InitializeSectionsNumber(IPanel panel, out int nxSection, out int nySection)
         {
             nxSection = (int)Math.Ceiling(panel.SizeX / 100.0) * panel.SectionsX100mm;

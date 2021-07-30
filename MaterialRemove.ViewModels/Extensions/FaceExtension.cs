@@ -68,6 +68,21 @@ namespace MaterialRemove.ViewModels.Extensions
             });
         }
 
+        internal static Task ApplyActionAsync(this ISectionFace face, ToolSectionApplication toolSectionApplication)
+        {
+            return Task.Run(async () =>
+            {
+                if (face is SectionFaceViewModel sfvm)
+                {
+                    await sfvm.ApplyActionAsync(toolSectionApplication);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            });
+        }
+
         internal static void RemoveAction(this ISectionFace face, int index) => (face as SectionFaceViewModel).RemoveAction(index);
 
         internal static AxisAlignedBox3d GetBound(this ISectionFace face)

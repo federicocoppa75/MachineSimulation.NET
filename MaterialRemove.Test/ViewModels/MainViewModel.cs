@@ -155,7 +155,7 @@ namespace MaterialRemove.Test.ViewModels
                 matrix.Rotate(new Quaternion(n, i * sa));
                 var radial = matrix.Transform(r);
                 var sc = p + radial * (ToolData.Radius - sh / 2.0);
-                var section = new ToolSectionActionData()
+                var tsad = new ToolSectionActionData()
                 {
                     PX = (float)sc.X,
                     PY = (float)sc.Y,
@@ -170,8 +170,15 @@ namespace MaterialRemove.Test.ViewModels
                 };
 
                 if (Vector3D.DotProduct(radial, d) < 0.0) continue;
-                                
-                Panel.ApplyAction(section);
+
+                if (IsParallel)
+                {
+                    Panel.ApplyActionAsync(tsad);
+                }
+                else
+                {
+                    Panel.ApplyAction(tsad);
+                }
             }
         }
 

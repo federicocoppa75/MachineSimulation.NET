@@ -52,6 +52,24 @@ namespace MaterialRemove.ViewModels
             }
         }
 
+        internal Task ApplyActionAsync(ToolSectionApplication toolSectionApplication)
+        {
+            var tasks = new List<Task>();
+
+            foreach (var section in Sections)
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    if (toolSectionApplication.Intersect(section.GetBound()))
+                    {
+                        section.ApplyAction(toolSectionApplication);
+                    }
+                }));
+            }
+
+            return Task.WhenAll(tasks);
+        }
+
         public void RemoveData(int index)
         {
             foreach (var section in Sections) section.RemoveAction(index);

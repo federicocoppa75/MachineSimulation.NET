@@ -70,6 +70,11 @@ namespace MaterialRemove.Machine.Bridge
             throw new NotImplementedException();
         }
 
+        public Task ApplyActionAsync(ToolSectionActionData toolSectionActionData)
+        {
+            throw new NotImplementedException();
+        }
+
         private void OnProgressIndexChanged(object sender, int e)
         {
             if(_stepsProgressState.ProgressDirection == ProgressDirection.Back)

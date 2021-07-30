@@ -55,6 +55,16 @@ namespace MaterialRemove.ViewModels
             });
         }
 
+        internal Task ApplyActionAsync(ToolSectionApplication toolSectionApplication)
+        {
+            return Task.Run(async () =>
+            {
+                AddToolActionData(toolSectionApplication);
+                InternalGeometry = await Task.Run(() => GenerateMesh());
+                OnActionApplied();
+            });
+        }
+
         internal void RemoveAction(int actionIndex)
         {
             var n = RemoveActionData(actionIndex);

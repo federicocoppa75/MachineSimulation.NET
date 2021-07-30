@@ -286,5 +286,49 @@ namespace MaterialRemove.ViewModels.Extensions
                 throw new NotImplementedException();
             }
         }
+
+        internal static Task ApplyActionAsync(this IPanelSection section, ToolSectionApplication toolSectionApplication)
+        {
+            Task[] tasks = {
+                ApplyActionToFacesAsync(section, toolSectionApplication),
+                ApplyActionToVolumeAsync(section, toolSectionApplication)
+            };
+
+            return Task.WhenAll(tasks);
+        }
+
+        internal static Task ApplyActionToFacesAsync(this IPanelSection section, ToolSectionApplication toolSectionApplication)
+        {
+            var tasks = new List<Task>();
+            var bound = toolSectionApplication.Bounds();
+
+            foreach (var face in section.Faces)
+            {
+                tasks.Add(Task.Run(async () =>
+                {
+                    if(await Task.Run(() => bound.Intersects(face.GetBound())))
+                    {
+                        await face.ApplyActionAsync(toolSectionApplication);
+                    }
+                }));
+            }
+
+            return Task.WhenAll(tasks);
+        }
+
+        internal static Task ApplyActionToVolumeAsync(this IPanelSection section, ToolSectionApplication toolSectionApplication)
+        {
+            return Task.Run(async () =>
+            {
+                if (section.Volume is SectionVolumeViewModel svvm)
+                {
+                    await svvm.ApplyActionAsync(toolSectionApplication);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            });
+        }
     }
 }
