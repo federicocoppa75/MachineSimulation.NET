@@ -12,9 +12,7 @@ namespace MaterialRemove.ViewModels
         Vector3f _position;
         Orientation _fixBaseAx;
         Vector3f _upDirection;
-        float _halfLength;
-        float _halfWeigth;
-        float _halfHeigth;
+        float[] _halfDim;
 
         public int Index { get; set; }
 
@@ -25,9 +23,7 @@ namespace MaterialRemove.ViewModels
             _position = position;
             _upDirection = upDirection;
             _fixBaseAx = fixBaseAx;
-            _halfLength = length / 2.0f;
-            _halfWeigth = weigth / 2.0f;
-            _halfHeigth = heigth / 2.0f;
+            _halfDim = new float[] { length / 2.0f, weigth / 2.0f, heigth / 2.0f };
         }
 
         private static Vector3f GetFixAx(Orientation fixBaseAx)
@@ -54,8 +50,9 @@ namespace MaterialRemove.ViewModels
         public AxisAlignedBox3d Bounds()
         {
             var ax1 = GetFixAx(_fixBaseAx);
-            var ax2 = Vector3f.Cross(_upDirection, ax1) * _halfWeigth;
-            var ax3 = _upDirection * _halfHeigth;
+            var ax2 = Vector3f.Cross(_upDirection, ax1) * _halfDim[1];
+            var ax3 = _upDirection * _halfDim[2];
+
             var points = new Vector3f[4];
 
             points[0] = _position - ax2 - ax3;
@@ -82,15 +79,15 @@ namespace MaterialRemove.ViewModels
             {
                 case Orientation.XPos:
                 case Orientation.XNeg:
-                    v.x = _halfLength;
+                    v.x = _halfDim[0];
                     break;
                 case Orientation.YPos:
                 case Orientation.YNeg:
-                    v.y = _halfLength;
+                    v.y = _halfDim[1];
                     break;
                 case Orientation.ZPos:
                 case Orientation.ZNeg:
-                    v.z = _halfLength;
+                    v.z = _halfDim[2];
                     break;
                 default:
                     break;
@@ -101,7 +98,7 @@ namespace MaterialRemove.ViewModels
 
             return new AxisAlignedBox3d(pMin, pMax);
         }
-        
+
         public double Value(ref Vector3d pt)
         {
             var ax1 = GetFixAx(_fixBaseAx);
@@ -110,15 +107,15 @@ namespace MaterialRemove.ViewModels
             var a = v.Dot(ax1);
             var b = v.Dot(ax2);
             var c = v.Dot(_upDirection);
-            var insX = (a >= -_halfLength) && (a <= _halfLength);
-            var insY = (b >= -_halfWeigth) && (a <= _halfWeigth);
-            var insZ = (c >= -_halfHeigth) && (a <= _halfHeigth);
+            var insX = (a >= -_halfDim[0]) && (a <= _halfDim[0]);
+            var insY = (b >= -_halfDim[1]) && (a <= _halfDim[1]);
+            var insZ = (c >= -_halfDim[2]) && (a <= _halfDim[2]);
 
-            if(insX && insY && insZ)
+            if (insX && insY && insZ)
             {
-                var r1 = Math.Abs(a) - _halfLength;
-                var r2 = Math.Abs(b) - _halfWeigth;
-                var r3 = Math.Abs(c) - _halfHeigth;
+                var r1 = Math.Abs(a) - _halfDim[0];
+                var r2 = Math.Abs(b) - _halfDim[1];
+                var r3 = Math.Abs(c) - _halfDim[2];
                 var result = r1;
 
                 if (result < r2) result = r2;
@@ -128,9 +125,9 @@ namespace MaterialRemove.ViewModels
             }
             else
             {
-                var r1 = Math.Abs(a) - _halfLength;
-                var r2 = Math.Abs(b) - _halfWeigth;
-                var r3 = Math.Abs(c) - _halfHeigth;
+                var r1 = Math.Abs(a) - _halfDim[0];
+                var r2 = Math.Abs(b) - _halfDim[1];
+                var r3 = Math.Abs(c) - _halfDim[2];
                 var result = 0.0f;
 
                 if (r1 > 0.0) result += r1 * r1;
