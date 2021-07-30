@@ -110,12 +110,12 @@ namespace MaterialRemove.ViewModels
             var insX = (a >= -_halfDim[0]) && (a <= _halfDim[0]);
             var insY = (b >= -_halfDim[1]) && (a <= _halfDim[1]);
             var insZ = (c >= -_halfDim[2]) && (a <= _halfDim[2]);
+            var r1 = Math.Abs(a) - _halfDim[0];
+            var r2 = Math.Abs(b) - _halfDim[1];
+            var r3 = Math.Abs(c) - _halfDim[2];
 
             if (insX && insY && insZ)
             {
-                var r1 = Math.Abs(a) - _halfDim[0];
-                var r2 = Math.Abs(b) - _halfDim[1];
-                var r3 = Math.Abs(c) - _halfDim[2];
                 var result = r1;
 
                 if (result < r2) result = r2;
@@ -125,9 +125,6 @@ namespace MaterialRemove.ViewModels
             }
             else
             {
-                var r1 = Math.Abs(a) - _halfDim[0];
-                var r2 = Math.Abs(b) - _halfDim[1];
-                var r3 = Math.Abs(c) - _halfDim[2];
                 var result = 0.0f;
 
                 if (r1 > 0.0) result += r1 * r1;
