@@ -140,10 +140,10 @@ namespace MaterialRemove.Test.ViewModels
 
         private void ApplyToolSectionActionData()
         {
-            var nSection = 24; // numero di sezioni
-            var sa = 360.0 / 24; // ampiezza angolare delle sezioni
-            var sh = 5.0; // altezza sezione;
-            var sw = ToolData.Radius * sa * (Math.PI * 2.0) / 360.0; // larghezza sezione
+            var nSection = 24;                                          // numero di sezioni
+            var sa = 360.0 / nSection;                                  // ampiezza angolare delle sezioni
+            var sh = 5.0;                                               // altezza sezione;
+            var sw = ToolData.Radius * sa * (Math.PI * 2.0) / 360.0;    // larghezza sezione
             var sl = ToolData.Length; // linghezza sezione
             var n = GetOrientation(ToolData.Direction);
             var r = GetRadial(ToolData.Direction);

@@ -58,11 +58,11 @@ namespace MaterialRemove.ViewModels
 
             foreach (var section in Sections)
             {
-                tasks.Add(Task.Run(() =>
+                tasks.Add(Task.Run(async () =>
                 {
-                    if (toolSectionApplication.Intersect(section.GetBound()))
+                    if (await Task.Run(() => toolSectionApplication.Intersect(section.GetBound())))
                     {
-                        section.ApplyAction(toolSectionApplication);
+                        await section.ApplyActionAsync(toolSectionApplication);
                     }
                 }));
             }
