@@ -1,13 +1,15 @@
 ﻿using g3;
 using Machine.ViewModels.Interfaces;
 using MaterialRemove.Interfaces;
+using MaterialRemove.ViewModels.Extensions;
+using MaterialRemove.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MaterialRemove.ViewModels
 {
-    struct ToolSectionApplication : BoundedImplicitFunction3d, IIndexed
+    struct ToolSectionApplication : BoundedImplicitFunction3d, IIndexed, IIntersector
     {
         Vector3f _position;
         Orientation _fixBaseAx;
@@ -137,5 +139,31 @@ namespace MaterialRemove.ViewModels
 
         public bool Intersect(AxisAlignedBox3f box) => Bounds().Intersects(box);
         public bool Intersect(AxisAlignedBox3d box) => Bounds().Intersects(box);
+
+        #region IIntersector
+        public bool Intersect(IPanel panel)
+        {
+            var panelBox = new AxisAlignedBox3d(new Vector3d(), panel.SizeX / 2.0, panel.SizeY / 2.0, panel.SizeZ / 2.0);
+            var toolBox = Bounds();
+
+            return panelBox.Intersects(toolBox);
+        }
+
+        public bool Intersect(IPanelSection section)
+        {
+            var sectionBox = section.GetBound();
+            var toolBox = Bounds();
+
+            return sectionBox.Intersects(toolBox);
+        }
+
+        public bool Intersect(ISectionFace face)
+        {
+            var toolBox = Bounds();
+            var faceBox = face.GetBound();
+
+            return faceBox.Intersects(toolBox);
+        }
+        #endregion
     }
 }

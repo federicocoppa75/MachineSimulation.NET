@@ -2,11 +2,12 @@
 using Machine.ViewModels.Interfaces;
 using MaterialRemove.Interfaces;
 using MaterialRemove.ViewModels.Extensions;
+using MaterialRemove.ViewModels.Interfaces;
 using System;
 
 namespace MaterialRemove.ViewModels
 {
-    internal struct ToolApplication : BoundedImplicitFunction3d, IIndexed
+    internal struct ToolApplication : BoundedImplicitFunction3d, IIndexed, IIntersector
     {
         public float Radius { get; }
         public float Length { get; }
@@ -44,6 +45,32 @@ namespace MaterialRemove.ViewModels
             }
 
             throw new NotImplementedException();
+        }
+        #endregion
+
+        #region IIntersector
+        public bool Intersect(IPanel panel)
+        {
+            var panelBox = new AxisAlignedBox3d(new Vector3d(), panel.SizeX / 2.0, panel.SizeY / 2.0, panel.SizeZ / 2.0);
+            var toolBox = this.GetBound();
+
+            return panelBox.Intersects(toolBox);
+        }
+
+        public bool Intersect(IPanelSection section)
+        {
+            var sectionBox = section.GetBound();
+            var toolBox = this.GetBound();
+
+            return sectionBox.Intersects(toolBox);
+        }
+
+        public bool Intersect(ISectionFace face)
+        {
+            var toolBox = this.GetBound();
+            var faceBox = face.GetBound();
+
+            return faceBox.Intersects(toolBox);
         }
         #endregion
     }

@@ -18,7 +18,5 @@ namespace MaterialRemove.ViewModels.Extensions
                                               toolSectionActionData.H,
                                               index);
         }
-
-        static internal bool Intersect(this ToolSectionActionData toolSectionActionData, AxisAlignedBox3f box) => toolSectionActionData.ToApplication().Intersect(box);
     }
 }

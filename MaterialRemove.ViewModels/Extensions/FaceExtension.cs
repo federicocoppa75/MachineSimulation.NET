@@ -1,5 +1,6 @@
 ﻿using g3;
 using MaterialRemove.Interfaces;
+using MaterialRemove.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,79 +11,6 @@ namespace MaterialRemove.ViewModels.Extensions
 {
     static class FaceExtension
     {
-        internal static bool Intersect(this ISectionFace face, ToolActionData toolActionData)
-        {
-            var toolBox = toolActionData.GetBound();
-            var faceBox = face.GetBound();
-
-            return faceBox.Intersects(toolBox);
-        }
-
-        internal static Task<bool> IntersectAsync(this ISectionFace face, ToolActionData toolActionData)
-        {
-            return Task.Run(async () =>
-            {
-                var toolBox = await TaskHelper.ToAsync(() => toolActionData.GetBound());
-                var faceBox = await TaskHelper.ToAsync(() =>  face.GetBound());
-
-                return faceBox.Intersects(toolBox);
-            });
-        }
-
-        internal static void ApplyAction(this ISectionFace face, ToolActionData toolActionData)
-        {
-            if(face is SectionFaceViewModel sfvm)
-            {
-                sfvm.ApplyAction(toolActionData);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        internal static void ApplyAction(this ISectionFace face, ToolSectionApplication toolSectionApplication)
-        {
-            if (face is SectionFaceViewModel sfvm)
-            {
-                sfvm.ApplyAction(toolSectionApplication);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        internal static Task ApplyActionAsync(this ISectionFace face, ToolActionData toolActionData)
-        {
-            return Task.Run(async () =>
-            {
-                if (face is SectionFaceViewModel sfvm)
-                {
-                    await sfvm.ApplyActionAsync(toolActionData);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            });
-        }
-
-        internal static Task ApplyActionAsync(this ISectionFace face, ToolSectionApplication toolSectionApplication)
-        {
-            return Task.Run(async () =>
-            {
-                if (face is SectionFaceViewModel sfvm)
-                {
-                    await sfvm.ApplyActionAsync(toolSectionApplication);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            });
-        }
-
         internal static void RemoveAction(this ISectionFace face, int index) => (face as SectionFaceViewModel).RemoveAction(index);
 
         internal static AxisAlignedBox3d GetBound(this ISectionFace face)

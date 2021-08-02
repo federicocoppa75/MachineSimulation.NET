@@ -46,10 +46,7 @@ namespace MaterialRemove.Machine.Bridge
         {
             if ((_stepsProgressState != null) && (_stepsProgressState.ProgressDirection == ProgressDirection.Back)) return;
 
-            if (this.Intersect(toolActionData))
-            {
-                _panelSectionsProxy.ApplyAction(toolActionData);
-            }
+            _panelSectionsProxy.ApplyAction(this, toolActionData);
         }
 
         public Task ApplyActionAsync(ToolActionData toolActionData)
@@ -58,21 +55,25 @@ namespace MaterialRemove.Machine.Bridge
             {
                 if ((_stepsProgressState != null) && (_stepsProgressState.ProgressDirection == ProgressDirection.Back)) return;
 
-                if (await this.IntersectAsync(toolActionData))
-                {
-                    await _panelSectionsProxy.ApplyActionAsync(toolActionData);
-                }
+                await _panelSectionsProxy.ApplyActionAsync(this, toolActionData);                
             });
         }
 
         public void ApplyAction(ToolSectionActionData toolSectionActionData)
         {
-            throw new NotImplementedException();
+            if ((_stepsProgressState != null) && (_stepsProgressState.ProgressDirection == ProgressDirection.Back)) return;
+
+            _panelSectionsProxy.ApplyAction(this, toolSectionActionData);
         }
 
         public Task ApplyActionAsync(ToolSectionActionData toolSectionActionData)
         {
-            throw new NotImplementedException();
+            return Task.Run(async () =>
+            {
+                if ((_stepsProgressState != null) && (_stepsProgressState.ProgressDirection == ProgressDirection.Back)) return;
+
+                await _panelSectionsProxy.ApplyActionAsync(this, toolSectionActionData);
+            });
         }
 
         private void OnProgressIndexChanged(object sender, int e)

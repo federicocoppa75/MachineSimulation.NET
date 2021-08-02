@@ -1,5 +1,7 @@
-﻿using MaterialRemove.Interfaces;
+﻿using Machine.ViewModels.Interfaces;
+using MaterialRemove.Interfaces;
 using MaterialRemove.ViewModels.Extensions;
+using MaterialRemove.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +12,95 @@ namespace MaterialRemove.ViewModels
 {
     public class PanelSectionsProxy
     {
+        protected IProgressState _stateProgressState;
+
         public IList<IPanelSection> Sections { get; set; }
 
-        public void ApplyAction(ToolActionData toolActionData)
+        public PanelSectionsProxy()
+        {
+            _stateProgressState = Machine.ViewModels.Ioc.SimpleIoc<IProgressState>.HasInstance() ? Machine.ViewModels.Ioc.SimpleIoc<IProgressState>.GetInstance() : null;
+        }
+
+         public void ApplyAction(IPanel panel, ToolActionData toolActionData)
+        {
+            var ta = toolActionData.ToApplication(GetIndex());
+
+            if(ta.Intersect(panel))
+            {
+                ApplyAction(ta);
+            }
+        }
+
+        public Task ApplyActionAsync(IPanel panel, ToolActionData toolActionData)
+        {
+            return Task.Run(async () =>
+            {
+                var ta = toolActionData.ToApplication(GetIndex());
+
+                if(await Task.Run(() => ta.Intersect(panel)))
+                {
+                    await ApplyActionAsync(ta);
+                }
+            });
+        }
+
+        public void ApplyAction(IPanel panel, ToolSectionActionData toolSectionActionData)
+        {
+            var ta = toolSectionActionData.ToApplication(GetIndex());
+
+            if (ta.Intersect(panel))
+            {
+                ApplyAction(ta);
+            }
+        }
+
+        public Task ApplyActionAsync(IPanel panel, ToolSectionActionData toolSectionActionData)
+        {
+            return Task.Run(async () =>
+            {
+                var ta = toolSectionActionData.ToApplication(GetIndex());
+
+                if (await Task.Run(() => ta.Intersect(panel)))
+                {
+                    await ApplyActionAsync(ta);
+                }
+            });
+        }
+
+        private void ApplyAction<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
         {
             foreach (var section in Sections)
             {
-                if(section.Intersect(toolActionData))
+                if (toolApplication.Intersect(section))
                 {
-                    section.ApplyAction(toolActionData);
+                    foreach (var face in section.Faces)
+                    {
+                        if (toolApplication.Intersect(face))
+                        {
+                            if (face is SectionElementViewModel sfvm)
+                            {
+                                sfvm.ApplyAction(toolApplication);
+                            }
+                            else
+                            {
+                                throw new NotImplementedException();
+                            }
+                        }
+                    }
+
+                    if (section.Volume is SectionVolumeViewModel svvm)
+                    {
+                        svvm.ApplyAction(toolApplication);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             }
         }
 
-        public Task ApplyActionAsync(ToolActionData toolActionData)
+        private Task ApplyActionAsync<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
         {
             var tasks = new List<Task>();
 
@@ -31,9 +108,15 @@ namespace MaterialRemove.ViewModels
             {
                 tasks.Add(Task.Run(async () =>
                 {
-                    if (await section.IntersectAsync(toolActionData))
+                    if (await Task.Run(() => toolApplication.Intersect(section)))
                     {
-                        await section.ApplyActionAsync(toolActionData);
+                        var tt = new Task[]
+                        {
+                            ApplyActionToFacesAsync(section, toolApplication),
+                            ApplyActionToVolumeAsync(section, toolApplication)
+                        };
+
+                        await Task.WhenAll(tt);
                     }
                 }));
             }
@@ -41,33 +124,44 @@ namespace MaterialRemove.ViewModels
             return Task.WhenAll(tasks);
         }
 
-        internal void ApplyAction(ToolSectionApplication toolSectionApplication)
-        {
-            foreach (var section in Sections)
-            {
-                if(toolSectionApplication.Intersect(section.GetBound()))
-                {
-                    section.ApplyAction(toolSectionApplication);
-                }
-            }
-        }
-
-        internal Task ApplyActionAsync(ToolSectionApplication toolSectionApplication)
+        private Task ApplyActionToFacesAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
         {
             var tasks = new List<Task>();
 
-            foreach (var section in Sections)
+            foreach (var face in section.Faces)
             {
                 tasks.Add(Task.Run(async () =>
                 {
-                    if (await Task.Run(() => toolSectionApplication.Intersect(section.GetBound())))
+                    if (await Task.Run(() => toolApplication.Intersect(face)))
                     {
-                        await section.ApplyActionAsync(toolSectionApplication);
+                        if (face is SectionElementViewModel sevm)
+                        {
+                            await sevm.ApplyActionAsync(toolApplication);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
                     }
                 }));
             }
 
             return Task.WhenAll(tasks);
+        }
+
+        private Task ApplyActionToVolumeAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
+        {
+            return Task.Run(async () =>
+            {
+                if (section.Volume is SectionElementViewModel sevm)
+                {
+                    await sevm.ApplyActionAsync(toolApplication);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            });
         }
 
         public void RemoveData(int index)
@@ -86,5 +180,7 @@ namespace MaterialRemove.ViewModels
 
             return Task.WhenAll(tasks);
         }
+
+        private int GetIndex() => (_stateProgressState != null) ? _stateProgressState.ProgressIndex : -1;
     }
 }

@@ -27,46 +27,12 @@ namespace MaterialRemove.ViewModels
             _panelSectionsProxy = new PanelSectionsProxy() { Sections = this.CreateSections() };
         }
 
-        public void ApplyAction(ToolActionData toolActionData)
-        {
-            if (this.Intersect(toolActionData))
-            {
-                _panelSectionsProxy.ApplyAction(toolActionData);
-            }
-        }
+        public void ApplyAction(ToolActionData toolActionData) => _panelSectionsProxy.ApplyAction(this, toolActionData);
 
-        public Task ApplyActionAsync(ToolActionData toolActionData)
-        {
-            return Task.Run(async () =>
-            {
-                if(await this.IntersectAsync(toolActionData))
-                {
-                    await _panelSectionsProxy.ApplyActionAsync(toolActionData);
-                }
-            });
-        }
+        public Task ApplyActionAsync(ToolActionData toolActionData) => _panelSectionsProxy.ApplyActionAsync(this, toolActionData);
 
-        public void ApplyAction(ToolSectionActionData toolSectionActionData)
-        {
-            var tsa = toolSectionActionData.ToApplication();
+        public void ApplyAction(ToolSectionActionData toolSectionActionData) => _panelSectionsProxy.ApplyAction(this, toolSectionActionData);
 
-            if (this.Intersect(tsa))
-            {
-                _panelSectionsProxy.ApplyAction(tsa);
-            }
-        }
-
-        public Task ApplyActionAsync(ToolSectionActionData toolSectionActionData)
-        {
-            var tsa = toolSectionActionData.ToApplication();
-
-            return Task.Run(async () =>
-            {
-                if(await this.IntersectAsync(tsa))
-                {
-                    await _panelSectionsProxy.ApplyActionAsync(tsa);
-                }
-            });
-        }
+        public Task ApplyActionAsync(ToolSectionActionData toolSectionActionData) => _panelSectionsProxy.ApplyActionAsync(this, toolSectionActionData);
     }
 }
