@@ -17,8 +17,6 @@ namespace MaterialRemove.ViewModels
         protected List<BoundedImplicitFunction3d> ToolApplications => _toolApplications;
         protected DMesh3 InternalGeometry { get; set; }
 
-        protected IProgressState _stateProgressState;
-
         public int Id { get; protected set; }
         public double CenterX { get; set; }
         public double CenterY { get; set; }
@@ -28,21 +26,20 @@ namespace MaterialRemove.ViewModels
 
         public SectionElementViewModel() : base()
         {
-            _stateProgressState = GetInstance<IProgressState>();
         }
 
-        internal void ApplyAction(ToolActionData toolActionData)
+        public void ApplyAction(BoundedImplicitFunction3d toolApplication)
         {
-            AddToolActionData(toolActionData);
+            AddToolApplication(toolApplication);
             InternalGeometry = GenerateMesh();
             OnActionApplied();
         }
 
-        internal Task ApplyActionAsync(ToolActionData toolActionData)
+        internal Task ApplyActionAsync(BoundedImplicitFunction3d toolApplication)
         {
             return Task.Run(async () =>
             {
-                AddToolActionData(toolActionData);
+                AddToolApplication(toolApplication);
                 InternalGeometry = await Task.Run(() => GenerateMesh());
                 OnActionApplied();
             });
@@ -63,8 +60,7 @@ namespace MaterialRemove.ViewModels
 
         protected abstract DMesh3 GenerateMesh();
 
-
-        protected void AddToolActionData(ToolActionData toolActionData)
+        public void AddToolApplication(BoundedImplicitFunction3d toolApplication)
         {
             bool notify = false;
 
@@ -77,11 +73,9 @@ namespace MaterialRemove.ViewModels
                 }
             }
 
-            _toolApplications.Add(toolActionData.ToApplication(GetIndex()));
+            _toolApplications.Add(toolApplication);
             if (notify) RisePropertyChanged(nameof(IsCorrupted));
         }
-
-        private int GetIndex() => (_stateProgressState != null) ? _stateProgressState.ProgressIndex : -1;
 
         protected int RemoveActionData(int actionIndex)
         {

@@ -16,5 +16,9 @@ namespace MaterialRemove.Interfaces
         void Initialize();
         void ApplyAction(ToolActionData toolActionData);
         Task ApplyActionAsync(ToolActionData toolActionData);
+        void ApplyAction(ToolSectionActionData toolSectionActionData);
+        Task ApplyActionAsync(ToolSectionActionData toolSectionActionData);
+        void ApplyAction(ToolConeActionData toolConeActionData);
+        Task ApplyActionAsync(ToolConeActionData toolConeActionData);
     }
 }

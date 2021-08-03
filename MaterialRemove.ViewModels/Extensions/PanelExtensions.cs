@@ -68,25 +68,6 @@ namespace MaterialRemove.ViewModels.Extensions
             return list;
         }
 
-        public static bool Intersect(this IPanel panel, ToolActionData toolActionData)
-        {
-            var panelBox = new AxisAlignedBox3d(new Vector3d(), panel.SizeX / 2.0, panel.SizeY / 2.0, panel.SizeZ / 2.0);
-            var toolBox = toolActionData.GetBound();
-
-            return panelBox.Intersects(toolBox);
-        }
-
-        public static Task<bool> IntersectAsync(this IPanel panel, ToolActionData toolActionData)
-        {
-            return Task.Run(async () =>
-            {
-                var panelBox = new AxisAlignedBox3d(new Vector3d(), panel.SizeX / 2.0, panel.SizeY / 2.0, panel.SizeZ / 2.0);
-                var toolBox = await TaskHelper.ToAsync(() => toolActionData.GetBound());
-
-                return panelBox.Intersects(toolBox);
-            });
-        }
-
         private static void InitializeSectionsNumber(IPanel panel, out int nxSection, out int nySection)
         {
             nxSection = (int)Math.Ceiling(panel.SizeX / 100.0) * panel.SectionsX100mm;

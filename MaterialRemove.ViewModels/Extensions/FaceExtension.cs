@@ -1,5 +1,6 @@
 ﻿using g3;
 using MaterialRemove.Interfaces;
+using MaterialRemove.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,52 +11,6 @@ namespace MaterialRemove.ViewModels.Extensions
 {
     static class FaceExtension
     {
-        internal static bool Intersect(this ISectionFace face, ToolActionData toolActionData)
-        {
-            var toolBox = toolActionData.GetBound();
-            var faceBox = face.GetBound();
-
-            return faceBox.Intersects(toolBox);
-        }
-
-        internal static Task<bool> IntersectAsync(this ISectionFace face, ToolActionData toolActionData)
-        {
-            return Task.Run(async () =>
-            {
-                var toolBox = await TaskHelper.ToAsync(() => toolActionData.GetBound());
-                var faceBox = await TaskHelper.ToAsync(() =>  face.GetBound());
-
-                return faceBox.Intersects(toolBox);
-            });
-        }
-
-        internal static void ApplyAction(this ISectionFace face, ToolActionData toolActionData)
-        {
-            if(face is SectionFaceViewModel sfvm)
-            {
-                sfvm.ApplyAction(toolActionData);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        internal static Task ApplyActionAsync(this ISectionFace face, ToolActionData toolActionData)
-        {
-            return Task.Run(async () =>
-            {
-                if (face is SectionFaceViewModel sfvm)
-                {
-                    await sfvm.ApplyActionAsync(toolActionData);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            });
-        }
-
         internal static void RemoveAction(this ISectionFace face, int index) => (face as SectionFaceViewModel).RemoveAction(index);
 
         internal static AxisAlignedBox3d GetBound(this ISectionFace face)
@@ -275,6 +230,21 @@ namespace MaterialRemove.ViewModels.Extensions
             box.Max.z -= filterMargin;
 
             return box;
+        }
+
+        private static Segment3f[] GetSegments(ISectionFace face)
+        {
+            var segments = new Segment3f[12];
+            var C = new Vector3f(face.CenterX, face.CenterY, face.CenterZ);
+            var X = (Vector3f)(face.GetU() * face.SizeX / 2.0);
+            var Y = (Vector3f)(face.GetV() * face.SizeY / 2.0);
+
+            segments[0] = new Segment3f(C - X - Y, C + X - Y);
+            segments[1] = new Segment3f(C + X - Y, C + X + Y);
+            segments[2] = new Segment3f(C + X + Y, C - X + Y);
+            segments[3] = new Segment3f(C - X + Y, C - X - Y);
+
+            return segments;
         }
     }
 }

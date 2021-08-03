@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Point3D = System.Windows.Media.Media3D.Point3D;
 using Vector3D = System.Windows.Media.Media3D.Vector3D;
+using Matrix3D = System.Windows.Media.Media3D.Matrix3D;
+using Quaternion = System.Windows.Media.Media3D.Quaternion;
 using Color = System.Windows.Media.Color;
 using Colors = System.Windows.Media.Colors;
 
@@ -101,6 +103,22 @@ namespace MaterialRemove.Test.ViewModels
 
         private void OnPositionChanged()
         {
+            if(ToolData.Radius < 50.0)
+            {
+                //ApplyToolActionData();
+                ApplyToolConeActionData();
+            }
+            else
+            {
+                ApplyToolSectionActionData();
+            }
+
+            ToolPosition.ResetD();
+            PanelPosition.ResetD();
+        }
+
+        private void ApplyToolActionData()
+        {
             var tad = new ToolActionData()
             {
                 Length = (float)ToolData.Length,
@@ -111,7 +129,7 @@ namespace MaterialRemove.Test.ViewModels
                 Z = (float)(ToolPosition.Z - PanelPosition.Z)
             };
 
-            if(IsParallel)
+            if (IsParallel)
             {
                 Panel.ApplyActionAsync(tad);
             }
@@ -121,9 +139,146 @@ namespace MaterialRemove.Test.ViewModels
             }
         }
 
-        private void OnToolPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPositionChanged();
+        private void ApplyToolSectionActionData()
+        {
+            var nSection = 24;                                          // numero di sezioni
+            var sa = 360.0 / nSection;                                  // ampiezza angolare delle sezioni
+            var sh = 5.0;                                               // altezza sezione;
+            var sw = ToolData.Radius * sa * (Math.PI * 2.0) / 360.0;    // larghezza sezione
+            var sl = ToolData.Length; // linghezza sezione
+            var n = GetOrientation(ToolData.Direction);
+            var r = GetRadial(ToolData.Direction);
+            var p = new Point3D(ToolPosition.X - PanelPosition.X, 
+                                ToolPosition.Y - PanelPosition.Y, 
+                                ToolPosition.Z - PanelPosition.Z) + n * sl / 2.0;
+            var d = new Vector3D(ToolPosition.DX - PanelPosition.DX, 
+                                 ToolPosition.DY - PanelPosition.DY, 
+                                 ToolPosition.DZ - PanelPosition.DZ);
 
-        private void OnPanelPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPositionChanged();
+            for (int i = 0; i < nSection; i++)
+            {
+                var matrix = Matrix3D.Identity;
+                matrix.Rotate(new Quaternion(n, i * sa));
+                var radial = matrix.Transform(r);
+                var sc = p + radial * (ToolData.Radius - sh / 2.0);
+                var tsad = new ToolSectionActionData()
+                {
+                    PX = (float)sc.X,
+                    PY = (float)sc.Y,
+                    PZ = (float)sc.Z,
+                    DX = (float)radial.X,
+                    DY = (float)radial.Y,
+                    DZ = (float)radial.Z,
+                    L = (float)sl,
+                    W = (float)sw,
+                    H = (float)sh,
+                    FixBaseAx = ToolData.Direction
+                };
+
+                if (Vector3D.DotProduct(radial, d) < 0.0) continue;
+
+                if (IsParallel)
+                {
+                    Panel.ApplyActionAsync(tsad);
+                }
+                else
+                {
+                    Panel.ApplyAction(tsad);
+                }
+            }
+        }
+
+        private void ApplyToolConeActionData()
+        {
+            var tcad = new ToolConeActionData()
+            {
+                Length = (float)ToolData.Length,
+                MinRadius = 0.0f,
+                MaxRadius = (float)ToolData.Radius,
+                Orientation = ToolData.Direction,
+                X = (float)(ToolPosition.X - PanelPosition.X),
+                Y = (float)(ToolPosition.Y - PanelPosition.Y),
+                Z = (float)(ToolPosition.Z - PanelPosition.Z)
+            };
+
+            if (IsParallel)
+            {
+                Panel.ApplyActionAsync(tcad);
+            }
+            else
+            {
+                Panel.ApplyAction(tcad);
+            }
+        }
+
+        private Vector3D GetRadial(Orientation direction)
+        {
+            switch (direction)
+            {
+                case Orientation.XPos:
+                case Orientation.XNeg:
+                    return new Vector3D(0.0, 0.0, 1.0);
+                case Orientation.YPos:
+                case Orientation.YNeg:
+                    return new Vector3D(1.0, 0.0, 0.0);
+                case Orientation.ZPos:
+                case Orientation.ZNeg:
+                    return new Vector3D(1.0, 0.0, 0.0);
+                default:
+                    throw new NotImplementedException();
+            }            
+        }
+
+        private Vector3D GetOrientation(Orientation direction)
+        {
+            switch (direction)
+            {
+                case Orientation.XPos:
+                    return new Vector3D(-1.0, 0.0, 0.0);
+                case Orientation.XNeg:
+                    return new Vector3D(1.0, 0.0, 0.0);
+                case Orientation.YPos:
+                    return new Vector3D(0.0, -1.0, 0.0);
+                case Orientation.YNeg:
+                    return new Vector3D(0.0, 1.0, 0.0);
+                case Orientation.ZPos:
+                    return new Vector3D(0.0, 0.0, -1.0);
+                case Orientation.ZNeg:
+                    return new Vector3D(0.0, 0.0, 1.0);
+                default:
+                    throw new NotImplementedException();
+            }            
+        }
+
+        private void OnToolPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if ((string.Compare(e.PropertyName, "DX") == 0) ||
+                (string.Compare(e.PropertyName, "DY") == 0) ||
+                (string.Compare(e.PropertyName, "DZ") == 0))
+            {
+                if((ToolPosition.DX != 0.0) || 
+                    (ToolPosition.DY != 0.0) || 
+                    (ToolPosition.DZ != 0.0))
+                {
+                    OnPositionChanged();
+                }                
+            }
+        }
+
+        private void OnPanelPositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if ((string.Compare(e.PropertyName, "DX") == 0) ||
+                (string.Compare(e.PropertyName, "DY") == 0) ||
+                (string.Compare(e.PropertyName, "DZ") == 0))
+            {
+                if ((PanelPosition.DX != 0.0) ||
+                    (PanelPosition.DY != 0.0) ||
+                    (PanelPosition.DZ != 0.0))
+                {
+                    OnPositionChanged();
+                }
+            }
+        }
 
         private void OnToolDataChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => UpdateToolDataData();
 

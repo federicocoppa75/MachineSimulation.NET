@@ -13,24 +13,76 @@ namespace MaterialRemove.Test.ViewModels
         public double X
         {
             get => _x;
-            set => Set(ref _x, value, nameof(X));
+            set
+            {
+                var oldValue = _x;
+
+                if (Set(ref _x, value, nameof(X)))
+                {
+                    DX = _x - oldValue;
+                }
+            }
         }
 
         private double _y;
         public double Y
         {
             get => _y;
-            set => Set(ref _y, value, nameof(Y));
+            set
+            {
+                var oldValue = _y;
+
+                if (Set(ref _y, value, nameof(Y)))
+                {
+                    DY = _y - oldValue;
+                }
+            }
         }
 
         private double _z;
         public double Z
         {
             get => _z;
-            set => Set(ref _z, value, nameof(Z));
+            set
+            {
+                var oldValue = _z;
+
+                if (Set(ref _z, value, nameof(Z)))
+                {
+                    DZ = _z - oldValue;
+                }
+            }
+        }
+
+        private double _dx;
+        public double DX
+        {
+            get => _dx;
+            set => Set(ref _dx, value, nameof(DX));
+        }
+
+        private double _dy;
+        public double DY
+        {
+            get => _dy;
+            set => Set(ref _dy, value, nameof(DY));
+        }
+
+        private double _dz;
+        public double DZ
+        {
+            get => _dz;
+            set => Set(ref _dz, value, nameof(DZ));
         }
 
         public double MinValue => -1000.0;
         public double MaxValue => 1000.0;
+
+        public void ResetD()
+        {
+            DX = 0.0;
+            DY = 0.0;
+            DZ = 0.0;
+        }
     }
 }

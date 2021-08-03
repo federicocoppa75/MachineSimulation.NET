@@ -4,21 +4,25 @@ using MaterialRemove.Interfaces;
 using MaterialRemove.ViewModels.Extensions;
 using MaterialRemove.ViewModels.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace MaterialRemove.ViewModels
 {
-    internal struct ToolApplication : BoundedImplicitFunction3d, IIndexed, IIntersector
+    internal struct ToolConeApplication : BoundedImplicitFunction3d, IIndexed, IIntersector
     {
-        public float Radius { get; }
+        public float MinRadius { get; }
+        public float MaxRadius { get; }
         public float Length { get; }
         public Orientation Orientation { get; }
         public Vector3f Position { get; }
         public int Index { get; }
 
-        public ToolApplication(Vector3f position, float radius, float length, Orientation orientation, int index)
+        public ToolConeApplication(Vector3f position, float minRadius, float maxRadius, float length, Orientation orientation, int index)
         {
             Position = position;
-            Radius = radius;
+            MinRadius = minRadius;
+            MaxRadius = maxRadius;
             Length = length;
             Orientation = orientation;
             Index = index;
@@ -33,15 +37,16 @@ namespace MaterialRemove.ViewModels
             var v = pt - Position;
             var d = n.Dot(v);
 
-            if((d < 0.0) || (d > Length))
+            if ((d < 0.0) || (d > Length))
             {
                 return this.GetBound().SignedDistance(pt);
             }
             else
             {
                 var orthoDist = Math.Sqrt(v.LengthSquared - d * d);
+                var delta = (MaxRadius - MinRadius) / Length;
 
-                return orthoDist - Radius;
+                return orthoDist - (MinRadius + delta * d);
             }
 
             throw new NotImplementedException();
