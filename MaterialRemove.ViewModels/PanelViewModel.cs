@@ -34,5 +34,9 @@ namespace MaterialRemove.ViewModels
         public void ApplyAction(ToolSectionActionData toolSectionActionData) => _panelSectionsProxy.ApplyAction(this, toolSectionActionData);
 
         public Task ApplyActionAsync(ToolSectionActionData toolSectionActionData) => _panelSectionsProxy.ApplyActionAsync(this, toolSectionActionData);
+
+        public void ApplyAction(ToolConeActionData toolConeActionData) => _panelSectionsProxy.ApplyAction(this, toolConeActionData);
+
+        public Task ApplyActionAsync(ToolConeActionData toolConeActionData) => _panelSectionsProxy.ApplyActionAsync(this, toolConeActionData);
     }
 }

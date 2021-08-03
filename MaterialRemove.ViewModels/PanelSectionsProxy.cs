@@ -67,6 +67,29 @@ namespace MaterialRemove.ViewModels
             });
         }
 
+        public void ApplyAction(IPanel panel, ToolConeActionData toolConeActionData)
+        {
+            var ta = toolConeActionData.ToApplication(GetIndex());
+
+            if (ta.Intersect(panel))
+            {
+                ApplyAction(ta);
+            }
+        }
+
+        public Task ApplyActionAsync(IPanel panel, ToolConeActionData toolConeActionData)
+        {
+            return Task.Run(async () =>
+            {
+                var ta = toolConeActionData.ToApplication(GetIndex());
+
+                if (await Task.Run(() => ta.Intersect(panel)))
+                {
+                    await ApplyActionAsync(ta);
+                }
+            });
+        }
+
         private void ApplyAction<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector, IIndexed
         {
  

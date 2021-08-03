@@ -76,6 +76,23 @@ namespace MaterialRemove.Machine.Bridge
             });
         }
 
+        public void ApplyAction(ToolConeActionData toolConeActionData)
+        {
+            if ((_stepsProgressState != null) && (_stepsProgressState.ProgressDirection == ProgressDirection.Back)) return;
+
+            _panelSectionsProxy.ApplyAction(this, toolConeActionData);
+        }
+
+        public Task ApplyActionAsync(ToolConeActionData toolConeActionData)
+        {
+            return Task.Run(async () =>
+            {
+                if ((_stepsProgressState != null) && (_stepsProgressState.ProgressDirection == ProgressDirection.Back)) return;
+
+                await _panelSectionsProxy.ApplyActionAsync(this, toolConeActionData);
+            });
+        }
+
         private void OnProgressIndexChanged(object sender, int e)
         {
             if(_stepsProgressState.ProgressDirection == ProgressDirection.Back)

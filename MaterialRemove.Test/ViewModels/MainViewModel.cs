@@ -105,7 +105,8 @@ namespace MaterialRemove.Test.ViewModels
         {
             if(ToolData.Radius < 50.0)
             {
-                ApplyToolActionData();
+                //ApplyToolActionData();
+                ApplyToolConeActionData();
             }
             else
             {
@@ -184,6 +185,29 @@ namespace MaterialRemove.Test.ViewModels
                 {
                     Panel.ApplyAction(tsad);
                 }
+            }
+        }
+
+        private void ApplyToolConeActionData()
+        {
+            var tcad = new ToolConeActionData()
+            {
+                Length = (float)ToolData.Length,
+                MinRadius = 0.0f,
+                MaxRadius = (float)ToolData.Radius,
+                Orientation = ToolData.Direction,
+                X = (float)(ToolPosition.X - PanelPosition.X),
+                Y = (float)(ToolPosition.Y - PanelPosition.Y),
+                Z = (float)(ToolPosition.Z - PanelPosition.Z)
+            };
+
+            if (IsParallel)
+            {
+                Panel.ApplyActionAsync(tcad);
+            }
+            else
+            {
+                Panel.ApplyAction(tcad);
             }
         }
 
