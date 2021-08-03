@@ -14,9 +14,11 @@ namespace MaterialRemove.ViewModels
         Vector3f _position;
         Orientation _fixBaseAx;
         Vector3f _upDirection;
+        Vector3f _ax1;
+        Vector3f _ax2;
         float[] _halfDim;
 
-        public int Index { get; set; }
+        public int Index { get; }
 
         public ToolSectionApplication(Vector3f position, Vector3f upDirection, Orientation fixBaseAx, float length, float weigth, float heigth, int index = -1)
         {
@@ -25,6 +27,8 @@ namespace MaterialRemove.ViewModels
             _position = position;
             _upDirection = upDirection;
             _fixBaseAx = fixBaseAx;
+            _ax1 = GetFixAx(fixBaseAx);
+            _ax2 = Vector3f.Cross(_upDirection, _ax1);
             _halfDim = new float[] { length / 2.0f, weigth / 2.0f, heigth / 2.0f };
         }
 
@@ -51,8 +55,7 @@ namespace MaterialRemove.ViewModels
 
         public AxisAlignedBox3d Bounds()
         {
-            var ax1 = GetFixAx(_fixBaseAx);
-            var ax2 = Vector3f.Cross(_upDirection, ax1) * _halfDim[1];
+            var ax2 = _ax2 * _halfDim[1];
             var ax3 = _upDirection * _halfDim[2];
 
             var points = new Vector3f[4];
@@ -75,39 +78,35 @@ namespace MaterialRemove.ViewModels
                 if (pMax.z < points[i].z) pMax.z = points[i].z;
             }
 
-            var v = new Vector3f();
-
             switch (_fixBaseAx)
             {
                 case Orientation.XPos:
                 case Orientation.XNeg:
-                    v.x = _halfDim[0];
+                    pMin.x -= _halfDim[0];
+                    pMax.x += _halfDim[0];
                     break;
                 case Orientation.YPos:
                 case Orientation.YNeg:
-                    v.y = _halfDim[1];
+                    pMin.y -= _halfDim[1];
+                    pMax.y += _halfDim[1];
                     break;
                 case Orientation.ZPos:
                 case Orientation.ZNeg:
-                    v.z = _halfDim[2];
+                    pMin.z -= _halfDim[2];
+                    pMax.z += _halfDim[2];
                     break;
                 default:
                     break;
             }
-
-            pMin -= v;
-            pMax += v;
 
             return new AxisAlignedBox3d(pMin, pMax);
         }
 
         public double Value(ref Vector3d pt)
         {
-            var ax1 = GetFixAx(_fixBaseAx);
-            var ax2 = Vector3f.Cross(_upDirection, ax1);
             var v = (Vector3f)pt - _position;
-            var a = v.Dot(ax1);
-            var b = v.Dot(ax2);
+            var a = v.Dot(_ax1);
+            var b = v.Dot(_ax2);
             var c = v.Dot(_upDirection);
             var insX = (a >= -_halfDim[0]) && (a <= _halfDim[0]);
             var insY = (b >= -_halfDim[1]) && (a <= _halfDim[1]);

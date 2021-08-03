@@ -67,8 +67,9 @@ namespace MaterialRemove.ViewModels
             });
         }
 
-        private void ApplyAction<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
+        private void ApplyAction<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector, IIndexed
         {
+ 
             foreach (var section in Sections)
             {
                 if (toolApplication.Intersect(section))
@@ -100,7 +101,7 @@ namespace MaterialRemove.ViewModels
             }
         }
 
-        private Task ApplyActionAsync<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
+        private Task ApplyActionAsync<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector, IIndexed
         {
             var tasks = new List<Task>();
 
@@ -124,7 +125,7 @@ namespace MaterialRemove.ViewModels
             return Task.WhenAll(tasks);
         }
 
-        private Task ApplyActionToFacesAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
+        private Task ApplyActionToFacesAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector
         {
             var tasks = new List<Task>();
 
@@ -149,7 +150,7 @@ namespace MaterialRemove.ViewModels
             return Task.WhenAll(tasks);
         }
 
-        private Task ApplyActionToVolumeAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d, Interfaces.IIntersector
+        private Task ApplyActionToVolumeAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d/*, IIntersector*/, IIndexed
         {
             return Task.Run(async () =>
             {
