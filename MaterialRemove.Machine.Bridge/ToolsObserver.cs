@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Machine.Data.Base;
+using Machine.Data.Tools;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Tools;
+using Machine.ViewModels.MachineElements;
 using MaterialRemove.Interfaces;
 using MDE = Machine.Data.Enums;
 using MVMIoc = Machine.ViewModels.Ioc;
@@ -70,23 +72,75 @@ namespace MaterialRemove.Machine.Bridge
         private void ApplyTools()
         {
             var t = MVMIoc.SimpleIoc<IToolToPanelTransformerFactory>.GetInstance().GetTransformer(_panel, _tools);
-            var tTools = t.Transform();
+            //var tTools = t.Transform();
 
-            foreach (var tt in tTools)
-            {
-                var ta = new ToolActionData()
-                {
-                    X = (float)tt.Point.X,
-                    Y = (float)tt.Point.Y,
-                    Z = (float)tt.Point.Z,
-                    Orientation = ToOrientatio(tt.Direction),
-                    Length = (float)tt.Length,
-                    Radius = (float)tt.Radius
-                };
+            t.TransformAndApplay();
 
-                _panel.ApplyAction(ta);
-            }
+            //for (int i = 0; i < _tools.Count; i++)
+            //{
+            //    //ApplyTool(tTools[i], _tools[i]);
+
+            //    //var ta = new ToolActionData()
+            //    //{
+            //    //    X = (float)tt.Point.X,
+            //    //    Y = (float)tt.Point.Y,
+            //    //    Z = (float)tt.Point.Z,
+            //    //    Orientation = ToOrientatio(tt.Direction),
+            //    //    Length = (float)tt.Length,
+            //    //    Radius = (float)tt.Radius
+            //    //};
+
+            //    //_panel.ApplyAction(ta);
+            //}
         }
+
+        //private void ApplyTool(ToolPosition toolPosition, IToolElement toolElement)
+        //{
+        //    var tool = (toolElement as ToolViewModel).Tool;
+
+        //    if (tool is DiskTool dt) ApplyTool(toolPosition, dt);
+        //    else if (tool is DiskOnConeTool doct) ApplyTool(toolPosition, doct);
+        //    else if (tool is PointedTool pt) ApplyTool(toolPosition, pt);
+        //    else if (tool is CountersinkTool ct) ApplyTool(toolPosition, ct);
+        //    else ApplyTool(toolPosition);
+        //}
+
+        //private void ApplyTool(ToolPosition toolPosition)
+        //{
+        //    var ta = new ToolActionData()
+        //    {
+        //        X = (float)toolPosition.Point.X,
+        //        Y = (float)toolPosition.Point.Y,
+        //        Z = (float)toolPosition.Point.Z,
+        //        Orientation = ToOrientatio(toolPosition.Direction),
+        //        Length = (float)toolPosition.Length,
+        //        Radius = (float)toolPosition.Radius
+        //    };
+
+        //    _panel.ApplyAction(ta);
+        //}
+
+        private void ApplyTool(ToolPosition toolPosition, CountersinkTool ct)
+        {
+            //var p = new Point3D
+            //var p1 = toolPosition.Point + toolPosition.Direction * (ct.Length1 + ct.Length2);
+            //var ta = new ToolConeActionData()
+            //{
+
+            //};
+
+            //_panel.ApplyAction(ta);
+        }
+
+        //private void ApplyTool(ToolPosition toolPosition, PointedTool pt)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //private void ApplyTool(ToolPosition toolPosition, DiskTool dt)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private Task ApplyToolsAsync()
         {
@@ -94,52 +148,54 @@ namespace MaterialRemove.Machine.Bridge
             {
                 var tasks = new List<Task>();
                 var t = MVMIoc.SimpleIoc<IToolToPanelTransformerFactory>.GetInstance().GetTransformer(_panel, _tools);
-                var tTools = await t.TransformAsync();
+                //var tTools = await t.TransformAsync();
 
-                foreach (var tt in tTools)
-                {
-                    var ta = new ToolActionData()
-                    {
-                        X = (float)tt.Point.X,
-                        Y = (float)tt.Point.Y,
-                        Z = (float)tt.Point.Z,
-                        Orientation = ToOrientatio(tt.Direction),
-                        Length = (float)tt.Length,
-                        Radius = (float)tt.Radius
-                    };
+                //foreach (var tt in tTools)
+                //{
+                //    var ta = new ToolActionData()
+                //    {
+                //        X = (float)tt.Point.X,
+                //        Y = (float)tt.Point.Y,
+                //        Z = (float)tt.Point.Z,
+                //        Orientation = ToOrientatio(tt.Direction),
+                //        Length = (float)tt.Length,
+                //        Radius = (float)tt.Radius
+                //    };
 
-                    tasks.Add(_panel.ApplyActionAsync(ta));
-                }
+                //    tasks.Add(_panel.ApplyActionAsync(ta));
+                //}
 
-                await Task.WhenAll(tasks);
+                //await Task.WhenAll(tasks);
+
+                await t.TransformAndApplayAsync();
             });
         }
 
-        private Orientation ToOrientatio(Vector direction)
-        {
-            var xIsNull = IsNull(direction.X);
-            var yIsNull = IsNull(direction.Y);
-            var zIsNull = IsNull(direction.Z);
+        //private Orientation ToOrientatio(Vector direction)
+        //{
+        //    var xIsNull = IsNull(direction.X);
+        //    var yIsNull = IsNull(direction.Y);
+        //    var zIsNull = IsNull(direction.Z);
 
-            if (xIsNull && yIsNull && !zIsNull)
-            {
-                return (direction.Z > 0.0) ? Orientation.ZPos : Orientation.ZNeg;
-            }
-            else if (xIsNull && !yIsNull && zIsNull)
-            {
-                return (direction.Y > 0.0) ? Orientation.YPos : Orientation.YNeg;
-            }
-            else if (!xIsNull && yIsNull && zIsNull)
-            {
-                return (direction.X > 0.0) ? Orientation.XPos : Orientation.XNeg;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //    if (xIsNull && yIsNull && !zIsNull)
+        //    {
+        //        return (direction.Z > 0.0) ? Orientation.ZPos : Orientation.ZNeg;
+        //    }
+        //    else if (xIsNull && !yIsNull && zIsNull)
+        //    {
+        //        return (direction.Y > 0.0) ? Orientation.YPos : Orientation.YNeg;
+        //    }
+        //    else if (!xIsNull && yIsNull && zIsNull)
+        //    {
+        //        return (direction.X > 0.0) ? Orientation.XPos : Orientation.XNeg;
+        //    }
+        //    else
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
-        private static bool IsNull(double value, double tolerance = 0.001) => (value < tolerance) && (value > -tolerance);
+        //private static bool IsNull(double value, double tolerance = 0.001) => (value < tolerance) && (value > -tolerance);
 
         public void Register(IToolElement tool)
         {

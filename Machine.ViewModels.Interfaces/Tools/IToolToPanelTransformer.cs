@@ -16,7 +16,9 @@ namespace Machine.ViewModels.Interfaces.Tools
 
     public interface IToolToPanelTransformer
     {
-        IEnumerable<ToolPosition> Transform();
-        Task<IEnumerable<ToolPosition>> TransformAsync();
+        IList<ToolPosition> Transform();
+        Task<IList<ToolPosition>> TransformAsync();
+        void TransformAndApplay();
+        Task<int> TransformAndApplayAsync();
     }
 }

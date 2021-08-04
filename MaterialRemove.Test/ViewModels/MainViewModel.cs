@@ -105,8 +105,8 @@ namespace MaterialRemove.Test.ViewModels
         {
             if(ToolData.Radius < 50.0)
             {
-                //ApplyToolActionData();
-                ApplyToolConeActionData();
+                ApplyToolActionData();
+                //ApplyToolConeActionData();
             }
             else
             {

@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.5.1</Version>
+    <Version>1.5.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
     <ProjectReference Include="..\Machine.ViewModels\Machine.ViewModels.csproj" />
     <ProjectReference Include="..\MaterialRemove.ViewModels\MaterialRemove.ViewModels.csproj" />
   </ItemGroup>
