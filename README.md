@@ -59,7 +59,7 @@ ViewModels class library.
 Class library for base elements for MVVM patterns implementation
 
 ## Machine.ViewModels.Ioc
-Implemention of "Inversione of control".
+Simple implemention of "Inversione of control".
 
 ## Machine.ViewModels.Messaging
 Messaging implementation.
