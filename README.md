@@ -19,6 +19,15 @@ Application for load machine tooling file (*.tooling) made by [**ToolingEditor**
 ## Client.Tools
 Application for load tools file (*.tools) made by [**ToolEditor**](https://github.com/federicocoppa75/MachineEditor#toolingeditor) ad post to data server or save ad JTools file (JSON format).
 
+## Example
+This folder contains the files to simulate a simple 3 axis CNC being machined.
+* Simple3AxesCnc.json: machine structure
+* Models: contains machene elements models (*.stl file)
+* SimpleToolSet.jTools: tools database
+* SimpleTooling.jTooling: tooling example
+* Simple3AxesCnc.jenv: working environment (contains structure, elements model, tools and tooling)
+* antina.msteps: example of machinary
+
 ## Machine.3D.Geometry.Provider
 Module for decouple the machine elements model loading.
 
