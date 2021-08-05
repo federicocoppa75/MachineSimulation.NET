@@ -1,0 +1,33 @@
+{
+	"ToolSetID": 0,
+	"Name": "SimpleToolSet",
+	"Tools": [
+		{
+			"Diameter": 8.0,
+			"Length": 50.0,
+			"UsefulLength": 35.0,
+			"ToolID": 0,
+			"Name": "Drill D8",
+			"Description": "Drill tool (diameter 8 mm)",
+			"ToolLinkType": 0
+		},
+		{
+			"Diameter": 5.0,
+			"Length": 50.0,
+			"UsefulLength": 35.0,
+			"ToolID": 0,
+			"Name": "Drill D5",
+			"Description": "Drill tool (diameter 5 mm)",
+			"ToolLinkType": 0
+		},
+		{
+			"Diameter": 20.0,
+			"Length": 120.0,
+			"UsefulLength": 60.0,
+			"ToolID": 0,
+			"Name": "Rout D20",
+			"Description": "Rout tool (diameter 20 mm)",
+			"ToolLinkType": 0
+		}
+	]
+}

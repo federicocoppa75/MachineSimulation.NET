@@ -1,0 +1,982 @@
+{
+	"AssemblyName": "Simple3AxesCnc",
+	"RootType": 2,
+	"MachineElementID": 0,
+	"Name": "basament",
+	"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\basament.stl",
+	"Color": {
+		"ColorID": 0,
+		"B": 105,
+		"G": 105,
+		"R": 105,
+		"A": 255
+	},
+	"Transformation": {
+		"MatrixID": 0,
+		"M11": 1.0,
+		"M12": 0.0,
+		"M13": 0.0,
+		"M21": 0.0,
+		"M23": 0.0,
+		"M31": 0.0,
+		"M32": 0.0,
+		"M33": 1.0,
+		"OffsetX": 0.0,
+		"OffsetY": 0.0,
+		"M22": 1.0,
+		"OffsetZ": 0.0
+	},
+	"Children": [
+		{
+			"MachineElementID": 0,
+			"Name": "XTrailer",
+			"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\XTrailer.stl",
+			"Color": {
+				"ColorID": 0,
+				"B": 169,
+				"G": 169,
+				"R": 169,
+				"A": 255
+			},
+			"Transformation": {
+				"MatrixID": 0,
+				"M11": 1.0,
+				"M12": 0.0,
+				"M13": 0.0,
+				"M21": 0.0,
+				"M23": 0.0,
+				"M31": 0.0,
+				"M32": 0.0,
+				"M33": 1.0,
+				"OffsetX": -0.5,
+				"OffsetY": 1500.0,
+				"M22": 1.0,
+				"OffsetZ": -0.5
+			},
+			"Children": [
+				{
+					"MachineElementID": 0,
+					"Name": "beam",
+					"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\beam.stl",
+					"Color": {
+						"ColorID": 0,
+						"B": 169,
+						"G": 169,
+						"R": 169,
+						"A": 255
+					},
+					"Transformation": {
+						"MatrixID": 0,
+						"M11": 1.0,
+						"M12": 0.0,
+						"M13": 0.0,
+						"M21": 0.0,
+						"M23": 0.0,
+						"M31": 0.0,
+						"M32": 0.0,
+						"M33": 1.0,
+						"OffsetX": 0.27574944496154787,
+						"OffsetY": -1500.0,
+						"M22": 1.0,
+						"OffsetZ": 501.3639931678772
+					},
+					"Children": [
+						{
+							"MachineElementID": 0,
+							"Name": "YTrailer",
+							"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\YTrailer.stl",
+							"Color": {
+								"ColorID": 0,
+								"B": 230,
+								"G": 216,
+								"R": 173,
+								"A": 255
+							},
+							"Transformation": {
+								"MatrixID": 0,
+								"M11": 1.0,
+								"M12": 0.0,
+								"M13": 0.0,
+								"M21": 0.0,
+								"M23": 0.0,
+								"M31": 0.0,
+								"M32": 0.0,
+								"M33": 1.0,
+								"OffsetX": 300.22425055503848,
+								"OffsetY": 0.0,
+								"M22": 1.0,
+								"OffsetZ": -200.8639931678772
+							},
+							"Children": [
+								{
+									"MachineElementID": 0,
+									"Name": "head",
+									"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\head.stl",
+									"Color": {
+										"ColorID": 0,
+										"B": 250,
+										"G": 206,
+										"R": 135,
+										"A": 255
+									},
+									"Transformation": {
+										"MatrixID": 0,
+										"M11": 1.0,
+										"M12": 0.0,
+										"M13": 0.0,
+										"M21": 0.0,
+										"M23": 0.0,
+										"M31": 0.0,
+										"M32": 0.0,
+										"M33": 1.0,
+										"OffsetX": 20.0,
+										"OffsetY": 50.0,
+										"M22": 1.0,
+										"OffsetZ": 100.0
+									},
+									"Children": [
+										{
+											"MachineElementID": 0,
+											"Name": "ESpindle",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\ESpindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 80.0,
+												"OffsetY": -150.0,
+												"M22": 1.0,
+												"OffsetZ": 50.0
+											},
+											"Children": [
+												{
+													"ToolHolderId": 3001,
+													"ToolHolderType": 0,
+													"Position": {
+														"VectorID": 0,
+														"X": 0.0,
+														"Y": 0.0,
+														"Z": -10.0
+													},
+													"Direction": {
+														"VectorID": 0,
+														"X": 0.0,
+														"Y": 0.0,
+														"Z": -1.0
+													},
+													"MachineElementID": 0,
+													"Name": "rotor",
+													"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\rotor.stl",
+													"Color": {
+														"ColorID": 0,
+														"B": 153,
+														"G": 136,
+														"R": 119,
+														"A": 255
+													},
+													"Transformation": {
+														"MatrixID": 0,
+														"M11": 1.0,
+														"M12": 0.0,
+														"M13": 0.0,
+														"M21": 0.0,
+														"M23": 0.0,
+														"M31": 0.0,
+														"M32": 0.0,
+														"M33": 1.0,
+														"OffsetX": 75.00544422613985,
+														"OffsetY": 74.99055240177941,
+														"M22": 1.0,
+														"OffsetZ": -9.989905811469044
+													},
+													"Children": []
+												}
+											],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -80.0,
+												"TOff": 0.5,
+												"TOn": 0.5,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 3001,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8001,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 1",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 140.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8001,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8002,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 2",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 140.0,
+												"OffsetY": 92.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8002,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8003,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 3",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 140.0,
+												"OffsetY": 124.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8003,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8004,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 4",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 140.0,
+												"OffsetY": 156.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8004,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8005,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 5",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 140.0,
+												"OffsetY": 188.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8005,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8006,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 6",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 140.0,
+												"OffsetY": 220.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8006,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8007,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 7",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 172.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8007,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8008,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 8",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 204.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8008,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8008,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 9",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 236.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8009,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8010,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 10",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 268.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8010,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8011,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 11",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 300.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8011,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8012,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 12",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 332.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8012,
+												"Direction": 2,
+												"Type": 0
+											}
+										},
+										{
+											"ToolHolderId": 8013,
+											"ToolHolderType": 0,
+											"Position": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": 0.0
+											},
+											"Direction": {
+												"VectorID": 0,
+												"X": 0.0,
+												"Y": 0.0,
+												"Z": -1.0
+											},
+											"MachineElementID": 0,
+											"Name": "spindle 13",
+											"ModelFile": "C:\\Users\\fcoppa\\Documents\\GitHub\\MachineSimulation.NET\\Examples\\Models\\spindle.stl",
+											"Color": {
+												"ColorID": 0,
+												"B": 105,
+												"G": 105,
+												"R": 105,
+												"A": 255
+											},
+											"Transformation": {
+												"MatrixID": 0,
+												"M11": 1.0,
+												"M12": 0.0,
+												"M13": 0.0,
+												"M21": 0.0,
+												"M23": 0.0,
+												"M31": 0.0,
+												"M32": 0.0,
+												"M33": 1.0,
+												"OffsetX": 364.0,
+												"OffsetY": 60.0,
+												"M22": 1.0,
+												"OffsetZ": -50.0
+											},
+											"Children": [],
+											"LinkToParent": {
+												"OffPos": 0.0,
+												"OnPos": -60.0,
+												"TOff": 0.2,
+												"TOn": 0.2,
+												"ToolActivator": true,
+												"LinkID": 0,
+												"Id": 8013,
+												"Direction": 2,
+												"Type": 0
+											}
+										}
+									],
+									"LinkToParent": {
+										"Min": -200.0,
+										"Max": 0.0,
+										"Pos": 0.0,
+										"LinkID": 0,
+										"Id": 102,
+										"Direction": 2,
+										"Type": 0
+									}
+								}
+							],
+							"LinkToParent": {
+								"Min": 0.0,
+								"Max": 1400.0,
+								"Pos": 0.0,
+								"LinkID": 0,
+								"Id": 101,
+								"Direction": 1,
+								"Type": 0
+							}
+						}
+					]
+				}
+			],
+			"LinkToParent": {
+				"Min": 0.0,
+				"Max": 3700.0,
+				"Pos": 0.0,
+				"LinkID": 0,
+				"Id": 1,
+				"Direction": 0,
+				"Type": 0
+			}
+		},
+		{
+			"PanelHolderId": 1,
+			"PanelHolderName": "panel holder",
+			"Position": {
+				"VectorID": 0,
+				"X": 500.0,
+				"Y": 200.0,
+				"Z": 50.0
+			},
+			"Corner": 0,
+			"MachineElementID": 0,
+			"Name": "Panel holder",
+			"ModelFile": "",
+			"Color": {
+				"ColorID": 0,
+				"B": 105,
+				"G": 105,
+				"R": 105,
+				"A": 255
+			},
+			"Transformation": {
+				"MatrixID": 0,
+				"M11": 1.0,
+				"M12": 0.0,
+				"M13": 0.0,
+				"M21": 0.0,
+				"M23": 0.0,
+				"M31": 0.0,
+				"M32": 0.0,
+				"M33": 1.0,
+				"OffsetX": 0.0,
+				"OffsetY": 0.0,
+				"M22": 1.0,
+				"OffsetZ": 0.0
+			},
+			"Children": []
+		}
+	]
+}
