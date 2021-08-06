@@ -260,7 +260,7 @@ namespace Machine.Steps.ViewModels.Extensions
                     Id = item.LinkId,
                     SetLink = (link) =>
                     {
-                        LinkMovementManager.Add(item.LinkId, link.Value, action.Duration, data, isFirst ? notifyId : 0);
+                        LinkMovementManager.Add(item.LinkId, item.TargetCoordinate, action.Duration, data, isFirst ? notifyId : 0);
                         isFirst = false;
                     }
                 });
