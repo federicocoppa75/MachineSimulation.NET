@@ -8,8 +8,6 @@ This project is an evolution of [**MachineSimulation.DX**](https://github.com/fe
 * manage different type of tools in material removal;
 * more decouplig between modules.
 
-[![](./images/test news.JPG)](https://youtu.be/UX5DP2LnBV0)
-
 ## Client
 Application for load machine element models file (*.stl) and post it to data server. 
 ## Client.Machine
@@ -27,10 +25,13 @@ This folder contains the files to simulate a simple 3 axis CNC being machined.
 * Models: contains machene elements models (*.stl file)
 * SimpleToolSet.jTools: tools database
 * SimpleTooling.jTooling: tooling example
+* SimpleTooling2.jTooling: tooling for execute test *test news.msteps*
 * Simple3AxesCnc.jenv: working environment (contains structure, elements model, tools and tooling)
+* Simple3AxesCnc(news).jenv: work environment for execute *test news.msteps*
 * antina.msteps: example of machinary
+* test news.msteps: example of new developments
 
-
+[![](./images/test news.JPG)](https://youtu.be/UX5DP2LnBV0)
 
 ## Machine.3D.Geometry.Provider
 Module for decouple the machine elements model loading.
