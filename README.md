@@ -31,7 +31,7 @@ This folder contains the files to simulate a simple 3 axis CNC being machined.
 * antina.msteps: example of machinary
 * test news.msteps: example of new developments
 
-[![](./images/test news.JPG)](https://youtu.be/UX5DP2LnBV0)
+[![](./images/test_news.JPG)](https://youtu.be/UX5DP2LnBV0)
 
 ## Machine.3D.Geometry.Provider
 Module for decouple the machine elements model loading.
