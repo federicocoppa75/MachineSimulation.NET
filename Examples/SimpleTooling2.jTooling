@@ -1,0 +1,78 @@
+{
+	"ToolingID": 0,
+	"Name": "SimpleTooling2",
+	"Machine": "Simple3AxesCnc",
+	"Tools": "SimpleToolSet",
+	"Units": [
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 3001,
+			"ToolName": "Rout C D 20"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8001,
+			"ToolName": "Countersink 8"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8002,
+			"ToolName": "Drill D8"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8003,
+			"ToolName": "Drill D8"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8004,
+			"ToolName": "Drill D8"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8005,
+			"ToolName": "Drill D8"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8006,
+			"ToolName": "Drill D8"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8007,
+			"ToolName": "Drill D5"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8008,
+			"ToolName": "Drill D5"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8009,
+			"ToolName": "Drill D5"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8010,
+			"ToolName": "Drill D5"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8011,
+			"ToolName": "Drill D5"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8012,
+			"ToolName": "Drill D5"
+		},
+		{
+			"ToolingUnitID": 0,
+			"ToolHolderId": 8013,
+			"ToolName": "Drill D5"
+		}
+	]
+}

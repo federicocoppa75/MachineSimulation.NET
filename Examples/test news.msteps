@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MachineStepsDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Steps>
+    <MachineStep>
+      <Id>8</Id>
+      <Name>M160 - LoadPanel</Name>
+      <Description>line 39</Description>
+      <Actions>
+        <BaseAction xsi:type="AddPanelAction">
+          <Id>0</Id>
+          <Name>Load panel</Name>
+          <PanelId>0</PanelId>
+          <XDimension>550</XDimension>
+          <YDimension>400</YDimension>
+          <ZDimension>30</ZDimension>
+          <CornerReference>Corner1</CornerReference>
+          <PanelHolder>1</PanelHolder>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>16</Id>
+      <Name>ETK[1]</Name>
+      <Description>line 59</Description>
+      <Actions>
+        <BaseAction xsi:type="TwoPositionLinkAction">
+          <Id>0</Id>
+          <LinkId>8001</LinkId>
+          <RequestedState>On</RequestedState>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <!--<MachineStep>
+      <Id>18</Id>
+      <Name>Turn On spindle</Name>
+      <Description>line 63</Description>
+      <Actions>
+        <BaseAction xsi:type="TurnOnInverterAction">
+          <Id>0</Id>
+          <Head>1</Head>
+          <Order>0</Order>
+          <RotationSpeed>7000</RotationSpeed>
+          <Duration>1</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>-->
+    <MachineStep>
+      <Id>25</Id>
+      <Name>G0</Name>
+      <Description>line 72</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>0</Id>
+          <Name>Move X</Name>
+          <LinkId>1</LinkId>
+          <RequestedPosition>100</RequestedPosition>
+          <Duration>0.5</Duration>
+        </BaseAction>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>11</Id>
+          <Name>Move Y</Name>
+          <LinkId>101</LinkId>
+          <RequestedPosition>200</RequestedPosition>
+          <Duration>0.5</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>26</Id>
+      <Name>G0</Name>
+      <Description>line 73</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>0</Id>
+          <Name>Move Z</Name>
+          <LinkId>102</LinkId>
+          <RequestedPosition>-160</RequestedPosition>
+          <Duration>0.2</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>27</Id>
+      <Name>G1</Name>
+      <Description>line 74</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearInterpolatedPositionLinkAction">
+          <Id>0</Id>
+          <Name>G1 move</Name>
+          <Positions>
+            <PositionItem>
+              <LinkId>102</LinkId>
+              <RequestPosition>-189</RequestPosition>
+            </PositionItem>
+          </Positions>
+          <Duration>0.64</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>29</Id>
+      <Name>G0</Name>
+      <Description>line 76</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>0</Id>
+          <Name>Move Z</Name>
+          <LinkId>102</LinkId>
+          <RequestedPosition>0</RequestedPosition>
+          <Duration>0.3</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>96</Id>
+      <Name>ETK[1]</Name>
+      <Description>line 59</Description>
+      <Actions>
+        <BaseAction xsi:type="TwoPositionLinkAction">
+          <Id>0</Id>
+          <LinkId>8001</LinkId>
+          <RequestedState>Off</RequestedState>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+	<MachineStep>
+      <Id>110</Id>
+      <Name>M81</Name>
+      <Description>line 59</Description>
+      <Actions>
+	    <BaseAction xsi:type="TwoPositionLinkAction">
+          <Id>0</Id>
+          <LinkId>3001</LinkId>
+          <RequestedState>On</RequestedState>
+        </BaseAction>			
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>99</Id>
+      <Name>G0</Name>
+      <Description>line 69</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>0</Id>
+          <Name>Move X</Name>
+          <LinkId>1</LinkId>
+          <RequestedPosition>150</RequestedPosition>
+          <Duration>0.5</Duration>
+        </BaseAction>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>1</Id>
+          <Name>Move Y</Name>
+          <LinkId>101</LinkId>
+          <RequestedPosition>300</RequestedPosition>
+          <Duration>0.5</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>	
+    <MachineStep>
+      <Id>109</Id>
+      <Name>G0</Name>
+      <Description>line 70</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>0</Id>
+          <Name>Move Z</Name>
+          <LinkId>102</LinkId>
+          <RequestedPosition>-120</RequestedPosition>
+          <Duration>0.3</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>	
+    <MachineStep>
+      <Id>107</Id>
+      <Name>G1</Name>
+      <Description>line 74</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearInterpolatedPositionLinkAction">
+          <Id>0</Id>
+          <Name>G1 move</Name>
+          <Positions>
+            <PositionItem>
+              <LinkId>102</LinkId>
+              <RequestPosition>-149</RequestPosition>
+            </PositionItem>
+          </Positions>
+          <Duration>0.64</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>108</Id>
+      <Name>G1</Name>
+      <Description>line 75</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearInterpolatedPositionLinkAction">
+          <Id>0</Id>
+          <Name>G1 move</Name>
+          <Positions>
+            <PositionItem>
+              <LinkId>1</LinkId>
+              <RequestPosition>250</RequestPosition>
+            </PositionItem>
+          </Positions>
+          <Duration>1.00</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>109</Id>
+      <Name>G1</Name>
+      <Description>line 76</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearInterpolatedPositionLinkAction">
+          <Id>0</Id>
+          <Name>G1 move</Name>
+          <Positions>
+            <PositionItem>
+              <LinkId>101</LinkId>
+              <RequestPosition>400</RequestPosition>
+            </PositionItem>
+          </Positions>
+          <Duration>1.00</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>	
+    <MachineStep>
+      <Id>110</Id>
+      <Name>G1</Name>
+      <Description>line 77</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearInterpolatedPositionLinkAction">
+          <Id>0</Id>
+          <Name>G1 move</Name>
+          <Positions>
+            <PositionItem>
+              <LinkId>1</LinkId>
+              <RequestPosition>150</RequestPosition>
+            </PositionItem>
+          </Positions>
+          <Duration>1.00</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>
+    <MachineStep>
+      <Id>111</Id>
+      <Name>G1</Name>
+      <Description>line 78</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearInterpolatedPositionLinkAction">
+          <Id>0</Id>
+          <Name>G1 move</Name>
+          <Positions>
+            <PositionItem>
+              <LinkId>101</LinkId>
+              <RequestPosition>300</RequestPosition>
+            </PositionItem>
+          </Positions>
+          <Duration>1.00</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>		
+    <MachineStep>
+      <Id>112</Id>
+      <Name>G0</Name>
+      <Description>line 79</Description>
+      <Actions>
+        <BaseAction xsi:type="LinearPositionLinkAction">
+          <Id>0</Id>
+          <Name>Move Z</Name>
+          <LinkId>102</LinkId>
+          <RequestedPosition>0</RequestedPosition>
+          <Duration>0.2</Duration>
+        </BaseAction>
+      </Actions>
+    </MachineStep>	
+    <MachineStep>
+      <Id>110</Id>
+      <Name>M81</Name>
+      <Description>line 59</Description>
+      <Actions>
+	    <BaseAction xsi:type="TwoPositionLinkAction">
+          <Id>0</Id>
+          <LinkId>3001</LinkId>
+          <RequestedState>Off</RequestedState>
+        </BaseAction>			
+      </Actions>
+    </MachineStep>	
+  </Steps>
+</MachineStepsDocument>
