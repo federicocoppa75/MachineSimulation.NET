@@ -108,12 +108,7 @@ namespace Machine._3D.Views.Models.Elements3D
 
         protected readonly Dictionary<object, Element3D> elementDict = new Dictionary<object, Element3D>();
 
-        private static readonly Dictionary<object, Element3D> _transferElements = new Dictionary<object, Element3D>();
-
-        //public bool IsPanelHookerView => (DataContext != null) && ((DataContext is PanelHolderViewModel) || (DataContext is IPanelHooker));
-
-        private static bool _tryExperiment = false;
-
+ 
         public ItemsModel3D() : base()
         {
         }
@@ -129,8 +124,6 @@ namespace Machine._3D.Views.Models.Elements3D
         /// </exception>
         protected virtual void ItemsSourceChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (_tryExperiment) return;
-
             if (e.OldValue is INotifyCollectionChanged o)
             {
                 o.CollectionChanged -= ItemsModel3D_CollectionChanged;
@@ -167,6 +160,7 @@ namespace Machine._3D.Views.Models.Elements3D
                         {
                             model.DataContext = item;
                             this.Children.Add(model);
+                            elementDict.Add(item, model);
                         }
                         else
                         {
@@ -222,40 +216,17 @@ namespace Machine._3D.Views.Models.Elements3D
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Remove:
                     if (e.OldItems != null)
-                    {
-                        //if (_tryExperiment && IsPanelHookerView && IsUnhookingPanel(e))
-                        //{
-                        //    var key = e.OldItems[0];
-
-                        //    if (elementDict.TryGetValue(key, out Element3D element))
-                        //    {
-                        //        Children.Remove(element);
-                        //        elementDict.Remove(key);
-                        //        _transferElements.Add(key, element);
-                        //    }
-                        //}
-                        //else
+                    {                        
+                        foreach (var item in e.OldItems)
                         {
-                            foreach (var item in e.OldItems)
+                            Element3D element;
+                            if (elementDict.TryGetValue(item, out element))
                             {
-                                Element3D element;
-                                if (elementDict.TryGetValue(item, out element))
-                                {
-                                    Children.Remove(element);
-                                    elementDict.Remove(item);
-                                }
+                                Children.Remove(element);
+                                elementDict.Remove(item);
                             }
-                        }
+                        }                        
 
-                        //foreach (var item in e.OldItems)
-                        //{
-                        //    Element3D element;
-                        //    if (elementDict.TryGetValue(item, out element))
-                        //    {
-                        //        Children.Remove(element);
-                        //        elementDict.Remove(item);
-                        //    }
-                        //}
                         InvalidateRender();
                     }
                     break;
@@ -332,51 +303,18 @@ namespace Machine._3D.Views.Models.Elements3D
                     {
                         if (this.ItemTemplate != null)
                         {
-                            //foreach (var item in e.NewItems)
-                            //{
-                            //    var model = this.ItemTemplate.LoadContent() as Element3D;
-                            //    if (model != null)
-                            //    {
-                            //        model.DataContext = item;
-                            //        this.Children.Add(model);
-                            //        elementDict.Add(item, model);
-                            //    }
-                            //    else
-                            //    {
-                            //        throw new InvalidOperationException("Cannot create a Model3D from ItemTemplate.");
-                            //    }
-                            //}
-
-                            //if (_tryExperiment && IsPanelHookerView && IsHookingPanel(e))
-                            //{
-                            //    var key = e.NewItems[0];
-
-                            //    if (_transferElements.TryGetValue(key, out Element3D element))
-                            //    {
-                            //        Children.Add(element);
-                            //        elementDict.Add(key, element);
-                            //        _transferElements.Remove(key);
-
-                            //        // provo a rinfrescare la traslazione
-                            //        var me = key as MachineElements.ViewModels.Interfaces.IMachineElementViewModel;
-                            //        element.Transform = me.Transform;
-                            //    }
-                            //}
-                            //else
+                            foreach (var item in e.NewItems)
                             {
-                                foreach (var item in e.NewItems)
+                                var model = this.ItemTemplate.LoadContent() as Element3D;
+                                if (model != null)
                                 {
-                                    var model = this.ItemTemplate.LoadContent() as Element3D;
-                                    if (model != null)
-                                    {
-                                        model.DataContext = item;
-                                        this.Children.Add(model);
-                                        elementDict.Add(item, model);
-                                    }
-                                    else
-                                    {
-                                        throw new InvalidOperationException("Cannot create a Model3D from ItemTemplate.");
-                                    }
+                                    model.DataContext = item;
+                                    this.Children.Add(model);
+                                    elementDict.Add(item, model);
+                                }
+                                else
+                                {
+                                    throw new InvalidOperationException("Cannot create a Model3D from ItemTemplate.");
                                 }
                             }
                         }
@@ -422,18 +360,6 @@ namespace Machine._3D.Views.Models.Elements3D
                     break;
             }
         }
-
-        //private bool IsUnhookingPanel(NotifyCollectionChangedEventArgs e) => (e.Action == NotifyCollectionChangedAction.Remove) &&
-        //                                                             (e.OldItems != null) &&
-        //                                                             (e.OldItems.Count == 1) &&
-        //                                                             (e.OldItems[0] is IPanelViewModel);
-
-        //private bool IsHookingPanel(NotifyCollectionChangedEventArgs e) => (e.Action == NotifyCollectionChangedAction.Add) &&
-        //                                                                   (e.NewItems != null) &&
-        //                                                                   (e.NewItems.Count == 1) &&
-        //                                                                   (e.NewItems[0] is IPanelViewModel k) &&
-        //                                                                   (_transferElements.Count > 0) &&
-        //                                                                   _transferElements.ContainsKey(k);
 
 
         public /*override*/ void Clear()
