@@ -3,13 +3,16 @@ using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.Messages.Probing;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using MVMIP = Machine.ViewModels.Interfaces.Probing;
+
 
 namespace Machine.ViewModels.MachineElements
 {
-    public class ElementViewModel : BaseViewModel, IMachineElement, IViewElementData
+    public class ElementViewModel : BaseViewModel, IMachineElement, IViewElementData, MVMIP.IProbableElement
     {
         #region data properties
         public int MachineElementID { get; set; }
@@ -99,6 +102,16 @@ namespace Machine.ViewModels.MachineElements
             }
         }
 
+        #endregion
+
+        #region IProbableElementViewModel impementation
+
+        public void AddProbePoint(MVMIP.Point point)
+        {
+            var probe = GetInstance<MVMIP.IProbeFactory>()?.Create(this, point);
+
+            Messenger.Send(new AddProbeMessage() { Probe = probe});
+        }
         #endregion
     }
 }

@@ -20,5 +20,17 @@ namespace Machine._3D.Views.Constants
                 return builder.ToMesh();
             }
         }
+
+        public Geometry3D Probe 
+        {
+            get 
+            {
+                var builder = new MeshBuilder();
+
+                builder.AddSphere(new SharpDX.Vector3(), 10);
+
+                return builder.ToMesh();
+            }
+        }
     }
 }

@@ -27,5 +27,16 @@ namespace Machine._3D.Views.Converters
                        matrix.M31, matrix.M32, matrix.M33, 0.0,
                        matrix.OffsetX, matrix.OffsetY, matrix.OffsetZ, 1.0);
         }
+
+        static public Matrix3D Convert(Vector v)
+        {
+            var m = Matrix3D.Identity;
+
+            m.OffsetX = v.X;
+            m.OffsetY = v.Y;
+            m.OffsetZ = v.Z;
+
+            return m;
+        }
     }
 }

@@ -12,25 +12,46 @@ namespace Machine._3D.Views.Converters
         {
             if(value is Vector v)
             {
-                var t = new Vector() { X = 0.0, Y = 0.0, Z = -1.0 };
-                var s = (v.X * t.X) + (v.Y * t.Y) + (v.Z * t.Z);
+                //var t = new Vector() { X = 0.0, Y = 0.0, Z = -1.0 };
+                //var s = (v.X * t.X) + (v.Y * t.Y) + (v.Z * t.Z);
 
-                if(s == 1.0)
-                {
-                    return Matrix3D.Identity;
-                }
-                else if (s == -1.0)
-                {
-                    return new Matrix3D() { M11 = -1.0, M22 = -1.0, M33 = -1.0, M44 = 1.0 };
-                }
-                else
-                {
-                    return CreateRotatioMatrix(t, v);
-                }
+                //if(s == 1.0)
+                //{
+                //    return Matrix3D.Identity;
+                //}
+                //else if (s == -1.0)
+                //{
+                //    return new Matrix3D() { M11 = -1.0, M22 = -1.0, M33 = -1.0, M44 = 1.0 };
+                //}
+                //else
+                //{
+                //    return CreateRotatioMatrix(t, v);
+                //}
+
+                return Convert(v);
             }
             else
             {
                 return Matrix3D.Identity;
+            }
+        }
+
+        public static Matrix3D Convert(Vector v)
+        {
+            var t = new Vector() { X = 0.0, Y = 0.0, Z = -1.0 };
+            var s = (v.X * t.X) + (v.Y * t.Y) + (v.Z * t.Z);
+
+            if (s == 1.0)
+            {
+                return Matrix3D.Identity;
+            }
+            else if (s == -1.0)
+            {
+                return new Matrix3D() { M11 = -1.0, M22 = -1.0, M33 = -1.0, M44 = 1.0 };
+            }
+            else
+            {
+                return CreateRotatioMatrix(t, v);
             }
         }
 
@@ -39,7 +60,7 @@ namespace Machine._3D.Views.Converters
             throw new NotImplementedException();
         }
 
-        private Matrix3D CreateRotatioMatrix(Vector start, Vector target)
+        private static Matrix3D CreateRotatioMatrix(Vector start, Vector target)
         {
             var v1 = new Vector3D(start.X, start.Y, start.Z);
             var v2 = new Vector3D(target.X, target.Y, target.Z);

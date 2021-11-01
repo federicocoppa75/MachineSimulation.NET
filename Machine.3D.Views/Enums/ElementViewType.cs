@@ -31,6 +31,7 @@ namespace Machine._3D.Views.Enums
         SectionedPanel,
         Debug,
         InjectedObj,
-        InsertedObj
+        InsertedObj,
+        PointProbe
     }
 }

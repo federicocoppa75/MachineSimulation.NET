@@ -105,8 +105,8 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         {
             if(me is IToolElement tool)
             {
-                if(value) GetInstance<IToolObserverProvider>().Observer.Register(tool);
-                else GetInstance<IToolObserverProvider>().Observer.Unregister(tool);
+                if(value) GetInstance<IToolObserverProvider>()?.Observer?.Register(tool);
+                else GetInstance<IToolObserverProvider>()?.Observer?.Unregister(tool);
             }
             else
             {

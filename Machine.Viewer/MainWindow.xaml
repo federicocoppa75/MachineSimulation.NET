@@ -133,6 +133,9 @@
                     <TabItem Header="Injectors">
                         <views:Injectors/>
                     </TabItem>
+                    <TabItem Header="Probes">
+                        <views:Probes/>
+                    </TabItem>
                 </TabControl>
                 
 

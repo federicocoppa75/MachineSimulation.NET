@@ -313,6 +313,7 @@
                                         IsSelected="{Binding IsSelected, Mode=TwoWay}"
                                         IsRendering="{Binding IsVisible}"
                                         PostEffects="{Binding PostEffects}"/>
+                <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
             </hx:CompositeModel3D>
         </DataTemplate>
         <DataTemplate x:Key="angularTransmissionDataTemplate">
@@ -427,6 +428,22 @@
                                         IsRendering="{Binding IsVisible}"
                                         PostEffects="{Binding PostEffects}"/>
         </DataTemplate>
+        <DataTemplate x:Key="pointProbe">
+            <hx:CompositeModel3D>
+                <hx:CompositeModel3D.Transform>
+                    <TranslateTransform3D OffsetX="{Binding RelativeX}" OffsetY="{Binding RelativeY}" OffsetZ="{Binding RelativeZ}"/>
+                </hx:CompositeModel3D.Transform>
+                <hx:MeshGeometryModel3D Geometry="{Binding Probe, Source={StaticResource geometries}}"
+                                        Material="{Binding Probe, Source={StaticResource materials}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                        IsRendering="{Binding IsVisible}"
+                                        PostEffects="{Binding PostEffects}"/>
+            </hx:CompositeModel3D>
+        </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
             <selectors:ItemModel3DTemplateSelectorItem When="Default" Then="{StaticResource element3dDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="XLinearTranslateEle" Then="{StaticResource element3dDataTemplateXLinearTranslate}" />
@@ -447,6 +464,7 @@
             <selectors:ItemModel3DTemplateSelectorItem When="Debug" Then="{StaticResource debugTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="InjectedObj" Then="{StaticResource insertedObject}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="InsertedObj" Then="{StaticResource insertedObject}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="PointProbe" Then="{StaticResource pointProbe}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

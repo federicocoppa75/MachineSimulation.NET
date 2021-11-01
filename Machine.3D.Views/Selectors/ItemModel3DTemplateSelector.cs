@@ -3,6 +3,7 @@ using Machine.ViewModels.Insertions;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Toolholder;
+using Machine.ViewModels.Probing;
 using MaterialRemove.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,10 @@ namespace Machine._3D.Views.Selectors
             else if(item is DebugElementViewModel)
             {
                 it = ElementViewType.Debug;
+            }
+            else if(item is PointProbeViewModel)
+            {
+                it = ElementViewType.PointProbe;
             }
             else if(item is ToolholderElementViewModel thvm)
             {

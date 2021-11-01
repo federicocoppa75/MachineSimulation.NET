@@ -65,6 +65,15 @@ namespace Machine._3D.Views.Helpers
 
                 if (e.LinkToParent != null) ts.Append(GetLinkTransformation(e.LinkToParent));
 
+                if(e is IToolholderElement th)
+                {
+                    var dt = DirectionToMatrixConverter.Convert(th.Direction);
+                    var pt = StaticTransformationConverter.Convert(th.Position);
+
+                    ts.Append(dt);
+                    ts.Append(pt);
+                }
+
                 return ts;
             }
         }
