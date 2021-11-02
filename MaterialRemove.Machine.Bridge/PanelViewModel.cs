@@ -14,6 +14,7 @@ using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.UI;
 using MVMIoc = Machine.ViewModels.Ioc;
 using Machine.ViewModels.Interfaces;
+using MaterialRemove.ViewModels.Interfaces;
 
 namespace MaterialRemove.Machine.Bridge
 {
@@ -40,6 +41,8 @@ namespace MaterialRemove.Machine.Bridge
             _stepsProgressState = GetInstance<IProgressState>();
 
             if(_stepsProgressState != null) _stepsProgressState.ProgressIndexChanged += OnProgressIndexChanged;
+
+            SetProbableElementProxy();
         }
 
         public void ApplyAction(ToolActionData toolActionData)
@@ -149,6 +152,25 @@ namespace MaterialRemove.Machine.Bridge
             {
                 Children.Add(new DebugElementViewModel(toolActionData.X, toolActionData.Y, toolActionData.Z));
             });
+        }
+
+        private void SetProbableElementProxy()
+        {
+            foreach (var section in _panelSectionsProxy.Sections)
+            {
+                foreach (var item in section.Faces)
+                {
+                    if(item is IProbableElementProxy pep)
+                    {
+                        pep.SetProbableElement(this);
+                    }
+                }
+
+                if(section.Volume is IProbableElementProxy vpep)
+                {
+                    vpep.SetProbableElement(this);
+                }
+            }
         }
     }
 }

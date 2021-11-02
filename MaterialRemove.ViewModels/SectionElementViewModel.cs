@@ -7,13 +7,16 @@ using MaterialRemove.ViewModels.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MVMIP = Machine.ViewModels.Interfaces.Probing;
 
 namespace MaterialRemove.ViewModels
 {
-    public abstract class SectionElementViewModel : BaseViewModel, ISectionElement
+    public abstract class SectionElementViewModel : BaseViewModel, ISectionElement, IProbableElementProxy
     {
         private object _lockObj = new object();
         private List<BoundedImplicitFunction3d> _toolApplications;
+        private MVMIP.IProbableElement _probableElement;
+
         protected List<BoundedImplicitFunction3d> ToolApplications => _toolApplications;
         protected DMesh3 InternalGeometry { get; set; }
 
@@ -34,6 +37,9 @@ namespace MaterialRemove.ViewModels
             InternalGeometry = GenerateMesh();
             OnActionApplied();
         }
+
+        public void AddProbePoint(MVMIP.Point point) => _probableElement?.AddProbePoint(point);
+        public void SetProbableElement(MVMIP.IProbableElement probableElement) => _probableElement = probableElement;
 
         internal Task ApplyActionAsync(BoundedImplicitFunction3d toolApplication)
         {

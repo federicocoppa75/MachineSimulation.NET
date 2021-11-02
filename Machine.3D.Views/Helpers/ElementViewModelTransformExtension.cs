@@ -13,9 +13,81 @@ namespace Machine._3D.Views.Helpers
 {
     internal static class ElementViewModelTransformExtension
     {
-        public static Matrix3D GetChainTransformation(this IPanelElement panel)
+        //public static Matrix3D GetChainTransformation(this IPanelElement panel)
+        //{
+        //    var matrix = (panel as IMachineElement).GetChainTransformation();
+
+        //    //if (panel is IMovablePanel mp)
+        //    //{
+        //    //    var m = Matrix3D.Identity;
+
+        //    //    m.OffsetX = mp.OffsetX;
+        //    //    matrix.Append(m);
+        //    //}
+
+        //    //var mc = Matrix3D.Identity;
+
+        //    //mc.OffsetX = panel.CenterX;
+        //    //mc.OffsetY = panel.CenterY;
+        //    //mc.OffsetZ = panel.CenterZ;
+
+        //    //matrix.Append(mc);
+
+        //    //var pm = panel.GetTransformation();
+
+        //    return matrix;
+        //}
+
+        public static Matrix3D GetChainTransformation(this IMachineElement endOfChain, bool probing = false)
         {
-            var matrix = (panel as IMachineElement).GetChainTransformation();
+            IMachineElement p = endOfChain;
+            var list = new List<IMachineElement>();
+            var matrix = Matrix3D.Identity;
+
+            while (p != null)
+            {
+                list.Add(p);
+                p = p.Parent;
+            }
+
+            for (int i = 0; i < list.Count; i++) matrix.Append(GetElementTransformation(list[i], probing));
+
+            return matrix;
+        }
+
+        private static Matrix3D GetElementTransformation(IMachineElement e, bool probing = false)
+        {
+            if (e is IPanelElement pe)
+            {
+                return pe.GetTransformation();
+            }
+            else if ((e == null) || (e.Transformation == null))
+            //if ((e == null) || (e.Transformation == null))
+            {
+                return Matrix3D.Identity;
+            }
+            else
+            {
+                var ts = StaticTransformationConverter.Convert(e.Transformation);
+
+                if (e.LinkToParent != null) ts.Append(GetLinkTransformation(e.LinkToParent));
+
+                //if (probing && (e is IToolholderElement th))
+                //{
+                //    var dt = DirectionToMatrixConverter.Convert(th.Direction);
+                //    var pt = StaticTransformationConverter.Convert(th.Position);
+
+                //    ts.Append(dt);
+                //    ts.Append(pt);
+                //}
+
+                return ts;
+            }
+        }
+
+        private static Matrix3D GetTransformation(this IPanelElement panel)
+        {
+            var matrix = Matrix3D.Identity;
 
             if (panel is IMovablePanel mp)
             {
@@ -34,48 +106,6 @@ namespace Machine._3D.Views.Helpers
             matrix.Append(mc);
 
             return matrix;
-        }
-
-        public static Matrix3D GetChainTransformation(this IMachineElement endOfChain)
-        {
-            IMachineElement p = endOfChain;
-            var list = new List<IMachineElement>();
-            var matrix = Matrix3D.Identity;
-
-            while (p != null)
-            {
-                list.Add(p);
-                p = p.Parent;
-            }
-
-            for (int i = 0; i < list.Count; i++) matrix.Append(GetElementTransformation(list[i]));
-
-            return matrix;
-        }
-
-        private static Matrix3D GetElementTransformation(IMachineElement e)
-        {
-            if ((e == null) || (e.Transformation == null))
-            {
-                return Matrix3D.Identity;
-            }
-            else
-            {
-                var ts = StaticTransformationConverter.Convert(e.Transformation);
-
-                if (e.LinkToParent != null) ts.Append(GetLinkTransformation(e.LinkToParent));
-
-                if(e is IToolholderElement th)
-                {
-                    var dt = DirectionToMatrixConverter.Convert(th.Direction);
-                    var pt = StaticTransformationConverter.Convert(th.Position);
-
-                    ts.Append(dt);
-                    ts.Append(pt);
-                }
-
-                return ts;
-            }
         }
 
         private static Matrix3D GetLinkTransformation(ILinkViewModel link)
