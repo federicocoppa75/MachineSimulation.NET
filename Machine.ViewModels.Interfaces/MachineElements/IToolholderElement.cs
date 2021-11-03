@@ -10,7 +10,7 @@ namespace Machine.ViewModels.Interfaces.MachineElements
     {
         int ToolHolderId { get; }
         ToolHolderType ToolHolderType { get; }
-        Vector Position { get; set; }
+        Point Position { get; set; }
         Vector Direction { get; set; }
         bool ActiveTool { get; set; }
     }

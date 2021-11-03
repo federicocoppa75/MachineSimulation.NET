@@ -85,19 +85,19 @@ namespace Machine.Data
         private void RemoveElementData(InjectorElement m)
         {
             Vectors.Remove(m.Direction);
-            Vectors.Remove(m.Position);
+            Points.Remove(m.Position);
             Colors.Remove(m.InserterColor);
         }
 
         private void RemoveElementData(PanelHolderElement m)
         {
-            Vectors.Remove(m.Position);
+            Points.Remove(m.Position);
         }
 
         private void RemoveElementData(ToolholderElement m)
         {
             Vectors.Remove(m.Direction);
-            Vectors.Remove(m.Position);
+            Points.Remove(m.Position);
         }
     }
 }

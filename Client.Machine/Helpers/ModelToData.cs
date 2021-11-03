@@ -186,7 +186,7 @@ namespace Client.Machine.Helpers
                 {
                     PanelHolderId = ph.Id,
                     PanelHolderName = ph.Name,
-                    Position = ph.Position.ToMachineData(),
+                    Position = ph.Position.ToMachineDataPoint(),
                     Corner = ConvertPanelLoadType(ph.Corner)
                 };
             }
@@ -195,7 +195,7 @@ namespace Client.Machine.Helpers
                 var insn = CreateInserter(model);
 
                 insn.InserterId = model.Inserter.Id;
-                insn.Position = model.Inserter.Position.ToMachineData();
+                insn.Position = model.Inserter.Position.ToMachineDataPoint();
                 insn.Direction = model.Inserter.Direction.ToMachineData();
                 insn.InserterColor = model.Inserter.Color.ToMachineData();
 
@@ -208,7 +208,7 @@ namespace Client.Machine.Helpers
                 return new MD.MachineElements.ToolholderElement()
                 {
                     ToolHolderId = th.Id,
-                    Position = th.Position.ToMachineData(),
+                    Position = th.Position.ToMachineDataPoint(),
                     Direction = th.Direction.ToMachineData(),
                     ToolHolderType = ConvertToolHolderType(model.ToolHolderType)
                 };

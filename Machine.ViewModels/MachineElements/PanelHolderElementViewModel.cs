@@ -11,7 +11,7 @@ namespace Machine.ViewModels.MachineElements
     {
         public int PanelHolderId { get; set; }
         public string PanelHolderName { get; set; }
-        public virtual Vector Position { get; set; }
+        public virtual Point Position { get; set; }
         public PanelLoadType Corner { get; set; }
 
         private IPanelElement _loadedPanel;

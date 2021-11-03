@@ -38,5 +38,16 @@ namespace Machine._3D.Views.Converters
 
             return m;
         }
+
+        static public Matrix3D Convert(Point p)
+        {
+            var m = Matrix3D.Identity;
+
+            m.OffsetX = p.X;
+            m.OffsetY = p.Y;
+            m.OffsetZ = p.Z;
+
+            return m;
+        }
     }
 }

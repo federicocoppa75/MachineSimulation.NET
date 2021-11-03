@@ -84,7 +84,7 @@ namespace Machine._3D.Views.Helpers
                 else if (probing && (e.Parent is IATToolholder atth))
                 {
                     var dt = DirectionToMatrixConverter.Convert(atth.Direction);
-                    var pt = StaticTransformationConverter.Convert(new Data.Base.Vector() { X = atth.Position.X, Y = atth.Position.Y, Z = atth.Position.Z });
+                    var pt = StaticTransformationConverter.Convert(atth.Position);
 
                     ts.Append(dt);
                     ts.Append(pt);

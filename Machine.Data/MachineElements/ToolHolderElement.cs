@@ -11,7 +11,7 @@ namespace Machine.Data.MachineElements
     {
         public int ToolHolderId { get; set; }
         public ToolHolderType ToolHolderType { get; set; }
-        public virtual Vector Position { get; set; }
+        public virtual Point Position { get; set; }
         public virtual Vector Direction { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
 
         public int ToolHolderId { get; set; }
         public abstract ToolHolderType ToolHolderType { get; }
-        public Vector Position { get; set; }
+        public Point Position { get; set; }
         public Vector Direction { get; set; }
         public bool ActiveTool { get; set; }
 
