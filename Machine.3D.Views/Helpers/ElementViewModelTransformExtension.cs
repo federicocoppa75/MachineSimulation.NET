@@ -61,25 +61,35 @@ namespace Machine._3D.Views.Helpers
             {
                 return pe.GetTransformation();
             }
-            else if ((e == null) || (e.Transformation == null))
+            else if (e == null)
+            //else if ((e == null) || (e.Transformation == null))
             //if ((e == null) || (e.Transformation == null))
             {
                 return Matrix3D.Identity;
             }
             else
             {
-                var ts = StaticTransformationConverter.Convert(e.Transformation);
+                var ts = (e.Transformation != null) ? StaticTransformationConverter.Convert(e.Transformation) : Matrix3D.Identity;
 
                 if (e.LinkToParent != null) ts.Append(GetLinkTransformation(e.LinkToParent));
 
-                //if (probing && (e is IToolholderElement th))
-                //{
-                //    var dt = DirectionToMatrixConverter.Convert(th.Direction);
-                //    var pt = StaticTransformationConverter.Convert(th.Position);
+                if (probing && (e.Parent is IToolholderElement th))
+                {
+                    var dt = DirectionToMatrixConverter.Convert(th.Direction);
+                    var pt = StaticTransformationConverter.Convert(th.Position);
 
-                //    ts.Append(dt);
-                //    ts.Append(pt);
-                //}
+                    ts.Append(dt);
+                    ts.Append(pt);
+                }
+                else if (probing && (e.Parent is IATToolholder atth))
+                {
+                    var dt = DirectionToMatrixConverter.Convert(atth.Direction);
+                    var pt = StaticTransformationConverter.Convert(new Data.Base.Vector() { X = atth.Position.X, Y = atth.Position.Y, Z = atth.Position.Z });
+
+                    ts.Append(dt);
+                    ts.Append(pt);
+                }
+
 
                 return ts;
             }

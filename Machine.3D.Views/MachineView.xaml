@@ -226,12 +226,12 @@
                                         IsRendering="{Binding IsVisible}"
                                         PostEffects="{Binding PostEffects}"/>
                 <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}">
-                    <lhx3D:ItemsModel3D.Transform>
+                    <!--<lhx3D:ItemsModel3D.Transform>
                         <Transform3DGroup>
                             <MatrixTransform3D Matrix="{Binding Direction, Converter={StaticResource directionToMatrixConverter}}" />
                             <TranslateTransform3D OffsetX="{Binding Position.X}" OffsetY="{Binding Position.Y}" OffsetZ="{Binding Position.Z}" />
                         </Transform3DGroup>
-                    </lhx3D:ItemsModel3D.Transform>
+                    </lhx3D:ItemsModel3D.Transform>-->
                 </lhx3D:ItemsModel3D>
             </hx:CompositeModel3D>
         </DataTemplate>
@@ -253,12 +253,12 @@
                                         IsRendering="{Binding IsVisible}"
                                         PostEffects="{Binding PostEffects}"/>
                 <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}">
-                    <lhx3D:ItemsModel3D.Transform>
+                    <!--<lhx3D:ItemsModel3D.Transform>
                         <Transform3DGroup>
                             <MatrixTransform3D Matrix="{Binding Direction, Converter={StaticResource directionToMatrixConverter}}" />
                             <TranslateTransform3D OffsetX="{Binding Position.X}" OffsetY="{Binding Position.Y}" OffsetZ="{Binding Position.Z}" />
                         </Transform3DGroup>
-                    </lhx3D:ItemsModel3D.Transform>
+                    </lhx3D:ItemsModel3D.Transform>-->
                 </lhx3D:ItemsModel3D>
             </hx:CompositeModel3D>
         </DataTemplate>
@@ -284,17 +284,23 @@
                                         IsRendering="{Binding IsVisible}"
                                         PostEffects="{Binding PostEffects}"/>
                 <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}">
-                    <lhx3D:ItemsModel3D.Transform>
+                    <!--<lhx3D:ItemsModel3D.Transform>
                         <Transform3DGroup>
                             <MatrixTransform3D Matrix="{Binding Direction, Converter={StaticResource directionToMatrixConverter}}" />
                             <TranslateTransform3D OffsetX="{Binding Position.X}" OffsetY="{Binding Position.Y}" OffsetZ="{Binding Position.Z}" />
                         </Transform3DGroup>
-                    </lhx3D:ItemsModel3D.Transform>
+                    </lhx3D:ItemsModel3D.Transform>-->
                 </lhx3D:ItemsModel3D>
             </hx:CompositeModel3D>
         </DataTemplate>
         <DataTemplate x:Key="toolDataTemplate">
             <hx:CompositeModel3D>
+                <hx:CompositeModel3D.Transform>
+                    <Transform3DGroup>
+                        <MatrixTransform3D Matrix="{Binding Parent.Direction, Converter={StaticResource directionToMatrixConverter}}" />
+                        <TranslateTransform3D OffsetX="{Binding Parent.Position.X}" OffsetY="{Binding Parent.Position.Y}" OffsetZ="{Binding Parent.Position.Z}" />
+                    </Transform3DGroup>
+                </hx:CompositeModel3D.Transform>
                 <hx:MeshGeometryModel3D Geometry="{Binding Tool, Converter={StaticResource toolToGeometryConverter}}"
                                         Material="{Binding Color, Converter={StaticResource colorToMaterialConverter}}"
                                         CullMode="Back"
@@ -318,6 +324,12 @@
         </DataTemplate>
         <DataTemplate x:Key="angularTransmissionDataTemplate">
             <hx:CompositeModel3D>
+                <hx:CompositeModel3D.Transform>
+                    <Transform3DGroup>
+                        <MatrixTransform3D Matrix="{Binding Parent.Direction, Converter={StaticResource directionToMatrixConverter}}" />
+                        <TranslateTransform3D OffsetX="{Binding Parent.Position.X}" OffsetY="{Binding Parent.Position.Y}" OffsetZ="{Binding Parent.Position.Z}" />
+                    </Transform3DGroup>
+                </hx:CompositeModel3D.Transform>                
                 <hx:MeshGeometryModel3D Geometry="{Binding BodyModelFile, Converter={StaticResource modelNameToGeometryConverter}}"
                                         Material="{Binding Color, Converter={StaticResource colorToMaterialConverter}}"
                                         CullMode="Back"
@@ -332,12 +344,12 @@
         </DataTemplate>
         <DataTemplate x:Key="atToolholderDataTemplate">
             <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}">
-                <lhx3D:ItemsModel3D.Transform>
+                <!--<lhx3D:ItemsModel3D.Transform>
                     <Transform3DGroup>
                         <MatrixTransform3D Matrix="{Binding Direction, Converter={StaticResource directionToMatrixConverter}}" />
                         <TranslateTransform3D OffsetX="{Binding Position.X}" OffsetY="{Binding Position.Y}" OffsetZ="{Binding Position.Z}" />
                     </Transform3DGroup>
-                </lhx3D:ItemsModel3D.Transform>
+                </lhx3D:ItemsModel3D.Transform>-->
             </lhx3D:ItemsModel3D>
         </DataTemplate>
         <DataTemplate x:Key="panelTemplate">
