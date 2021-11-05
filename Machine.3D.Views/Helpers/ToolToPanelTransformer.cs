@@ -126,10 +126,8 @@ namespace Machine._3D.Views.Helpers
         private void GetToolPositionAndDirection(IToolElement tool, Matrix3D panelMatrix, out Point3D position, out Vector3D direction)
         {
             var matrix = tool.GetChainTransformation();
-            var p0 = GetToolPosition(tool);
-            var d0 = GetToolDirection(tool);
-            var p1 = matrix.Transform(p0);
-            var d1 = matrix.Transform(d0);
+            var p1 = matrix.Transform(new Point3D());
+            var d1 = matrix.Transform(new Vector3D(0.0, 0.0, -1.0 ));
             var p2 = panelMatrix.Transform(p1);
             var d2 = panelMatrix.Transform(d1);
 

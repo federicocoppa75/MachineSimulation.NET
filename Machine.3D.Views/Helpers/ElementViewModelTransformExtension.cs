@@ -50,12 +50,12 @@ namespace Machine._3D.Views.Helpers
                 p = p.Parent;
             }
 
-            for (int i = 0; i < list.Count; i++) matrix.Append(GetElementTransformation(list[i], probing));
+            for (int i = 0; i < list.Count; i++) matrix.Append(GetElementTransformation(list[i]));
 
             return matrix;
         }
 
-        private static Matrix3D GetElementTransformation(IMachineElement e, bool probing = false)
+        private static Matrix3D GetElementTransformation(IMachineElement e)
         {
             if (e is IPanelElement pe)
             {
@@ -73,18 +73,10 @@ namespace Machine._3D.Views.Helpers
 
                 if (e.LinkToParent != null) ts.Append(GetLinkTransformation(e.LinkToParent));
 
-                if (probing && (e.Parent is IToolholderElement th))
+                if (e.Parent is IToolholderBase th)
                 {
                     var dt = DirectionToMatrixConverter.Convert(th.Direction);
                     var pt = StaticTransformationConverter.Convert(th.Position);
-
-                    ts.Append(dt);
-                    ts.Append(pt);
-                }
-                else if (probing && (e.Parent is IATToolholder atth))
-                {
-                    var dt = DirectionToMatrixConverter.Convert(atth.Direction);
-                    var pt = StaticTransformationConverter.Convert(atth.Position);
 
                     ts.Append(dt);
                     ts.Append(pt);

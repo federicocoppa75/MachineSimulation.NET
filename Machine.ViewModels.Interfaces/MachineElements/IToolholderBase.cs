@@ -5,7 +5,9 @@ using System.Text;
 
 namespace Machine.ViewModels.Interfaces.MachineElements
 {
-    public interface IATToolholder : IMachineElement, IToolholderBase
+    public interface IToolholderBase
     {
+        Point Position { get; set; }
+        Vector Direction { get; set; }
     }
 }

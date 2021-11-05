@@ -12,22 +12,6 @@ namespace Machine._3D.Views.Converters
         {
             if(value is Vector v)
             {
-                //var t = new Vector() { X = 0.0, Y = 0.0, Z = -1.0 };
-                //var s = (v.X * t.X) + (v.Y * t.Y) + (v.Z * t.Z);
-
-                //if(s == 1.0)
-                //{
-                //    return Matrix3D.Identity;
-                //}
-                //else if (s == -1.0)
-                //{
-                //    return new Matrix3D() { M11 = -1.0, M22 = -1.0, M33 = -1.0, M44 = 1.0 };
-                //}
-                //else
-                //{
-                //    return CreateRotatioMatrix(t, v);
-                //}
-
                 return Convert(v);
             }
             else

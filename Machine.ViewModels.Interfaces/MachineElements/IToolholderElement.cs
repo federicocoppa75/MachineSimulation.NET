@@ -6,12 +6,10 @@ using System.Text;
 
 namespace Machine.ViewModels.Interfaces.MachineElements
 {
-    public interface IToolholderElement
+    public interface IToolholderElement : IToolholderBase
     {
         int ToolHolderId { get; }
         ToolHolderType ToolHolderType { get; }
-        Point Position { get; set; }
-        Vector Direction { get; set; }
         bool ActiveTool { get; set; }
     }
 }
