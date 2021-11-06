@@ -17,6 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 //using System.Windows.Media.Media3D;
+using MVMIP = Machine.ViewModels.Interfaces.Probing;
 
 namespace Machine._3D.Views
 {
@@ -35,6 +36,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IProcessCaller>.Register<RenderProcessCaller>();
             Machine.ViewModels.Ioc.SimpleIoc<IToolToPanelTransformerFactory>.Register<ToolToPanelTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<MVMIP.IProbePointTransformerFactory>.Register<ProbePointTransformerFactory>();
             DataContext = new MainViewModel();
 
             view3DX.AddHandler(Element3D.MouseDown3DEvent, new RoutedEventHandler((s, e) =>
@@ -45,32 +47,32 @@ namespace Machine._3D.Views
                 if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
 
                 //if (machineViewModel.EnableSelectionByView)
-                {
-                    var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
-                    var updateSelection = true;
-
-
-                    if (_selectedModel != null)
-                    {
-                        updateSelection = !ReferenceEquals(selectedModel, _selectedModel);
-                        _selectedModel.IsSelected = false;
-                        _selectedModel = null;
-                    }
-
-                    if (updateSelection)
-                    {
-                        selectedModel.IsSelected = true;
-                        _selectedModel = selectedModel;
-                    }
-                }
-                //else if (machineViewModel.AddProbePoint)
                 //{
                 //    var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
-                //    var point = arg.HitTestResult.PointHit.ToPoint3D();
-                //    var vm = selectedModel.DataContext as IProbableElementViewModel;
+                //    var updateSelection = true;
 
-                //    vm?.AddProbePoint(point);
+
+                //    if (_selectedModel != null)
+                //    {
+                //        updateSelection = !ReferenceEquals(selectedModel, _selectedModel);
+                //        _selectedModel.IsSelected = false;
+                //        _selectedModel = null;
+                //    }
+
+                //    if (updateSelection)
+                //    {
+                //        selectedModel.IsSelected = true;
+                //        _selectedModel = selectedModel;
+                //    }
                 //}
+                //else if (machineViewModel.AddProbePoint)
+                {
+                    var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
+                    var p = arg.HitTestResult.PointHit;
+                    var vm = selectedModel.DataContext as MVMIP.IProbableElement;
+
+                    vm?.AddProbePoint(new MVMIP.Point() { X =  p.X, Y = p.Y, Z = p.Z});
+                }
 
             }));
 
