@@ -99,7 +99,17 @@ namespace Machine.Views.ViewModels
 
         private void DistanceCommandImpl()
         {
-            throw new NotImplementedException();
+            var selected = Probes.Where((p) => (p is IViewElementData ved) && ved.IsSelected).ToList();
+
+            if ((selected.Count() == 2) && (selected.All((p) => (p is IProbePoint))))
+            {
+                var master = selected[0] as IProbePoint;
+                var slave = selected[1] as IProbePoint;
+
+                var probe = GetInstance<IProbeFactory>().Create(master, slave);
+
+                Probes.Add(probe);
+            }
         }
 
         private void Remove(IProbe probe)
@@ -108,6 +118,8 @@ namespace Machine.Views.ViewModels
 
             Probes.Remove(probe);
             if (probe is IMachineElement me) me.Parent?.Children.Remove(me);
+            if (probe is IProbeDistance pd) RemoveProbeDistance(pd);
+            RemoveProbeChildren(probe);
 
             UpdateCommands();
         }
@@ -118,6 +130,8 @@ namespace Machine.Views.ViewModels
             {
                 if (item is IProbePointChangable ppc) ppc.Detach();
                 if (item is IMachineElement me) me.Parent?.Children.Remove(me);
+                if (item is IProbeDistance pd) RemoveProbeDistance(pd);
+                RemoveProbeChildren(item);
             }
 
             Probes.Clear();
@@ -148,6 +162,24 @@ namespace Machine.Views.ViewModels
             }
 
             return result;
+        }
+
+        private void RemoveProbeChildren(IProbe probe)
+        {
+            if ((probe is IMachineElement me) && (me.Children.Count > 0))
+            {
+                foreach (var item in me.Children)
+                {
+                    if (item is IProbeDistance pd) RemoveProbeDistance(pd);
+                }
+            }
+        }
+
+        private void RemoveProbeDistance(IProbeDistance probeDistance)
+        {
+            probeDistance.Master = null;
+            probeDistance.Slave = null;
+            (probeDistance as IMachineElement).Parent = null;
         }
     }
 }

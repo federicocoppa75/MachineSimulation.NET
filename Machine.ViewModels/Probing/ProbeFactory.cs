@@ -39,5 +39,24 @@ namespace Machine.ViewModels.Probing
 
             return probe;
         }
+
+        public IProbe Create(IProbePoint master, IProbePoint slave)
+        {
+            var id = ++_probeCount;
+            var me = master as IMachineElement;
+            var probe = new DistanceProbeViewModel()
+            {
+                ProbeId = id,
+                Name = $"Distance probe ({id})",
+                Parent = me,
+                IsVisible = true,
+                Master = master,
+                Slave = slave
+            };
+
+            me.Children.Add(probe);
+
+            return probe;
+        }
     }
 }

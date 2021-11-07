@@ -8,5 +8,6 @@ namespace Machine.ViewModels.Interfaces.Probing
     public interface IProbeFactory
     {
         IProbe Create(IProbableElement parent, Point point);
+        IProbe Create(IProbePoint master, IProbePoint slave);
     }
 }
