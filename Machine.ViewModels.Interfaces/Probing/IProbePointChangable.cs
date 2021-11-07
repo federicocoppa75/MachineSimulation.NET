@@ -7,5 +7,7 @@ namespace Machine.ViewModels.Interfaces.Probing
     public interface IProbePointChangable : IProbePoint
     {
         public IProbePointChangableTransformer Transformer { get; set; }
+
+        public void Detach();
     }
 }

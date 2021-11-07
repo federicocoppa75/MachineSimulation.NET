@@ -4,6 +4,7 @@ using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Probing;
+using Machine.ViewModels.Messages.Probing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,6 +64,15 @@ namespace Machine.ViewModels.Probing
                 }
             } 
         }
+
+        public void Detach()
+        {
+            if(Transformer != null)
+            {
+                Transformer.Detach();
+                Transformer = null;
+            }
+        }
         #endregion
 
         #region IMachineElement
@@ -99,6 +109,7 @@ namespace Machine.ViewModels.Probing
                     if (kernel != null) kernel.Selected = _isSelected ? this : null;
                     PostEffects = _isSelected ? $"highlight[color:#FFFF00]" : null;
                     if (_isSelected) RequestTreeviewVisibility(Parent);
+                    Messenger.Send(new ProbeSelectedChangedMessage());
                 }
             }
         }

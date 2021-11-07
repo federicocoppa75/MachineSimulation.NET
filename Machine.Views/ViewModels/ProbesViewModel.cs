@@ -23,15 +23,22 @@ namespace Machine.Views.ViewModels
         public bool Active
         {
             get => _active;
-            set => Set(ref _active, value, nameof(Active));
+            set
+            {
+                if(Set(ref _active, value, nameof(Active)))
+                {
+                    UpdateCommands();
+                    UpdateCommandsFromSelection();
+                }
+            }
         }
 
         private ICommand _distanceCommand;
-        public ICommand DistanceCommand => _distanceCommand ?? (_distanceCommand = new RelayCommand(() => DistanceCommandImpl(), () => _active));
+        public ICommand DistanceCommand => _distanceCommand ?? (_distanceCommand = new RelayCommand(() => DistanceCommandImpl(), () => Active && CanExecuteAddDistanceProbe()));
 
  
         private ICommand _removeCommand;
-        public ICommand RemoveCommand => _removeCommand ?? (_removeCommand = new RelayCommand(() => RemoveCommandImpl(), () => false /*(Probes.Count > 0) && Probes.Any(p => (p is IViewElementData ved) && ved.IsSelected)*/));
+        public ICommand RemoveCommand => _removeCommand ?? (_removeCommand = new RelayCommand(() => RemoveCommandImpl(), () => (Probes.Count > 0) && Probes.Any(p => (p is IViewElementData ved) && ved.IsSelected)));
 
         private ICommand _removeAllCommand;
         public ICommand RemoveAllCommand => _removeAllCommand ?? (_removeAllCommand = new RelayCommand(() => RemoveAllCommandImpl(), () => Probes.Count > 0));
@@ -41,11 +48,16 @@ namespace Machine.Views.ViewModels
         {
             Machine.ViewModels.Ioc.SimpleIoc<IProbesController>.Register(this);
             Messenger.Register<AddProbeMessage>(this, OnAddProbeMessage);
+            Messenger.Register<ProbeSelectedChangedMessage>(this, OnProbeSelectedChangedMessage);
         }
+
+        private void OnProbeSelectedChangedMessage(ProbeSelectedChangedMessage msg) => UpdateCommandsFromSelection();
+
 
         private void OnAddProbeMessage(AddProbeMessage msg)
         {
             Probes.Add(msg.Probe);
+            UpdateCommands();
         }
 
         protected override void AddElement(IEnumerable<IMachineElement> elements)
@@ -74,22 +86,68 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        protected override void Clear() => Probes.Clear();
+        protected override void Clear() => RemoveAll();
 
         private void RemoveCommandImpl()
         {
-            var selected = Probes.Where(p => (p is IViewElementData ved) && ved.IsSelected);
+            var selected = Probes.Where(p => (p is IViewElementData ved) && ved.IsSelected).ToList();
 
-            foreach (var item in selected) Probes.Remove(item);
+            foreach (var item in selected) Remove(item);
         }
 
-        private void RemoveAllCommandImpl() => Clear();
+        private void RemoveAllCommandImpl() => RemoveAll();
 
         private void DistanceCommandImpl()
         {
             throw new NotImplementedException();
         }
 
+        private void Remove(IProbe probe)
+        {
+            if (probe is IProbePointChangable ppc) ppc.Detach();
 
+            Probes.Remove(probe);
+            if (probe is IMachineElement me) me.Parent?.Children.Remove(me);
+
+            UpdateCommands();
+        }
+
+        private void RemoveAll()
+        {
+            foreach (var item in Probes)
+            {
+                if (item is IProbePointChangable ppc) ppc.Detach();
+                if (item is IMachineElement me) me.Parent?.Children.Remove(me);
+            }
+
+            Probes.Clear();
+
+            UpdateCommands();
+        }
+
+        private void UpdateCommands()
+        {
+            (RemoveCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (RemoveAllCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        }
+
+        private void UpdateCommandsFromSelection()
+        {
+            (DistanceCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (RemoveCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        }
+
+        private bool CanExecuteAddDistanceProbe()
+        {
+            bool result = false;
+            var selected = Probes.Where((p) => (p is IViewElementData ved) && ved.IsSelected);
+
+            if((selected.Count() == 2) && (selected.All((p) => (p is IProbePoint))))
+            {
+                result = true;
+            }
+
+            return result;
+        }
     }
 }
