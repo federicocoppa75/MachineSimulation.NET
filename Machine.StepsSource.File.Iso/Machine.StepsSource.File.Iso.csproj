@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MachineSteps.Plugins.IsoParser" Version="1.1.2" />
+    <PackageReference Include="MachineSteps.Plugins.IsoParser" Version="1.1.3" />
   </ItemGroup>
 
   <ItemGroup>
