@@ -28,6 +28,9 @@ namespace Machine._3D.Views
     {
         private GeometryModel3D _selectedModel;
 
+        private IProbesController _probesController;
+        protected IProbesController ProbesController => _probesController ?? (_probesController = Machine.ViewModels.Ioc.SimpleIoc<IProbesController>.GetInstance());
+
         public MachineView()
         {
             InitializeComponent();
@@ -46,26 +49,26 @@ namespace Machine._3D.Views
                 if (arg.HitTestResult == null) return;
                 if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
 
-                //if (machineViewModel.EnableSelectionByView)
-                //{
-                //    var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
-                //    var updateSelection = true;
+                if (!ProbesController.Active) //(machineViewModel.EnableSelectionByView)
+                {
+                    var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
+                    var updateSelection = true;
 
 
-                //    if (_selectedModel != null)
-                //    {
-                //        updateSelection = !ReferenceEquals(selectedModel, _selectedModel);
-                //        _selectedModel.IsSelected = false;
-                //        _selectedModel = null;
-                //    }
+                    if (_selectedModel != null)
+                    {
+                        updateSelection = !ReferenceEquals(selectedModel, _selectedModel);
+                        _selectedModel.IsSelected = false;
+                        _selectedModel = null;
+                    }
 
-                //    if (updateSelection)
-                //    {
-                //        selectedModel.IsSelected = true;
-                //        _selectedModel = selectedModel;
-                //    }
-                //}
-                //else if (machineViewModel.AddProbePoint)
+                    if (updateSelection)
+                    {
+                        selectedModel.IsSelected = true;
+                        _selectedModel = selectedModel;
+                    }
+                }
+                else //if (machineViewModel.AddProbePoint)
                 {
                     var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
                     var p = arg.HitTestResult.PointHit;

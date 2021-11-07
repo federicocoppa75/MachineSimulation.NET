@@ -21,6 +21,7 @@ using MRI = MaterialRemove.Interfaces;
 using MVMII = Machine.ViewModels.Interfaces.Insertions;
 using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
+using MVVM = Machine.Views.ViewModels;
 
 namespace Machine.Viewer
 {

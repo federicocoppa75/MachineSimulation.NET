@@ -66,6 +66,8 @@ namespace Machine._3D.Views
 
         public IEnumerable<M3DVE.LightType> LightTypes => Enum.GetValues(typeof(M3DVE.LightType)).Cast<M3DVE.LightType>();
 
+        public IProbesViewData ProbesViewData => GetInstance<IProbesViewData>();
+
         public ObservableCollection<AmbientLightViewModel> AmbientLights { get; set; } = new ObservableCollection<AmbientLightViewModel>();
         public ObservableCollection<DirectionalLightViewModel> DirectionalLights { get; set; } = new ObservableCollection<DirectionalLightViewModel>();
         public ObservableCollection<DirectionalLightViewModel> DirectionalOrientedByCameraLights { get; set; } = new ObservableCollection<DirectionalLightViewModel>();
@@ -81,6 +83,10 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IPeropertiesProvider>.Register(this);
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.LightType>>.Register(new EnumOptionProxy<M3DVE.LightType>(() => LightTypes, () => LightType, (v) => LightType = v));
             Machine.ViewModels.Ioc.SimpleIoc<IBackgroundColor>.Register(BackgroudColor);
+            Machine.ViewModels.Ioc.SimpleIoc<IProbesViewData>.Register<ProbesViewData>();
+            Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeSize>>.Register(new EnumOptionProxy<M3DVE.ProbeSize>(() => ProbesViewData.Sizes, () => ProbesViewData.Size, (v) => ProbesViewData.Size = v));
+            Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeColor>>.Register(new EnumOptionProxy<M3DVE.ProbeColor>(() => ProbesViewData.Colors, () => ProbesViewData.Color, (v) => ProbesViewData.Color = v));
+            Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeShape>>.Register(new EnumOptionProxy<M3DVE.ProbeShape>(() => ProbesViewData.Shapes, () => ProbesViewData.Shape, (v) => ProbesViewData.Shape = v));
             StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.GetInstance();
 
             EffectsManager = new DefaultEffectsManager();
