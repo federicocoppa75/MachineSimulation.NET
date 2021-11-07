@@ -96,5 +96,14 @@
     <Setting Name="MaterialRemove" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ProbeSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Size5</Value>
+    </Setting>
+    <Setting Name="ProbeColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Yellow</Value>
+    </Setting>
+    <Setting Name="ProbeShape" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sphere</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

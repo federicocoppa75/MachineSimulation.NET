@@ -18,6 +18,7 @@ using DColor = System.Drawing.Color;
 using Machine.ViewModels;
 using VMUI = Machine.ViewModels.UI;
 using MVUI = Machine.Views.UI;
+//using M3DVI = Machine._3D.Views.Interfaces;
 
 namespace Machine.Viewer
 {
@@ -62,6 +63,10 @@ namespace Machine.Viewer
             Properties.Settings.Default.DynamicTransition = vm.StepsExecutionController.DynamicTransition;
             Properties.Settings.Default.TimespanFactor = vm.StepsExecutionController.TimeSpanFactor.ToString();
             Properties.Settings.Default.MaterialRemove = vm.MaterialRemoveData.Enable;
+            Properties.Settings.Default.ProbeSize = vm.ProbeSize.Value.ToString();
+            Properties.Settings.Default.ProbeColor = vm.ProbeColor.Value.ToString();
+            Properties.Settings.Default.ProbeShape = vm.ProbeShape.Value.ToString();
+
         }
 
         private void UpdateFromSettings()
@@ -78,6 +83,9 @@ namespace Machine.Viewer
             vm.StepsExecutionController.DynamicTransition = Properties.Settings.Default.DynamicTransition;
             vm.TimespanFactor.TryToParse(Properties.Settings.Default.TimespanFactor);
             vm.MaterialRemoveData.Enable = Properties.Settings.Default.MaterialRemove;
+            vm.ProbeSize.TryToParse(Properties.Settings.Default.ProbeSize);
+            vm.ProbeColor.TryToParse(Properties.Settings.Default.ProbeColor);
+            vm.ProbeShape.TryToParse(Properties.Settings.Default.ProbeShape);
         }
 
         private static MColor Convert(DColor color)
