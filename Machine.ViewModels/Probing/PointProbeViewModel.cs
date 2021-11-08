@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Machine.ViewModels.Probing
 {
-    public class PointProbeViewModel : BaseViewModel, IMachineElement, IViewElementData, IProbe, IProbePoint, IProbePointChangable
+    public class PointProbeViewModel : BaseViewModel, IMachineElement, IViewElementData, IProbe, IProbePoint
     {
         #region IProbe
         public int ProbeId { get; set; }
@@ -44,35 +44,6 @@ namespace Machine.ViewModels.Probing
         public double RelativeX { get; set; }
         public double RelativeY { get; set; }
         public double RelativeZ { get; set; }
-        #endregion
-
-        #region IProbePointChangable
-        private IProbePointChangableTransformer _transformer;
-        public IProbePointChangableTransformer Transformer 
-        { 
-            get => _transformer;
-            set
-            {
-                if(_transformer != null)
-                {
-                    _transformer.TransformerChanged -= OnTransformerChanged;
-                }
-
-                if(Set(ref _transformer, value, nameof(Transformer)) && (_transformer != null))
-                {
-                    _transformer.TransformerChanged += OnTransformerChanged;
-                }
-            } 
-        }
-
-        public void Detach()
-        {
-            if(Transformer != null)
-            {
-                Transformer.Detach();
-                Transformer = null;
-            }
-        }
         #endregion
 
         #region IMachineElement
@@ -138,18 +109,6 @@ namespace Machine.ViewModels.Probing
                 RequestTreeviewVisibility(me.Parent);
                 ved.IsExpanded = true;
             }
-        }
-
-        private void OnTransformerChanged(object sender, double e)
-        {
-            Task.Run(()=>
-             {
-                 var p = _transformer.Transform(new Interfaces.Probing.Point() { X = RelativeX, Y = RelativeY, Z = RelativeZ });
-
-                 X = p.X;
-                 Y = p.Y;
-                 Z = p.Z;
-             });
         }
         #endregion
     }

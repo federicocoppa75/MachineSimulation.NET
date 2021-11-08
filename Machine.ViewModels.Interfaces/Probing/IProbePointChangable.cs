@@ -6,8 +6,10 @@ namespace Machine.ViewModels.Interfaces.Probing
 {
     public interface IProbePointChangable : IProbePoint
     {
-        public IProbePointChangableTransformer Transformer { get; set; }
+        event EventHandler<double> PointChanged;
 
-        public void Detach();
+        IProbePointChangableTransformer Transformer { get; set; }
+
+        void Detach();
     }
 }

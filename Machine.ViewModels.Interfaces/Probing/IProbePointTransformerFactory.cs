@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Interfaces.MachineElements;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,6 @@ namespace Machine.ViewModels.Interfaces.Probing
 {
     public interface IProbePointTransformerFactory
     {
-        IProbePointTransformer GetTransformer(IProbe probe);
+        IProbePointTransformer GetTransformer(IMachineElement probeParent);
     }
 }

@@ -15,27 +15,45 @@ namespace Machine.ViewModels.Probing
             var me = parent as IMachineElement;
             var id = ++_probeCount;
             var factory = Ioc.SimpleIoc<IProbePointTransformerFactory>.GetInstance();
-            var probe = new PointProbeViewModel()
-            {
-                ProbeId = id,
-                Name = $"Point probe ({id})",
-                Parent = me,
-                X = point.X,
-                Y = point.Y,
-                Z = point.Z,
-                IsVisible = true
-            };
-
-            var t = factory.GetTransformer(probe);
+            var t = factory.GetTransformer(me);
             var p = t.Transform(point, true);
+            IProbe probe = null;
 
-            probe.RelativeX = p.X;
-            probe.RelativeY = p.Y;
-            probe.RelativeZ = p.Z;
+            if (t is IProbePointChangableTransformer ct)
+            {
+                probe = new ProbePointChangableViewModel()
+                {
+                    ProbeId = id,
+                    Name = $"Point probe ({id})",
+                    Parent = me,
+                    X = point.X,
+                    Y = point.Y,
+                    Z = point.Z,
+                    RelativeX = p.X,
+                    RelativeY = p.Y,
+                    RelativeZ = p.Z,
+                    IsVisible = true,
+                    Transformer = ct
+                };
+            }
+            else
+            {
+                probe = new PointProbeViewModel()
+                {
+                    ProbeId = id,
+                    Name = $"Point probe ({id})",
+                    Parent = me,
+                    X = point.X,
+                    Y = point.Y,
+                    Z = point.Z,
+                    RelativeX = p.X,
+                    RelativeY = p.Y,
+                    RelativeZ = p.Z,
+                    IsVisible = true
+                };
+            }
 
-            if(t is IProbePointChangableTransformer ct) probe.Transformer = ct;
-
-            me.Children.Add(probe);
+            me.Children.Add(probe as IMachineElement);
 
             return probe;
         }
