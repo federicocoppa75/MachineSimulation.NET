@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Machine.ViewModels.Probing
 {
-    public class DistanceProbeViewModel : BaseViewModel, IMachineElement, IViewElementData, IProbe, IProbeDistance
+    public class DistanceProbeViewModel : BaseProbeViewModel, IProbe, IProbeDistance
     {
         #region IProbe
         public int ProbeId { get; set; }
@@ -59,26 +59,6 @@ namespace Machine.ViewModels.Probing
                 if (Set(ref _slave, value, nameof(Slave)) && (_slave != null)) Attach(_slave);
             }
         }
-        #endregion
-
-        #region IViewElementData
-        public bool IsVisible { get; set; }
-        public bool IsSelected { get; set; }
-        public string PostEffects { get; set; }
-        public bool IsExpanded { get; set; }
-        #endregion
-
-        #region IMachineElement
-        public int MachineElementID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Name { get; set; }
-        public string ModelFile { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Matrix Transformation { get; set; }
-
-        public ICollection<IMachineElement> Children { get; private set; } = new ObservableCollection<IMachineElement>();
-
-        public ILinkViewModel LinkToParent { get => null; set => throw new NotImplementedException(); }
-        public IMachineElement Parent { get; set; }
         #endregion
 
         #region implementation
