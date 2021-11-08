@@ -8,5 +8,7 @@ namespace Machine.ViewModels.Interfaces.Probing
     {
         IProbePoint Master { get; set; }
         IProbePoint Slave { get; set; }
+
+        void Detach();
     }
 }

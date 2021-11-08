@@ -15,16 +15,50 @@ namespace Machine.ViewModels.Probing
         #region IProbe
         public int ProbeId { get; set; }
 
-        public double X => Master.X - Slave.X;
+        private double _x;
+        public double X
+        {
+            get => _x;
+            set => Set(ref _x, value, nameof(X));
+        }
 
-        public double Y => Master.Y - Slave.Y;
+        private double _y;
+        public double Y
+        {
+            get => _y;
+            set => Set(ref _y, value, nameof(Y));
+        }
 
-        public double Z => Master.Z - Slave.Z;
+        private double _z;
+        public double Z
+        {
+            get => _z;
+            set => Set(ref _z, value, nameof(Z));
+        }
         #endregion
 
         #region IProbeDistance
-        public IProbePoint Master { get; set; }
-        public IProbePoint Slave { get; set; }
+        private IProbePoint _master;
+        public IProbePoint Master 
+        { 
+            get => _master; 
+            set
+            {
+                if (_master != null) Detach(_master);
+                if (Set(ref _master, value, nameof(Master)) && (_master != null)) Attach(_master);
+            }
+        }
+
+        private IProbePoint _slave;
+        public IProbePoint Slave 
+        { 
+            get => _slave; 
+            set
+            {
+                if (_slave != null) Detach(_slave);
+                if (Set(ref _slave, value, nameof(Slave)) && (_slave != null)) Attach(_slave);
+            }
+        }
         #endregion
 
         #region IViewElementData
@@ -45,6 +79,38 @@ namespace Machine.ViewModels.Probing
 
         public ILinkViewModel LinkToParent { get => null; set => throw new NotImplementedException(); }
         public IMachineElement Parent { get; set; }
+        #endregion
+
+        #region implementation
+        private void Attach(IProbePoint probePoint)
+        {
+            if(probePoint is IProbePointChangable ppc) ppc.PointChanged += OnPointChanged;
+
+            SetValue();
+        }
+
+        private void Detach(IProbePoint probePoint)
+        {
+            if (probePoint is IProbePointChangable ppc) ppc.PointChanged -= OnPointChanged;
+        }
+
+        public void Detach()
+        {
+            Master = null;
+            Slave = null;
+        }
+
+        private void OnPointChanged(object sender, double e) => SetValue();
+
+        private void SetValue()
+        {
+            if((Master != null) && (Slave != null))
+            {
+                X = Master.X - Slave.X;
+                Y = Master.Y - Slave.Y;
+                Z = Master.Z - Slave.Z;
+            }
+        }
         #endregion
     }
 }
