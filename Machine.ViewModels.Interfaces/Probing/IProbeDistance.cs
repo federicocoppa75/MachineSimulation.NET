@@ -4,11 +4,9 @@ using System.Text;
 
 namespace Machine.ViewModels.Interfaces.Probing
 {
-    public interface IProbeDistance : IProbe
+    public interface IProbeDistance : IProbe, IDetachableProbe
     {
         IProbePoint Master { get; set; }
         IProbePoint Slave { get; set; }
-
-        void Detach();
     }
 }

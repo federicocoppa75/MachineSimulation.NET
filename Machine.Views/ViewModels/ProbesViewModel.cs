@@ -93,6 +93,8 @@ namespace Machine.Views.ViewModels
             var selected = Probes.Where(p => (p is IViewElementData ved) && ved.IsSelected).ToList();
 
             foreach (var item in selected) Remove(item);
+
+            UpdateCommands();
         }
 
         private void RemoveAllCommandImpl() => RemoveAll();
@@ -112,32 +114,34 @@ namespace Machine.Views.ViewModels
             }
         }
 
-        private void Remove(IProbe probe)
+        private void Remove(IProbe probe, bool removeFromProbes = true)
         {
-            if (probe is IProbePointChangable ppc) ppc.Detach();
+            if(probe is IMachineElement me)
+            {
+                me.Parent?.Children.Remove(me);
+
+                foreach (var item in me.Children)
+                {
+                    if (item is IProbe p) Remove(p); 
+                }
+
+                me.Children.Clear();
+            }
 
             Probes.Remove(probe);
-            if (probe is IMachineElement me) me.Parent?.Children.Remove(me);
-            if (probe is IProbeDistance pd) RemoveProbeDistance(pd);
-            RemoveProbeChildren(probe);
 
-            UpdateCommands();
+            (probe as IDetachableProbe)?.Detach();
         }
 
         private void RemoveAll()
         {
-            foreach (var item in Probes)
-            {
-                if (item is IProbePointChangable ppc) ppc.Detach();
-                if (item is IMachineElement me) me.Parent?.Children.Remove(me);
-                if (item is IProbeDistance pd) RemoveProbeDistance(pd);
-                RemoveProbeChildren(item);
-            }
+            foreach (var item in Probes) Remove(item, false);
 
             Probes.Clear();
 
             UpdateCommands();
         }
+
 
         private void UpdateCommands()
         {
