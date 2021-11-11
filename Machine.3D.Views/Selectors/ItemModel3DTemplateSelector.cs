@@ -79,6 +79,10 @@ namespace Machine._3D.Views.Selectors
             {
                 it = ElementViewType.PointProbe;
             }
+            else if(item is DistanceProbeViewModel)
+            {
+                it = ElementViewType.DistanceProbe;
+            }
             else if(item is ToolholderElementViewModel thvm)
             {
                 if (thvm.LinkToParent != null)

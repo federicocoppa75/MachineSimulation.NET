@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <const:Materials x:Key="materials" />
         <const:Geometries x:Key="geometries"/>
+        <const:Colors x:Key="colors" />
         <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <converters3D:DirectionToAxisConverter x:Key="directionToAxisConverter"/>
         <converters3D:LinearLinkPositionConverter x:Key="linearLinkPositionConverter"/>
@@ -29,6 +30,7 @@
         <converters3D:PanelToGemetryConverter x:Key="panelToGeometryConverter"/>
         <converters3D:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter"/>
         <converters3D:InsertedToGeometryConverter x:Key="insertedToGeometryConverter"/>
+        <converters3D:SizeToLineConverter x:Key="sizeToLineConverter"/>
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -426,6 +428,25 @@
                                         IsSelected="{Binding IsSelected, Mode=TwoWay}"
                                         IsRendering="{Binding IsVisible}"
                                         PostEffects="{Binding PostEffects}"/>
+                <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
+            </hx:CompositeModel3D>
+        </DataTemplate>
+        <DataTemplate x:Key="distanceProbe">
+            <hx:CompositeModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding Probe, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                    IsRendering="{Binding IsVisible}"
+                    PostEffects="{Binding PostEffects}">
+                    <hx:LineGeometryModel3D.Geometry>
+                        <MultiBinding Converter="{StaticResource sizeToLineConverter}">
+                            <Binding Path="X"/>
+                            <Binding Path="Y"/>
+                            <Binding Path="Z"/>
+                        </MultiBinding>
+                    </hx:LineGeometryModel3D.Geometry>
+                </hx:LineGeometryModel3D>
             </hx:CompositeModel3D>
         </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
@@ -449,6 +470,7 @@
             <selectors:ItemModel3DTemplateSelectorItem When="InjectedObj" Then="{StaticResource insertedObject}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="InsertedObj" Then="{StaticResource insertedObject}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="PointProbe" Then="{StaticResource pointProbe}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="DistanceProbe" Then="{StaticResource distanceProbe}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

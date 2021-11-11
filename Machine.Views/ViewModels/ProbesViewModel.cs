@@ -94,6 +94,7 @@ namespace Machine.Views.ViewModels
 
             foreach (var item in selected) Remove(item);
 
+            RemoveOrphans();
             UpdateCommands();
         }
 
@@ -119,18 +120,19 @@ namespace Machine.Views.ViewModels
             if(probe is IMachineElement me)
             {
                 me.Parent?.Children.Remove(me);
-
-                foreach (var item in me.Children)
-                {
-                    if (item is IProbe p) Remove(p); 
-                }
-
-                me.Children.Clear();
+                me.Parent = null;
             }
 
             Probes.Remove(probe);
 
             (probe as IDetachableProbe)?.Detach();
+        }
+
+        private void RemoveOrphans()
+        {
+            var orphans = Probes.Where(p => (p is IMachineElement me) && (me.Parent == null));
+
+            foreach (var item in orphans) Probes.Remove(item);
         }
 
         private void RemoveAll()

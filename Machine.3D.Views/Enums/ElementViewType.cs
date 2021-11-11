@@ -32,6 +32,7 @@ namespace Machine._3D.Views.Enums
         Debug,
         InjectedObj,
         InsertedObj,
-        PointProbe
+        PointProbe,
+        DistanceProbe
     }
 }

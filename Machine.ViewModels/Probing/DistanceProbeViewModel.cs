@@ -86,9 +86,9 @@ namespace Machine.ViewModels.Probing
         {
             if((Master != null) && (Slave != null))
             {
-                X = Master.X - Slave.X;
-                Y = Master.Y - Slave.Y;
-                Z = Master.Z - Slave.Z;
+                X = Slave.X - Master.X;
+                Y = Slave.Y - Master.Y;
+                Z = Slave.Z - Master.Z;
             }
         }
         #endregion
