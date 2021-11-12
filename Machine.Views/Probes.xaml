@@ -4,8 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Machine.Views"
+             xmlns:conv="clr-namespace:Machine.Views.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:ProbeToTypeCharConverter x:Key="probeToTypeCharConverter">
+            <conv:ProbeToTypeCharConverterItem When="IProbePoint" Then="ë"/>
+            <conv:ProbeToTypeCharConverterItem When="IProbeDistance" Then="õ"/>
+        </conv:ProbeToTypeCharConverter>
+    </UserControl.Resources>
     <Grid>
         <ListView ItemsSource="{Binding Probes}"  >
             <ListView.ItemContainerStyle>
@@ -15,13 +22,13 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <!--<GridViewColumn Header="Type" Width="50">
+                    <GridViewColumn Header="Type" Width="50">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding ProbeType, Converter={StaticResource probeTypeConverter}}" FontFamily="Webdings" FontSize="20" />
+                                <Label Content="{Binding Converter={StaticResource probeToTypeCharConverter}}" FontFamily="Webdings" FontSize="20" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>-->
+                    </GridViewColumn>
                     <GridViewColumn Header="Id" Width="50" DisplayMemberBinding="{Binding ProbeId}" />
                     <GridViewColumn Header="X" Width="50" DisplayMemberBinding="{Binding X, StringFormat={}{0:0.0}}" />
                     <GridViewColumn Header="Y" Width="50"  DisplayMemberBinding="{Binding Y, StringFormat={}{0:0.0}}" />
