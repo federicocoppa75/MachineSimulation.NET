@@ -29,6 +29,10 @@ namespace Machine._3D.Views.Helpers
 
                 if (panel.Intersects(ref ray, out Vector3 v))
                 {
+                    // a volte Intersect restituisce la posizione del collider invece della posizione dell'intersezione,
+                    // va calcolato il punto di intersezione in altro modo
+                    if((ray.Position - v).IsZero) v = GetPanelIntersection(ref panel, ref ray);
+
                     distance = GetDistance(v.ToPoint3D() - item, colliderDirection);
                     result = true;
                     break;
@@ -36,6 +40,19 @@ namespace Machine._3D.Views.Helpers
             }
 
             return result;
+        }
+
+        private Vector3 GetPanelIntersection(ref BoundingBox panel, ref Ray ray)
+        {
+            var size = new Vector3(panel.Size.X / 2.0f, panel.Size.Y / 2.0f, panel.Size.Z / 2.0f);
+            var s = size * ray.Direction;
+            var v = new Vector3();
+
+            v.X = (ray.Direction.X == 0.0f) ? ray.Position.X : panel.Center.X - s.X;
+            v.Y = (ray.Direction.Y == 0.0f) ? ray.Position.Y : panel.Center.Y - s.Y;
+            v.Z = (ray.Direction.Z == 0.0f) ? ray.Position.Z : panel.Center.Z - s.Z;
+
+            return v;
         }
 
         private BoundingBox GetPanel(Point3D panelCenter, Size3D panelSize)
