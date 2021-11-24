@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Machine.Viewer.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Machine.Editor.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="BackgroundColorStart" Type="System.Drawing.Color" Scope="User">
@@ -67,7 +67,8 @@
   "IsHitTestVisible": "True",
   "Focusable": "True",
   "IsManipulationEnabled": "False"
-}</Value>
+}
+</Value>
     </Setting>
     <Setting Name="View3DOptions" Type="System.String" Scope="User">
       <Value Profile="(Default)">{
@@ -79,22 +80,11 @@
   "SSAOQuality": "Low",
   "FlowDirection": "LeftToRight",
   "Visibility": "Visible"
-}</Value>
+}
+</Value>
     </Setting>
     <Setting Name="DataSource" Type="System.String" Scope="User">
       <Value Profile="(Default)">File.JSON</Value>
-    </Setting>
-    <Setting Name="AutoStepOver" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="DynamicTransition" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="TimespanFactor" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Factor1</Value>
-    </Setting>
-    <Setting Name="MaterialRemove" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ProbeSize" Type="System.String" Scope="User">
       <Value Profile="(Default)">Size5</Value>

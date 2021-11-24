@@ -13,15 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MVUI = Machine.Views.UI;
 using MColor = System.Windows.Media.Color;
 using DColor = System.Drawing.Color;
 using Machine.ViewModels;
 using VMUI = Machine.ViewModels.UI;
-using MVUI = Machine.Views.UI;
-//using M3DVI = Machine._3D.Views.Interfaces;
 using MVH = Machine.Views.Helpers;
 
-namespace Machine.Viewer
+namespace Machine.Editor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -32,14 +31,9 @@ namespace Machine.Viewer
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+
             MVUI.DispatcherHelper.Initialize();
-
             UpdateFromSettings();
-        }
-
-        private void MenuItem_Debug_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -60,10 +54,6 @@ namespace Machine.Viewer
             Properties.Settings.Default.View3DFlags = MVH.MainWindowHelper.Convert(vm.View3DFlags);
             Properties.Settings.Default.View3DOptions = MVH.MainWindowHelper.Convert(vm.View3DOptions);
             Properties.Settings.Default.DataSource = vm.DataSource.ToString();
-            Properties.Settings.Default.AutoStepOver = vm.StepsExecutionController.AutoStepOver;
-            Properties.Settings.Default.DynamicTransition = vm.StepsExecutionController.DynamicTransition;
-            Properties.Settings.Default.TimespanFactor = vm.StepsExecutionController.TimeSpanFactor.ToString();
-            Properties.Settings.Default.MaterialRemove = vm.MaterialRemoveData.Enable;
             Properties.Settings.Default.ProbeSize = vm.ProbeSize.Value.ToString();
             Properties.Settings.Default.ProbeColor = vm.ProbeColor.Value.ToString();
             Properties.Settings.Default.ProbeShape = vm.ProbeShape.Value.ToString();
@@ -80,10 +70,6 @@ namespace Machine.Viewer
             MVH.MainWindowHelper.TryToParse(Properties.Settings.Default.View3DFlags, vm.View3DFlags);
             MVH.MainWindowHelper.TryToParse(Properties.Settings.Default.View3DOptions, vm.View3DOptions);
             vm.DataSource.TryToParse(Properties.Settings.Default.DataSource);
-            vm.StepsExecutionController.AutoStepOver = Properties.Settings.Default.AutoStepOver;
-            vm.StepsExecutionController.DynamicTransition = Properties.Settings.Default.DynamicTransition;
-            vm.TimespanFactor.TryToParse(Properties.Settings.Default.TimespanFactor);
-            vm.MaterialRemoveData.Enable = Properties.Settings.Default.MaterialRemove;
             vm.ProbeSize.TryToParse(Properties.Settings.Default.ProbeSize);
             vm.ProbeColor.TryToParse(Properties.Settings.Default.ProbeColor);
             vm.ProbeShape.TryToParse(Properties.Settings.Default.ProbeShape);

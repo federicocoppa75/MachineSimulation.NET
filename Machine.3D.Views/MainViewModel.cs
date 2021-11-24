@@ -87,7 +87,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeSize>>.Register(new EnumOptionProxy<M3DVE.ProbeSize>(() => ProbesViewData.Sizes, () => ProbesViewData.Size, (v) => ProbesViewData.Size = v));
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeColor>>.Register(new EnumOptionProxy<M3DVE.ProbeColor>(() => ProbesViewData.Colors, () => ProbesViewData.Color, (v) => ProbesViewData.Color = v));
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeShape>>.Register(new EnumOptionProxy<M3DVE.ProbeShape>(() => ProbesViewData.Shapes, () => ProbesViewData.Shape, (v) => ProbesViewData.Shape = v));
-            StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.GetInstance();
+            StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.TryGetInstance(out IStepsExecutionController controller) ? controller : null;
 
             EffectsManager = new DefaultEffectsManager();
 

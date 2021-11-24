@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Machine.Viewer.Properties {
+namespace Machine.Editor.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -83,7 +83,7 @@ namespace Machine.Viewer.Properties {
             " \"OverridesDefaultStyle\": \"False\",\r\n  \"UseLayoutRounding\": \"False\",\r\n  \"ForceCur" +
             "sor\": \"False\",\r\n  \"AllowDrop\": \"False\",\r\n  \"ClipToBounds\": \"False\",\r\n  \"SnapsToD" +
             "evicePixels\": \"False\",\r\n  \"IsEnabled\": \"True\",\r\n  \"IsHitTestVisible\": \"True\",\r\n " +
-            " \"Focusable\": \"True\",\r\n  \"IsManipulationEnabled\": \"False\"\r\n}")]
+            " \"Focusable\": \"True\",\r\n  \"IsManipulationEnabled\": \"False\"\r\n}\r\n")]
         public string View3DFlags {
             get {
                 return ((string)(this["View3DFlags"]));
@@ -97,7 +97,7 @@ namespace Machine.Viewer.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("{\r\n  \"CameraMode\": \"Inspect\",\r\n  \"CameraRotationMode\": \"Trackball\",\r\n  \"MSAA\": \"D" +
             "isable\",\r\n  \"OITWeightMode\": \"Linear1\",\r\n  \"FXAALevel\": \"Medium\",\r\n  \"SSAOQualit" +
-            "y\": \"Low\",\r\n  \"FlowDirection\": \"LeftToRight\",\r\n  \"Visibility\": \"Visible\"\r\n}")]
+            "y\": \"Low\",\r\n  \"FlowDirection\": \"LeftToRight\",\r\n  \"Visibility\": \"Visible\"\r\n}\r\n")]
         public string View3DOptions {
             get {
                 return ((string)(this["View3DOptions"]));
@@ -116,54 +116,6 @@ namespace Machine.Viewer.Properties {
             }
             set {
                 this["DataSource"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoStepOver {
-            get {
-                return ((bool)(this["AutoStepOver"]));
-            }
-            set {
-                this["AutoStepOver"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DynamicTransition {
-            get {
-                return ((bool)(this["DynamicTransition"]));
-            }
-            set {
-                this["DynamicTransition"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Factor1")]
-        public string TimespanFactor {
-            get {
-                return ((string)(this["TimespanFactor"]));
-            }
-            set {
-                this["TimespanFactor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool MaterialRemove {
-            get {
-                return ((bool)(this["MaterialRemove"]));
-            }
-            set {
-                this["MaterialRemove"] = value;
             }
         }
         

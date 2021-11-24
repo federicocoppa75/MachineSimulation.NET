@@ -16,6 +16,8 @@ namespace Machine.ViewModels.Ioc
 
         public static T GetInstance() => GetInstance(_singleKey);
 
+        public static bool TryGetInstance(out T instance) => TryGetInstance(_singleKey, out instance);
+
         public static void Register<Y>() where Y : class, T, new()
         {
              Register<Y>(_singleKey);
@@ -27,6 +29,8 @@ namespace Machine.ViewModels.Ioc
         }
 
         public static T GetInstance(string key) => _instances[key];
+
+        public static bool TryGetInstance(string key, out T instance) => _instances.TryGetValue(key, out instance);
 
         public static void Register<Y>(string key) where Y : class, T, new()
         {

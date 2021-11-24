@@ -73,7 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.Views.Converters", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.StepsSource.File.Iso", "Machine.StepsSource.File.Iso\Machine.StepsSource.File.Iso.csproj", "{7E92891E-AFC9-4B22-805F-CE8194BFC3AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.ViewModels.Messaging", "Machine.ViewModels.Messaging\Machine.ViewModels.Messaging.csproj", "{08792AF5-988E-457C-946F-D299A4009D84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.ViewModels.Messaging", "Machine.ViewModels.Messaging\Machine.ViewModels.Messaging.csproj", "{08792AF5-988E-457C-946F-D299A4009D84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.Editor", "Machine.Editor\Machine.Editor.csproj", "{42023140-EB5F-4CD9-A8FA-E2661BC6C76C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -225,6 +227,10 @@ Global
 		{08792AF5-988E-457C-946F-D299A4009D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08792AF5-988E-457C-946F-D299A4009D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08792AF5-988E-457C-946F-D299A4009D84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42023140-EB5F-4CD9-A8FA-E2661BC6C76C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42023140-EB5F-4CD9-A8FA-E2661BC6C76C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42023140-EB5F-4CD9-A8FA-E2661BC6C76C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42023140-EB5F-4CD9-A8FA-E2661BC6C76C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
