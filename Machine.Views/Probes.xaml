@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <conv:ProbeToTypeCharConverter x:Key="probeToTypeCharConverter">
             <conv:ProbeToTypeCharConverterItem When="IProbePoint" Then="ë"/>
-            <conv:ProbeToTypeCharConverterItem When="IProbeDistance" Then="õ"/>
+            <conv:ProbeToTypeCharConverterItem When="IProbeDistance" Then="~"/>
         </conv:ProbeToTypeCharConverter>
     </UserControl.Resources>
     <Grid>
