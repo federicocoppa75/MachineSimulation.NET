@@ -40,6 +40,7 @@ namespace Machine.Views.ViewModels.MachineElementProxies
 
         [Category("General")]
         [PropertyOrder(2)]
+        [Editor(typeof(PropertyGridFilePicker), typeof(PropertyGridFilePicker))]
         public string ModelFile 
         {
             get => _element.ModelFile; 
@@ -84,11 +85,11 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
 
         #region implementation
-        private static SWM.Color Convert(MDB.Color color) => SWM.Color.FromArgb(color.A, color.R, color.G, color.B);
+        private static SWM.Color Convert(MDB.Color color) => (color != null) ? SWM.Color.FromArgb(color.A, color.R, color.G, color.B) : SWM.Colors.WhiteSmoke;
 
         private static MDB.Color Convert(SWM.Color color) => new MDB.Color() { A = color.A, R = color.R, G = color.G, B = color.B };
 
-        private static Vector ToPosition(MDB.Matrix matrix) => new Vector() { X = matrix.OffsetX, Y = matrix.OffsetY, Z = matrix.OffsetZ };
+        private static Vector ToPosition(MDB.Matrix matrix) => (matrix != null) ? new Vector() { X = matrix.OffsetX, Y = matrix.OffsetY, Z = matrix.OffsetZ } : new Vector();
         private static MDB.Matrix UpdatePosition(MDB.Matrix matrix, Vector position)
         {
             var m = CreateCopy(matrix);
@@ -130,6 +131,8 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         /// <returns></returns>
         private static Vector ToRotation(MDB.Matrix matrix)
         {
+            if (matrix == null) return new Vector();
+
             var beta = Math.Asin(-matrix.M31);
 
             if (Compare(beta, Math.PI / 2.0, 0.0001) || Compare(beta, -Math.PI / 2.0, 0.0001))
