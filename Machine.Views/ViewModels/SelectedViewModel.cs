@@ -2,6 +2,7 @@
 using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.UI;
+using Machine.Views.ViewModels.MachineElementProxies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,21 @@ namespace Machine.Views.ViewModels
     public class SelectedViewModel : BaseElementsCollectionViewModel, IMachineStructEditor
     {
         private static int _newElementCount;
+
+        private ElementProxyViewModel _selectedProxy;
+        public ElementProxyViewModel SelectedProxy 
+        {
+            get => _selectedProxy;
+            set
+            {
+                var last = _selectedProxy;
+
+                if(Set(ref _selectedProxy, value, nameof(SelectedProxy)))
+                {
+                    if (last != null) last.Dispose();
+                }
+            }
+        }
 
         class AddElementCommand : IAddElementCommand
         {
@@ -130,7 +146,11 @@ namespace Machine.Views.ViewModels
 
         private bool CanExecuteDeleteCommand() => Kernel.Selected != null;
 
-        private void OnSelectedChanged(object sender, EventArgs e) => NotifyCanExecuteChanged();
+        private void OnSelectedChanged(object sender, EventArgs e)
+        {
+            SelectedProxy = (Kernel.Selected != null) ? new ElementProxyViewModel(Kernel.Selected) : null;
+            NotifyCanExecuteChanged();
+        }
 
         private void NotifyCanExecuteChanged()
         {

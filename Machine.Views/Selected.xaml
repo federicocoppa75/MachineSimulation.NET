@@ -16,6 +16,6 @@
                            ShowSortOptions="False"
                            ShowTitle="False"
                            ShowSummary="False"
-                           SelectedObject="{Binding Kernel.Selected}"></xctk:PropertyGrid>
+                           SelectedObject="{Binding SelectedProxy}"></xctk:PropertyGrid>
     </Grid>
 </UserControl>

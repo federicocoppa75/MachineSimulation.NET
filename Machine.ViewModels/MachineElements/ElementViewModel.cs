@@ -18,10 +18,35 @@ namespace Machine.ViewModels.MachineElements
     {
         #region data properties
         public int MachineElementID { get; set; }
-        public string Name { get; set; }
-        public string ModelFile { get; set; }
-        public Color Color { get; set; }
-        public Matrix Transformation { get; set; }
+        
+        private string _name;
+        public string Name 
+        { 
+            get => _name; 
+            set => Set(ref _name, value, nameof(Name)); 
+        }
+
+        private string _modelFile;
+        public string ModelFile 
+        { 
+            get => _modelFile; 
+            set => Set(ref _modelFile, value, nameof(ModelFile)); 
+        }
+
+        private Color _color;
+        public Color Color 
+        { 
+            get => _color; 
+            set => Set(ref _color, value, nameof(Color)); 
+        }
+
+        private Matrix _transformation;
+        public Matrix Transformation 
+        { 
+            get => _transformation; 
+            set => Set(ref _transformation, value, nameof(Transformation)); 
+        }
+        
         public ICollection<IMachineElement> Children { get; protected set; } = new ObservableCollection<IMachineElement>();
 
         private ILinkViewModel _linkToParent;
