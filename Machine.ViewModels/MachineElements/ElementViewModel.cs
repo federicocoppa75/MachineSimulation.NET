@@ -4,6 +4,7 @@ using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages.Probing;
+using Machine.ViewModels.UI.Attributes;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -12,6 +13,7 @@ using MVMIP = Machine.ViewModels.Interfaces.Probing;
 
 namespace Machine.ViewModels.MachineElements
 {
+    [MachineStruct("Simple element", 1)]
     public class ElementViewModel : BaseViewModel, IMachineElement, IViewElementData, MVMIP.IProbableElement
     {
         #region data properties

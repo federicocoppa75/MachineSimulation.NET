@@ -3,10 +3,12 @@ using Machine.Data.Enums;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.UI;
+using Machine.ViewModels.UI.Attributes;
 using MVMIF = Machine.ViewModels.Interfaces.Factories;
 
 namespace Machine.ViewModels.MachineElements
 {
+    [MachineStruct("Panel holder", 2)]
     public class PanelHolderElementViewModel : ElementViewModel
     {
         public int PanelHolderId { get; set; }

@@ -16,6 +16,7 @@ namespace Machine.Editor
         public VMUI.IOptionProvider<M3DVE.ProbeSize> ProbeSize => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<M3DVE.ProbeSize>>.GetInstance();
         public VMUI.IOptionProvider<M3DVE.ProbeColor> ProbeColor => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<M3DVE.ProbeColor>>.GetInstance();
         public VMUI.IOptionProvider<M3DVE.ProbeShape> ProbeShape => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<M3DVE.ProbeShape>>.GetInstance();
+        public VMUI.IMachineStructEditor StructEditor => ViewModels.Ioc.SimpleIoc<VMUI.IMachineStructEditor>.GetInstance();
 
         public MainViewModel()
         {

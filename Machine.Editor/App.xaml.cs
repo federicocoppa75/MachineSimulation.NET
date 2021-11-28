@@ -11,6 +11,8 @@ using MVMI = Machine.ViewModels.Interfaces;
 using MVMII = Machine.ViewModels.Interfaces.Insertions;
 using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
+using MVMIF = Machine.ViewModels.Interfaces.Factories;
+using MVMF = Machine.ViewModels.Factories;
 
 namespace Machine.Editor
 {
@@ -35,6 +37,7 @@ namespace Machine.Editor
             ViewModels.Ioc.SimpleIoc<MVMII.IInsertionsSinkProvider>.Register<MVMIns.InsertionsSinkProvider>();
             ViewModels.Ioc.SimpleIoc<MVMI.Probing.IProbeFactory>.Register<ViewModels.Probing.ProbeFactory>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IStepsExecutionController>.Register<MVMUI.StepsExecutionControllerStub>();
+            ViewModels.Ioc.SimpleIoc<MVMIF.IMachineElementFactoriesProvider>.Register<MVMF.MachineElementFactoriesProvider>();
         }
     }
 }

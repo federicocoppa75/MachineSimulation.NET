@@ -1,4 +1,5 @@
-﻿using Machine.Views.ViewModels;
+﻿using Machine.ViewModels.UI;
+using Machine.Views.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,9 @@ namespace Machine.Views
         public Selected()
         {
             InitializeComponent();
-            DataContext = new SelectedViewModel();
+            var vm = new SelectedViewModel();
+            Machine.ViewModels.Ioc.SimpleIoc<IMachineStructEditor>.Register(vm);
+            DataContext = vm;
         }
     }
 }

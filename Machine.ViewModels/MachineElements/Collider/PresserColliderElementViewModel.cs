@@ -4,12 +4,14 @@ using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.Messages.Links;
+using Machine.ViewModels.UI.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.MachineElements.Collider
 {
+    [MachineStruct("Presser", 7)]
     public class PresserColliderElementViewModel : ColliderElementViewModel
     {
         IPneumaticLinkViewModel _presserLink;

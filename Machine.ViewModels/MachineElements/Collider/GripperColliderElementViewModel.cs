@@ -3,12 +3,14 @@ using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
+using Machine.ViewModels.UI.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.MachineElements.Collider
 {
+    [MachineStruct("Gripper", 6)]
     public class GripperColliderElementViewModel : ColliderElementViewModel, IPanelHooker
     {
         private bool _isGripping;

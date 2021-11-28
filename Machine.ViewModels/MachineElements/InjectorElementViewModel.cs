@@ -5,12 +5,14 @@ using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.UI;
+using Machine.ViewModels.UI.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.MachineElements
 {
+    [MachineStruct("Injector", 8)]
     public class InjectorElementViewModel : InjectorBaseElementViewModel, IInjectorElement
     {
         public InjectorElementViewModel()

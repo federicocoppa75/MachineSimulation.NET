@@ -5,6 +5,7 @@ using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.UI;
+using Machine.ViewModels.UI.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Text;
 
 namespace Machine.ViewModels.MachineElements
 {
+    [MachineStruct("Inserter", 9)]
     public class InserterElementViewModel : InjectorBaseElementViewModel, IInserterElement
     {
         public double Diameter { get; set; }

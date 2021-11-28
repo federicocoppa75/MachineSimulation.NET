@@ -75,6 +75,17 @@
                         <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Stop}"  DropDownBackground="White"/>
                     </MenuItem>
                 </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Add" ItemsSource="{Binding StructEditor.AddCommands}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Label}"/>
+                                <Setter Property="Command" Value="{Binding Command}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <MenuItem Header="Delete" Command="{Binding StructEditor.DeleteCommand}"/>
+                </MenuItem>
                 <MenuItem Header="Probes">
                     <MenuItem Header="Add probe points" IsCheckable="True" IsChecked="{Binding ProbesController.Active}"/>
                     <MenuItem Header="Add probes distance" Command="{Binding ProbesController.DistanceCommand}" />
