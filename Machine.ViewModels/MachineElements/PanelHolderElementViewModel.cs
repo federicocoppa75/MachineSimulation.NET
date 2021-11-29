@@ -9,7 +9,7 @@ using MVMIF = Machine.ViewModels.Interfaces.Factories;
 namespace Machine.ViewModels.MachineElements
 {
     [MachineStruct("Panel holder", 2)]
-    public class PanelHolderElementViewModel : ElementViewModel
+    public class PanelHolderElementViewModel : ElementViewModel, IPanelholderElement
     {
         public int PanelHolderId { get; set; }
         public string PanelHolderName { get; set; }

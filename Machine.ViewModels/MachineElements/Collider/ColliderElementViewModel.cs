@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Machine.ViewModels.MachineElements.Collider
 {
-    public abstract class ColliderElementViewModel : ElementViewModel
+    public abstract class ColliderElementViewModel : ElementViewModel, IColliderElement
     {
         public abstract ColliderType Type { get; }
         public double Radius { get; set; }

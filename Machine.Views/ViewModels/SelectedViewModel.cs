@@ -148,7 +148,7 @@ namespace Machine.Views.ViewModels
 
         private void OnSelectedChanged(object sender, EventArgs e)
         {
-            SelectedProxy = (Kernel.Selected != null) ? new ElementProxyViewModel(Kernel.Selected) : null;
+            SelectedProxy = (Kernel.Selected != null) ? GetProxy(Kernel.Selected) : null;
             NotifyCanExecuteChanged();
         }
 
@@ -170,6 +170,20 @@ namespace Machine.Views.ViewModels
             }
         }
 
+        private static ElementProxyViewModel GetProxy(IMachineElement element)
+        {
+            ElementProxyViewModel proxy = null;
+
+            if (element is IInserterElement inse) proxy = new InserterProxyViewModel(inse);
+            else if (element is IInjectorElement inje) proxy = new InjectorProxyViewModel(inje);
+            else if (element is IRootElement re) proxy = new RootProxyViewModel(re);
+            else if (element is IColliderElement ce) proxy = new ColliderProxyViewModel(ce);
+            else if (element is IPanelholderElement phe) proxy = new PanelHolderProxyViewModel(phe);
+            else if (element is IToolholderElement the) proxy = new ToolHolderProxyViewModel(the);
+            else proxy = new ElementProxyViewModel(element);
+
+            return proxy;
+        }
         #endregion
     }
 }

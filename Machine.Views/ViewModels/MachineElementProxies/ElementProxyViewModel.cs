@@ -1,4 +1,5 @@
 ﻿using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.UI.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,11 +25,19 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+
+        public override string ToString() => $"{X}; {Y}; {Z}";
     }
 
+    [CategoryOrder("General", 0)]
+    [CategoryOrder("Positioning", 1)]
     public class ElementProxyViewModel : INotifyPropertyChanged, IDisposable
     {
-        private IMachineElement _element;
+        protected IMachineElement _element;
+
+        [Category("General")]
+        [PropertyOrder(0)]
+        public string Type { get; private set; }
 
         [Category("General")]
         [PropertyOrder(1)]
@@ -51,14 +60,14 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         [PropertyOrder(3)]
         public SWM.Color Color 
         { 
-            get => Convert(_element.Color); 
-            set => _element.Color = Convert(value); 
+            get => _element.Color.Convert(); 
+            set => _element.Color = value.Convert(); 
         }
 
         [Category("Positioning")]
         [PropertyOrder(1)]
         [ExpandableObject]
-        public Vector Position 
+        public Vector Placement 
         { 
             get => ToPosition(_element.Transformation); 
             set => _element.Transformation = UpdatePosition(_element.Transformation, value); 
@@ -78,6 +87,7 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         public ElementProxyViewModel(IMachineElement element)
         {
             _element = element;
+            Type = GetTypeDescription(element);
 
             if(_element is INotifyPropertyChanged npc) npc.PropertyChanged += OnPropertyChanged;
         }
@@ -85,10 +95,6 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
 
         #region implementation
-        private static SWM.Color Convert(MDB.Color color) => (color != null) ? SWM.Color.FromArgb(color.A, color.R, color.G, color.B) : SWM.Colors.WhiteSmoke;
-
-        private static MDB.Color Convert(SWM.Color color) => new MDB.Color() { A = color.A, R = color.R, G = color.G, B = color.B };
-
         private static Vector ToPosition(MDB.Matrix matrix) => (matrix != null) ? new Vector() { X = matrix.OffsetX, Y = matrix.OffsetY, Z = matrix.OffsetZ } : new Vector();
         private static MDB.Matrix UpdatePosition(MDB.Matrix matrix, Vector position)
         {
@@ -179,6 +185,21 @@ namespace Machine.Views.ViewModels.MachineElementProxies
             m.M33 = cosB * cosG;
 
             return m;
+        }
+
+        private static string GetTypeDescription(IMachineElement element)
+        {
+            var type = element.GetType();
+            var a = GetAttribute<MachineStructAttribute>(type);
+
+            return a.Name;
+        }
+
+        private static T GetAttribute<T>(Type t) where T : MachineStructAttribute
+        {
+            return t.GetCustomAttributes(typeof(T), false)
+                     .Select(o => o as T)
+                     .FirstOrDefault();
         }
 
         #endregion
