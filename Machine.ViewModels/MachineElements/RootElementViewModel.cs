@@ -10,8 +10,19 @@ namespace Machine.ViewModels.MachineElements
     [MachineStruct("Root element", 0, true)]
     public class RootElementViewModel : ElementViewModel, IRootElement
     {
-        public string AssemblyName { get; set; }
-        public RootType RootType { get; set; }
+        private string _assemblyName;
+        public string AssemblyName 
+        { 
+            get => _assemblyName; 
+            set => Set(ref _assemblyName, value, nameof(AssemblyName)); 
+        }
+
+        private RootType _rootType;
+        public RootType RootType 
+        { 
+            get => _rootType; 
+            set => Set(ref _rootType, value, nameof(RootType)); 
+        }
 
         public RootElementViewModel() : base()
         {

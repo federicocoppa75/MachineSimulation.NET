@@ -11,10 +11,33 @@ namespace Machine.ViewModels.MachineElements
     [MachineStruct("Panel holder", 2)]
     public class PanelHolderElementViewModel : ElementViewModel, IPanelholderElement
     {
-        public int PanelHolderId { get; set; }
-        public string PanelHolderName { get; set; }
-        public virtual Point Position { get; set; }
-        public PanelLoadType Corner { get; set; }
+        private int _panelHolderId;
+        public int PanelHolderId 
+        { 
+            get => _panelHolderId; 
+            set => Set(ref _panelHolderId, value, nameof(PanelHolderId)); 
+        }
+
+        private string _panelHolderName;
+        public string PanelHolderName 
+        { 
+            get => _panelHolderName; 
+            set => Set(ref _panelHolderName, value, nameof(PanelHolderName)); 
+        }
+
+        private Point _position;
+        public virtual Point Position 
+        { 
+            get => _position; 
+            set => Set(ref _position, value, nameof(_position)); 
+        }
+
+        private PanelLoadType _corner;
+        public PanelLoadType Corner 
+        { 
+            get => _corner; 
+            set => Set(ref _corner, value, nameof(Corner)); 
+        }
 
         private IPanelElement _loadedPanel;
         public IPanelElement LoadedPanel 

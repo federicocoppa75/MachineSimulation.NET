@@ -16,8 +16,19 @@ namespace Machine.ViewModels.MachineElements
     [MachineStruct("Inserter", 9)]
     public class InserterElementViewModel : InjectorBaseElementViewModel, IInserterElement
     {
-        public double Diameter { get; set; }
-        public double Length { get; set; }
+        private double _diameter;
+        public double Diameter 
+        { 
+            get => _diameter; 
+            set => Set(ref _diameter, value, nameof(Diameter)); 
+        }
+
+        private double _length;
+        public double Length 
+        { 
+            get => _length; 
+            set => Set(ref _length, value, nameof(Length)); 
+        }
 
         private int _loaderLinkId;
         public int LoaderLinkId 

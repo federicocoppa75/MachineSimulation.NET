@@ -12,10 +12,27 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         private static Color _toolColor = new Color() { A = 255, B = 255 };
         private static Color _coneColor = new Color() { A = 255, B = 128, G = 128, R = 128 };
 
-        public int ToolHolderId { get; set; }
+        private int _toolHolderId;
+        public int ToolHolderId 
+        { 
+            get => _toolHolderId; 
+            set => Set(ref _toolHolderId, value, nameof(ToolHolderId)); 
+        }
         public abstract ToolHolderType ToolHolderType { get; }
-        public Point Position { get; set; }
-        public Vector Direction { get; set; }
+
+        private Point _position;
+        public Point Position 
+        { 
+            get => _position; 
+            set => Set(ref _position, value, nameof(Position)); 
+        }
+
+        private Vector _direction;
+        public Vector Direction 
+        { 
+            get => _direction; 
+            set => Set(ref _direction, value, nameof(Direction)); 
+        }
         public bool ActiveTool { get; set; }
 
         public ToolholderElementViewModel() : base()
