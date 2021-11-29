@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.UI;
 using Machine.Views.ViewModels.MachineElementProxies;
@@ -50,6 +51,12 @@ namespace Machine.Views.ViewModels
 
         private ICommand _deleteCommand;
         public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(() => DeleteCommandImpl(), () => CanExecuteDeleteCommand()));
+
+        private IEnumerable<IAddElementCommand> _addLinkCommands;
+        public IEnumerable<IAddElementCommand> AddLinkCommands => _addLinkCommands ?? (_addLinkCommands = CreateAddLinkCommands());
+
+        private ICommand _deleteLinkCommand;
+        public ICommand DeleteLinkCommand => _deleteLinkCommand ?? (_deleteLinkCommand = new RelayCommand(() => DeleteLinkCommandImpl(), () => CanExecuteDeleteLinkCommand()));
         #endregion
 
         #region BaseElementsCollectionViewModel abstracts implementation
@@ -60,11 +67,26 @@ namespace Machine.Views.ViewModels
 
         protected override void Clear()
         {
+            SelectedProxy = null;
+            Kernel.Selected = null;
             NotifyCanExecuteChanged();
         }
 
         protected override void RemoveElement(IEnumerable<IMachineElement> elements)
         {
+            var s = Kernel.Selected;
+
+            if(s != null)
+            {
+                while (s.Parent != null) s = s.Parent;
+
+                if (elements.Contains(s))
+                {
+                    SelectedProxy = null;
+                    Kernel.Selected = null;
+                }
+            }            
+
             NotifyCanExecuteChanged();
         }
         #endregion
@@ -160,6 +182,13 @@ namespace Machine.Views.ViewModels
             {
                 (item.Command as RelayCommand)?.RaiseCanExecuteChanged();
             }
+
+            (_deleteLinkCommand as RelayCommand)?.RaiseCanExecuteChanged();
+
+            foreach (var item in _addLinkCommands)
+            {
+                (item.Command as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
         private static void ChangeSelectionState(IMachineElement element, bool state)
@@ -184,6 +213,40 @@ namespace Machine.Views.ViewModels
 
             return proxy;
         }
+
+        private bool CanExecuteAddLinkCommand() => (Kernel.Selected != null) && (Kernel.Selected.LinkToParent == null) && (Kernel.Selected.Parent != null);
+
+        private bool CanExecuteDeleteLinkCommand() => (Kernel.Selected != null) && (Kernel.Selected.LinkToParent != null);
+
+        private void DeleteLinkCommandImpl()
+        {
+            SelectedProxy.SetLinkProxy(null);
+            NotifyCanExecuteChanged();
+        }
+
+        private IEnumerable<IAddElementCommand> CreateAddLinkCommands()
+        {
+            var factories = GetInstance<MVMIF.ILinkFactoriesProvider>()?.Factories;
+            var list = new List<IAddElementCommand>();
+
+            foreach (var item in factories)
+            {
+                list.Add(new AddElementCommand()
+                {
+                    Label = item.Label,
+                    Command = new RelayCommand(() => CreateLink(item), () => CanExecuteAddLinkCommand())
+                });
+            }
+
+            return list;
+        }
+
+        private void CreateLink(MVMIF.ILinkFactory factory)
+        {
+            SelectedProxy.SetLinkProxy(factory.Create());
+            NotifyCanExecuteChanged();
+        }
+
         #endregion
     }
 }

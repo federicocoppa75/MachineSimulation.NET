@@ -1,11 +1,13 @@
 ﻿using Machine.Data.Enums;
 using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.UI.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.Links
 {
+    [Link("Pneumatic")]
     public class PneumaticLinkViewModel : LinkViewModel, IPneumaticLinkViewModel, ILinkViewModel
     {
         #region private properties
@@ -14,7 +16,12 @@ namespace Machine.ViewModels.Links
         #endregion
 
         #region data properties
-        public double OffPos { get; set; }
+        private double _offPos;
+        public double OffPos 
+        { 
+            get => _offPos; 
+            set => Set(ref _offPos, value, nameof(OffPos)); 
+        }
         
         private double _onPos;
         public double OnPos 
@@ -28,9 +35,27 @@ namespace Machine.ViewModels.Links
                 }
             }
         }
-        public double TOff { get; set; }
-        public double TOn { get; set; }
-        public bool ToolActivator { get; set; }
+
+        private double _tOff;
+        public double TOff 
+        { 
+            get => _tOff; 
+            set => Set(ref _tOff, value, nameof(TOff)); 
+        }
+
+        private double _tOn;
+        public double TOn 
+        { 
+            get => _tOn; 
+            set => Set(ref _tOn, value, nameof(TOn)); 
+        }
+
+        private bool _toolActivator;
+        public bool ToolActivator 
+        { 
+            get => _toolActivator; 
+            set => Set(ref _toolActivator, value, nameof(ToolActivator)); 
+        }
 
         private double _dynOnPos;
         public double DynOnPos 

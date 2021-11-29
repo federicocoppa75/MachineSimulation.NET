@@ -12,9 +12,26 @@ namespace Machine.ViewModels.Links
     {
         #region data properties
         //public int LinkID { get; set; }
-        public int Id { get; set; }
-        public LinkDirection Direction { get; set; }
-        public LinkType Type { get; set; }
+        private int _id;
+        public int Id 
+        { 
+            get => _id; 
+            set => Set(ref _id, value, nameof(Id)); 
+        }
+
+        private LinkDirection _direction;
+        public LinkDirection Direction 
+        { 
+            get => _direction; 
+            set => Set(ref _direction, value, nameof(Direction)); 
+        }
+
+        private LinkType _type;
+        public LinkType Type 
+        { 
+            get => _type; 
+            set => Set(ref _type, value, nameof(Type)); 
+        }
         #endregion
 
         #region view properties
@@ -31,7 +48,13 @@ namespace Machine.ViewModels.Links
             }
         }
         public abstract LinkMoveType MoveType { get; }
-        public string Description { get; set; }
+
+        private string _description;
+        public string Description 
+        { 
+            get => _description; 
+            set => Set(ref _description, value, nameof(Description)); 
+        }
         #endregion
 
         #region view events

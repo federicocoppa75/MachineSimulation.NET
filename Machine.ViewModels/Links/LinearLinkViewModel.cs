@@ -2,9 +2,11 @@
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.Messages.Links.Gantry;
+using Machine.ViewModels.UI.Attributes;
 
 namespace Machine.ViewModels.Links
 {
+    [Link("Linear")]
     public class LinearLinkViewModel : LinkViewModel, ILinearLinkViewModel, ILinkViewModel
     {
         #region private field
@@ -12,9 +14,26 @@ namespace Machine.ViewModels.Links
         #endregion
 
         #region data properties
-        public double Min { get; set; }
-        public double Max { get; set; }
-        public double Pos { get; set; }
+        private double _min;
+        public double Min 
+        { 
+            get => _min; 
+            set => Set(ref _min, value, nameof(Min)); 
+        }
+
+        private double _max;
+        public double Max 
+        { 
+            get => _max; 
+            set => Set(ref _max, value, nameof(Max)); 
+        }
+
+        private double _pos;
+        public double Pos 
+        { 
+            get => _pos; 
+            set => Set(ref _pos, value, nameof(Pos)); 
+        }
         #endregion
 
         #region view properties4

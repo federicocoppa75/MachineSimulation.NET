@@ -1,5 +1,7 @@
-﻿using Machine.ViewModels.Interfaces.MachineElements;
+﻿using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.UI.Attributes;
+using Machine.Views.ViewModels.LinkProxies;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -64,6 +66,26 @@ namespace Machine.Views.ViewModels.MachineElementProxies
             set => _element.Color = value.Convert(); 
         }
 
+
+        private LinkProxyViewModel _linkToParent;
+        [Category("General")]
+        [PropertyOrder(4)]
+        [ExpandableObject]
+        public LinkProxyViewModel LinkToParent
+        {
+            get => _linkToParent;
+            set
+            {
+                if (!ReferenceEquals(_linkToParent, value))
+                {
+                    (_linkToParent as IDisposable)?.Dispose();
+                    _linkToParent = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LinkToParent)));
+                }
+            }
+        }
+
         [Category("Positioning")]
         [PropertyOrder(1)]
         [ExpandableObject]
@@ -88,8 +110,18 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         {
             _element = element;
             Type = GetTypeDescription(element);
+            SetLinkProxy(_element.LinkToParent);
 
             if(_element is INotifyPropertyChanged npc) npc.PropertyChanged += OnPropertyChanged;
+        }
+
+        public void SetLinkProxy(ILinkViewModel link)
+        {
+            if (link is ILinearLinkViewModel llvm) LinkToParent = new LinearLinkProxyViewModel(llvm);
+            else if (link is IPneumaticLinkViewModel plvm) LinkToParent = new PneumaticLinkProxyViewModel(plvm);
+            else LinkToParent = null;
+
+            _element.LinkToParent = link;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
@@ -215,6 +247,7 @@ namespace Machine.Views.ViewModels.MachineElementProxies
                 {
                     if (_element is INotifyPropertyChanged npc) npc.PropertyChanged -= OnPropertyChanged;
                     _element = null;
+                    LinkToParent = null;
                 }
 
                 _disposed = true;

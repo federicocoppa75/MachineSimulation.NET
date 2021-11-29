@@ -15,5 +15,7 @@ namespace Machine.ViewModels.UI
     {
         IEnumerable<IAddElementCommand> AddCommands { get; }
         ICommand DeleteCommand { get; }
+        IEnumerable<IAddElementCommand> AddLinkCommands { get; }
+        ICommand DeleteLinkCommand { get; }
     }
 }

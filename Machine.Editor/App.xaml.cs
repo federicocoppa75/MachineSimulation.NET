@@ -38,6 +38,7 @@ namespace Machine.Editor
             ViewModels.Ioc.SimpleIoc<MVMI.Probing.IProbeFactory>.Register<ViewModels.Probing.ProbeFactory>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IStepsExecutionController>.Register<MVMUI.StepsExecutionControllerStub>();
             ViewModels.Ioc.SimpleIoc<MVMIF.IMachineElementFactoriesProvider>.Register<MVMF.MachineElementFactoriesProvider>();
+            ViewModels.Ioc.SimpleIoc<MVMIF.ILinkFactoriesProvider>.Register<MVMF.LinkFactoriesProvider>();
         }
     }
 }
