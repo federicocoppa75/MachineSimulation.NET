@@ -11,8 +11,20 @@ namespace Machine.ViewModels.Links
     public class PneumaticLinkViewModel : LinkViewModel, IPneumaticLinkViewModel, ILinkViewModel
     {
         #region private properties
-        private ILinkMovementManager _linkMovementManager;
-        private ILinkMovementManager LinkMovementManager => _linkMovementManager ?? (_linkMovementManager = Ioc.SimpleIoc<ILinkMovementManager>.GetInstance());
+        private ILinkMovementController _linkMovementController;
+        private ILinkMovementController LinkMovementController
+        {
+            get
+            {
+                if(_linkMovementController == null)
+                {
+                    _linkMovementController = Ioc.SimpleIoc<ILinkMovementManager>.TryGetInstance(out var manager) ? manager : Ioc.SimpleIoc<ILinkMovementController>.GetInstance();
+                }
+
+                return _linkMovementController;
+            }
+        }
+            
         #endregion
 
         #region data properties
@@ -129,13 +141,13 @@ namespace Machine.ViewModels.Links
         {
             var value = state ? DynOnPos : OffPos;
 
-            if (LinkMovementManager.Enable)
+            if (LinkMovementController.Enable && (LinkMovementController is ILinkMovementManager manager))
             {
                 var t = state ? TOn : TOff;
 
                 if(DynOnPos != OnPos) t *= (DynOnPos - OffPos) / (OnPos - OffPos);
 
-                LinkMovementManager.Add(Id, value, t, notifyId);
+                manager.Add(Id, value, t, notifyId);
             }
             else
             {

@@ -13,6 +13,7 @@ using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
 using MVMIF = Machine.ViewModels.Interfaces.Factories;
 using MVMF = Machine.ViewModels.Factories;
+using MVML = Machine.ViewModels.Links;
 
 namespace Machine.Editor
 {
@@ -39,6 +40,7 @@ namespace Machine.Editor
             ViewModels.Ioc.SimpleIoc<MVMUI.IStepsExecutionController>.Register<MVMUI.StepsExecutionControllerStub>();
             ViewModels.Ioc.SimpleIoc<MVMIF.IMachineElementFactoriesProvider>.Register<MVMF.MachineElementFactoriesProvider>();
             ViewModels.Ioc.SimpleIoc<MVMIF.ILinkFactoriesProvider>.Register<MVMF.LinkFactoriesProvider>();
+            ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementController>.Register<MVML.LinkMovementControllerStub>();
         }
     }
 }
