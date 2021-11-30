@@ -12,6 +12,9 @@ namespace Machine.ViewModels.UI
 
         private ICommand _loadMachineCommand;
         public ICommand LoadMachineCommand => _loadMachineCommand ?? (_loadMachineCommand = new RelayCommand(() => LoadMachineCommandImplementation()));
+        
+        private ICommand _saveMachineCommand;
+        public ICommand SaveMachineCommand => _saveMachineCommand ?? (_saveMachineCommand = new RelayCommand(() => SaveMachineCommandImplementation(), () => SaveMachineCommandCanExecute()));
 
         private ICommand _loadToolingCommand;
         public ICommand LoadToolingCommand => _loadToolingCommand ?? (_loadToolingCommand = new RelayCommand(() => LoadToolingCommandImplementation()));
@@ -23,6 +26,10 @@ namespace Machine.ViewModels.UI
         public ICommand SaveEnvironmentCommand => _saveEnvironmentCommand ?? (_saveEnvironmentCommand = new RelayCommand(() => SaveEnvironmentCommandImplementation(), () => SaveEnvironmentCommandCanExecute()));
 
         protected abstract void LoadMachineCommandImplementation();
+
+        protected virtual void SaveMachineCommandImplementation() { }
+        protected virtual bool SaveMachineCommandCanExecute() => false;
+
         protected abstract void LoadToolingCommandImplementation();
 
         public override string ToString() => Name;

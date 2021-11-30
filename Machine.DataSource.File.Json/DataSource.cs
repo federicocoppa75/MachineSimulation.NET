@@ -47,6 +47,24 @@ namespace Machine.DataSource.File.Json
             }
         }
 
+        protected override void SaveMachineCommandImplementation()
+        {
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("SaveFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "json";
+            dlg.Filter = "Machine JSON struct |*.json";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                SaveMachine(dlg.FileName, Kernel.Machines[0].ToModel());
+            }
+        }
+
+        protected override bool SaveMachineCommandCanExecute() => true;
+
         protected override void LoadToolingCommandImplementation()
         {
             var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("OpenFile");

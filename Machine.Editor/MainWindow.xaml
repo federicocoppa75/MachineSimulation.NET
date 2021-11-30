@@ -29,6 +29,7 @@
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="Load Machine" Command="{Binding DataSource.Value.LoadMachineCommand}" />
+                    <MenuItem Header="Save Machine" Command="{Binding DataSource.Value.SaveMachineCommand}" />
                     <MenuItem Header="Unload Machine" Command="{Binding Kernel.UnloadAllMachineCommand}" />
                 </MenuItem>
                 <MenuItem Header="View">

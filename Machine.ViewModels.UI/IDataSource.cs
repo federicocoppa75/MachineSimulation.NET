@@ -8,6 +8,7 @@ namespace Machine.ViewModels.UI
     public interface IDataSource : INameProvider
     {
         ICommand LoadMachineCommand { get; }
+        ICommand SaveMachineCommand { get; }
         ICommand LoadToolingCommand { get; }
         ICommand LoadEnvironmentCommand { get; }
         ICommand SaveEnvironmentCommand { get; }
