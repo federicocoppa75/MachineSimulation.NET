@@ -15,13 +15,6 @@ using SWM = System.Windows.Media;
 
 namespace Machine.Views.ViewModels.MachineElementProxies
 {
-    //public class ElementProxyViewModel2
-    //{
-    //    public string Name { get; set; } = "pippo";
-    //    public string ModelFile { get; set; } = "pluto";
-    //    public SWM.Color Color { get; set; } = SWM.Colors.AliceBlue;
-    //}
-
     public struct Vector
     {
         public double X { get; set; }
@@ -115,13 +108,17 @@ namespace Machine.Views.ViewModels.MachineElementProxies
             if(_element is INotifyPropertyChanged npc) npc.PropertyChanged += OnPropertyChanged;
         }
 
-        public void SetLinkProxy(ILinkViewModel link)
+        public ILinkViewModel SetLinkProxy(ILinkViewModel link)
         {
+            var oldLink = _element.LinkToParent;
+
             if (link is ILinearLinkViewModel llvm) LinkToParent = new LinearLinkProxyViewModel(llvm);
             else if (link is IPneumaticLinkViewModel plvm) LinkToParent = new PneumaticLinkProxyViewModel(plvm);
             else LinkToParent = null;
 
             _element.LinkToParent = link;
+
+            return oldLink;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
@@ -141,7 +138,7 @@ namespace Machine.Views.ViewModels.MachineElementProxies
 
         private static MDB.Matrix CreateCopy(MDB.Matrix matrix)
         {
-            return new MDB.Matrix()
+            return (matrix != null) ? new MDB.Matrix()
             {
                 M11 = matrix.M11,
                 M12 = matrix.M12,
@@ -155,6 +152,11 @@ namespace Machine.Views.ViewModels.MachineElementProxies
                 OffsetX = matrix.OffsetX,
                 OffsetY = matrix.OffsetY,
                 OffsetZ = matrix.OffsetZ
+            } : new MDB.Matrix()
+            {
+                M11 = 1.0,
+                M22 = 1.0,
+                M33 = 1.0
             };
         }
 

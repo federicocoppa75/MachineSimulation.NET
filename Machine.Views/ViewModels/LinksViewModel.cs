@@ -4,6 +4,7 @@ using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
+using Machine.Views.Messages.Links;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,14 +20,14 @@ namespace Machine.Views.ViewModels
 
         public LinksViewModel() : base()
         {
+            Messenger.Register<AddedLinkMessage>(this, (m) => Links.Add(m.Link));
+            Messenger.Register<DeletedLinkMessage>(this, (m) => Links.Remove(m.Link));
         }
 
         protected override void AddElement(IEnumerable<IMachineElement> elements)
         {
             foreach (var item in elements)
             {
-                //var evm = item as ElementViewModel;
-
                 if (item.LinkToParent != null)
                 {
                     Links.Add(item.LinkToParent);
@@ -40,8 +41,6 @@ namespace Machine.Views.ViewModels
         {
             foreach (var item in elements)
             {
-                //var evm = item as ElementViewModel;
-
                 if (item.LinkToParent != null)
                 {
                     Links.Remove(item.LinkToParent);

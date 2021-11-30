@@ -1,11 +1,9 @@
 ﻿using Machine.Data.Enums;
 using Machine.ViewModels.Interfaces.Links;
+using Machine.ViewModels.Messaging;
+using Machine.Views.Messages.Links;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.LinkProxies
@@ -54,7 +52,16 @@ namespace Machine.Views.ViewModels.LinkProxies
             if (_link is INotifyPropertyChanged npc) npc.PropertyChanged += OnPropertyChanged;
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
+
+            if((string.Compare(e.PropertyName, nameof(Direction)) == 0) ||
+                (string.Compare(e.PropertyName, nameof(Type)) == 0))
+            {
+                Machine.ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance().Send(new UpdateStructByLinkMessage());
+            }
+        }
 
         public override string ToString() => $"Id({Id}) Move({MoveType}) Type({Type})";
 

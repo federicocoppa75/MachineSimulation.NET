@@ -3,6 +3,8 @@ using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.UI;
+using Machine.Views.Messages;
+using Machine.Views.Messages.Links;
 using Machine.Views.ViewModels.MachineElementProxies;
 using System;
 using System.Collections.Generic;
@@ -39,11 +41,6 @@ namespace Machine.Views.ViewModels
             public ICommand Command { get; set; }
         }
 
-        public SelectedViewModel()
-        {
-            Kernel.SelectedChanged += OnSelectedChanged;
-        }
-
         #region IMachineStructEditor
         private IEnumerable<IAddElementCommand> _addCommands;
         public IEnumerable<IAddElementCommand> AddCommands => _addCommands ?? (_addCommands = CreateAddComands());
@@ -58,6 +55,14 @@ namespace Machine.Views.ViewModels
         private ICommand _deleteLinkCommand;
         public ICommand DeleteLinkCommand => _deleteLinkCommand ?? (_deleteLinkCommand = new RelayCommand(() => DeleteLinkCommandImpl(), () => CanExecuteDeleteLinkCommand()));
         #endregion
+
+
+        public SelectedViewModel()
+        {
+            Kernel.SelectedChanged += OnSelectedChanged;
+
+            Messenger.Register<UpdateStructByLinkMessage>(this, (m) => UpdateStructByLink());
+        }
 
         #region BaseElementsCollectionViewModel abstracts implementation
         protected override void AddElement(IEnumerable<IMachineElement> elements)
@@ -220,8 +225,10 @@ namespace Machine.Views.ViewModels
 
         private void DeleteLinkCommandImpl()
         {
-            SelectedProxy.SetLinkProxy(null);
+            var link = SelectedProxy.SetLinkProxy(null);
             NotifyCanExecuteChanged();
+            Messenger.Send(new DeletedLinkMessage() { Link = link });
+            UpdateStructByLink();
         }
 
         private IEnumerable<IAddElementCommand> CreateAddLinkCommands()
@@ -243,8 +250,25 @@ namespace Machine.Views.ViewModels
 
         private void CreateLink(MVMIF.ILinkFactory factory)
         {
-            SelectedProxy.SetLinkProxy(factory.Create());
+            var link = factory.Create();
+            SelectedProxy.SetLinkProxy(link);
             NotifyCanExecuteChanged();
+            Messenger.Send(new AddedLinkMessage() { Link = link });
+            UpdateStructByLink();
+        }
+
+        private void UpdateStructByLink()
+        {
+            var element = Kernel.Selected;
+
+            if((element != null) && (element.Parent != null))
+            {
+                Kernel.SelectedChanged -= OnSelectedChanged;
+                element.Parent.Children.Remove(element);
+                element.Parent.Children.Add(element);
+                Kernel.Selected = element;
+                Kernel.SelectedChanged += OnSelectedChanged;
+            }
         }
 
         #endregion
