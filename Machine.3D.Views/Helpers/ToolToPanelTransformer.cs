@@ -390,6 +390,7 @@ namespace Machine._3D.Views.Helpers
             //else if (t is MDT.DiskOnConeTool doct) return ApplyToolAsync(doct, position, direction);
             if (t is MDT.PointedTool pt) return ApplyToolAsync(pt, position, direction);
             else if (t is MDT.CountersinkTool ct) return ApplyToolAsync(ct, position, direction);
+            else if (t is MDT.DiskOnConeTool doc) return ApplyToolAsync(doc, position, direction);
             else return ApplyToolAsync(t, position, direction);
         }
 
@@ -473,7 +474,26 @@ namespace Machine._3D.Views.Helpers
             });
         }
 
-        private Task<int> ApplyToolAsync(MDT.DiskOnConeTool doct, Point3D position, Vector3D direction) => ApplyToolAsync(doct as MDT.DiskTool, position, direction);
+        // private Task<int> ApplyToolAsync(MDT.DiskOnConeTool doct, Point3D position, Vector3D direction) => ApplyToolAsync(doct as MDT.DiskTool, position, direction);
+        private Task<int> ApplyToolAsync(MDT.DiskOnConeTool doct, Point3D position, Vector3D direction)
+        {
+            return Task.Run(async () =>
+            {
+                var ta = new MRI.ToolActionData()
+                {
+                    X = (float)position.X,
+                    Y = (float)position.Y,
+                    Z = (float)position.Z,
+                    Orientation = ToOrientation(direction),
+                    Length = (float)doct.CuttingThickness,
+                    Radius = (float)doct.Diameter / 2.0f
+                };
+
+                if (_panel is MRI.IPanel panel) await panel.ApplyActionAsync(ta);
+
+                return 0;
+            });
+        }
 
         private Task<int> ApplyToolAsync(MDT.PointedTool pt, Point3D position, Vector3D direction)
         {
