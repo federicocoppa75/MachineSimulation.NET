@@ -83,39 +83,39 @@ namespace Machine._3D.Views.Selectors
             {
                 it = ElementViewType.DistanceProbe;
             }
-            else if(item is ToolholderElementViewModel thvm)
-            {
-                if (thvm.LinkToParent != null)
-                {
-                    if (thvm.LinkToParent.Type == Data.Enums.LinkType.Linear)
-                    {
-                        if ((thvm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Pneumatic) &&
-                            (thvm.LinkToParent.Direction == Data.Enums.LinkDirection.Z))
-                        {
-                            it = ElementViewType.ToolHolderEleZPneu;
-                        }
-                        else
-                        {
-                            throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    else if (thvm.LinkToParent.Type == Data.Enums.LinkType.Rotary)
-                    {
-                        if (thvm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Pneumatic)
-                        {
-                            it = ElementViewType.ToolHolderEleRotary;
-                        }
-                        else
-                        {
-                            throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                }
-                else
-                {
-                    it = ElementViewType.ToolHolderEle;
-                }
-            }
+            //else if(item is ToolholderElementViewModel thvm)
+            //{
+            //    if (thvm.LinkToParent != null)
+            //    {
+            //        if (thvm.LinkToParent.Type == Data.Enums.LinkType.Linear)
+            //        {
+            //            if ((thvm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Pneumatic) &&
+            //                (thvm.LinkToParent.Direction == Data.Enums.LinkDirection.Z))
+            //            {
+            //                it = ElementViewType.ToolHolderEleZPneu;
+            //            }
+            //            else
+            //            {
+            //                throw new ArgumentOutOfRangeException();
+            //            }
+            //        }
+            //        else if (thvm.LinkToParent.Type == Data.Enums.LinkType.Rotary)
+            //        {
+            //            if (thvm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Pneumatic)
+            //            {
+            //                it = ElementViewType.ToolHolderEleRotary;
+            //            }
+            //            else
+            //            {
+            //                throw new ArgumentOutOfRangeException();
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        it = ElementViewType.ToolHolderEle;
+            //    }
+            //}
             else if(item is IMachineElement evm)
             {
                 if(evm.LinkToParent != null)
