@@ -235,10 +235,11 @@ namespace Machine.DataSource.File.Json
         {
             LoadTooling(fileName, (m) =>
             {
-                if ((m != null) && CheckToolingMachine(m.Machine))
+                if ((m != null)/* && CheckToolingMachine(m.Machine)*/)
                 {
+                    var fileInfo = new FileInfo(m.Tools);
                     string path = Path.GetDirectoryName(fileName);
-                    string toolFile = Path.Combine(path, $"{m.Tools}.jTools");
+                    string toolFile = fileInfo.Exists ? m.Tools : Path.Combine(path, $"{m.Tools}.jTools");
 
                     var toolset = LoadTools(toolFile);
 
