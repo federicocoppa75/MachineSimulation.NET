@@ -17,7 +17,7 @@ namespace Machine.Steps.ViewModels.Extensions.Models
         {
             var link = this.GetLink() as IPneumaticLinkViewModel;
 
-            RequestedState = link.State ? MSME.TwoPositionLinkActionRequestedState.On : MSME.TwoPositionLinkActionRequestedState.Off;
+            RequestedState = ((link != null) && link.State) ? MSME.TwoPositionLinkActionRequestedState.On : MSME.TwoPositionLinkActionRequestedState.Off;
             IsUpdated = true;
         }
     }
