@@ -95,5 +95,17 @@
     <Setting Name="ProbeShape" Type="System.String" Scope="User">
       <Value Profile="(Default)">Sphere</Value>
     </Setting>
+    <Setting Name="ViewCollider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ViewPanelHolder" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ViewToolHolder" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ViewInserter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

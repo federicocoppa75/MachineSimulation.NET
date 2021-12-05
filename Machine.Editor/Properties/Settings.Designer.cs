@@ -154,5 +154,53 @@ namespace Machine.Editor.Properties {
                 this["ProbeShape"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ViewCollider {
+            get {
+                return ((bool)(this["ViewCollider"]));
+            }
+            set {
+                this["ViewCollider"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ViewPanelHolder {
+            get {
+                return ((bool)(this["ViewPanelHolder"]));
+            }
+            set {
+                this["ViewPanelHolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ViewToolHolder {
+            get {
+                return ((bool)(this["ViewToolHolder"]));
+            }
+            set {
+                this["ViewToolHolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ViewInserter {
+            get {
+                return ((bool)(this["ViewInserter"]));
+            }
+            set {
+                this["ViewInserter"] = value;
+            }
+        }
     }
 }

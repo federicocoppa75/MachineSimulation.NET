@@ -57,6 +57,10 @@ namespace Machine.Editor
             Properties.Settings.Default.ProbeSize = vm.ProbeSize.Value.ToString();
             Properties.Settings.Default.ProbeColor = vm.ProbeColor.Value.ToString();
             Properties.Settings.Default.ProbeShape = vm.ProbeShape.Value.ToString();
+            Properties.Settings.Default.ViewCollider = vm.IndicatorsController.Collider;
+            Properties.Settings.Default.ViewPanelHolder = vm.IndicatorsController.PanelHolder;
+            Properties.Settings.Default.ViewToolHolder = vm.IndicatorsController.ToolHolder;
+            Properties.Settings.Default.ViewInserter = vm.IndicatorsController.Inserter;
 
         }
 
@@ -73,6 +77,10 @@ namespace Machine.Editor
             vm.ProbeSize.TryToParse(Properties.Settings.Default.ProbeSize);
             vm.ProbeColor.TryToParse(Properties.Settings.Default.ProbeColor);
             vm.ProbeShape.TryToParse(Properties.Settings.Default.ProbeShape);
+            vm.IndicatorsController.Collider = Properties.Settings.Default.ViewCollider;
+            vm.IndicatorsController.PanelHolder = Properties.Settings.Default.ViewPanelHolder;
+            vm.IndicatorsController.ToolHolder = Properties.Settings.Default.ViewToolHolder;
+            vm.IndicatorsController.Inserter = Properties.Settings.Default.ViewInserter;
         }
     }
 }

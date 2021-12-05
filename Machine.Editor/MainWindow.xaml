@@ -75,6 +75,13 @@
                         <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Start}"  DropDownBackground="White"/>
                         <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Stop}"  DropDownBackground="White"/>
                     </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Indicators">
+                        <MenuItem Header="Colliders" IsCheckable="True" IsChecked="{Binding IndicatorsController.Collider}"/>
+                        <MenuItem Header="Panels holders" IsCheckable="True" IsChecked="{Binding IndicatorsController.PanelHolder}"/>
+                        <MenuItem Header="Tools holders" IsCheckable="True" IsChecked="{Binding IndicatorsController.ToolHolder}"/>
+                        <MenuItem Header="Inserters" IsCheckable="True" IsChecked="{Binding IndicatorsController.Inserter}"/>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="Add element" ItemsSource="{Binding StructEditor.AddCommands}">

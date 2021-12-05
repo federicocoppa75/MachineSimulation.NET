@@ -45,8 +45,8 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         [PropertyOrder(3)]
         public Color InserterColor 
         { 
-            get => Injector.Color.Convert(); 
-            set => Injector.Color = value.Convert(); 
+            get => Injector.InserterColor.Convert(); 
+            set => Injector.InserterColor = value.Convert(); 
         }
 
         public InjectorProxyViewModel(IInjectorElement element) : base(element)

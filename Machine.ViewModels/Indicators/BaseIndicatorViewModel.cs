@@ -7,12 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using MVMUI = Machine.ViewModels.UI;
 
 namespace Machine.ViewModels.Indicators
 {
     public abstract class BaseIndicatorViewModel : BaseViewModel, IMachineElement, IViewElementData, IIndicatorProxy
     {
         private static ICollection<IMachineElement> _dummyChildern;
+        protected MVMUI.IIndicatorsViewController _viewController;
 
         #region IMachineElement
         public int MachineElementID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -39,7 +41,11 @@ namespace Machine.ViewModels.Indicators
         #endregion
 
         #region IViewElementData        
-        public bool IsVisible { get; set; } = true;
+        public bool IsVisible 
+        { 
+            get => IsParentVisible() && IsCategoryVisible();
+            set { } 
+        }
         public bool IsSelected { get => false; set => throw new NotImplementedException(); }
         public string PostEffects { get => null; set => throw new NotImplementedException(); }
         public bool IsExpanded { get => false; set => throw new NotImplementedException(); }
@@ -48,6 +54,13 @@ namespace Machine.ViewModels.Indicators
         static BaseIndicatorViewModel()
         {
             _dummyChildern = new List<IMachineElement>();
+        }
+
+        public BaseIndicatorViewModel()
+        {
+            _viewController = GetInstance<MVMUI.IIndicatorsViewController>();
+
+            if(_viewController is INotifyPropertyChanged npc) npc.PropertyChanged += OnViewControllerPropertyChanged;
         }
 
         public bool TryGetIndicator<T>(out T indicator) where T : IBaseIndicator
@@ -69,5 +82,17 @@ namespace Machine.ViewModels.Indicators
 
         private void OnParentPropertyChanged(object sender, PropertyChangedEventArgs e) => RisePropertyChanged(e.PropertyName);
 
+        private void OnViewControllerPropertyChanged(object sender, PropertyChangedEventArgs e) => RisePropertyChanged(nameof(IsVisible));
+
+        private bool IsParentVisible() => (Parent as IViewElementData).IsVisible;
+
+        protected bool IsCategoryVisible()
+        {
+            if (Parent is IColliderElement) return _viewController.Collider;
+            else if (Parent is IPanelholderElement) return _viewController.PanelHolder;
+            else if (Parent is IToolholderElement) return _viewController.ToolHolder;
+            else if (Parent is IInjectorElement) return _viewController.Inserter;
+            else throw new NotImplementedException();
+        }
     }
 }

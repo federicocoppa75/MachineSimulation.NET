@@ -42,6 +42,7 @@ namespace Machine.Editor
             ViewModels.Ioc.SimpleIoc<MVMIF.ILinkFactoriesProvider>.Register<MVMF.LinkFactoriesProvider>();
             ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementController>.Register<MVML.LinkMovementControllerStub>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IApplicationInformationProvider>.Register<ApplicationInformationProvider>();
+            ViewModels.Ioc.SimpleIoc<MVMUI.IIndicatorsViewController>.Register<MVMUI.IndicatorsViewController>();
         }
     }
 }
