@@ -33,6 +33,9 @@ namespace Machine._3D.Views.Enums
         InjectedObj,
         InsertedObj,
         PointProbe,
-        DistanceProbe
+        DistanceProbe,
+        PointIndicator,
+        PointAndDirIndicator,
+        PointsIndicator
     }
 }

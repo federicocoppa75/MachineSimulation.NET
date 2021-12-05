@@ -56,5 +56,42 @@ namespace Machine._3D.Views.Constants
                 return builder.ToMesh();
             }
         }
+
+        public Geometry3D PointIndicator
+        {
+            get
+            {
+                var builder = new MeshBuilder();
+
+                builder.AddSphere(new SharpDX.Vector3(), 5.0);
+
+                return builder.ToMesh();
+            }
+        }
+
+        public Geometry3D PointAndDirIndicator
+        {
+            get
+            {
+                var builder = new MeshBuilder();
+
+                builder.AddCylinder(new SharpDX.Vector3(), new SharpDX.Vector3(0.0f, 0.0f, -10.0f), 3.0f);
+                builder.AddCone(new SharpDX.Vector3(0.0f, 0.0f, -10.0f), new SharpDX.Vector3(0.0f, 0.0f, -20.0f), 6.0f, true, 32);
+
+                return builder.ToMesh();
+            }
+        }
+
+        public Geometry3D PointsIndicator
+        {
+            get
+            {
+                var builder = new MeshBuilder();
+
+                builder.AddSphere(new SharpDX.Vector3(), 2.0);
+
+                return builder.ToMesh();
+            }
+        }
     }
 }

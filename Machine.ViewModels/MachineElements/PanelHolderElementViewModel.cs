@@ -1,5 +1,6 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.Indicators;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
 using Machine.ViewModels.UI;
@@ -9,7 +10,7 @@ using MVMIF = Machine.ViewModels.Interfaces.Factories;
 namespace Machine.ViewModels.MachineElements
 {
     [MachineStruct("Panel holder", 2)]
-    public class PanelHolderElementViewModel : ElementViewModel, IPanelholderElement
+    public class PanelHolderElementViewModel : ElementViewModel, IPanelholderElement, IPositionIndicator
     {
         private int _panelHolderId;
         public int PanelHolderId 
@@ -29,7 +30,7 @@ namespace Machine.ViewModels.MachineElements
         public virtual Point Position 
         { 
             get => _position; 
-            set => Set(ref _position, value, nameof(_position)); 
+            set => Set(ref _position, value, nameof(Position)); 
         }
 
         private PanelLoadType _corner;

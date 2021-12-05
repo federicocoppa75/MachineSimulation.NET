@@ -449,6 +449,56 @@
                 </hx:LineGeometryModel3D>
             </hx:CompositeModel3D>
         </DataTemplate>
+        <DataTemplate x:Key="pointAndDirIndicatorTemplate">
+            <hx:CompositeModel3D>
+                <hx:CompositeModel3D.Transform>
+                    <Transform3DGroup>
+                        <MatrixTransform3D Matrix="{Binding Direction, Converter={StaticResource directionToMatrixConverter}}" />
+                        <TranslateTransform3D OffsetX="{Binding Position.X}" OffsetY="{Binding Position.Y}" OffsetZ="{Binding Position.Z}" />
+                    </Transform3DGroup>
+                </hx:CompositeModel3D.Transform>
+                <hx:MeshGeometryModel3D Geometry="{Binding PointAndDirIndicator, Source={StaticResource geometries}}"
+                                        Material="{Binding PointAndDirIndicator, Source={StaticResource materials}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsThrowingShadow="False"
+                                        IsRendering="{Binding IsVisible}"/>
+            </hx:CompositeModel3D>
+        </DataTemplate>
+        <DataTemplate x:Key="pointIndicatorTemplate">
+            <hx:CompositeModel3D>
+                <hx:CompositeModel3D.Transform>
+                    <TranslateTransform3D OffsetX="{Binding Position.X}" OffsetY="{Binding Position.Y}" OffsetZ="{Binding Position.Z}" />
+                </hx:CompositeModel3D.Transform>
+                <hx:MeshGeometryModel3D Geometry="{Binding PointIndicator, Source={StaticResource geometries}}"
+                                        Material="{Binding PointIndicator, Source={StaticResource materials}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsThrowingShadow="False"
+                                        IsRendering="{Binding IsVisible}"/>
+            </hx:CompositeModel3D>
+        </DataTemplate>
+        <DataTemplate x:Key="pointsIndicatorTemplate">
+            <hx:CompositeModel3D>
+                <hx:ItemsModel3D ItemsSource="{Binding Points}">
+                    <hx:ItemsModel3D.ItemTemplate>
+                        <DataTemplate>
+                            <hx:CompositeModel3D>
+                                <hx:CompositeModel3D.Transform>
+                                    <TranslateTransform3D OffsetX="{Binding X}" OffsetY="{Binding Y}" OffsetZ="{Binding Z}" />
+                                </hx:CompositeModel3D.Transform>
+                                <hx:MeshGeometryModel3D Geometry="{Binding PointsIndicator, Source={StaticResource geometries}}"
+                                        Material="{Binding PointsIndicator, Source={StaticResource materials}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsThrowingShadow="False"
+                                        IsRendering="{Binding Path=DataContext.IsVisible, RelativeSource={RelativeSource AncestorType={x:Type hx:ItemsModel3D}}, Mode=OneWay}"/>
+                            </hx:CompositeModel3D>
+                        </DataTemplate>
+                    </hx:ItemsModel3D.ItemTemplate>
+                </hx:ItemsModel3D>
+            </hx:CompositeModel3D>
+        </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
             <selectors:ItemModel3DTemplateSelectorItem When="Default" Then="{StaticResource element3dDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="XLinearTranslateEle" Then="{StaticResource element3dDataTemplateXLinearTranslate}" />
@@ -471,6 +521,9 @@
             <selectors:ItemModel3DTemplateSelectorItem When="InsertedObj" Then="{StaticResource insertedObject}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="PointProbe" Then="{StaticResource pointProbe}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="DistanceProbe" Then="{StaticResource distanceProbe}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="PointAndDirIndicator" Then="{StaticResource pointAndDirIndicatorTemplate}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="PointIndicator" Then="{StaticResource pointIndicatorTemplate}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="PointsIndicator" Then="{StaticResource pointsIndicatorTemplate}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

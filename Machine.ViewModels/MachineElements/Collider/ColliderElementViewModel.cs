@@ -1,17 +1,23 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.Indicators;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Machine.ViewModels.MachineElements.Collider
 {
-    public abstract class ColliderElementViewModel : ElementViewModel, IColliderElement
+    public abstract class ColliderElementViewModel : ElementViewModel, IColliderElement, IPositionsIndicator
     {
         public abstract ColliderType Type { get; }
         public double Radius { get; set; }
-        public virtual ICollection<Point> Points { get; set; } = new List<Point>();
+
+        private ICollection<Point> _points;
+        public virtual ICollection<Point> Points => _points ?? (_points = InstantiatePoints());
+      
         public override IMachineElement Parent 
         {
             get => base.Parent;
@@ -60,5 +66,19 @@ namespace Machine.ViewModels.MachineElements.Collider
 
         protected abstract void OnPneumaticLinkStateChanging(object sender, bool e);
         protected abstract void OnPneumaticLinkStateChanged(object sender, bool e);
+
+        private static ICollection<Point> InstantiatePoints()
+        {
+            var isEditor = Ioc.SimpleIoc<IApplicationInformationProvider>.GetInstance().ApplicationType == ApplicationType.MachineEditor;
+
+            if (isEditor)
+            {
+                return new ObservableCollection<Point>();
+            }
+            else
+            {
+                return new List<Point>();
+            }
+        }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Machine.Data.Base;
+using Machine.ViewModels.Interfaces.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.MachineElements
 {
-    public abstract class InjectorBaseElementViewModel : ElementViewModel
+    public abstract class InjectorBaseElementViewModel : ElementViewModel, IPositionAndDirectionIndicator
     {
         private int _inserterId;
         public int InserterId 

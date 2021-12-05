@@ -236,6 +236,8 @@ namespace Machine.Views.ViewModels.MachineElementProxies
                      .FirstOrDefault();
         }
 
+        protected void RaisePropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         #endregion
 
         #region IDisposable

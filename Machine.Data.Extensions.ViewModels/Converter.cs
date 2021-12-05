@@ -6,23 +6,28 @@ using Machine.ViewModels.Links;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Collider;
 using Machine.ViewModels.MachineElements.Toolholder;
+using MVMUI = Machine.ViewModels.UI;
 using MD = Machine.Data;
 using MDE = Machine.Data.MachineElements;
 using MDL = Machine.Data.Links;
+using MVMII = Machine.ViewModels.Interfaces.Indicators;
+using MVMI = Machine.ViewModels.Indicators;
 
 namespace Machine.Data.Extensions.ViewModels
 {
     public static class Converter
     {
+        private static int _indicatorCount;
+
         public static IMachineElement ToViewModel(this MDE.MachineElement me, IMachineElement parent = null)
         {
-            if (me is MDE.RootElement re) return Convert(re, parent);
-            else if (me is MDE.InserterElement ins) return Convert(ins, parent);
-            else if (me is MDE.InjectorElement inj) return Convert(inj, parent);
-            else if (me is MDE.ColliderElement ce) return Convert(ce, parent);
-            else if (me is MDE.ToolholderElement th) return Convert(th, parent);
-            else if (me is MDE.PanelHolderElement ph) return Convert(ph, parent);
-            else return Convert<ElementViewModel>(me, parent);
+            if (me is MDE.RootElement re) return Convert(re, parent).Decorate();
+            else if (me is MDE.InserterElement ins) return Convert(ins, parent).Decorate();
+            else if (me is MDE.InjectorElement inj) return Convert(inj, parent).Decorate();
+            else if (me is MDE.ColliderElement ce) return Convert(ce, parent).Decorate();
+            else if (me is MDE.ToolholderElement th) return Convert(th, parent).Decorate();
+            else if (me is MDE.PanelHolderElement ph) return Convert(ph, parent).Decorate();
+            else return Convert<ElementViewModel>(me, parent).Decorate();
         }
 
         private static RootElementViewModel Convert(MDE.RootElement re, IMachineElement parent)
@@ -180,6 +185,21 @@ namespace Machine.Data.Extensions.ViewModels
             return vm;
         }
 
+        private static IMachineElement Decorate(this IMachineElement element)
+        {
+            var appType = Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IApplicationInformationProvider>.GetInstance().ApplicationType;
+
+            if(appType == MVMUI.ApplicationType.MachineEditor)
+            {
+                var name = $"Indicator {++_indicatorCount}";
+
+                if (element is MVMII.IPositionAndDirectionIndicator pdi) element.Children.Add(new MVMI.PositionAndDirectionIndicatorViewModel() { Name = name, Parent = element });
+                else if (element is MVMII.IPositionIndicator pi) element.Children.Add(new MVMI.PositionIndicatorViewModel() { Name = name, Parent = element });
+                else if (element is MVMII.IPositionsIndicator psi) element.Children.Add(new MVMI.PositionsIndicatorViewModel() { Name = name, Parent = element });
+            }
+
+            return element;
+        }
     }
 
 }

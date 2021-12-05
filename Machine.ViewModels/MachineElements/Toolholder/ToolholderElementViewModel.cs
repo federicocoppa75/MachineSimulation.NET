@@ -1,5 +1,6 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
+using Machine.ViewModels.Interfaces.Indicators;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Tools;
@@ -7,7 +8,7 @@ using Machine.ViewModels.Messages.Tooling;
 
 namespace Machine.ViewModels.MachineElements.Toolholder
 {
-    public abstract class ToolholderElementViewModel : ElementViewModel, IToolholderElement
+    public abstract class ToolholderElementViewModel : ElementViewModel, IToolholderElement, IPositionAndDirectionIndicator
     {
         private static Color _toolColor = new Color() { A = 255, B = 255 };
         private static Color _coneColor = new Color() { A = 255, B = 128, G = 128, R = 128 };
