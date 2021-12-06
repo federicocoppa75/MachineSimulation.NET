@@ -8,6 +8,7 @@ namespace Machine.ViewModels.MachineElements
     {
         private static Color _bodyColor = new Color() { A = 255, B = 128, G = 128, R = 128 };
         private static Color _toolColor = new Color() { A = 255, B = 255 };
+        private int _spindleNumber;
 
         public MDIT.IAngularTransmission Tool { get; set; }
         public string BodyModelFile => (Tool != null) ? Tool.BodyModelFile : null;
@@ -19,10 +20,9 @@ namespace Machine.ViewModels.MachineElements
 
         internal void AppendSubSpindle(Point position, Vector direction, MDIT.ITool tool)
         {
-            var i = 0;
             var ssvm = new ATToolholderViewModel()
             {
-                Name = $"spindle {i++}",
+                Name = $"spindle {++_spindleNumber}",
                 Position = position,
                 Direction = direction,
                 Parent = this
