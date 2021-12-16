@@ -10,7 +10,7 @@ namespace Machine.DataSource.File.Json
     class ZipArchiveHelper
     {
         private const string _machineFileName = "machine.json";
-        private const string _tooSetFileName = "toos.jTools";
+        private const string _tooSetFileName = "tools.jTools";
         private const string _toolingFileName = "tooling.jTooling";
 
         private List<string> _entrieeNames = new List<string>();
@@ -93,10 +93,15 @@ namespace Machine.DataSource.File.Json
                 UpdateModelsFiles(toolSet, extractPath, true);
                 UpdateModelsFiles(tooling, (machine as RootElement).AssemblyName, extractPath, true);
 
-                // sistemo il nome del file della macchina
-                var fileInfo = new FileInfo(machPrjFile);
 
-                fileInfo.CopyTo(tooling.Machine);
+                if (string.Compare(machPrjFile, tooling.Machine, true) != 0)
+                {
+                    // sistemo il nome del file della macchina
+                    var fileInfo = new FileInfo(machPrjFile);
+
+                    fileInfo.CopyTo(tooling.Machine, true);
+                }
+
                 machProjectFile = tooling.Machine;
 
                 result = true;
