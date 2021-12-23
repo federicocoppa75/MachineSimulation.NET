@@ -219,11 +219,11 @@ namespace Machine._3D.Views.Models.Elements3D
                     {                        
                         foreach (var item in e.OldItems)
                         {
-                            Element3D element;
-                            if (elementDict.TryGetValue(item, out element))
+                            if (elementDict.TryGetValue(item, out Element3D element))
                             {
                                 Children.Remove(element);
                                 elementDict.Remove(item);
+                                element.Dispose();
                             }
                         }                        
 
@@ -373,6 +373,8 @@ namespace Machine._3D.Views.Models.Elements3D
                 {
                     this.RemoveLogicalChild(item);
                 }
+
+                item.Dispose();
             }
             var node = SceneNode as GroupNode;
             node.Clear();

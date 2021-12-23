@@ -149,5 +149,16 @@ namespace Machine.ViewModels.MachineElements.Toolholder
                 }
             }
         }
+
+        #region IDisposable
+        protected override void Dispose(bool disposing)
+        {
+            Messenger.Unregister<LoadToolMessage>(this);
+            Messenger.Unregister<UnloadToolMessage>(this);
+            Messenger.Unregister<UnloadAllToolMessage>(this);
+            Messenger.Unregister<AngularTransmissionLoadMessage>(this);
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }

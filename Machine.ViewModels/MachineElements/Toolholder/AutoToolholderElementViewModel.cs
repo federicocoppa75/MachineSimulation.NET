@@ -47,5 +47,14 @@ namespace Machine.ViewModels.MachineElements.Toolholder
 
             if (n != Children.Count) Messenger.Send(new AutoSourceToolholderChangedMessage { ToolholderId = ToolHolderId, ToolName = toolName });
         }
+
+        #region IDisposable
+        protected override void Dispose(bool disposing)
+        {
+            Messenger.Unregister<MoveToolRequestMessage>(this);
+            Messenger.Unregister<MoveToolExecuteMessage>(this);
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }

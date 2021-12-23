@@ -115,5 +115,14 @@ namespace Machine.ViewModels.MachineElements
 
             return center;
         }
+
+        #region IDisposable
+        protected override void Dispose(bool disposing)
+        {
+            Messenger.Unregister<LoadPanelMessage>(this);
+            Messenger.Unregister<UnloadPanelMessage>(this);
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }

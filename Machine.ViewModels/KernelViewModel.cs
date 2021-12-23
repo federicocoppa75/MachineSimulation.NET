@@ -31,7 +31,15 @@ namespace Machine.ViewModels
         public event EventHandler SelectedChanged;
 
         private ICommand _unloadAllMachineCommand;
-        public ICommand UnloadAllMachineCommand => _unloadAllMachineCommand ?? (_unloadAllMachineCommand = new RelayCommand(() => _machines.Clear()));
+        public ICommand UnloadAllMachineCommand => _unloadAllMachineCommand ?? (_unloadAllMachineCommand = new RelayCommand(() =>
+        {
+            foreach (var machine in _machines)
+            {
+                (machine as IDisposable)?.Dispose();
+            }
+
+            _machines.Clear();
+        }));
 
         //private static void ManageSelectionState(IMachineElement element, bool state)
         //{

@@ -77,5 +77,13 @@ namespace Machine.ViewModels.Links
             }
         }
         #endregion
+
+        #region IDisposable
+        protected override void Dispose(bool disposing)
+        {
+            Messenger.Unregister<GetLinkMessage>(this);
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }

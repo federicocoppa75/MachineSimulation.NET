@@ -54,5 +54,13 @@ namespace Machine.ViewModels.MachineElements
                 });                
             }
         }
+
+        #region IDisposable
+        protected override void Dispose(bool disposing)
+        {
+            Messenger.Unregister<InjectMessage>(this);
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }

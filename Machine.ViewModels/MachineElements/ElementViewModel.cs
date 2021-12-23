@@ -5,6 +5,7 @@ using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages.Probing;
 using Machine.ViewModels.UI.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -138,6 +139,22 @@ namespace Machine.ViewModels.MachineElements
             var probe = GetInstance<MVMIP.IProbeFactory>()?.Create(this, point);
 
             Messenger.Send(new AddProbeMessage() { Probe = probe});
+        }
+        #endregion
+
+        #region IDisposable
+        protected override void Dispose(bool disposing)
+        {
+            foreach (var item in Children)
+            {
+                (item as IDisposable)?.Dispose();
+            }
+
+            (LinkToParent as IDisposable)?.Dispose();
+            LinkToParent = null;
+            Parent = null;
+
+            base.Dispose(disposing);
         }
         #endregion
     }

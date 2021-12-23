@@ -1,9 +1,10 @@
 ﻿using Machine.ViewModels.Messaging;
+using System;
 using System.ComponentModel;
 
 namespace Machine.ViewModels.Base
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged, IDisposable
     {
         private IMessenger _messenger;
 
@@ -45,5 +46,25 @@ namespace Machine.ViewModels.Base
 
         protected T GetInstance<T>() => Ioc.SimpleIoc<T>.GetInstance();
         protected bool HasInstance<T>() => Ioc.SimpleIoc<T>.HasInstance();
+
+        #region IDisposable
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+
+            if (disposing) { }
+
+            _disposed = true;
+        }
+
+        #endregion
     }
 }

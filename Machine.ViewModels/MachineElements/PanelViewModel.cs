@@ -58,26 +58,14 @@ namespace Machine.ViewModels.MachineElements
         }
 
         #region IDisposable
-        private bool _disposed = false;
-
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-
             if (disposing)
             {
                 // Dispose managed state (managed objects).
                 Messenger.Unregister(this);
                 UnregisterAsInsertionSink();
             }
-
-            _disposed = true;
         }
         #endregion
     }

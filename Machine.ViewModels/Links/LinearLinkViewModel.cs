@@ -76,5 +76,13 @@ namespace Machine.ViewModels.Links
         #region private methods
         private void OnGantryMasterChanged(object sender, double e) => Value = e + _gantryGap;
         #endregion
+
+        #region IDisposable
+        protected override void Dispose(bool disposing)
+        {
+            Messenger.Unregister<GantryMessage>(this);
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }
