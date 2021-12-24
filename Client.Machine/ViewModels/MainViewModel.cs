@@ -1,5 +1,4 @@
-﻿using Client.Machine.Helpers;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +13,7 @@ using System.Net.Http.Formatting;
 using Newtonsoft.Json;
 using Machine.Data.Converters;
 using System.IO;
+using MachineModels.Extensions;
 
 namespace Client.Machine.ViewModels
 {

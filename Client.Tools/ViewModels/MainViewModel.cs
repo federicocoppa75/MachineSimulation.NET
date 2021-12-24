@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MMT = MachineModels.Models.Tools;
 using MDT = Machine.Data.Tools;
-using Client.Tools.Helpers;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Net.Http.Formatting;
 using Newtonsoft.Json;
 using Machine.Data.Converters;
+using MachineModels.Extensions;
 
 namespace Client.Tools.ViewModels
 {

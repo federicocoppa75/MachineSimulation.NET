@@ -4,9 +4,9 @@ using System.Text;
 using MM = MachineModels;
 using MD = Machine.Data;
 
-namespace Client.Machine.Helpers
+namespace MachineModels.Extensions
 {
-    public static class ModelToData
+    public static class MachineElement
     {
         public static MD.MachineElements.MachineElement ToMachineData(this MM.Models.MachineElement model, bool isRoot = false)
         {
@@ -118,12 +118,12 @@ namespace Client.Machine.Helpers
             {
                 case MM.Enums.LinkDirection.X:
                     return MD.Enums.LinkDirection.X;
-                    
+
                 case MM.Enums.LinkDirection.Y:
                     return MD.Enums.LinkDirection.Y;
 
                 case MM.Enums.LinkDirection.Z:
-                    return MD.Enums.LinkDirection.Z; 
+                    return MD.Enums.LinkDirection.Z;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -161,7 +161,7 @@ namespace Client.Machine.Helpers
 
         private static MD.MachineElements.MachineElement Create(MM.Models.MachineElement model, bool isRoot = false)
         {
-            if(model.ColiderType != MM.Enums.ColliderGeometry.None)
+            if (model.ColiderType != MM.Enums.ColliderGeometry.None)
             {
                 var pc = model.Collider as MM.Models.Colliders.PointsCollider;
 
@@ -178,7 +178,7 @@ namespace Client.Machine.Helpers
 
                 return c;
             }
-            else if(model.HasPanelHolder)
+            else if (model.HasPanelHolder)
             {
                 var ph = model.PanelHolder;
 
@@ -190,7 +190,7 @@ namespace Client.Machine.Helpers
                     Corner = ConvertPanelLoadType(ph.Corner)
                 };
             }
-            else if(model.InserterType != MM.Enums.InserterType.None)
+            else if (model.InserterType != MM.Enums.InserterType.None)
             {
                 var insn = CreateInserter(model);
 
@@ -201,7 +201,7 @@ namespace Client.Machine.Helpers
 
                 return insn;
             }
-            else if(model.ToolHolderType != MM.Enums.ToolHolderType.None)
+            else if (model.ToolHolderType != MM.Enums.ToolHolderType.None)
             {
                 var th = model.ToolHolderData as MM.Models.ToolHolders.ToolHolder;
 
@@ -288,5 +288,6 @@ namespace Client.Machine.Helpers
                     throw new ArgumentException();
             }
         }
+
     }
 }

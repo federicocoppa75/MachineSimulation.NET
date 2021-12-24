@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using MMT = MachineModels.Models.Tools;
 using MDT = Machine.Data.Tools;
 using MME = MachineModels.Enums;
@@ -10,9 +8,9 @@ using MDE = Machine.Data.Enums;
 using MM = MachineModels.Models;
 using MDM = Machine.Data.MachineElements;
 
-namespace Client.Tools.Helpers
+namespace MachineModels.Extensions
 {
-    static class ModelToData
+    public static class Tools
     {
         public static MDT.ToolSet ToToolsData(this MMT.ToolSet toolset)
         {
@@ -162,7 +160,7 @@ namespace Client.Tools.Helpers
             }
 
             UpdateBaseData(t, at);
-            
+
             return t;
         }
 
@@ -194,4 +192,5 @@ namespace Client.Tools.Helpers
 
         #endregion
     }
+
 }

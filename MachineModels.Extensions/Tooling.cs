@@ -5,16 +5,16 @@ using MMT = MachineModels.Models.Tooling;
 using MDT = Machine.Data.Toolings;
 using System.IO;
 
-namespace Client.Tooling.Helpers
+namespace MachineModels.Extensions
 {
-    static class ModelToData
+    public static class Tooling
     {
         public static MDT.Tooling ToToolsData(this MMT.Tooling tooling)
         {
-            var t = new MDT.Tooling() 
-            { 
-                Machine = Path.GetFileNameWithoutExtension(tooling.MachineFile), 
-                Tools = Path.GetFileNameWithoutExtension(tooling.ToolsFile) 
+            var t = new MDT.Tooling()
+            {
+                Machine = Path.GetFileNameWithoutExtension(tooling.MachineFile),
+                Tools = Path.GetFileNameWithoutExtension(tooling.ToolsFile)
             };
 
             foreach (var item in tooling.Units)
@@ -34,4 +34,5 @@ namespace Client.Tooling.Helpers
             };
         }
     }
+
 }

@@ -6,11 +6,11 @@ using System.Text;
 using System.Windows.Input;
 using MMT = MachineModels.Models.Tooling;
 using MDT = Machine.Data.Toolings;
-using Client.Tooling.Helpers;
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
 using System.Net.Http;
+using MachineModels.Extensions;
 
 namespace Client.Tooling.ViewModels
 {

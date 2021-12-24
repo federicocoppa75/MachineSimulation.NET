@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.NET</PackageProjectUrl>
   </PropertyGroup>
 
@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Machine.Data.Converters\Machine.Data.Converters.csproj" />
     <ProjectReference Include="..\Machine.Data.Enums\Machine.Data.Enums.csproj" />
     <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
+    <ProjectReference Include="..\MachineModels.Extensions\MachineModels.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

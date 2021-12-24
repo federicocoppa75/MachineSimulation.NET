@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.NET</PackageProjectUrl>
   </PropertyGroup>
 
@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
+    <ProjectReference Include="..\MachineModels.Extensions\MachineModels.Extensions.csproj" />
   </ItemGroup>
 
 </Project>
