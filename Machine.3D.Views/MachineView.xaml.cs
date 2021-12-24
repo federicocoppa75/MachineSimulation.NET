@@ -27,6 +27,8 @@ namespace Machine._3D.Views
     public partial class MachineView : UserControl
     {
         private GeometryModel3D _selectedModel;
+        private bool _startMove;
+        private SharpDX.Vector3 _startMovePoint;
 
         private IProbesController _probesController;
         protected IProbesController ProbesController => _probesController ?? (_probesController = Machine.ViewModels.Ioc.SimpleIoc<IProbesController>.GetInstance());
@@ -49,11 +51,24 @@ namespace Machine._3D.Views
                 if (arg.HitTestResult == null) return;
                 if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
 
-                if (!ProbesController.Active) //(machineViewModel.EnableSelectionByView)
-                {
-                    var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
-                    var updateSelection = true;
+                var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
 
+
+                if (ProbesController.Active)
+                {
+                    var p = arg.HitTestResult.PointHit;
+                    var vm = selectedModel.DataContext as MVMIP.IProbableElement;
+
+                    vm?.AddProbePoint(new MVMIP.Point() { X = p.X, Y = p.Y, Z = p.Z });
+                }
+                //else if((_selectedModel != null) && ReferenceEquals(selectedModel, _selectedModel))
+                //{
+                //    _startMovePoint = arg.HitTestResult.PointHit;
+                //    _startMove = true;
+                //}
+                else
+                {
+                    var updateSelection = true;
 
                     if (_selectedModel != null)
                     {
@@ -68,16 +83,27 @@ namespace Machine._3D.Views
                         _selectedModel = selectedModel;
                     }
                 }
-                else //if (machineViewModel.AddProbePoint)
-                {
-                    var selectedModel = arg.HitTestResult.ModelHit as GeometryModel3D;
-                    var p = arg.HitTestResult.PointHit;
-                    var vm = selectedModel.DataContext as MVMIP.IProbableElement;
-
-                    vm?.AddProbePoint(new MVMIP.Point() { X =  p.X, Y = p.Y, Z = p.Z});
-                }
-
             }));
+            //view3DX.AddHandler(Element3D.MouseUp3DEvent, new RoutedEventHandler((s, e) => 
+            //{
+            //    var arg = e as HelixToolkit.Wpf.SharpDX.MouseUp3DEventArgs;
+
+            //    if (arg.HitTestResult == null) return;
+            //    if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
+
+            //    _startMove = false;
+            //}));
+            //view3DX.AddHandler(Element3D.MouseMove3DEvent, new RoutedEventHandler((s, e) => 
+            //{
+            //    var arg = e as HelixToolkit.Wpf.SharpDX.MouseMove3DEventArgs;
+
+            //    if (arg.HitTestResult == null) return;
+            //    if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
+
+            //    var p = arg.Position;
+            //    var delta = arg.HitTestResult.PointHit - _startMovePoint;
+            //    var d = delta;
+            //}));
 
             FillView3DFlags(FlagsNames, (DataContext as MainViewModel).Flags);
             FillView3DOptions(OptionsNames, (DataContext as MainViewModel).Options);
