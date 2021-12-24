@@ -10,7 +10,8 @@ namespace Machine.DataSource.File.Json
     class ZipArchiveHelper
     {
         private const string _machineFileName = "machine.json";
-        private const string _tooSetFileName = "tools.jTools";
+        private const string _toolSetFileName = "tools.jTools";
+        private const string _oldToolSetFileName = "toos.jTools";
         private const string _toolingFileName = "tooling.jTooling";
 
         private List<string> _entrieeNames = new List<string>();
@@ -81,8 +82,10 @@ namespace Machine.DataSource.File.Json
 
                 ZipFile.ExtractToDirectory(importFile, extractPath);
 
+                var toolFileName = dirInfo.GetFiles(_oldToolSetFileName).Length > 0 ? _oldToolSetFileName : _toolSetFileName;
+
                 var machPrjFile = $"{extractPath}\\{_machineFileName}";
-                toolsFile = $"{extractPath}\\{_tooSetFileName}";
+                toolsFile = $"{extractPath}\\{toolFileName}";
                 toolingFile = $"{extractPath}\\{_toolingFileName}";
 
                 var machine = GetMachine(machPrjFile);
@@ -243,7 +246,7 @@ namespace Machine.DataSource.File.Json
         {
             FilterModelsNames(toolSet);
 
-            var entry = archive.CreateEntry(_tooSetFileName);
+            var entry = archive.CreateEntry(_toolSetFileName);
 
             DataSource.SaveTools(toolSet, () => new StreamWriter(entry.Open()));
 
@@ -313,7 +316,7 @@ namespace Machine.DataSource.File.Json
 
             if (save)
             {
-                var toolSetFile = $"{extractPath}\\{_tooSetFileName}";
+                var toolSetFile = $"{extractPath}\\{_toolSetFileName}";
                 DataSource.SaveTools(toolSetFile, toolSet);
             }
         }
@@ -321,7 +324,7 @@ namespace Machine.DataSource.File.Json
         private void UpdateModelsFiles(Tooling tooling, string machineName, string extractPath, bool save = false)
         {
             tooling.Machine = $"{extractPath}\\{machineName}.json";
-            tooling.Tools = $"{extractPath}\\{_tooSetFileName}";
+            tooling.Tools = $"{extractPath}\\{_toolSetFileName}";
 
             if (save)
             {
