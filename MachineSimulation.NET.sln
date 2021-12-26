@@ -79,6 +79,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.Editor", "Machine.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineModels.Extensions", "MachineModels.Extensions\MachineModels.Extensions.csproj", "{F0C42D2F-E105-4725-8250-513AA5CDE7AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.DataSource.File.Xml", "Machine.DataSource.File.Xml\Machine.DataSource.File.Xml.csproj", "{470F5C87-89A6-4761-96ED-65F04D5F466A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -237,6 +239,10 @@ Global
 		{F0C42D2F-E105-4725-8250-513AA5CDE7AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0C42D2F-E105-4725-8250-513AA5CDE7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0C42D2F-E105-4725-8250-513AA5CDE7AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{470F5C87-89A6-4761-96ED-65F04D5F466A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{470F5C87-89A6-4761-96ED-65F04D5F466A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{470F5C87-89A6-4761-96ED-65F04D5F466A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{470F5C87-89A6-4761-96ED-65F04D5F466A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
