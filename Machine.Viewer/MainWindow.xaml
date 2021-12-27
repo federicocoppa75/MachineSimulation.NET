@@ -81,27 +81,6 @@
                         <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Stop}"  DropDownBackground="White"/>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Steps">
-                    <MenuItem Header="Load" Command="{Binding StepController.LoadStepsCommand}" />
-                    <MenuItem Header="UnLoad" Command="{Binding StepController.UnloadStepsCommand}" />
-                    <Separator/>
-                    <MenuItem Header="Dynamic transition" IsCheckable="True" IsChecked="{Binding StepsExecutionController.DynamicTransition}"/>
-                    <MenuItem Header="Auto step over" IsCheckable="True" IsChecked="{Binding StepsExecutionController.AutoStepOver}"/>
-                    <MenuItem Header="Multi channel" IsCheckable="True" IsChecked="{Binding StepsExecutionController.MultiChannel}" IsEnabled="{Binding StepsExecutionController.AutoStepOver}"/>
-                    <MenuItem Header="Timespane factor" ItemsSource="{Binding TimespanFactor.OptionFlags}" IsEnabled="{Binding StepsExecutionController.DynamicTransition}">
-                        <MenuItem.ItemContainerStyle>
-                            <Style TargetType="MenuItem">
-                                <Setter Property="Header" Value="{Binding Value}"/>
-                                <Setter Property="IsCheckable" Value="True"/>
-                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
-                            </Style>
-                        </MenuItem.ItemContainerStyle>
-                    </MenuItem>
-                    <Separator/>
-                    <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoveData.Enable}" />
-                    <Separator/>
-                    <MenuItem Header="Export panel" Command="{Binding StepController.ExportPanelCommand}"/>
-                </MenuItem>
                 <MenuItem Header="Probes">
                     <MenuItem Header="Add probe points" IsCheckable="True" IsChecked="{Binding ProbesController.Active}"/>
                     <MenuItem Header="Add probes distance" Command="{Binding ProbesController.DistanceCommand}" />
@@ -135,6 +114,27 @@
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>                    
+                </MenuItem>
+                <MenuItem Header="Steps">
+                    <MenuItem Header="Load" Command="{Binding StepController.LoadStepsCommand}" />
+                    <MenuItem Header="UnLoad" Command="{Binding StepController.UnloadStepsCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Dynamic transition" IsCheckable="True" IsChecked="{Binding StepsExecutionController.DynamicTransition}"/>
+                    <MenuItem Header="Auto step over" IsCheckable="True" IsChecked="{Binding StepsExecutionController.AutoStepOver}"/>
+                    <MenuItem Header="Multi channel" IsCheckable="True" IsChecked="{Binding StepsExecutionController.MultiChannel}" IsEnabled="{Binding StepsExecutionController.AutoStepOver}"/>
+                    <MenuItem Header="Timespane factor" ItemsSource="{Binding TimespanFactor.OptionFlags}" IsEnabled="{Binding StepsExecutionController.DynamicTransition}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoveData.Enable}" />
+                    <Separator/>
+                    <MenuItem Header="Export panel" Command="{Binding StepController.ExportPanelCommand}"/>
                 </MenuItem>
             </Menu>
 
