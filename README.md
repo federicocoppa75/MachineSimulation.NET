@@ -54,6 +54,12 @@ Class library for read/write data model from server rest.
 ## Machine.DataSource.File.Json
 Class library for read/write data model from JSON file.
 
+## Machine.DataSource.File.Xml
+Class library for read data model from XML file.
+
+## Machine.Editor
+Application for edit the machine struct, the data could be load from files made by the applications of this solution or by data server.
+
 ## Machine.Steps.ViewModels
 Class library for define the viewmodels for manage machine steps.
 
