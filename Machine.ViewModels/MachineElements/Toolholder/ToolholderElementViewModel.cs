@@ -139,7 +139,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         {
             if (me is IToolElement tool)
             {
-                GetInstance<IToolObserverProvider>().Observer?.Unregister(tool);
+                if(HasInstance<IToolObserverProvider>()) GetInstance<IToolObserverProvider>().Observer?.Unregister(tool);
             }
             else
             {

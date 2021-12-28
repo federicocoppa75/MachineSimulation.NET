@@ -83,6 +83,39 @@ namespace Machine.DataSource.File.Json
             }
         }
 
+        protected override void LoadToolsCommandImplementation()
+        {
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("OpenFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "jTools";
+            dlg.Filter = "Tools (JSON) |*.jTools";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                var toolset = LoadTools(dlg.FileName);
+
+                if((toolset != null) && (toolset.Tools.Count > 0))
+                {
+                    Messenger.Send(new LoadToolsMessage()
+                    {
+                        Tools = toolset.Tools.Select(t => t as Data.Interfaces.Tools.ITool)
+                    }); ;
+                }
+
+                _lastToolsFile = dlg.FileName;
+            }
+        }
+
+        protected override void SaveToolsCommandImplementation()
+        {
+            base.SaveToolsCommandImplementation();
+        }
+
+        protected override bool SaveToolingCommandCanExecute() => true;
+
         protected override void LoadEnvironmentCommandImplementation()
         {
             var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("OpenFile");

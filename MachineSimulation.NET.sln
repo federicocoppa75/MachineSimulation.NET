@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{344AE8D9-D3E5-4E24-8A2A-E7990785A946}"
 EndProject
@@ -77,9 +77,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.ViewModels.Messagin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.Editor", "Machine.Editor\Machine.Editor.csproj", "{42023140-EB5F-4CD9-A8FA-E2661BC6C76C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineModels.Extensions", "MachineModels.Extensions\MachineModels.Extensions.csproj", "{F0C42D2F-E105-4725-8250-513AA5CDE7AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MachineModels.Extensions", "MachineModels.Extensions\MachineModels.Extensions.csproj", "{F0C42D2F-E105-4725-8250-513AA5CDE7AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Machine.DataSource.File.Xml", "Machine.DataSource.File.Xml\Machine.DataSource.File.Xml.csproj", "{470F5C87-89A6-4761-96ED-65F04D5F466A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Machine.DataSource.File.Xml", "Machine.DataSource.File.Xml\Machine.DataSource.File.Xml.csproj", "{470F5C87-89A6-4761-96ED-65F04D5F466A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Editor", "Tools.Editor\Tools.Editor.csproj", "{92307F2E-AF92-4D55-8A20-47DF479A4630}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -243,6 +245,10 @@ Global
 		{470F5C87-89A6-4761-96ED-65F04D5F466A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{470F5C87-89A6-4761-96ED-65F04D5F466A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{470F5C87-89A6-4761-96ED-65F04D5F466A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92307F2E-AF92-4D55-8A20-47DF479A4630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92307F2E-AF92-4D55-8A20-47DF479A4630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92307F2E-AF92-4D55-8A20-47DF479A4630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92307F2E-AF92-4D55-8A20-47DF479A4630}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

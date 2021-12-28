@@ -1,0 +1,101 @@
+﻿<Window x:Class="Tools.Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tools.Editor"
+        xmlns:views3d="clr-namespace:Machine._3D.Views;assembly=Machine.3D.Views"
+        xmlns:views="clr-namespace:Machine.Views;assembly=Machine.Views"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Data">
+                <MenuItem Header="Source" ItemsSource="{Binding DataSource.Options}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Name}"/>
+                            <Setter Property="IsCheckable" Value="True"/>
+                            <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Load Tools" Command="{Binding DataSource.Value.LoadToolsCommand}" />
+                <MenuItem Header="Save Tools" Command="{Binding DataSource.Value.SaveToolsCommand}" />
+                <MenuItem Header="Unload Tools" Command="{Binding UnloadAllMachineCommand}" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="View settings" ItemsSource="{Binding View3DFlags}" >
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Name}"/>
+                            <Setter Property="IsCheckable" Value="True"/>
+                            <Setter Property="IsChecked" Value="{Binding Value}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <MenuItem Header="View options" ItemsSource="{Binding View3DOptions}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Name}"/>
+                            <Setter Property="ToolTip" Value="{Binding Value}"/>
+                            <Setter Property="ItemsSource" Value="{Binding Options}"/>
+                            <Setter Property="ItemContainerStyle">
+                                <Setter.Value>
+                                    <Style TargetType="MenuItem">
+                                        <Setter Property="Header" Value="{Binding Name}"/>
+                                        <Setter Property="IsCheckable" Value="True"/>
+                                        <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Light" ItemsSource="{Binding LightType.OptionFlags}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Value}"/>
+                            <Setter Property="IsCheckable" Value="True"/>
+                            <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Background">
+                    <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Start}"  DropDownBackground="White"/>
+                    <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Stop}"  DropDownBackground="White"/>
+                </MenuItem>
+                <!--<Separator/>
+                <MenuItem Header="Indicators">
+                    <MenuItem Header="Colliders" IsCheckable="True" IsChecked="{Binding IndicatorsController.Collider}"/>
+                    <MenuItem Header="Panels holders" IsCheckable="True" IsChecked="{Binding IndicatorsController.PanelHolder}"/>
+                    <MenuItem Header="Tools holders" IsCheckable="True" IsChecked="{Binding IndicatorsController.ToolHolder}"/>
+                    <MenuItem Header="Inserters" IsCheckable="True" IsChecked="{Binding IndicatorsController.Inserter}"/>
+                </MenuItem>-->
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <views:Tools />
+
+            <GridSplitter Grid.Column="1"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"/>
+
+            <views3d:MachineView Grid.Column="2" Name="machineView"/>
+
+        </Grid>
+
+    </DockPanel>
+</Window>

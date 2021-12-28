@@ -1,0 +1,93 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Tools.Editor" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BackgroundColorStart" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 224, 192</Value>
+    </Setting>
+    <Setting Name="BackgroundColorStop" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">192, 255, 255</Value>
+    </Setting>
+    <Setting Name="LightType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sun</Value>
+    </Setting>
+    <Setting Name="View3DFlags" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{
+  "EnableCurrentPosition": "False",
+  "InfiniteSpin": "False",
+  "IsShadowMappingEnabled": "True",
+  "IsChangeFieldOfViewEnabled": "True",
+  "IsInertiaEnabled": "False",
+  "IsPanEnabled": "True",
+  "IsRotationEnabled": "True",
+  "IsTouchRotateEnabled": "True",
+  "IsPinchZoomEnabled": "True",
+  "PinchZoomAtCenter": "False",
+  "IsThreeFingerPanningEnabled": "True",
+  "IsZoomEnabled": "True",
+  "Orthographic": "False",
+  "RotateAroundMouseDownPoint": "True",
+  "ShowCameraInfo": "False",
+  "ShowCameraTarget": "True",
+  "ShowCoordinateSystem": "True",
+  "ShowFrameRate": "False",
+  "ShowTriangleCountInfo": "False",
+  "ShowViewCube": "True",
+  "UseDefaultGestures": "True",
+  "IsViewCubeEdgeClicksEnabled": "False",
+  "IsViewCubeMoverEnabled": "True",
+  "IsCoordinateSystemMoverEnabled": "True",
+  "ZoomAroundMouseDownPoint": "False",
+  "ZoomExtentsWhenLoaded": "False",
+  "FixedRotationPointEnabled": "False",
+  "EnableMouseButtonHitTest": "True",
+  "EnableDeferredRendering": "False",
+  "EnableSharedModelMode": "False",
+  "EnableSwapChainRendering": "True",
+  "ShowFrameDetails": "False",
+  "EnableD2DRendering": "True",
+  "EnableAutoOctreeUpdate": "False",
+  "IsMoveEnabled": "True",
+  "EnableOITRendering": "True",
+  "EnableDesignModeRendering": "False",
+  "EnableRenderOrder": "False",
+  "EnableSSAO": "False",
+  "AllowUpDownRotation": "True",
+  "AllowLeftRightRotation": "True",
+  "BelongsToParentWindow": "True",
+  "EnableDpiScale": "True",
+  "IsTabStop": "True",
+  "OverridesDefaultStyle": "False",
+  "UseLayoutRounding": "False",
+  "ForceCursor": "False",
+  "AllowDrop": "False",
+  "ClipToBounds": "False",
+  "SnapsToDevicePixels": "False",
+  "IsEnabled": "True",
+  "IsHitTestVisible": "True",
+  "Focusable": "True",
+  "IsManipulationEnabled": "False"
+}
+</Value>
+    </Setting>
+    <Setting Name="View3DOptions" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{
+  "CameraMode": "Inspect",
+  "CameraRotationMode": "Trackball",
+  "MSAA": "Disable",
+  "OITWeightMode": "Linear1",
+  "FXAALevel": "Medium",
+  "SSAOQuality": "Low",
+  "FlowDirection": "LeftToRight",
+  "Visibility": "Visible"
+}
+</Value>
+    </Setting>
+    <Setting Name="DataSource" Type="System.String" Scope="User">
+      <Value Profile="(Default)">File.JSON</Value>
+    </Setting>
+    <Setting Name="ViewToolHolder" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

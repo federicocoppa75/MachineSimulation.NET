@@ -19,6 +19,15 @@ namespace Machine.ViewModels.UI
         private ICommand _loadToolingCommand;
         public ICommand LoadToolingCommand => _loadToolingCommand ?? (_loadToolingCommand = new RelayCommand(() => LoadToolingCommandImplementation()));
 
+        private ICommand _saveToolingCommand;
+        public ICommand SaveToolingCommand => _saveToolingCommand ?? (_saveToolingCommand = new RelayCommand(() => SaveToolingCommandImplementation(), () => SaveToolingCommandCanExecute()));
+
+        private ICommand _loadToolsCommand;
+        public ICommand LoadToolsCommand => _loadToolsCommand ?? (_loadToolsCommand = new RelayCommand(() => LoadToolsCommandImplementation()));
+
+        private ICommand _saveToolsCommand;
+        public ICommand SaveToolsCommand => _saveToolsCommand ?? (_saveToolsCommand = new RelayCommand(() => SaveToolsCommandImplementation(), () => SaveToolsCommandCanExecute()));
+
         private ICommand _loadEnvironmentCommand;
         public ICommand LoadEnvironmentCommand => _loadEnvironmentCommand ?? (_loadEnvironmentCommand = new RelayCommand(() => LoadEnvironmentCommandImplementation(), () => LoadEnvironmentCommandCanExecute()));
 
@@ -31,6 +40,14 @@ namespace Machine.ViewModels.UI
         protected virtual bool SaveMachineCommandCanExecute() => false;
 
         protected abstract void LoadToolingCommandImplementation();
+
+        protected virtual void SaveToolingCommandImplementation() { }
+        protected virtual bool SaveToolingCommandCanExecute() => false;
+
+        protected virtual void LoadToolsCommandImplementation() { }
+
+        protected virtual void SaveToolsCommandImplementation() { }
+        protected virtual bool SaveToolsCommandCanExecute() => false;
 
         public override string ToString() => Name;
 
