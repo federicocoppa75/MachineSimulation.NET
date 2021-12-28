@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Machine.Data.Tools
 {
     [Table("SimpleTool")]
-    public class SimpleTool : Tool, IWorkData
+    public class SimpleTool : Tool, IWorkData, ISimpleTool
     {
         public double Diameter { get; set; }
         public double Length { get; set; }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Machine.Data.Tools
 {
     [Table("TwoSectionTool")]
-    public class TwoSectionTool : Tool, IWorkData
+    public class TwoSectionTool : Tool, IWorkData, ITwoSectionTool
     {
         public double Diameter1 { get; set; }
         public double Length1 { get; set; }

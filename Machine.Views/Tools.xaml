@@ -23,8 +23,10 @@
                 <GridView>
                     <GridView.Columns>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Length" DisplayMemberBinding="{Binding Converter={StaticResource toolToPropertyConverter}, ConverterParameter=TotalLength }"/>
-                        <GridViewColumn Header="Diameter" DisplayMemberBinding="{Binding Converter={StaticResource toolToPropertyConverter}, ConverterParameter=TotalDiameter }"/>
+                        <!--<GridViewColumn Header="Length" DisplayMemberBinding="{Binding Converter={StaticResource toolToPropertyConverter}, ConverterParameter=TotalLength }"/>
+                        <GridViewColumn Header="Diameter" DisplayMemberBinding="{Binding Converter={StaticResource toolToPropertyConverter}, ConverterParameter=TotalDiameter }"/>-->
+                        <GridViewColumn Header="Length" DisplayMemberBinding="{Binding TotalLength }"/>
+                        <GridViewColumn Header="Diameter" DisplayMemberBinding="{Binding TotalDiameter }"/>
                         <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Converter={StaticResource toolToPropertyConverter}, ConverterParameter=ToolType }" />
                         <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
                     </GridView.Columns>

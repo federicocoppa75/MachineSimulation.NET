@@ -44,6 +44,21 @@ namespace Machine.ViewModels.Base
             return result;
         }
 
+        protected bool Set<T>(T propertyValue, T value, Action<T> setAction, string propertyName)
+        {
+            bool result = false;
+
+            if (!Comparer<T>.Instance.IsEqual(propertyValue, value))
+            {
+                setAction(value);
+                result = true;
+
+                RisePropertyChanged(propertyName);
+            }
+
+            return result;
+        }
+
         protected T GetInstance<T>() => Ioc.SimpleIoc<T>.GetInstance();
         protected bool HasInstance<T>() => Ioc.SimpleIoc<T>.HasInstance();
 

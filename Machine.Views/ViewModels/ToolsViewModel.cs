@@ -4,6 +4,7 @@ using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.MachineElements.Toolholder;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
+using Machine.Views.ViewModels.ToolProxies;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,11 +18,11 @@ namespace Machine.Views.ViewModels
     {
         public IKernelViewModel Kernel { get; private set; }
 
-        public ObservableCollection<ITool> Tools { get; private set; } = new ObservableCollection<ITool>();
+        public ObservableCollection<ToolProxyViewModel> Tools { get; private set; } = new ObservableCollection<ToolProxyViewModel>();
 
-        private ITool _selected;
+        private ToolProxyViewModel _selected;
 
-        public ITool Selected
+        public ToolProxyViewModel Selected
         {
             get => _selected; 
             set 
@@ -31,7 +32,7 @@ namespace Machine.Views.ViewModels
                 if(Set(ref _selected, value, nameof(Selected)))
                 {
                     if (last != null) Messenger.Send(new UnloadToolMessage());
-                    if (_selected != null) Messenger.Send(new LoadToolMessage() { Tool = _selected });
+                    if (_selected != null) Messenger.Send(new LoadToolMessage() { Tool = _selected.GetTool() });
                 }
             }
         }
@@ -57,7 +58,7 @@ namespace Machine.Views.ViewModels
 
             foreach (var item in msg.Tools)
             {
-                Tools.Add(item);
+                Tools.Add(item.Convert());
             }
 
             AdjustView();

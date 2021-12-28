@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Machine.Data.Tools
 {
     [Table("DiskTool")]
-    public class DiskTool : Tool, IWorkData
+    public class DiskTool : Tool, IWorkData, IDiskTool
     {
         public double Diameter { get; set; }
         public double CuttingRadialThickness { get; set; }

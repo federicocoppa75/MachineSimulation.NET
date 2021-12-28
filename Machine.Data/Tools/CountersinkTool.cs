@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Machine.Data.Tools
 {
     [Table("CountersinkTool")]
-    public class CountersinkTool : Tool, IWorkData
+    public class CountersinkTool : Tool, IWorkData, ICountersinkTool
     {
         public double Diameter1 { get; set; }
         public double Length1 { get; set; }

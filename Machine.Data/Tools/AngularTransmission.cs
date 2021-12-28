@@ -11,5 +11,7 @@ namespace Machine.Data.Tools
         public override double GetTotalDiameter() => -1.0;
 
         public override double GetTotalLength() => -1.0;
+
+        public IEnumerable<ISubspindle> GetSubspindles() => Subspindles;
     }
 }

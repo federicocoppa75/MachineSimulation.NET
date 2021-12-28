@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Machine.Data.Tools
 {
     [Table("DiskOnConeTool")]
-    public class DiskOnConeTool : DiskTool, IWorkData
+    public class DiskOnConeTool : DiskTool, IWorkData, IDiskOnConeTool
     {
         public double PostponemntLength { get; set; }
         public double PostponemntDiameter { get; set; }
