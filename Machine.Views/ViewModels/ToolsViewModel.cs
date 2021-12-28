@@ -49,7 +49,15 @@ namespace Machine.Views.ViewModels
             });
 
             Messenger.Register<LoadToolsMessage>(this, OnLoadToolsMessage);
+            Messenger.Register<SaveToolsMessage>(this, OnSaveToolsMessage);
             Messenger.Register<UnloadAllToolMessage>(this, OnUnloadAllToolMessage);
+        }
+
+        private void OnSaveToolsMessage(SaveToolsMessage msg)
+        {
+            var tools = Tools.Select(t => t.GetTool());
+
+            msg.GetTools?.Invoke(tools);
         }
 
         private void OnLoadToolsMessage(LoadToolsMessage msg)

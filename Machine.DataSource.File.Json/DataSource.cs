@@ -102,7 +102,7 @@ namespace Machine.DataSource.File.Json
                     Messenger.Send(new LoadToolsMessage()
                     {
                         Tools = toolset.Tools.Select(t => t as Data.Interfaces.Tools.ITool)
-                    }); ;
+                    });
                 }
 
                 _lastToolsFile = dlg.FileName;
@@ -111,8 +111,35 @@ namespace Machine.DataSource.File.Json
 
         protected override void SaveToolsCommandImplementation()
         {
-            base.SaveToolsCommandImplementation();
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("SaveFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "jTools";
+            dlg.Filter = "Tools (JSON) |*.jTools";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                Messenger.Send(new SaveToolsMessage()
+                {
+                    GetTools = (tools) =>
+                    {
+                        if((tools != null) && (tools.Count() > 0))
+                        {
+                            var name = Path.GetFileNameWithoutExtension(dlg.FileName);
+                            var toolset = new MDTools.ToolSet() { Name = name };
+
+                            foreach (var tool in tools) toolset.Tools.Add(tool as MDTools.Tool);
+
+                            SaveTools(dlg.FileName, toolset);
+                        }
+                    }
+                });
+            }
         }
+
+        protected override bool SaveToolsCommandCanExecute() => true;
 
         protected override bool SaveToolingCommandCanExecute() => true;
 
