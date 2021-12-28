@@ -3,6 +3,7 @@ using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.MachineElements.Toolholder;
 using Machine.ViewModels.Messages.Tooling;
+using Machine.ViewModels.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -58,8 +59,22 @@ namespace Machine.Views.ViewModels
             {
                 Tools.Add(item);
             }
+
+            AdjustView();
         }
 
         private void OnUnloadAllToolMessage(UnloadAllToolMessage msg) => Tools.Clear();
+
+        private void AdjustView()
+        {
+            if (HasInstance<ICameraControl>())
+            {
+                var cameraControl = GetInstance<ICameraControl>();
+
+                cameraControl.SetLookDirection(-190.0, -190.0, -90.0);
+                cameraControl.SetUpDirection(0.0, 0.0, 1.0);
+                cameraControl.SetPosition(190.0, 190.0, 40.0);
+            }
+        }
     }
 }

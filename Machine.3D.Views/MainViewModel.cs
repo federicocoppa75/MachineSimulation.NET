@@ -29,7 +29,7 @@ using Machine.ViewModels.Interfaces.Links;
 
 namespace Machine._3D.Views
 {
-    class MainViewModel : BaseElementsCollectionViewModel, IPeropertiesProvider
+    class MainViewModel : BaseElementsCollectionViewModel, IPeropertiesProvider, ICameraControl
     {
         public ObservableCollection<ILinkViewModel> LinearLinks { get; private set; } = new ObservableCollection<ILinkViewModel>();
 
@@ -81,6 +81,7 @@ namespace Machine._3D.Views
         public MainViewModel()
         {
             Machine.ViewModels.Ioc.SimpleIoc<IPeropertiesProvider>.Register(this);
+            Machine.ViewModels.Ioc.SimpleIoc<ICameraControl>.Register(this);
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.LightType>>.Register(new EnumOptionProxy<M3DVE.LightType>(() => LightTypes, () => LightType, (v) => LightType = v));
             Machine.ViewModels.Ioc.SimpleIoc<IBackgroundColor>.Register(BackgroudColor);
             Machine.ViewModels.Ioc.SimpleIoc<IProbesViewData>.Register<ProbesViewData>();
@@ -210,6 +211,15 @@ namespace Machine._3D.Views
         }
 
         protected override void Clear() => LinearLinks.Clear();
+
+        #region ICameraControl
+        public void SetPosition(double x, double y, double z) => Camera.Position = new Point3D(x, y, z);
+
+        public void SetLookDirection(double x, double y, double z) => Camera.LookDirection = new Vector3D(x, y, z);
+
+        public void SetUpDirection(double x, double y, double z) => Camera.UpDirection = new Vector3D(x, y, z);
+        #endregion
+
         #endregion
     }
 }
