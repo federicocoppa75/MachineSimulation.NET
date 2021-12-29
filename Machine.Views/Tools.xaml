@@ -8,9 +8,6 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <converters:ToolToPropertyConverter x:Key="toolToPropertyConverter"/>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
@@ -27,7 +24,7 @@
                         <GridViewColumn Header="Diameter" DisplayMemberBinding="{Binding Converter={StaticResource toolToPropertyConverter}, ConverterParameter=TotalDiameter }"/>-->
                         <GridViewColumn Header="Length" DisplayMemberBinding="{Binding TotalLength }"/>
                         <GridViewColumn Header="Diameter" DisplayMemberBinding="{Binding TotalDiameter }"/>
-                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Converter={StaticResource toolToPropertyConverter}, ConverterParameter=ToolType }" />
+                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding ToolType }" />
                         <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
                     </GridView.Columns>
                 </GridView>

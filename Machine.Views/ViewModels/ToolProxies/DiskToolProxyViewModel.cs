@@ -9,7 +9,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class DiskToolProxyViewModel : ToolProxyViewModel, IDiskTool
+    internal class DiskToolProxyViewModel : ToolProxyViewModel
     {
         private IDiskTool Tool => GetTool<IDiskTool>();
 
@@ -68,9 +68,20 @@ namespace Machine.Views.ViewModels.ToolProxies
             }
         }
 
+        public DiskToolProxyViewModel() : base(CreateTool<IDiskTool>())
+        {
+            Name = $"Tool {++_newIdx}";
+            Diameter = 120.0;
+            CuttingThickness = 3.2;
+            BodyThickness = 2.0;
+            CuttingRadialThickness = 4.0;
+            RadialUsefulLength = 35.0;
+        }
+
         public DiskToolProxyViewModel(IDiskTool tool) : base(tool)
         {
-
         }
+
+        protected override string GetToolType() => "Disk";
     }
 }

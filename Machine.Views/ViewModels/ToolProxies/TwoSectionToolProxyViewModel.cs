@@ -9,7 +9,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class TwoSectionToolProxyViewModel : ToolProxyViewModel, ITwoSectionTool
+    internal class TwoSectionToolProxyViewModel : ToolProxyViewModel
     {
         private ITwoSectionTool Tool => GetTool<ITwoSectionTool>();
 
@@ -68,8 +68,20 @@ namespace Machine.Views.ViewModels.ToolProxies
             }
         }
 
+        public TwoSectionToolProxyViewModel() : base(CreateTool<ITwoSectionTool>())
+        {
+            Name = $"Tool {++_newIdx}";
+            Diameter1 = 10.0;
+            Diameter2 = 35.0;
+            Length1 = 25.0;
+            Length2 = 10.0;
+            UsefulLength = 10.0;
+        }
+
         public TwoSectionToolProxyViewModel(ITwoSectionTool tool) : base(tool)
         {
         }
+
+        protected override string GetToolType() => "TwoSection";
     }
 }

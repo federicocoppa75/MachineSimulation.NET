@@ -11,11 +11,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Machine.Views.ViewModels
 {
-    internal class ToolsViewModel : BaseViewModel
+    internal class ToolsViewModel : BaseViewModel, IToolsetEditor
     {
+        class AddToolCommand : IAddToolCommand
+        {
+            public string Label { get; set; }
+            public ICommand Command { get; set; }
+        }
+
         public IKernelViewModel Kernel { get; private set; }
 
         public ObservableCollection<ToolProxyViewModel> Tools { get; private set; } = new ObservableCollection<ToolProxyViewModel>();
@@ -33,14 +40,22 @@ namespace Machine.Views.ViewModels
                 {
                     if (last != null) Messenger.Send(new UnloadToolMessage());
                     if (_selected != null) Messenger.Send(new LoadToolMessage() { Tool = _selected.GetTool() });
+                    (_deleteCommand as RelayCommand).RaiseCanExecuteChanged();
                 }
             }
         }
 
+        #region IToolsetEditor
+        private IEnumerable<IAddToolCommand> _addCommands;
+        public IEnumerable<IAddToolCommand> AddCommands => _addCommands ?? (_addCommands = CreateAddCommands());
+
+        private ICommand _deleteCommand;
+        public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(() => DeleteCommandImpl(), () => DeleteCommandCanExecute()));
+        #endregion
 
         public ToolsViewModel()
         {
-            Kernel = Machine.ViewModels.Ioc.SimpleIoc<IKernelViewModel>.GetInstance();
+            Kernel = GetInstance<IKernelViewModel>();
 
             Kernel.Machines.Add(new StaticToolholderElementViewModel()
             {
@@ -51,6 +66,8 @@ namespace Machine.Views.ViewModels
             Messenger.Register<LoadToolsMessage>(this, OnLoadToolsMessage);
             Messenger.Register<SaveToolsMessage>(this, OnSaveToolsMessage);
             Messenger.Register<UnloadAllToolMessage>(this, OnUnloadAllToolMessage);
+
+            Machine.ViewModels.Ioc.SimpleIoc<IToolsetEditor>.Register(this);
         }
 
         private void OnSaveToolsMessage(SaveToolsMessage msg)
@@ -85,5 +102,36 @@ namespace Machine.Views.ViewModels
                 cameraControl.SetPosition(190.0, 190.0, 40.0);
             }
         }
+
+        #region IToolsEditor implementation
+        private bool DeleteCommandCanExecute() => _selected != null;
+
+        private void DeleteCommandImpl()
+        {
+            Tools.Remove(_selected);
+            Selected = null;
+        }
+
+        private IEnumerable<IAddToolCommand> CreateAddCommands()
+        {
+            var list = new List<IAddToolCommand>();
+
+            list.Add(new AddToolCommand() { Label = "Simple", Command = new RelayCommand(() => AddTool(new SimpleToolProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Pointed", Command = new RelayCommand(() => AddTool(new PointedToolProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Two section", Command = new RelayCommand(() => AddTool(new TwoSectionToolProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Countersink", Command = new RelayCommand(() => AddTool(new CountersinkProxyToolViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Disk", Command = new RelayCommand(() => AddTool(new DiskToolProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Disk on cone", Command = new RelayCommand(() => AddTool(new DiskOnConeToolProxyViewModel()))});
+
+            return list;
+        }
+
+        private void AddTool(ToolProxyViewModel tool)
+        {
+            Tools.Add(tool);
+            Selected = tool;
+            AdjustView();
+        }
+        #endregion
     }
 }

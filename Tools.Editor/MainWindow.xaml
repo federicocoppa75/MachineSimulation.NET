@@ -77,6 +77,17 @@
                     <MenuItem Header="Inserters" IsCheckable="True" IsChecked="{Binding IndicatorsController.Inserter}"/>
                 </MenuItem>-->
             </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Add tool" ItemsSource="{Binding ToolsetEditor.AddCommands}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Label}"/>
+                            <Setter Property="Command" Value="{Binding Command}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <MenuItem Header="Delete tool" Command="{Binding ToolsetEditor.DeleteCommand}"/>
+            </MenuItem>
         </Menu>
 
         <Grid>

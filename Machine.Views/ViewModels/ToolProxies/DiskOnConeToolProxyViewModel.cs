@@ -9,7 +9,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class DiskOnConeToolProxyViewModel : DiskToolProxyViewModel, IDiskOnConeTool
+    internal class DiskOnConeToolProxyViewModel : DiskToolProxyViewModel
     {
         private IDiskOnConeTool Tool => GetTool<IDiskOnConeTool>();
 
@@ -35,9 +35,22 @@ namespace Machine.Views.ViewModels.ToolProxies
             }
         }
 
+        public DiskOnConeToolProxyViewModel() : base(CreateTool<IDiskOnConeTool>())
+        {
+            Name = $"Tool {++_newIdx}";
+            PostponemntDiameter = 16.0;
+            PostponemntLength = 120.5;
+            Diameter = 100.0;
+            CuttingRadialThickness = 2.0;
+            BodyThickness = 4.0;
+            CuttingThickness = 6.6;
+            RadialUsefulLength = 35.0;
+        }
+
         public DiskOnConeToolProxyViewModel(IDiskOnConeTool tool) : base(tool)
         {
-
         }
+
+        protected override string GetToolType() => "DiskOnCone";
     }
 }

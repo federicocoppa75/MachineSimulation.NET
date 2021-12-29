@@ -9,7 +9,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class CountersinkProxyToolViewModel : ToolProxyViewModel, ICountersinkTool
+    internal class CountersinkProxyToolViewModel : ToolProxyViewModel
     {
         private ICountersinkTool Tool => GetTool<ICountersinkTool>();
 
@@ -85,9 +85,21 @@ namespace Machine.Views.ViewModels.ToolProxies
             } 
         }
 
+        public CountersinkProxyToolViewModel() : base(CreateTool<ICountersinkTool>())
+        {
+            Name = $"Tool {++_newIdx}";
+            Diameter1 = 10.0;
+            Diameter2 = 17.0;
+            Length1 = 20.5;
+            Length2 = 3.5;
+            Length3 = 26.0;
+            UsefulLength = 25.0;
+        }
 
         public CountersinkProxyToolViewModel(ICountersinkTool tool) : base(tool)
         {
         }
+
+        protected override string GetToolType() => "Countersink";
     }
 }

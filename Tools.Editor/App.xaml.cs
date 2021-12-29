@@ -21,6 +21,8 @@ using MVMM = Machine.ViewModels.Messaging;
 using MVMIF = Machine.ViewModels.Interfaces.Factories;
 using MVMF = Machine.ViewModels.Factories;
 using MVML = Machine.ViewModels.Links;
+using MDF = Machine.Data.Factories;
+using MDIF = Machine.Data.Interfaces.Factories;
 
 
 namespace Tools.Editor
@@ -49,6 +51,7 @@ namespace Tools.Editor
             Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IIndicatorsViewController>.Register<MVMUI.IndicatorsViewController>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IStepsExecutionController>.Register<MVMUI.StepsExecutionControllerStub>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementController>.Register<MVML.LinkMovementControllerStub>();
+            Machine.ViewModels.Ioc.SimpleIoc<MDIF.IToolFactory>.Register<MDF.ToolFactory>();
         }
     }
 }

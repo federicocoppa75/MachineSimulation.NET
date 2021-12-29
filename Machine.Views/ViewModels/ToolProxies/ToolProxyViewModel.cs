@@ -1,4 +1,5 @@
 ﻿using Machine.Data.Enums;
+using Machine.Data.Interfaces.Factories;
 using Machine.Data.Interfaces.Tools;
 using Machine.ViewModels.Base;
 using Machine.ViewModels.Messages.Tooling;
@@ -12,9 +13,15 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal abstract class ToolProxyViewModel : BaseViewModel, ITool
+    internal abstract class ToolProxyViewModel : BaseViewModel
     {
+        protected static int _newIdx;
+
         private ITool _tool;
+
+        [Category("General")]
+        [PropertyOrder(0)]
+        public string ToolType => GetToolType();
 
         [Category("General")]
         [PropertyOrder(1)]
@@ -87,5 +94,12 @@ namespace Machine.Views.ViewModels.ToolProxies
             Messenger.Send(new UnloadToolMessage());
             Messenger.Send(new LoadToolMessage() { Tool = _tool });
         }
+
+        protected static T CreateTool<T>() where T : ITool
+        {
+            return Machine.ViewModels.Ioc.SimpleIoc<IToolFactory>.GetInstance().Create<T>();
+        }
+
+        protected abstract string GetToolType();
     }
 }

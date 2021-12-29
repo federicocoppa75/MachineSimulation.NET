@@ -9,7 +9,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class PointedToolProxyViewModel : ToolProxyViewModel, IPointedTool
+    internal class PointedToolProxyViewModel : ToolProxyViewModel
     {
         private IPointedTool Tool => GetTool<IPointedTool>();
 
@@ -57,9 +57,19 @@ namespace Machine.Views.ViewModels.ToolProxies
             }
         }
 
+        public PointedToolProxyViewModel() : base(CreateTool<IPointedTool>())
+        {
+            Name = $"Tool {++_newIdx}";
+            Diameter = 10.0;
+            StraightLength = 40.0;
+            ConeHeight = 10.0;
+            UsefulLength = 40.0;
+        }
+
         public PointedToolProxyViewModel(IPointedTool tool) : base(tool)
         {
-
         }
+
+        protected override string GetToolType() => "Pointed";
     }
 }

@@ -21,6 +21,7 @@ namespace Tools.Editor
         public ICollection<VMUI.IOptionProvider> View3DOptions => MVM.Ioc.SimpleIoc<VMUI.IPeropertiesProvider>.GetInstance().Options;
         public VMUI.IOptionProvider DataSource => MVM.Ioc.SimpleIoc<VMUI.IOptionProvider>.GetInstance();
         public MVMUI.IIndicatorsViewController IndicatorsController => MVM.Ioc.SimpleIoc<MVMUI.IIndicatorsViewController>.GetInstance();
+        public VMUI.IToolsetEditor ToolsetEditor => MVM.Ioc.SimpleIoc<VMUI.IToolsetEditor>.GetInstance();
 
         private ICommand _unloadAllToolsCommand;
         public ICommand UnloadAllMachineCommand => _unloadAllToolsCommand ?? (_unloadAllToolsCommand = new MVM.Base.RelayCommand(() =>
