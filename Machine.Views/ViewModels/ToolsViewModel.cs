@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Machine.Views.ViewModels
 {
-    internal class ToolsViewModel : BaseViewModel, IToolsetEditor
+    internal class ToolsViewModel : BaseViewModel, IToolsetEditor, IDataUnloader
     {
         class AddToolCommand : IAddToolCommand
         {
@@ -53,6 +53,11 @@ namespace Machine.Views.ViewModels
         public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(() => DeleteCommandImpl(), () => DeleteCommandCanExecute()));
         #endregion
 
+        #region IDataUnloader
+        private ICommand _unloadCommand;
+        public ICommand UnloadCommand => _unloadCommand ?? (_unloadCommand = new RelayCommand(() => UnloadCommandImpl(), () => UnloadCommandCanExecute()));
+        #endregion
+
         public ToolsViewModel()
         {
             Kernel = GetInstance<IKernelViewModel>();
@@ -68,6 +73,7 @@ namespace Machine.Views.ViewModels
             Messenger.Register<UnloadAllToolMessage>(this, OnUnloadAllToolMessage);
 
             Machine.ViewModels.Ioc.SimpleIoc<IToolsetEditor>.Register(this);
+            Machine.ViewModels.Ioc.SimpleIoc<IDataUnloader>.Register(this);
         }
 
         private void OnSaveToolsMessage(SaveToolsMessage msg)
@@ -87,6 +93,7 @@ namespace Machine.Views.ViewModels
             }
 
             AdjustView();
+            UpdateUnloadCommandCanExecute();
         }
 
         private void OnUnloadAllToolMessage(UnloadAllToolMessage msg) => Tools.Clear();
@@ -110,6 +117,7 @@ namespace Machine.Views.ViewModels
         {
             Tools.Remove(_selected);
             Selected = null;
+            UpdateUnloadCommandCanExecute();
         }
 
         private IEnumerable<IAddToolCommand> CreateAddCommands()
@@ -131,7 +139,21 @@ namespace Machine.Views.ViewModels
             Tools.Add(tool);
             Selected = tool;
             AdjustView();
+            UpdateUnloadCommandCanExecute();
         }
+        #endregion
+
+        #region IDataUnloader
+        private bool UnloadCommandCanExecute() => Tools.Count > 0;
+
+        private void UnloadCommandImpl()
+        {
+            Selected = null;
+            Tools.Clear();
+            UpdateUnloadCommandCanExecute();
+        }
+
+        private void UpdateUnloadCommandCanExecute() => (_unloadCommand as RelayCommand).RaiseCanExecuteChanged();
         #endregion
     }
 }

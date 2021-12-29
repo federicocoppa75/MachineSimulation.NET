@@ -24,7 +24,7 @@
                 <Separator/>
                 <MenuItem Header="Load Tools" Command="{Binding DataSource.Value.LoadToolsCommand}" />
                 <MenuItem Header="Save Tools" Command="{Binding DataSource.Value.SaveToolsCommand}" />
-                <MenuItem Header="Unload Tools" Command="{Binding UnloadAllMachineCommand}" />
+                <MenuItem Header="Unload Tools" Command="{Binding DataUnloader.UnloadCommand}" />
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="View settings" ItemsSource="{Binding View3DFlags}" >
