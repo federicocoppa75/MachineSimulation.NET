@@ -44,10 +44,13 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<MVMIP.IProbePointTransformerFactory>.Register<ProbePointTransformerFactory>();
             DataContext = new MainViewModel();
 
+            var isToolEditor = Machine.ViewModels.Ioc.SimpleIoc<IApplicationInformationProvider>.GetInstance().ApplicationType == ApplicationType.ToolEditor;
+
             view3DX.AddHandler(Element3D.MouseDown3DEvent, new RoutedEventHandler((s, e) =>
             {
                 var arg = e as HelixToolkit.Wpf.SharpDX.MouseDown3DEventArgs;
 
+                if (isToolEditor) return;
                 if (arg.HitTestResult == null) return;
                 if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
 
