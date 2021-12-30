@@ -70,6 +70,9 @@ namespace Machine.Views.ViewModels.ToolProxies
         [PropertyOrder(6)]
         public double TotalLength => GetTotalLength();
 
+        [Browsable(false)]
+        public virtual bool IsAngolarTransmission => false;
+
         public ToolProxyViewModel(ITool tool)
         {
             _tool = tool;
@@ -81,6 +84,33 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         public ITool GetTool() => _tool;
 
+        public void Unload() => Messenger.Send(new UnloadToolMessage());
+
+        public void Load()
+        {
+            if(IsAngolarTransmission)
+            {
+                var at = GetTool<IAngularTransmission>();
+
+                Messenger.Send(new AngularTransmissionLoadMessage() 
+                { 
+                    AngularTransmission = at,
+                    AppendSubSpindle = (addSubSpindle) =>
+                    {
+                        foreach (var item in at.GetSubspindles())
+                        {
+                            var tool = ((item is ISubspindleEx sse) && (sse.GetTool() != null)) ? sse.GetTool() : null;
+                            addSubSpindle(item.Position(), item.Direction(), tool);
+                        }
+                    }
+                });
+            }
+            else
+            {
+                Messenger.Send(new LoadToolMessage() { Tool = _tool });
+            }
+        }
+
         protected T GetTool<T>() where T : class, ITool
         {
             return _tool as T;
@@ -91,8 +121,8 @@ namespace Machine.Views.ViewModels.ToolProxies
             RisePropertyChanged(nameof(TotalDiameter));
             RisePropertyChanged(nameof(TotalLength));
 
-            Messenger.Send(new UnloadToolMessage());
-            Messenger.Send(new LoadToolMessage() { Tool = _tool });
+            Unload();
+            Load();
         }
 
         protected static T CreateTool<T>() where T : ITool

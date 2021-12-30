@@ -17,6 +17,7 @@ namespace Machine.Views.ViewModels.ToolProxies
             else if(tool is IPointedTool pt) return Convert(pt);
             else if(tool is ISimpleTool st) return Convert(st);
             else if(tool is ITwoSectionTool tst) return Convert(tst);
+            else if(tool is IAngularTransmission at) return Convert(at);
             else throw new NotImplementedException();   
         }
 
@@ -31,6 +32,17 @@ namespace Machine.Views.ViewModels.ToolProxies
         private static SimpleToolProxyViewModel Convert(ISimpleTool tool) => new SimpleToolProxyViewModel(tool);  
 
         private static TwoSectionToolProxyViewModel Convert(ITwoSectionTool tool) => new TwoSectionToolProxyViewModel(tool);
+
+        private static AngolarTransmission1ProxyViewModel Convert(IAngularTransmission at)
+        {
+            switch (at.GetSubSpindlesCount())
+            {
+                case 1: return new AngolarTransmission1ProxyViewModel(at);
+                case 2: return new AngolarTransmission2ProxyViewModel(at);
+                case 3: return new AngolarTransmission3ProxyViewModel(at);
+                default: throw new NotImplementedException($"No implementation for angular transmission with {at.GetSubSpindlesCount()} subspindles!");
+            }
+        }
         
     }
 }

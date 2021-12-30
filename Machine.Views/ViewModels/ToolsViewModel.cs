@@ -4,6 +4,7 @@ using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.MachineElements.Toolholder;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
+using Machine.Views.Messages;
 using Machine.Views.ViewModels.ToolProxies;
 using System;
 using System.Collections.Generic;
@@ -38,8 +39,8 @@ namespace Machine.Views.ViewModels
 
                 if(Set(ref _selected, value, nameof(Selected)))
                 {
-                    if (last != null) Messenger.Send(new UnloadToolMessage());
-                    if (_selected != null) Messenger.Send(new LoadToolMessage() { Tool = _selected.GetTool() });
+                    if (last != null) last.Unload();
+                    if (_selected != null) _selected.Load();
                     (_deleteCommand as RelayCommand).RaiseCanExecuteChanged();
                 }
             }
@@ -71,9 +72,17 @@ namespace Machine.Views.ViewModels
             Messenger.Register<LoadToolsMessage>(this, OnLoadToolsMessage);
             Messenger.Register<SaveToolsMessage>(this, OnSaveToolsMessage);
             Messenger.Register<UnloadAllToolMessage>(this, OnUnloadAllToolMessage);
+            Messenger.Register<ToolsRequestMessage>(this, OnToolsRequestMessage);
 
             Machine.ViewModels.Ioc.SimpleIoc<IToolsetEditor>.Register(this);
             Machine.ViewModels.Ioc.SimpleIoc<IDataUnloader>.Register(this);
+        }
+
+        private void OnToolsRequestMessage(ToolsRequestMessage msg)
+        {
+            var tools = Tools.Select(t => t.GetTool());
+
+            msg.SetTools(tools);
         }
 
         private void OnSaveToolsMessage(SaveToolsMessage msg)
@@ -130,6 +139,9 @@ namespace Machine.Views.ViewModels
             list.Add(new AddToolCommand() { Label = "Countersink", Command = new RelayCommand(() => AddTool(new CountersinkProxyToolViewModel()))});
             list.Add(new AddToolCommand() { Label = "Disk", Command = new RelayCommand(() => AddTool(new DiskToolProxyViewModel()))});
             list.Add(new AddToolCommand() { Label = "Disk on cone", Command = new RelayCommand(() => AddTool(new DiskOnConeToolProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Angolar transmission (1 spindle)", Command = new RelayCommand(() => AddTool(new AngolarTransmission1ProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Angolar transmission (2 spindle)", Command = new RelayCommand(() => AddTool(new AngolarTransmission2ProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Angolar transmission (3 spindle)", Command = new RelayCommand(() => AddTool(new AngolarTransmission3ProxyViewModel()))});
 
             return list;
         }
