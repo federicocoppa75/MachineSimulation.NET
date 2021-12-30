@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Machine.Views.Messages
+namespace Machine.Views.Messages.ToolsEditor
 {
     internal class ToolsRequestMessage
     {

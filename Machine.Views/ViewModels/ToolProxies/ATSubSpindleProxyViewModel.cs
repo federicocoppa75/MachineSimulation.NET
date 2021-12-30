@@ -1,8 +1,10 @@
 ﻿using Machine.Data.Interfaces.Tools;
 using Machine.ViewModels.Base;
 using Machine.Views.Messages;
+using Machine.Views.Messages.ToolsEditor;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +32,7 @@ namespace Machine.Views.ViewModels.ToolProxies
         ISubspindle _subSpindle;
 
         [PropertyOrder(1)]
+        [Editor(typeof(PropertyGridToolSelectionCombo), typeof(PropertyGridToolSelectionCombo))]
         public string ToolName
         {
             get => _subSpindle.ToolName;
@@ -81,6 +84,8 @@ namespace Machine.Views.ViewModels.ToolProxies
         {
             _subSpindle = subSpindle;
             _observer = observer;
+
+            Messenger.Register<ToolDeletedMessage>(this, OnToolDeletedMessage);
         }
 
         override public string ToString() => _subSpindle.ToolName;
@@ -116,6 +121,14 @@ namespace Machine.Views.ViewModels.ToolProxies
             });
 
             return tool;
+        }
+
+        private void OnToolDeletedMessage(ToolDeletedMessage msg)
+        {
+            if(!string.IsNullOrEmpty(ToolName) && (string.Compare(ToolName, msg.ToolName) == 0))
+            {
+                ToolName = null;
+            }
         }
     }
 }

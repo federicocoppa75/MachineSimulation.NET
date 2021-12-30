@@ -1,17 +1,14 @@
-﻿using Machine.Data.Interfaces.Tools;
-using Machine.ViewModels.Base;
+﻿using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.MachineElements.Toolholder;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
-using Machine.Views.Messages;
+using Machine.Views.Messages.ToolsEditor;
 using Machine.Views.ViewModels.ToolProxies;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Machine.Views.ViewModels
@@ -124,6 +121,7 @@ namespace Machine.Views.ViewModels
 
         private void DeleteCommandImpl()
         {
+            Messenger.Send(new ToolDeletedMessage() { ToolName = _selected.Name });
             Tools.Remove(_selected);
             Selected = null;
             UpdateUnloadCommandCanExecute();

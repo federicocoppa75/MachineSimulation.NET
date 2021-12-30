@@ -23,6 +23,9 @@
     <Compile Update="PropertyGridFilePicker.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="PropertyGridToolSelectionCombo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Selected.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -56,6 +59,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="PropertyGridFilePicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PropertyGridToolSelectionCombo.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Selected.xaml">

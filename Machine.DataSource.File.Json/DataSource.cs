@@ -356,7 +356,9 @@ namespace Machine.DataSource.File.Json
 
                     foreach (var spindle in at.Subspindles)
                     {
-                        dictionary.TryGetValue(spindle.ToolName, out MDTools.Tool tool);
+                        MDTools.Tool tool = null;
+
+                        if(spindle.ToolName != null) dictionary.TryGetValue(spindle.ToolName, out  tool);
 
                         spindlesEx.Add(new MDTools.SubspindleEx()
                         {
