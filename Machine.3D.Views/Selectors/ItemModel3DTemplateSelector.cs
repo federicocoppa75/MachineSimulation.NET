@@ -2,6 +2,7 @@
 using Machine.ViewModels.Insertions;
 using Machine.ViewModels.Interfaces.Indicators;
 using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.Interfaces.Tools;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Toolholder;
 using Machine.ViewModels.Probing;
@@ -95,6 +96,10 @@ namespace Machine._3D.Views.Selectors
             else if((item is IPositionsIndicator) && (item is IIndicatorProxy))
             {
                 it = ElementViewType.PointsIndicator;
+            }
+            else if(item is IToolDimension)
+            {
+                it = ElementViewType.ToolDimension;
             }
             else if(item is IMachineElement evm)
             {

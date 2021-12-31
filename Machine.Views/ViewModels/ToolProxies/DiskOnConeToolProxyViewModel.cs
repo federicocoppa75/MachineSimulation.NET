@@ -1,4 +1,5 @@
 ﻿using Machine.Data.Interfaces.Tools;
+using Machine.ViewModels.Interfaces.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class DiskOnConeToolProxyViewModel : DiskToolProxyViewModel
+    internal class DiskOnConeToolProxyViewModel : DiskToolProxyViewModel, IMeasurableTool
     {
         private IDiskOnConeTool Tool => GetTool<IDiskOnConeTool>();
 
@@ -52,5 +53,43 @@ namespace Machine.Views.ViewModels.ToolProxies
         }
 
         protected override string GetToolType() => "DiskOnCone";
+
+        #region IMeasurableTool
+        public override bool ProcessDimension(string propertyName, IToolDimension dimension)
+        {
+            bool result = false;
+
+            switch (propertyName)
+            {
+                case nameof(CuttingThickness):
+                    result = ProcessLength(dimension, Diameter / 2.0, 10.0, PostponemntLength - (CuttingThickness - BodyThickness) / 2.0, GetTotalLength());
+                    break;
+                case nameof(BodyThickness):
+                    result = ProcessLength(dimension, 10.0, Diameter / 2.0, PostponemntLength, PostponemntLength + BodyThickness);
+                    break;
+                case nameof(Diameter):
+                    result = ProcessDiameter(dimension, GetTotalLength() - (CuttingThickness - BodyThickness) / 2.0, 10.0, Diameter);
+                    break;
+                case nameof(CuttingRadialThickness):
+                    result = ProcessRadialDimension(dimension, Diameter / 2.0, -CuttingRadialThickness, PostponemntLength - (CuttingThickness - BodyThickness) / 2.0, -10.0);
+                    break;
+                case nameof(RadialUsefulLength):
+                    result = ProcessRadialDimension(dimension, Diameter / 2.0, -RadialUsefulLength, PostponemntLength - (CuttingThickness - BodyThickness) / 2.0, -10.0);
+                    break;
+                case nameof(PostponemntLength):
+                    result = ProcessLength(dimension, PostponemntDiameter / 2.0, 30.0, 0.0, PostponemntLength);
+                    break;
+                case nameof(PostponemntDiameter):
+                    result = ProcessDiameter(dimension, GetTotalLength() - (CuttingThickness - BodyThickness) / 2.0, 10.0, PostponemntDiameter);
+                    break;
+                default:
+                    break;
+            }
+
+            if (result) dimension.PropertyName = propertyName;
+
+            return result;
+        }
+        #endregion
     }
 }

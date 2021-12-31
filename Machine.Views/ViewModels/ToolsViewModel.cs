@@ -1,7 +1,9 @@
 ﻿using Machine.ViewModels.Base;
 using Machine.ViewModels.Interfaces;
+using Machine.ViewModels.Interfaces.Tools;
 using Machine.ViewModels.MachineElements.Toolholder;
 using Machine.ViewModels.Messages.Tooling;
+using Machine.ViewModels.Tools;
 using Machine.ViewModels.UI;
 using Machine.Views.Messages.ToolsEditor;
 using Machine.Views.ViewModels.ToolProxies;
@@ -20,6 +22,8 @@ namespace Machine.Views.ViewModels
             public string Label { get; set; }
             public ICommand Command { get; set; }
         }
+
+        private ToolDimensionViewModel _toolDimension;
 
         public IKernelViewModel Kernel { get; private set; }
 
@@ -43,6 +47,27 @@ namespace Machine.Views.ViewModels
             }
         }
 
+        private object _selectedProperty;
+        public object SelectedProperty 
+        { 
+            get => _selectedProperty; 
+            set
+            {
+                if(Set(ref _selectedProperty, value, nameof(SelectedProperty)))
+                {
+                    if((_selectedProperty != null) && (_selectedProperty is string str) && (_selected is IMeasurableTool mt))
+                    {
+                        _toolDimension.IsVisible = mt.ProcessDimension(str, _toolDimension);
+
+                    }
+                    else
+                    {
+                        _toolDimension.IsVisible = false;
+                    }
+                }
+            } 
+        }
+
         #region IToolsetEditor
         private IEnumerable<IAddToolCommand> _addCommands;
         public IEnumerable<IAddToolCommand> AddCommands => _addCommands ?? (_addCommands = CreateAddCommands());
@@ -58,6 +83,7 @@ namespace Machine.Views.ViewModels
 
         public ToolsViewModel()
         {
+            _toolDimension = new ToolDimensionViewModel() { Name = "Tool dimension" };
             Kernel = GetInstance<IKernelViewModel>();
 
             Kernel.Machines.Add(new StaticToolholderElementViewModel()
@@ -65,6 +91,8 @@ namespace Machine.Views.ViewModels
                 Position = new Data.Base.Point(),
                 Direction = new Data.Base.Vector() { X = 0.0, Y = 0.0, Z = -1.0 },
             });
+
+            Kernel.Machines.Add(_toolDimension);
 
             Messenger.Register<LoadToolsMessage>(this, OnLoadToolsMessage);
             Messenger.Register<SaveToolsMessage>(this, OnSaveToolsMessage);

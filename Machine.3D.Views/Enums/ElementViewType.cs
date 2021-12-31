@@ -36,6 +36,7 @@ namespace Machine._3D.Views.Enums
         DistanceProbe,
         PointIndicator,
         PointAndDirIndicator,
-        PointsIndicator
+        PointsIndicator,
+        ToolDimension
     }
 }

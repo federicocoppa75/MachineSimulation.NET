@@ -2,6 +2,7 @@
 using Machine.Data.Interfaces.Factories;
 using Machine.Data.Interfaces.Tools;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Interfaces.Tools;
 using Machine.ViewModels.Messages.Tooling;
 using System;
 using System.Collections.Generic;
@@ -131,5 +132,35 @@ namespace Machine.Views.ViewModels.ToolProxies
         }
 
         protected abstract string GetToolType();
+
+        protected bool ProcessDiameter(IToolDimension dimension, double distanceFromZero, double distanceFromContact, double diameter)
+        {
+            dimension.ContactPoint1 = new Data.Base.Point() { X = diameter / 2.0, Y = 0.0, Z = -distanceFromZero };
+            dimension.ContactPoint2 = new Data.Base.Point() { X = -diameter / 2.0, Y = 0.0, Z = -distanceFromZero };
+            dimension.MeasurePoint1 = new Data.Base.Point() { X = diameter / 2.0, Y = 0.0, Z = -(distanceFromZero + distanceFromContact) };
+            dimension.MeasurePoint2 = new Data.Base.Point() { X = -diameter / 2.0, Y = 0.0, Z = -(distanceFromZero + distanceFromContact) };
+
+            return true;
+        }
+
+        protected bool ProcessLength(IToolDimension dimension, double distanceFromCenter, double distanceFromContact, double startLength, double endLength)
+        {
+            dimension.ContactPoint1 = new Data.Base.Point() { X = distanceFromCenter, Y = 0, Z = -startLength };
+            dimension.ContactPoint2 = new Data.Base.Point() { X = distanceFromCenter, Y = 0, Z = -endLength };
+            dimension.MeasurePoint1 = new Data.Base.Point() { X = distanceFromCenter + distanceFromContact, Y = 0, Z = -startLength };
+            dimension.MeasurePoint2 = new Data.Base.Point() { X = distanceFromCenter + distanceFromContact, Y = 0, Z = -endLength };
+
+            return true;
+        }
+
+        protected bool ProcessRadialDimension(IToolDimension dimension, double distanceFromCenter, double dimensionValue, double distanceFromZero, double distanceFromContact)
+        {
+            dimension.ContactPoint1 = new Data.Base.Point() { X = distanceFromCenter, Y = 0, Z = -distanceFromZero };
+            dimension.ContactPoint2 = new Data.Base.Point() { X = distanceFromCenter + dimensionValue, Y = 0, Z = -distanceFromZero };
+            dimension.MeasurePoint1 = new Data.Base.Point() { X = distanceFromCenter, Y = 0, Z = -(distanceFromZero + distanceFromContact) };
+            dimension.MeasurePoint2 = new Data.Base.Point() { X = distanceFromCenter + dimensionValue, Y = 0, Z = -(distanceFromZero + distanceFromContact) };
+
+            return true;
+        }
     }
 }

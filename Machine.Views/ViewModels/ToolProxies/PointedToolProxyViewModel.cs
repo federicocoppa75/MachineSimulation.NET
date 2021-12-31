@@ -1,4 +1,5 @@
 ﻿using Machine.Data.Interfaces.Tools;
+using Machine.ViewModels.Interfaces.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class PointedToolProxyViewModel : ToolProxyViewModel
+    internal class PointedToolProxyViewModel : ToolProxyViewModel, IMeasurableTool
     {
         private IPointedTool Tool => GetTool<IPointedTool>();
 
@@ -71,5 +72,34 @@ namespace Machine.Views.ViewModels.ToolProxies
         }
 
         protected override string GetToolType() => "Pointed";
+
+        #region IMeasurableTool
+        public bool ProcessDimension(string propertyName, IToolDimension dimension)
+        {
+            bool result = false;
+
+            switch (propertyName)
+            {
+                case nameof(ConeHeight):
+                    result = ProcessLength(dimension, 0.0, Diameter / 2.0 + 10.0, StraightLength, GetTotalLength());
+                    break;
+                case nameof(StraightLength):
+                    result = ProcessLength(dimension, Diameter / 2.0, 10.0, 0.0, StraightLength);
+                    break;
+                case nameof(UsefulLength):
+                    result = ProcessLength(dimension, 0.0, Diameter / 2.0 + 10.0, GetTotalLength() - UsefulLength, GetTotalLength());
+                    break;
+                case nameof(Diameter):
+                    result = ProcessDiameter(dimension, StraightLength, ConeHeight + 10.0, Diameter);
+                    break;
+                default:
+                    break;
+            }
+
+            if (result) dimension.PropertyName = propertyName;
+
+            return result;
+        }
+        #endregion
     }
 }

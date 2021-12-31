@@ -1,4 +1,5 @@
 ﻿using Machine.Data.Interfaces.Tools;
+using Machine.ViewModels.Interfaces.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class TwoSectionToolProxyViewModel : ToolProxyViewModel
+    internal class TwoSectionToolProxyViewModel : ToolProxyViewModel, IMeasurableTool
     {
         private ITwoSectionTool Tool => GetTool<ITwoSectionTool>();
 
@@ -83,5 +84,38 @@ namespace Machine.Views.ViewModels.ToolProxies
         }
 
         protected override string GetToolType() => "TwoSection";
+
+        #region IMeasurableTool
+        public bool ProcessDimension(string propertyName, IToolDimension dimension)
+        {
+            bool result = false;
+
+            switch (propertyName)
+            {
+                case nameof(Length1):
+                    result = ProcessLength(dimension, Diameter1 / 2.0, Diameter2 / 2.0 + 10.0, 0.0, Length1);
+                    break;
+                case nameof(Length2):
+                    result = ProcessLength(dimension, Diameter2 / 2.0, 10.0, Length1, GetTotalLength());
+                    break;
+                case nameof(UsefulLength):
+                    result = ProcessLength(dimension, 0.0, Diameter2 / 2.0 + 10.0, GetTotalLength() - UsefulLength, GetTotalLength());
+                    break;
+                case nameof(Diameter1):
+                    result = ProcessDiameter(dimension, 0.0, -10.0, Diameter1);
+                    break;
+                case nameof(Diameter2):
+                    result = ProcessDiameter(dimension, GetTotalLength(), +10.0, Diameter2);
+                    break;
+                default:
+                    break;
+            }
+
+            if (result) dimension.PropertyName = propertyName;
+
+            return result;
+        }
+
+        #endregion
     }
 }

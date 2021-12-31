@@ -1,4 +1,5 @@
 ﻿using Machine.Data.Interfaces.Tools;
+using Machine.ViewModels.Interfaces.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class DiskToolProxyViewModel : ToolProxyViewModel
+    internal class DiskToolProxyViewModel : ToolProxyViewModel, IMeasurableTool
     {
         private IDiskTool Tool => GetTool<IDiskTool>();
 
@@ -83,5 +84,37 @@ namespace Machine.Views.ViewModels.ToolProxies
         }
 
         protected override string GetToolType() => "Disk";
+
+        #region IMeasurableTool
+        public virtual bool ProcessDimension(string propertyName, IToolDimension dimension)
+        {
+            bool result = false;
+
+            switch (propertyName)
+            {
+                case nameof(CuttingThickness):
+                    result = ProcessLength(dimension, Diameter / 2.0, 10.0, -(CuttingThickness - BodyThickness) / 2.0, GetTotalLength() - (CuttingThickness - BodyThickness) / 2.0);
+                    break;
+                case nameof(BodyThickness):
+                    result = ProcessLength(dimension, 10.0, Diameter / 2.0, 0.0, BodyThickness);
+                    break;
+                case nameof(Diameter):
+                    result = ProcessDiameter(dimension, (CuttingThickness - BodyThickness) / 2.0, -10.0, Diameter);
+                    break;
+                case nameof(CuttingRadialThickness):
+                    result = ProcessRadialDimension(dimension, Diameter / 2.0, -CuttingRadialThickness, (CuttingThickness - BodyThickness) / 2.0, -10.0);
+                    break;
+                case nameof(RadialUsefulLength):
+                    result = ProcessRadialDimension(dimension, Diameter / 2.0, -RadialUsefulLength, (CuttingThickness - BodyThickness) / 2.0, -10.0);
+                    break;
+                default:
+                    break;
+            }
+
+            if (result) dimension.PropertyName = propertyName;
+
+            return result;
+        }
+        #endregion
     }
 }

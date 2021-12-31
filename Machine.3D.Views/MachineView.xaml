@@ -31,6 +31,7 @@
         <converters3D:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter"/>
         <converters3D:InsertedToGeometryConverter x:Key="insertedToGeometryConverter"/>
         <converters3D:SizeToLineConverter x:Key="sizeToLineConverter"/>
+        <converters3D:TwoPointToLineConverter x:Key="twoPointToLineConverter"/>
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -499,6 +500,49 @@
                 </hx:ItemsModel3D>
             </hx:CompositeModel3D>
         </DataTemplate>
+        <DataTemplate x:Key="toolDimensionTemplate">
+            <hx:CompositeModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ToolDimension, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    PostEffects="{Binding PostEffects}">
+                    <hx:LineGeometryModel3D.Geometry>
+                        <MultiBinding Converter="{StaticResource twoPointToLineConverter}">
+                            <Binding Path="ContactPoint1"/>
+                            <Binding Path="MeasurePoint1"/>
+                        </MultiBinding>
+                    </hx:LineGeometryModel3D.Geometry>
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ToolDimension, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    PostEffects="{Binding PostEffects}">
+                    <hx:LineGeometryModel3D.Geometry>
+                        <MultiBinding Converter="{StaticResource twoPointToLineConverter}">
+                            <Binding Path="ContactPoint2"/>
+                            <Binding Path="MeasurePoint2"/>
+                        </MultiBinding>
+                    </hx:LineGeometryModel3D.Geometry>
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ToolDimension, Source={StaticResource colors}}" 
+                    Thickness="2"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    PostEffects="{Binding PostEffects}">
+                    <hx:LineGeometryModel3D.Geometry>
+                        <MultiBinding Converter="{StaticResource twoPointToLineConverter}">
+                            <Binding Path="MeasurePoint1"/>
+                            <Binding Path="MeasurePoint2"/>
+                        </MultiBinding>
+                    </hx:LineGeometryModel3D.Geometry>
+                </hx:LineGeometryModel3D>                
+            </hx:CompositeModel3D>
+        </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
             <selectors:ItemModel3DTemplateSelectorItem When="Default" Then="{StaticResource element3dDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="XLinearTranslateEle" Then="{StaticResource element3dDataTemplateXLinearTranslate}" />
@@ -524,6 +568,7 @@
             <selectors:ItemModel3DTemplateSelectorItem When="PointAndDirIndicator" Then="{StaticResource pointAndDirIndicatorTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="PointIndicator" Then="{StaticResource pointIndicatorTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="PointsIndicator" Then="{StaticResource pointsIndicatorTemplate}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="ToolDimension" Then="{StaticResource toolDimensionTemplate}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

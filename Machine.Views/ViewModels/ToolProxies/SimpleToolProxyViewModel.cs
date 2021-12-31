@@ -1,4 +1,5 @@
 ﻿using Machine.Data.Interfaces.Tools;
+using Machine.ViewModels.Interfaces.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Machine.Views.ViewModels.ToolProxies
 {
-    internal class SimpleToolProxyViewModel : ToolProxyViewModel
+    internal class SimpleToolProxyViewModel : ToolProxyViewModel, IMeasurableTool
     {
         private ISimpleTool Tool => GetTool<ISimpleTool>();
 
@@ -59,5 +60,32 @@ namespace Machine.Views.ViewModels.ToolProxies
         }
 
         protected override string GetToolType() => "Simple";
+
+        #region IMeasurableTool
+        public bool ProcessDimension(string propertyName, IToolDimension dimension)
+        {
+            bool result = false;
+            double d = (!string.IsNullOrEmpty(ConeModelFile) || (Diameter > 60.0)) ? 40 - Diameter / 2.0 : 10;
+
+            switch (propertyName)
+            {
+                case nameof(Length):
+                    result = ProcessLength(dimension, Diameter / 2.0, d, 0.0, Length);
+                    break;
+                case nameof(UsefulLength):
+                    result = ProcessLength(dimension, Diameter / 2.0, 10.0, Length - UsefulLength, Length);
+                    break;
+                case nameof(Diameter):
+                    result = ProcessDiameter(dimension, Length, 10.0, Diameter);
+                    break;
+                default:
+                    break;
+            }
+
+            if (result) dimension.PropertyName = propertyName;
+
+            return result;
+        }
+        #endregion
     }
 }

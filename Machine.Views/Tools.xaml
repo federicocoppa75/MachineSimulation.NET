@@ -41,6 +41,6 @@
                            ShowSortOptions="False"
                            ShowTitle="False"
                            ShowSummary="False"
-                           SelectedObject="{Binding Selected}"></xctk:PropertyGrid>
+                           SelectedObject="{Binding Selected}" SelectedProperty="{Binding SelectedProperty, Mode=TwoWay}"></xctk:PropertyGrid>
     </Grid>
 </UserControl>
