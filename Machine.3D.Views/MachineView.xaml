@@ -32,6 +32,7 @@
         <converters3D:InsertedToGeometryConverter x:Key="insertedToGeometryConverter"/>
         <converters3D:SizeToLineConverter x:Key="sizeToLineConverter"/>
         <converters3D:TwoPointToLineConverter x:Key="twoPointToLineConverter"/>
+        <converters3D:TwoPointToConeConverter x:Key="twoPointToConeConverter" />
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -535,12 +536,36 @@
                     IsRendering="{Binding IsVisible}"
                     PostEffects="{Binding PostEffects}">
                     <hx:LineGeometryModel3D.Geometry>
-                        <MultiBinding Converter="{StaticResource twoPointToLineConverter}">
+                        <MultiBinding Converter="{StaticResource twoPointToLineConverter}" ConverterParameter="Extend">
                             <Binding Path="MeasurePoint1"/>
                             <Binding Path="MeasurePoint2"/>
                         </MultiBinding>
                     </hx:LineGeometryModel3D.Geometry>
-                </hx:LineGeometryModel3D>                
+                </hx:LineGeometryModel3D>
+                <hx:MeshGeometryModel3D
+                    Material="{Binding ToolDimension, Source={StaticResource materials}}"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    PostEffects="{Binding PostEffects}">
+                    <hx:MeshGeometryModel3D.Geometry>
+                        <MultiBinding Converter="{StaticResource twoPointToConeConverter}">
+                            <Binding Path="MeasurePoint1"/>
+                            <Binding Path="MeasurePoint2"/>
+                        </MultiBinding>
+                    </hx:MeshGeometryModel3D.Geometry>
+                </hx:MeshGeometryModel3D>
+                <hx:MeshGeometryModel3D
+                    Material="{Binding ToolDimension, Source={StaticResource materials}}"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    PostEffects="{Binding PostEffects}">
+                    <hx:MeshGeometryModel3D.Geometry>
+                        <MultiBinding Converter="{StaticResource twoPointToConeConverter}">
+                            <Binding Path="MeasurePoint2"/>
+                            <Binding Path="MeasurePoint1"/>
+                        </MultiBinding>
+                    </hx:MeshGeometryModel3D.Geometry>
+                </hx:MeshGeometryModel3D>                
             </hx:CompositeModel3D>
         </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">

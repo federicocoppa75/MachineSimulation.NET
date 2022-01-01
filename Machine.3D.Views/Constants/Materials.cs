@@ -37,5 +37,6 @@ namespace Machine._3D.Views.Constants
         public Material PointIndicator => PhongMaterials.Blue;
         public Material PointAndDirIndicator => PhongMaterials.Red;
         public Material PointsIndicator => PhongMaterials.Green;
+        public Material ToolDimension => PhongMaterials.Yellow;
     }
 }
