@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Machine.Views"
              xmlns:converters="clr-namespace:Machine.Views.Converters"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:behaviors="clr-namespace:Machine.Views.Behaviours"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -41,6 +42,7 @@
                            ShowSortOptions="False"
                            ShowTitle="False"
                            ShowSummary="False"
-                           SelectedObject="{Binding Selected}" SelectedProperty="{Binding SelectedProperty, Mode=TwoWay}"></xctk:PropertyGrid>
+                           SelectedObject="{Binding Selected}" SelectedProperty="{Binding SelectedProperty, Mode=TwoWay}"
+                           behaviors:PropertyGridHelper.PropertyValueChanged="{Binding PropertyValueChanged}"></xctk:PropertyGrid>
     </Grid>
 </UserControl>

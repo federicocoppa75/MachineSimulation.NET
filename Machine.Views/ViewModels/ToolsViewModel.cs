@@ -55,15 +55,7 @@ namespace Machine.Views.ViewModels
             {
                 if(Set(ref _selectedProperty, value, nameof(SelectedProperty)))
                 {
-                    if((_selectedProperty != null) && (_selectedProperty is string str) && (_selected is IMeasurableTool mt))
-                    {
-                        _toolDimension.IsVisible = mt.ProcessDimension(str, _toolDimension);
-
-                    }
-                    else
-                    {
-                        _toolDimension.IsVisible = false;
-                    }
+                    ManagePropertyDimension();
                 }
             } 
         }
@@ -80,6 +72,9 @@ namespace Machine.Views.ViewModels
         private ICommand _unloadCommand;
         public ICommand UnloadCommand => _unloadCommand ?? (_unloadCommand = new RelayCommand(() => UnloadCommandImpl(), () => UnloadCommandCanExecute()));
         #endregion
+
+        private ICommand _propertyValueChanged;
+        public ICommand PropertyValueChanged => _propertyValueChanged ?? (_propertyValueChanged = new RelayCommand(() => ManagePropertyDimension()));
 
         public ToolsViewModel()
         {
@@ -193,5 +188,18 @@ namespace Machine.Views.ViewModels
 
         private void UpdateUnloadCommandCanExecute() => (_unloadCommand as RelayCommand).RaiseCanExecuteChanged();
         #endregion
+
+        private void ManagePropertyDimension()
+        {
+            if ((_selectedProperty != null) && (_selectedProperty is string str) && (_selected is IMeasurableTool mt))
+            {
+                _toolDimension.IsVisible = mt.ProcessDimension(str, _toolDimension);
+
+            }
+            else
+            {
+                _toolDimension.IsVisible = false;
+            }
+        }
     }
 }
