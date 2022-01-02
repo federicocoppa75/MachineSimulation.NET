@@ -90,6 +90,13 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         override public string ToString() => _subSpindle.ToolName;
 
+        public void CopyFrom(ATSubSpindleProxyViewModel src)
+        {
+            ToolName = src.ToolName;
+            Position = src.Position;
+            Direction = src.Direction;
+        }
+
         private void Update() => _observer?.NotifySubSpindleChanged();
 
         private bool SetVector(Vector v1, Vector v2, Action<Vector> updateAction, string changedPropertyName)

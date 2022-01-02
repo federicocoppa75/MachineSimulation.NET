@@ -101,6 +101,22 @@ namespace Machine.Views.ViewModels.ToolProxies
         {
         }
 
+        public CountersinkProxyToolViewModel(CountersinkProxyToolViewModel src) : base(CreateTool<ICountersinkTool>())
+        {
+            Name = $"{src.Name} (copy)";
+            Description = src.Description;
+            ToolLinkType = src.ToolLinkType;
+            ConeModelFile = src.ConeModelFile;
+            Diameter1 = src.Diameter1;
+            Diameter2 = src.Diameter2;
+            Length1 = src.Length1;
+            Length2 = src.Length2;
+            Length3 = src.Length3;
+            UsefulLength = src.UsefulLength;
+        }
+
+        public override ToolProxyViewModel CreateCopy() => new CountersinkProxyToolViewModel(this);
+
         protected override string GetToolType() => "Countersink";
 
         #region IMeasurableTool

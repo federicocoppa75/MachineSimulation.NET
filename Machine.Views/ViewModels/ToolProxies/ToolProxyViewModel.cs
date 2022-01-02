@@ -112,6 +112,8 @@ namespace Machine.Views.ViewModels.ToolProxies
             }
         }
 
+        public abstract ToolProxyViewModel CreateCopy();
+
         protected T GetTool<T>() where T : class, ITool
         {
             return _tool as T;

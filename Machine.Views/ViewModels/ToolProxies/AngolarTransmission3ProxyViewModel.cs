@@ -25,5 +25,19 @@ namespace Machine.Views.ViewModels.ToolProxies
         {
             SubSpindle3 = new ATSubSpindleProxyViewModel(at.ThirdSubSpindle(), this);
         }
+
+        public AngolarTransmission3ProxyViewModel(AngolarTransmission3ProxyViewModel src) : this()
+        {
+            Name = $"{src.Name} (copy)";
+            CopyFrom(src);
+        }
+
+        public override ToolProxyViewModel CreateCopy() => new AngolarTransmission3ProxyViewModel(this);
+
+        protected void CopyFrom(AngolarTransmission3ProxyViewModel src)
+        {
+            CopyFrom(src as AngolarTransmission2ProxyViewModel);
+            SubSpindle3.CopyFrom(src.SubSpindle3);
+        }
     }
 }

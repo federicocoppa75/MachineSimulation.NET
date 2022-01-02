@@ -79,9 +79,24 @@ namespace Machine.Views.ViewModels.ToolProxies
             UsefulLength = 10.0;
         }
 
+        public TwoSectionToolProxyViewModel(TwoSectionToolProxyViewModel src) : base(CreateTool<ITwoSectionTool>())
+        {
+            Name = $"{src.Name} (copy)";
+            Description = src.Description;
+            ToolLinkType = src.ToolLinkType;
+            ConeModelFile = src.ConeModelFile;  
+            Diameter1 = src.Diameter1;
+            Diameter2 = src.Diameter2;
+            Length1 = src.Length1;
+            Length2 = src.Length2;
+            UsefulLength = src.UsefulLength;
+        }
+
         public TwoSectionToolProxyViewModel(ITwoSectionTool tool) : base(tool)
         {
         }
+
+        public override ToolProxyViewModel CreateCopy() => new TwoSectionToolProxyViewModel(this);
 
         protected override string GetToolType() => "TwoSection";
 

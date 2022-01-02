@@ -47,7 +47,25 @@ namespace Machine.Views.ViewModels.ToolProxies
             SubSpindle1 = new ATSubSpindleProxyViewModel(at.FirstSubSpindle(), this);
         }
 
+        public AngolarTransmission1ProxyViewModel(AngolarTransmission1ProxyViewModel src) : this()
+        {
+            Name = $"{src.Name} (copy)";
+            CopyFrom(src);
+        }
+
         public void NotifySubSpindleChanged() => UpdateTool();
+
+        public override ToolProxyViewModel CreateCopy() => new AngolarTransmission1ProxyViewModel(this);
+
+        protected void CopyFrom(AngolarTransmission1ProxyViewModel src)
+        {
+            Description = src.Description;
+            ToolLinkType = src.ToolLinkType;
+            ConeModelFile = src.ConeModelFile;
+            BodyModelFile = src.BodyModelFile;
+
+            SubSpindle1.CopyFrom(src.SubSpindle1);
+        }
     }
 
     internal static class SubSpindleExtension

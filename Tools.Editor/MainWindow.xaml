@@ -86,6 +86,7 @@
                         </Style>
                     </MenuItem.ItemContainerStyle>
                 </MenuItem>
+                <MenuItem Header="Add tool copy" Command="{Binding ToolsetEditor.AddCopyCommand}"/>
                 <MenuItem Header="Delete tool" Command="{Binding ToolsetEditor.DeleteCommand}"/>
             </MenuItem>
         </Menu>

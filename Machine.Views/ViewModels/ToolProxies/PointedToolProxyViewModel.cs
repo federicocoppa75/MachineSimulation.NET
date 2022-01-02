@@ -71,6 +71,20 @@ namespace Machine.Views.ViewModels.ToolProxies
         {
         }
 
+        public PointedToolProxyViewModel(PointedToolProxyViewModel src) : base(CreateTool<IPointedTool>())
+        {
+            Name = $"{src.Name} (copy)";
+            Description = src.Description;
+            ToolLinkType = src.ToolLinkType;
+            ConeModelFile = src.ConeModelFile;
+            Diameter = src.Diameter;
+            ConeHeight = src.ConeHeight;
+            StraightLength = src.StraightLength;
+            UsefulLength = src.UsefulLength;
+        }
+
+        public override ToolProxyViewModel CreateCopy() => new PointedToolProxyViewModel(this); 
+
         protected override string GetToolType() => "Pointed";
 
         #region IMeasurableTool

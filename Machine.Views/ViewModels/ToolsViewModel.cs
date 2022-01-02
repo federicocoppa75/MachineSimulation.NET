@@ -7,6 +7,7 @@ using Machine.ViewModels.Tools;
 using Machine.ViewModels.UI;
 using Machine.Views.Messages.ToolsEditor;
 using Machine.Views.ViewModels.ToolProxies;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -43,6 +44,7 @@ namespace Machine.Views.ViewModels
                     if (last != null) last.Unload();
                     if (_selected != null) _selected.Load();
                     (_deleteCommand as RelayCommand).RaiseCanExecuteChanged();
+                    (_addCopyCommand as RelayCommand).RaiseCanExecuteChanged();
                 }
             }
         }
@@ -63,6 +65,9 @@ namespace Machine.Views.ViewModels
         #region IToolsetEditor
         private IEnumerable<IAddToolCommand> _addCommands;
         public IEnumerable<IAddToolCommand> AddCommands => _addCommands ?? (_addCommands = CreateAddCommands());
+
+        private ICommand _addCopyCommand;
+        public ICommand AddCopyCommand => _addCopyCommand ?? (_addCopyCommand = new RelayCommand(() => AddCopyCommandImpl(), () => AddCopyCommandCanExecute()));
 
         private ICommand _deleteCommand;
         public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(() => DeleteCommandImpl(), () => DeleteCommandCanExecute()));
@@ -173,6 +178,16 @@ namespace Machine.Views.ViewModels
             Selected = tool;
             AdjustView();
             UpdateUnloadCommandCanExecute();
+        }
+
+        private bool AddCopyCommandCanExecute() => _selected != null;
+
+        private void AddCopyCommandImpl()
+        {
+            var tool = _selected.CreateCopy();
+
+            Tools.Add(tool);
+            Selected = tool;
         }
         #endregion
 

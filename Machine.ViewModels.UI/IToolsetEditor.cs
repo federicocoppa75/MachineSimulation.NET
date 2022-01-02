@@ -14,6 +14,7 @@ namespace Machine.ViewModels.UI
     public interface IToolsetEditor
     {
         IEnumerable<IAddToolCommand> AddCommands { get; }
+        ICommand AddCopyCommand { get; }
         ICommand DeleteCommand { get; }
     }
 }
