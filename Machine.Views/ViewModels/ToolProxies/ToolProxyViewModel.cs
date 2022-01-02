@@ -133,12 +133,22 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         protected abstract string GetToolType();
 
-        protected bool ProcessDiameter(IToolDimension dimension, double distanceFromZero, double distanceFromContact, double diameter)
+        protected bool ProcessDiameterEx(IToolDimension dimension, double distanceFromZero, double distanceFromContact, double diameter)
         {
             dimension.ContactPoint1 = new Data.Base.Point() { X = diameter / 2.0, Y = 0.0, Z = -distanceFromZero };
             dimension.ContactPoint2 = new Data.Base.Point() { X = -diameter / 2.0, Y = 0.0, Z = -distanceFromZero };
             dimension.MeasurePoint1 = new Data.Base.Point() { X = diameter / 2.0, Y = 0.0, Z = -(distanceFromZero + distanceFromContact) };
             dimension.MeasurePoint2 = new Data.Base.Point() { X = -diameter / 2.0, Y = 0.0, Z = -(distanceFromZero + distanceFromContact) };
+
+            return true;
+        }
+
+        protected bool ProcessDiameter(IToolDimension dimension, double distanceFromZero, double distanceFromContact, double diameter)
+        {
+            dimension.ContactPoint1 = new Data.Base.Point() { X = diameter / 2.0, Y = 0.0, Z = -distanceFromZero };
+            dimension.ContactPoint2 = new Data.Base.Point() { X = -diameter / 2.0, Y = 0.0, Z = -distanceFromZero };
+            dimension.MeasurePoint1 = new Data.Base.Point() { X = diameter / 2.0, Y = diameter / 2.0 + distanceFromContact, Z = -distanceFromZero };
+            dimension.MeasurePoint2 = new Data.Base.Point() { X = -diameter / 2.0, Y = diameter / 2.0 + distanceFromContact, Z = -distanceFromZero };
 
             return true;
         }

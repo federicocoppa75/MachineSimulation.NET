@@ -99,7 +99,7 @@ namespace Machine.Views.ViewModels.ToolProxies
                     result = ProcessLength(dimension, 10.0, Diameter / 2.0, 0.0, BodyThickness);
                     break;
                 case nameof(Diameter):
-                    result = ProcessDiameter(dimension, (CuttingThickness - BodyThickness) / 2.0, -10.0, Diameter);
+                    result = ProcessDiameter(dimension, (CuttingThickness - BodyThickness) / 2.0, 10.0, Diameter);
                     break;
                 case nameof(CuttingRadialThickness):
                     result = ProcessRadialDimension(dimension, Diameter / 2.0, -CuttingRadialThickness, (CuttingThickness - BodyThickness) / 2.0, -10.0);

@@ -126,7 +126,7 @@ namespace Machine.Views.ViewModels.ToolProxies
                     result = ProcessDiameter(dimension, GetTotalLength(), 10.0, Diameter1);
                     break;
                 case nameof(Diameter2):
-                    result = ProcessDiameter(dimension, Length1, Length2 + Length3 + 10.0, Diameter2);
+                    result = ProcessDiameter(dimension, Length1, 10.0, Diameter2);
                     break;
                 default:
                     break;

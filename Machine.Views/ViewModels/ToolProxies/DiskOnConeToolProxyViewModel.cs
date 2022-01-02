@@ -80,7 +80,7 @@ namespace Machine.Views.ViewModels.ToolProxies
                     result = ProcessLength(dimension, PostponemntDiameter / 2.0, 30.0, 0.0, PostponemntLength);
                     break;
                 case nameof(PostponemntDiameter):
-                    result = ProcessDiameter(dimension, GetTotalLength() - (CuttingThickness - BodyThickness) / 2.0, 10.0, PostponemntDiameter);
+                    result = ProcessDiameter(dimension, PostponemntLength - 10.0, 10.0, PostponemntDiameter);
                     break;
                 default:
                     break;
