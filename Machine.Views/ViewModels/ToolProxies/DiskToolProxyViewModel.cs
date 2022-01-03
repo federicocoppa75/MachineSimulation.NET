@@ -85,20 +85,22 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         public DiskToolProxyViewModel(DiskToolProxyViewModel src) : base(CreateTool<IDiskTool>())
         {
-            Name = $"{src.Name} (copy)";
-            Description = src.Description;
-            ToolLinkType = src.ToolLinkType;
-            ConeModelFile = src.ConeModelFile;
-            Diameter = src.Diameter;
-            CuttingThickness= src.CuttingThickness;
-            BodyThickness = src.BodyThickness;  
-            CuttingRadialThickness = src.CuttingRadialThickness;
-            RadialUsefulLength = src.RadialUsefulLength;
+            CopyFrom(src);
         }
 
         public override ToolProxyViewModel CreateCopy() => new DiskToolProxyViewModel(this);
 
         protected override string GetToolType() => "Disk";
+
+        protected void CopyFrom(DiskToolProxyViewModel src)
+        {
+            base.CopyFrom(src);
+            Diameter = src.Diameter;
+            CuttingThickness = src.CuttingThickness;
+            BodyThickness = src.BodyThickness;
+            CuttingRadialThickness = src.CuttingRadialThickness;
+            RadialUsefulLength = src.RadialUsefulLength;
+        }
 
         #region IMeasurableTool
         public virtual bool ProcessDimension(string propertyName, IToolDimension dimension)

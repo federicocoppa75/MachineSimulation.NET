@@ -48,8 +48,7 @@ namespace Machine.Views.ViewModels.ToolProxies
         }
 
         public AngolarTransmission1ProxyViewModel(AngolarTransmission1ProxyViewModel src) : this()
-        {
-            Name = $"{src.Name} (copy)";
+        {;
             CopyFrom(src);
         }
 
@@ -59,11 +58,8 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         protected void CopyFrom(AngolarTransmission1ProxyViewModel src)
         {
-            Description = src.Description;
-            ToolLinkType = src.ToolLinkType;
-            ConeModelFile = src.ConeModelFile;
+            base.CopyFrom(src);
             BodyModelFile = src.BodyModelFile;
-
             SubSpindle1.CopyFrom(src.SubSpindle1);
         }
     }

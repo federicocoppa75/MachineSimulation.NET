@@ -186,6 +186,7 @@ namespace Machine.Views.ViewModels
         {
             var tool = _selected.CreateCopy();
 
+            tool.Name += " (copy)";
             Tools.Add(tool);
             Selected = tool;
         }

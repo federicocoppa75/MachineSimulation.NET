@@ -28,7 +28,6 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         public AngolarTransmission3ProxyViewModel(AngolarTransmission3ProxyViewModel src) : this()
         {
-            Name = $"{src.Name} (copy)";
             CopyFrom(src);
         }
 
@@ -36,7 +35,7 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         protected void CopyFrom(AngolarTransmission3ProxyViewModel src)
         {
-            CopyFrom(src as AngolarTransmission2ProxyViewModel);
+            base.CopyFrom(src);
             SubSpindle3.CopyFrom(src.SubSpindle3);
         }
     }

@@ -174,5 +174,13 @@ namespace Machine.Views.ViewModels.ToolProxies
 
             return true;
         }
+
+        protected void CopyFrom(ToolProxyViewModel src)
+        {
+            Name = src.Name;
+            Description = src.Description;
+            ToolLinkType = src.ToolLinkType;
+            ConeModelFile = src.ConeModelFile; 
+        }
     }
 }

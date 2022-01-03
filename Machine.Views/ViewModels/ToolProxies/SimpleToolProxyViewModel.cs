@@ -61,13 +61,10 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         public SimpleToolProxyViewModel(SimpleToolProxyViewModel src) : base(CreateTool<ISimpleTool>())
         {
+            CopyFrom(src);
             Diameter = src.Diameter;
-            Description = src.Description;
-            ToolLinkType = src.ToolLinkType;
-            ConeModelFile = src.ConeModelFile;
             Length = src.Length;
             UsefulLength = src.UsefulLength;
-            Name = $"{src.Name} (copy)";
         }
 
         public override ToolProxyViewModel CreateCopy() => new SimpleToolProxyViewModel(this);

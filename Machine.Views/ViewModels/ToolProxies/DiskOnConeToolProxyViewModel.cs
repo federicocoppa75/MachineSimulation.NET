@@ -54,15 +54,7 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         public DiskOnConeToolProxyViewModel(DiskOnConeToolProxyViewModel src) : base(CreateTool<IDiskOnConeTool>())
         {
-            Name = $"{src.Name} (copy)";
-            Description = src.Description;
-            ToolLinkType = src.ToolLinkType;
-            ConeModelFile = src.ConeModelFile;
-            Diameter = src.Diameter;
-            CuttingThickness = src.CuttingThickness;
-            BodyThickness = src.BodyThickness;
-            CuttingRadialThickness = src.CuttingRadialThickness;
-            RadialUsefulLength = src.RadialUsefulLength;
+            CopyFrom(src);
             PostponemntDiameter = src.PostponemntDiameter;
             PostponemntLength = src.PostponemntLength;
         }

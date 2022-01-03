@@ -73,10 +73,7 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         public PointedToolProxyViewModel(PointedToolProxyViewModel src) : base(CreateTool<IPointedTool>())
         {
-            Name = $"{src.Name} (copy)";
-            Description = src.Description;
-            ToolLinkType = src.ToolLinkType;
-            ConeModelFile = src.ConeModelFile;
+            CopyFrom(src);
             Diameter = src.Diameter;
             ConeHeight = src.ConeHeight;
             StraightLength = src.StraightLength;

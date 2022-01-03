@@ -81,10 +81,7 @@ namespace Machine.Views.ViewModels.ToolProxies
 
         public TwoSectionToolProxyViewModel(TwoSectionToolProxyViewModel src) : base(CreateTool<ITwoSectionTool>())
         {
-            Name = $"{src.Name} (copy)";
-            Description = src.Description;
-            ToolLinkType = src.ToolLinkType;
-            ConeModelFile = src.ConeModelFile;  
+            CopyFrom(src);
             Diameter1 = src.Diameter1;
             Diameter2 = src.Diameter2;
             Length1 = src.Length1;
