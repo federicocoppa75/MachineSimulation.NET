@@ -107,3 +107,9 @@ Machine element models data model library.
 ## Server
 Server REST for store and get machine data (structure, tooling, elements models). The data is stored by SQLite.
 
+## Tools.Editor
+Application for edit tool set, the data could be load from files made by the applications of this solution or by data server.
+
+![](./images/tools.editor.JPG)
+
+
