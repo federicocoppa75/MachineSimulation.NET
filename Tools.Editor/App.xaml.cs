@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using Machine.ViewModels;
 using MVMUI = Machine.ViewModels.UI;
 using MDFJ = Machine.DataSource.File.Json;
@@ -15,14 +9,12 @@ using MW32 = Microsoft.Win32;
 using M3DGPI = Machine._3D.Geometry.Provider.Interfaces;
 using M3DGPIM = Machine._3D.Geometry.Provider.Implementation;
 using MVMI = Machine.ViewModels.Interfaces;
-using MVMII = Machine.ViewModels.Interfaces.Insertions;
-using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
-using MVMIF = Machine.ViewModels.Interfaces.Factories;
-using MVMF = Machine.ViewModels.Factories;
 using MVML = Machine.ViewModels.Links;
 using MDF = Machine.Data.Factories;
 using MDIF = Machine.Data.Interfaces.Factories;
+using MVMB = Machine.ViewModels.Base;
+
 
 
 namespace Tools.Editor
@@ -52,6 +44,8 @@ namespace Tools.Editor
             Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IStepsExecutionController>.Register<MVMUI.StepsExecutionControllerStub>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementController>.Register<MVML.LinkMovementControllerStub>();
             Machine.ViewModels.Ioc.SimpleIoc<MDIF.IToolFactory>.Register<MDF.ToolFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<MVMB.ICommandExceptionObserver>.Register<MVUI.SimpleCommandExceptionObserver>();
+            Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IExceptionObserver>.Register<MVUI.SimpleExceptionObserver>();
         }
     }
 }

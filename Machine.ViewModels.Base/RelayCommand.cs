@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Machine.ViewModels.Ioc;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
@@ -26,7 +27,20 @@ namespace Machine.ViewModels.Base
 
         public bool CanExecute(object parameter) => (_canExecute != null) ? _canExecute() : true;
 
-        public void Execute(object parameter) => _execute();
+        public void Execute(object parameter)
+        {
+            try
+            {
+                _execute();
+            }
+            catch (Exception e)
+            {
+                if(SimpleIoc<ICommandExceptionObserver>.TryGetInstance(out ICommandExceptionObserver observer))
+                {
+                    observer.NotifyException(e);
+                }
+            }
+        }
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, new EventArgs());
     }
@@ -52,7 +66,20 @@ namespace Machine.ViewModels.Base
 
         public bool CanExecute(object parameter) => (_canExecute != null) ? _canExecute((T)parameter) : true;
 
-        public void Execute(object parameter) => _execute((T)parameter);
+        public void Execute(object parameter)
+        {
+            try
+            {
+                _execute((T)parameter);
+            }
+            catch (Exception e)
+            {
+                if (SimpleIoc<ICommandExceptionObserver>.TryGetInstance(out ICommandExceptionObserver observer))
+                {
+                    observer.NotifyException(e);
+                }
+            }
+        }
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, new EventArgs());
     }

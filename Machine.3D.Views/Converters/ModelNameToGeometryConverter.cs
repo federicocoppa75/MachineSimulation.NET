@@ -4,6 +4,7 @@ using System.Windows.Data;
 using MVMUI = Machine.ViewModels.UI;
 using M3DGPI = Machine._3D.Geometry.Provider.Interfaces;
 using HelixToolkit.Wpf.SharpDX;
+using MVMIOC = Machine.ViewModels.Ioc;
 
 namespace Machine._3D.Views.Converters
 {
@@ -15,27 +16,38 @@ namespace Machine._3D.Views.Converters
         {
             if((value is string geometryName) && !string.IsNullOrEmpty(geometryName))
             {
-                if (_dataSource == null) _dataSource = Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IOptionProvider>.GetInstance();
+                if (_dataSource == null) _dataSource = MVMIOC.SimpleIoc<MVMUI.IOptionProvider>.GetInstance();
 
-                var provider = Machine.ViewModels.Ioc.SimpleIoc<M3DGPI.IStreamProvider>.GetInstance(_dataSource.ToString());
+                var provider = MVMIOC.SimpleIoc<M3DGPI.IStreamProvider>.GetInstance(_dataSource.ToString());
 
                 if (provider != null)
                 {
                     Geometry3D geometry = null;
-                    var stream = provider.GetStream(geometryName);
 
-                    if (stream != null)
+                    try
                     {
-                        using (stream)
-                        {
-                            var reader = new StLReader();
-                            var objList = reader.Read(stream);
+                        var stream = provider.GetStream(geometryName);
 
-                            if (objList?.Count > 0)
+                        if (stream != null)
+                        {
+                            using (stream)
                             {
-                                geometry = objList[0].Geometry;
-                                geometry.UpdateOctree();
+                                var reader = new StLReader();
+                                var objList = reader.Read(stream);
+
+                                if (objList?.Count > 0)
+                                {
+                                    geometry = objList[0].Geometry;
+                                    geometry.UpdateOctree();
+                                }
                             }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (MVMIOC.SimpleIoc<MVMUI.IExceptionObserver>.TryGetInstance(out MVMUI.IExceptionObserver observer))
+                        {
+                            observer.NotifyException(e);
                         }
                     }
 

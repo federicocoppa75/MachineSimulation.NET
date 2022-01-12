@@ -15,6 +15,7 @@ using MVMM = Machine.ViewModels.Messaging;
 using MVMIF = Machine.ViewModels.Interfaces.Factories;
 using MVMF = Machine.ViewModels.Factories;
 using MVML = Machine.ViewModels.Links;
+using MVMB = Machine.ViewModels.Base;
 
 namespace Machine.Editor
 {
@@ -46,6 +47,8 @@ namespace Machine.Editor
             ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementController>.Register<MVML.LinkMovementControllerStub>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IApplicationInformationProvider>.Register<ApplicationInformationProvider>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IIndicatorsViewController>.Register<MVMUI.IndicatorsViewController>();
+            ViewModels.Ioc.SimpleIoc<MVMB.ICommandExceptionObserver>.Register<MVUI.SimpleCommandExceptionObserver>();
+            ViewModels.Ioc.SimpleIoc<MVMUI.IExceptionObserver>.Register<MVUI.SimpleExceptionObserver>();
         }
     }
 }
