@@ -100,7 +100,7 @@ Test application used to test and develop material removal library.
 Class library that implements the material removal.
 
 ## MaterialRemove.ViewModels.3D
-Partial implementtion of [MaterialRemove.ViewModels](#MaterialRemove.ViewModels) that depends on [helix-toolkit](https://github.com/helix-toolkit/helix-toolkit): in this way the core of material removal is decoupled from that library.
+Partial implementation of [MaterialRemove.ViewModels](#MaterialRemove.ViewModels) that depends on [helix-toolkit](https://github.com/helix-toolkit/helix-toolkit): in this way the core of material removal is decoupled from that library.
 
 ## Mesh.Data
 Machine element models data model library.
