@@ -67,7 +67,7 @@ namespace Machine.Viewer
             Properties.Settings.Default.ProbeSize = vm.ProbeSize.Value.ToString();
             Properties.Settings.Default.ProbeColor = vm.ProbeColor.Value.ToString();
             Properties.Settings.Default.ProbeShape = vm.ProbeShape.Value.ToString();
-
+            Properties.Settings.Default.MinimumSampleTime = vm.StepsExecutionController.MinimumSampleTime.ToString();
         }
 
         private void UpdateFromSettings()
@@ -87,6 +87,7 @@ namespace Machine.Viewer
             vm.ProbeSize.TryToParse(Properties.Settings.Default.ProbeSize);
             vm.ProbeColor.TryToParse(Properties.Settings.Default.ProbeColor);
             vm.ProbeShape.TryToParse(Properties.Settings.Default.ProbeShape);
+            vm.SampleTimeOptions.TryToParse(Properties.Settings.Default.MinimumSampleTime);
         }
     }
 }

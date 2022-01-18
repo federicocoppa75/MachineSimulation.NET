@@ -30,7 +30,7 @@ namespace Machine.Steps.ViewModels.Extensions
         private IMessenger _messenger;
         private IMessenger Messenger => _messenger ?? (_messenger = Machine.ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance());
 
-        public int MinTimespam { get; set; } = 50;
+        public int MinTimespam { get; set; } = 20;
 
         private bool _enable;
         public bool Enable 

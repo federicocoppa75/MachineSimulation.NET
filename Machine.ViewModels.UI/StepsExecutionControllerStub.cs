@@ -12,5 +12,6 @@ namespace Machine.ViewModels.UI
         public TimeSpanFactor TimeSpanFactor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool IsStepTimeVisible { get => false; set => throw new NotImplementedException(); }
         public TimeSpan StepTime { get => TimeSpan.Zero; set => throw new NotImplementedException(); }
+        public SampleTimeOption MinimumSampleTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

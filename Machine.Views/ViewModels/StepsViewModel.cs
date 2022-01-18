@@ -80,6 +80,7 @@ namespace Machine.Views.ViewModels
         }
 
         public IEnumerable<TimeSpanFactor> TimeSpanFactors => Enum.GetValues(typeof(TimeSpanFactor)).Cast<TimeSpanFactor>();
+        public IEnumerable<SampleTimeOption> SampleTimeOptions => Enum.GetValues(typeof(SampleTimeOption)).Cast<SampleTimeOption>();
 
         private bool _isStepTimeVisible;
         public bool IsStepTimeVisible 
@@ -95,6 +96,18 @@ namespace Machine.Views.ViewModels
             set => Set(ref _stepTime, value, nameof(StepTime)); 
         }
 
+        private SampleTimeOption _minimumSampleTime;
+        public SampleTimeOption MinimumSampleTime 
+        { 
+            get => _minimumSampleTime; 
+            set
+            {
+                if(Set(ref _minimumSampleTime, value, nameof(MinimumSampleTime)))
+                {
+                    LinkMovementController.MinTimespam = ToValue(_minimumSampleTime);
+                }
+            }
+        }
         #endregion
 
         #region IStepController implementation
@@ -118,6 +131,7 @@ namespace Machine.Views.ViewModels
         public StepsViewModel() : base()
         {
             MVMIoc.SimpleIoc<IOptionProvider<TimeSpanFactor>>.Register(new EnumOptionProxy<TimeSpanFactor>(() => TimeSpanFactors, () => TimeSpanFactor, (v) => TimeSpanFactor = v));
+            MVMIoc.SimpleIoc<IOptionProvider<SampleTimeOption>>.Register(new EnumOptionProxy<SampleTimeOption>(() => SampleTimeOptions, () => MinimumSampleTime, (v) => MinimumSampleTime = v));
             MVMIoc.SimpleIoc<IProgressState>.Register(this);
             (Steps as ObservableCollection<MSVM.StepViewModel>).CollectionChanged += OnStepsChanged;
         }
@@ -182,6 +196,31 @@ namespace Machine.Views.ViewModels
                     break;
                 case TimeSpanFactor.Factor10:
                     result = 10.0;
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        private int ToValue(SampleTimeOption option)
+        {
+            var result = 20;
+
+            switch (option)
+            {
+                case SampleTimeOption.Sample_20ms:
+                    result = 20;
+                    break;
+                case SampleTimeOption.Sample_30ms:
+                    result = 30;
+                    break;
+                case SampleTimeOption.Sample_40ms:
+                    result = 40;
+                    break;
+                case SampleTimeOption.Sample_50ms:
+                    result = 50;
                     break;
                 default:
                     break;

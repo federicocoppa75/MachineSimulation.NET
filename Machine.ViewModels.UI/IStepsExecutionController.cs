@@ -12,6 +12,14 @@ namespace Machine.ViewModels.UI
         Factor10
     }
 
+    public enum SampleTimeOption
+    {
+        Sample_20ms,
+        Sample_30ms,
+        Sample_40ms,
+        Sample_50ms
+    }
+
     public interface IStepsExecutionController
     {
         bool AutoStepOver { get; set; }
@@ -20,5 +28,6 @@ namespace Machine.ViewModels.UI
         TimeSpanFactor TimeSpanFactor { get; set; }
         bool IsStepTimeVisible { get; set; }
         TimeSpan StepTime { get; set; }
+        SampleTimeOption MinimumSampleTime { get; set; }
     }
 }

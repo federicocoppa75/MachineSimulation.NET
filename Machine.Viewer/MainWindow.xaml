@@ -131,6 +131,15 @@
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
+                    <MenuItem Header="Minimum sample time" ItemsSource="{Binding SampleTimeOptions.OptionFlags}" IsEnabled="{Binding StepsExecutionController.DynamicTransition}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
                     <Separator/>
                     <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoveData.Enable}" />
                     <Separator/>

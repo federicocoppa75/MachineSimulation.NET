@@ -105,5 +105,8 @@
     <Setting Name="ProbeShape" Type="System.String" Scope="User">
       <Value Profile="(Default)">Sphere</Value>
     </Setting>
+    <Setting Name="MinimumSampleTime" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sample_20ms</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
