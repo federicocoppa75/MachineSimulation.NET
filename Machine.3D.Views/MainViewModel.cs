@@ -37,6 +37,7 @@ namespace Machine._3D.Views
         public IEffectsManager EffectsManager { get; protected set; }
 
         public IStepsExecutionController StepsExecutionController { get; protected set; }
+        public IInvertersController InverterController { get; protected set; } = new InverterControllerViewModel();
 
         public Vector3D DirectionalLightDirection { get; private set; }
         public Color DirectionalLightColor { get; private set; }
@@ -75,7 +76,6 @@ namespace Machine._3D.Views
         #endregion
 
         public BackgroundColor BackgroudColor { get; set; } = new BackgroundColor() { Start = Colors.LightGray, Stop = Colors.LightCyan };
-
         #endregion
 
         public MainViewModel()
@@ -89,6 +89,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeColor>>.Register(new EnumOptionProxy<M3DVE.ProbeColor>(() => ProbesViewData.Colors, () => ProbesViewData.Color, (v) => ProbesViewData.Color = v));
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeShape>>.Register(new EnumOptionProxy<M3DVE.ProbeShape>(() => ProbesViewData.Shapes, () => ProbesViewData.Shape, (v) => ProbesViewData.Shape = v));
             StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.TryGetInstance(out IStepsExecutionController controller) ? controller : null;
+            Machine.ViewModels.Ioc.SimpleIoc<IInvertersController>.Register(InverterController);
 
             EffectsManager = new DefaultEffectsManager();
 

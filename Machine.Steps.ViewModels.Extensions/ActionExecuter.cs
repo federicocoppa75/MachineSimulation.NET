@@ -6,6 +6,7 @@ using Machine.ViewModels.Messages.Links;
 using Machine.ViewModels.Messages.Links.Gantry;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.Messaging;
+using MVMUI = Machine.ViewModels.UI;
 using MachineSteps.Models.Actions;
 using System;
 using System.Threading.Tasks;
@@ -27,6 +28,9 @@ namespace Machine.Steps.ViewModels.Extensions
         private ILinkMovementManager LinkMovementManager => _linkMovementManager ?? (_linkMovementManager = Machine.ViewModels.Ioc.SimpleIoc<ILinkMovementManager>.GetInstance());
 
         private bool IsDynamic => LinkMovementManager.Enable;
+
+        MVMUI.IInvertersController _inverterController;
+        private MVMUI.IInvertersController InverterController => _inverterController ?? (_inverterController = Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IInvertersController>.GetInstance());
 
         public void Execute(BaseAction action, int notifyId)
         {
@@ -278,16 +282,19 @@ namespace Machine.Steps.ViewModels.Extensions
 
         private void Execute(TurnOffInverterAction action, int notifyId)
         {
+            InverterController.TurnOff();
             NotifyExecuted(notifyId);
         }
 
         private void Execute(TurnOnInverterAction action, int notifyId)
         {
+            InverterController.TurnOn(GetInverterName(action), action.RotationSpeed);
             NotifyExecuted(notifyId);
         }
 
         private void Execute(UpdateRotationSpeedAction action, int notifyId)
         {
+            InverterController.Change(action.NewRotationSpeed);
             NotifyExecuted(notifyId);
         }
 
@@ -323,6 +330,46 @@ namespace Machine.Steps.ViewModels.Extensions
                     NotifyExecuted(notifyId);
                 }
             }
+        }
+
+        private string GetInverterName(TurnOnInverterAction action)
+        {
+            int invId = 0;
+
+            if (action.Order == 0)
+            {
+                switch (action.Head)
+                {
+                    case 1:
+                    case 2:
+                    case 12:
+                    case 21:
+                        invId = 2;
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid head id!!!");
+                }
+            }
+            else if (action.Head == 1)
+            {
+                switch (action.Order)
+                {
+                    case 1:
+                        invId = 1;
+                        break;
+                    case 2:
+                        invId = 3;
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid order id!!!");
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid inverter id!!!");
+            }
+
+            return $"S{invId}";
         }
     }
 }

@@ -713,14 +713,23 @@
                                     </DataTemplate>
                                 </lhx2D:ItemsModel2D.ItemTemplate>
                             </lhx2D:ItemsModel2D>
+                            <hx2D:TextModel2D Text="{Binding InverterController.Name}"
+                                              Visibility="{Binding InverterController.IsVisible, Converter={StaticResource boolToVisibilityConverter}}"
+                                              Margin="0, 0, 5, 0" 
+                                              HorizontalAlignment="Left"/>
                         </hx2D:StackPanel2D>
-                        <lhx2D:ItemsModel2D ItemsSource="{Binding LinearLinks}" Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}">
-                            <lhx2D:ItemsModel2D.ItemTemplate>
-                                <DataTemplate>
-                                    <hx2D:TextModel2D Text="{Binding Value, StringFormat={}{0:0.00}}" HorizontalAlignment="Right"/>
-                                </DataTemplate>
-                            </lhx2D:ItemsModel2D.ItemTemplate>
-                        </lhx2D:ItemsModel2D>
+                        <hx2D:StackPanel2D Orientation="Vertical">
+                            <lhx2D:ItemsModel2D ItemsSource="{Binding LinearLinks}" Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}">
+                                <lhx2D:ItemsModel2D.ItemTemplate>
+                                    <DataTemplate>
+                                        <hx2D:TextModel2D Text="{Binding Value, StringFormat={}{0:0.00}}" HorizontalAlignment="Right"/>
+                                    </DataTemplate>
+                                </lhx2D:ItemsModel2D.ItemTemplate>
+                            </lhx2D:ItemsModel2D>
+                            <hx2D:TextModel2D Text="{Binding InverterController.Value}"
+                                                  Visibility="{Binding InverterController.IsVisible, Converter={StaticResource boolToVisibilityConverter}}"
+                                                  HorizontalAlignment="Right"/>
+                        </hx2D:StackPanel2D>
                     </hx2D:StackPanel2D>
                 </hx2D:StackPanel2D>
             </hx:Viewport3DX.Content2D>
