@@ -100,6 +100,7 @@ namespace Machine._3D.Views
             this.AmbientLightColor = Colors.DimGray;
             this.DirectionalLightColor = Colors.White;
             this.DirectionalLightDirection = new Vector3D(-2, -5, -2);
+            SetLights(); // nel caso nei settings ci sia "Default", essendo il valore di default, non scatta il cambio nella SET e quindi non viene impostata la luce
         }
 
         private void SetLights()
