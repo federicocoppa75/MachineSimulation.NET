@@ -22,7 +22,7 @@ namespace MaterialRemove.ViewModels
             Id = _seedId++;
         }
 
-        protected override DMesh3 GenerateMesh()
+        internal override DMesh3 GenerateMesh()
         {
             var procFunction = new ImplicitNaryDifference3d() { A = this, BSet = ToolApplications };
             var cubeSize = RemovalParameters.CubeSize;

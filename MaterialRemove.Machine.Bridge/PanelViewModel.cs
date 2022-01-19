@@ -43,6 +43,7 @@ namespace MaterialRemove.Machine.Bridge
             if(_stepsProgressState != null) _stepsProgressState.ProgressIndexChanged += OnProgressIndexChanged;
 
             SetProbableElementProxy();
+            GetInstance<IPanelExportController>().Panel = this;
         }
 
         public void ApplyAction(ToolActionData toolActionData)
@@ -142,6 +143,7 @@ namespace MaterialRemove.Machine.Bridge
             if (_toolsObserver != null) _toolsObserver.Dispose();
             if (_stepsProgressState != null) _stepsProgressState.ProgressIndexChanged -= OnProgressIndexChanged;
             _stepsProgressState = null;
+            GetInstance<IPanelExportController>().Panel = null;
 
             base.Dispose(disposing);
         }

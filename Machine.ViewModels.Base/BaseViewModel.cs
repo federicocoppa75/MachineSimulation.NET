@@ -60,6 +60,7 @@ namespace Machine.ViewModels.Base
         }
 
         protected T GetInstance<T>() => Ioc.SimpleIoc<T>.GetInstance();
+        protected T GetInstance<T>(string key) => Ioc.SimpleIoc<T>.GetInstance(key);
         protected bool HasInstance<T>() => Ioc.SimpleIoc<T>.HasInstance();
 
         #region IDisposable

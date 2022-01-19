@@ -17,7 +17,7 @@ namespace MaterialRemove.ViewModels
         private List<BoundedImplicitFunction3d> _toolApplications;
         private MVMIP.IProbableElement _probableElement;
 
-        protected List<BoundedImplicitFunction3d> ToolApplications => _toolApplications;
+        protected List<BoundedImplicitFunction3d> ToolApplications => _toolApplications ?? (_toolApplications = new List<BoundedImplicitFunction3d>());
         protected DMesh3 InternalGeometry { get; set; }
 
         public int Id { get; protected set; }
@@ -64,7 +64,9 @@ namespace MaterialRemove.ViewModels
 
         protected abstract void OnActionApplied();
 
-        protected abstract DMesh3 GenerateMesh();
+        internal abstract DMesh3 GenerateMesh();
+
+        internal DMesh3 GetInternalGeometry() => InternalGeometry;
 
         public void AddToolApplication(BoundedImplicitFunction3d toolApplication)
         {
