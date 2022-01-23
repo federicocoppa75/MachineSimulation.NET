@@ -1,0 +1,57 @@
+﻿<Window x:Class="Tooling.Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tooling.Editor"
+        xmlns:views="clr-namespace:Machine.Views;assembly=Machine.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Data">
+                <MenuItem Header="Source" ItemsSource="{Binding DataSource.Options}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Name}"/>
+                            <Setter Property="IsCheckable" Value="True"/>
+                            <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Load machine" Command="{Binding DataSource.Value.LoadMachineCommand}"/>
+                <MenuItem Header="Unload machine" Command="{Binding Kernel.UnloadAllMachineCommand}"/>
+                <Separator/>
+                <MenuItem Header="Load tools" Command="{Binding DataSource.Value.LoadToolsCommand}"/>
+                <MenuItem Header="Unload tools" Command="{Binding DataUnloader.UnloadCommand}"/>
+                <Separator/>
+                <MenuItem Header="Load tooling" Command="{Binding DataSource.Value.LoadToolingCommand}" />
+                <MenuItem Header="Save tooling" Command="{Binding DataSource.Value.SaveToolingCommand}" />
+                <MenuItem Header="Unload tooling" Command="{Binding UnloadToolingCommand}" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Attach tool" Command="{Binding ToolingEditor.AttachToolCommand}"/>
+                <MenuItem Header="Detach tool" Command="{Binding ToolingEditor.DetachToolCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <views:Tooling Grid.Column="0"/>
+
+            <GridSplitter Grid.Column="1"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"/>
+
+            <views:Tools Grid.Column="2"/>
+            
+        </Grid>
+    </DockPanel>
+</Window>

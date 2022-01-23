@@ -43,8 +43,9 @@ namespace Machine.Views.ViewModels
                 {
                     if (last != null) last.Unload();
                     if (_selected != null) _selected.Load();
-                    (_deleteCommand as RelayCommand).RaiseCanExecuteChanged();
-                    (_addCopyCommand as RelayCommand).RaiseCanExecuteChanged();
+                    (_deleteCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                    (_addCopyCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                    NotifyToolSelectionChanged();
                 }
             }
         }
@@ -83,16 +84,19 @@ namespace Machine.Views.ViewModels
 
         public ToolsViewModel()
         {
-            _toolDimension = new ToolDimensionViewModel() { Name = "Tool dimension" };
-            Kernel = GetInstance<IKernelViewModel>();
-
-            Kernel.Machines.Add(new StaticToolholderElementViewModel()
+            if(GetInstance<IApplicationInformationProvider>().ApplicationType == ApplicationType.ToolEditor)
             {
-                Position = new Data.Base.Point(),
-                Direction = new Data.Base.Vector() { X = 0.0, Y = 0.0, Z = -1.0 },
-            });
+                _toolDimension = new ToolDimensionViewModel() { Name = "Tool dimension" };
+                Kernel = GetInstance<IKernelViewModel>();
 
-            Kernel.Machines.Add(_toolDimension);
+                Kernel.Machines.Add(new StaticToolholderElementViewModel()
+                {
+                    Position = new Data.Base.Point(),
+                    Direction = new Data.Base.Vector() { X = 0.0, Y = 0.0, Z = -1.0 },
+                });
+
+                Kernel.Machines.Add(_toolDimension);
+            }
 
             Messenger.Register<LoadToolsMessage>(this, OnLoadToolsMessage);
             Messenger.Register<SaveToolsMessage>(this, OnSaveToolsMessage);
@@ -198,11 +202,12 @@ namespace Machine.Views.ViewModels
         private void UnloadCommandImpl()
         {
             Selected = null;
-            Tools.Clear();
+            //Tools.Clear();
+            Messenger.Send(new UnloadAllToolMessage());
             UpdateUnloadCommandCanExecute();
         }
 
-        private void UpdateUnloadCommandCanExecute() => (_unloadCommand as RelayCommand).RaiseCanExecuteChanged();
+        private void UpdateUnloadCommandCanExecute() => (_unloadCommand as RelayCommand)?.RaiseCanExecuteChanged();
         #endregion
 
         private void ManagePropertyDimension()
@@ -217,5 +222,7 @@ namespace Machine.Views.ViewModels
                 _toolDimension.IsVisible = false;
             }
         }
+
+        private void NotifyToolSelectionChanged() => Messenger.Send(new ToolSelectionChangedMessage() { Tool = (_selected != null) ? _selected.GetTool() : null });
     }
 }

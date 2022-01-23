@@ -143,6 +143,44 @@ namespace Machine.DataSource.File.Json
 
         protected override bool SaveToolingCommandCanExecute() => true;
 
+        protected override void SaveToolingCommandImplementation()
+        {
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("SaveFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "jTooling";
+            dlg.Filter = "Tooling (JSON) |*.jTooling";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                var id = 0;
+                var toolig = new MDTooling.Tooling()
+                {
+                    Machine = _lastMachineFile,
+                    Tools = _lastToolsFile
+                };
+
+                Messenger.Send(new SaveToolingMessage()
+                {
+                    AddToolUnit = (thId, tool) =>
+                    {
+                        toolig.Units.Add(new MDTooling.ToolingUnit()
+                        {
+                            ToolingUnitID = id++,
+                            ToolHolderId = thId,
+                            ToolName = tool
+                        });
+                    }
+                });
+
+                SaveTooling(dlg.FileName, toolig);
+
+                _lastToolingFile = dlg.FileName;
+            }
+        }
+
         protected override void LoadEnvironmentCommandImplementation()
         {
             var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("OpenFile");
@@ -298,16 +336,41 @@ namespace Machine.DataSource.File.Json
                 if ((m != null)/* && CheckToolingMachine(m.Machine)*/)
                 {
                     var fileInfo = new FileInfo(m.Tools);
+                    var machFileInfo = new FileInfo(m.Machine);
                     string path = Path.GetDirectoryName(fileName);
                     string toolFile = fileInfo.Exists ? m.Tools : Path.Combine(path, $"{m.Tools}.jTools");
+                    string machFile = machFileInfo.Exists ? m.Machine : Path.Combine(path, $"{m.Machine}.json");
 
                     var toolset = LoadTools(toolFile);
 
+                    PreSetTooling(machFile, toolFile);
                     SetTooling(m, toolset);
 
                     _lastToolsFile = toolFile;
+                    _lastMachineFile = machFile;
                 }
             });
+        }
+
+        private void PreSetTooling(string machFile, string toolFile)
+        {
+            if(GetInstance<IApplicationInformationProvider>().ApplicationType == ApplicationType.ToolingEditor)
+            {
+                LoadMachine(machFile, (m) =>
+                {
+                    if (m != null) Kernel.Machines.Add(m.ToViewModel());
+                });
+
+                var toolset = LoadTools(toolFile);
+
+                if ((toolset != null) && (toolset.Tools.Count > 0))
+                {
+                    Messenger.Send(new LoadToolsMessage()
+                    {
+                        Tools = toolset.Tools.Select(t => t as Data.Interfaces.Tools.ITool)
+                    });
+                }
+            }
         }
 
         private void SetTooling(MDTooling.Tooling tooling, MDTools.ToolSet toolset)

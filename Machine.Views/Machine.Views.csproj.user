@@ -38,6 +38,12 @@
     <Compile Update="Toolchange.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Toolholders.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Tooling.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Gantry.xaml">
@@ -74,6 +80,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Toolchange.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Toolholders.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Tooling.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

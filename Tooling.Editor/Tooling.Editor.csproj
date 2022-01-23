@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.DataSource.Client.Rest\Machine.DataSource.Client.Rest.csproj" />
+    <ProjectReference Include="..\Machine.DataSource.File.Json\Machine.DataSource.File.Json.csproj" />
+    <ProjectReference Include="..\Machine.DataSource.File.Xml\Machine.DataSource.File.Xml.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels\Machine.ViewModels.csproj" />
+    <ProjectReference Include="..\Machine.Views\Machine.Views.csproj" />
+  </ItemGroup>
+
+</Project>
