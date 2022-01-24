@@ -112,4 +112,8 @@ Application for edit tool set, the data could be load from files made by the app
 
 ![](./images/tools.editor.JPG)
 
+## Tooling.Editor
+Application for edit tooling to use in [Machine.Viewer](#Machine.Viewer).
+
+![](./images/tooling.editor.JPG)
 

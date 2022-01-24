@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tooling.Editor"
         xmlns:views="clr-namespace:Machine.Views;assembly=Machine.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Tooling editor" Height="450" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Data">
@@ -43,14 +43,29 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <views:Tooling Grid.Column="0"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Tool holders" FontWeight="Bold" VerticalAlignment="Center" />
+                <views:Tooling Grid.Row="1"/>
+            </Grid>
 
             <GridSplitter Grid.Column="1"
                           ResizeDirection="Columns"
                           ResizeBehavior="PreviousAndNext"
                           HorizontalAlignment="Stretch"/>
 
-            <views:Tools Grid.Column="2"/>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="Tools" FontWeight="Bold" VerticalAlignment="Center" />
+                <views:Tools Grid.Row="1"/>
+            </Grid>           
             
         </Grid>
     </DockPanel>
