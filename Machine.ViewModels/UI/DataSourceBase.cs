@@ -58,5 +58,10 @@ namespace Machine.ViewModels.UI
         protected virtual void SaveEnvironmentCommandImplementation() { }
 
         protected virtual bool SaveEnvironmentCommandCanExecute() => false;
+
+        protected void UpdateCanExecuteChangedByMachine()
+        {
+            (_saveMachineCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        }
     }
 }

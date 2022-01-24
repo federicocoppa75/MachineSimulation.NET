@@ -22,7 +22,19 @@ namespace Machine.DataSource.File.Json
         private string _lastToolsFile;
 
         private IKernelViewModel _kernel;
-        public IKernelViewModel Kernel => _kernel ?? (_kernel = GetInstance<IKernelViewModel>());
+        public IKernelViewModel Kernel
+        {
+            get
+            {
+                if( _kernel == null )
+                {
+                    _kernel = GetInstance<IKernelViewModel>();
+                    _kernel.MachinesCollectionChanged += OnKernelMachineCollectionChanged;
+                }
+
+                return _kernel;
+            }
+        }
 
         public override string Name => "File.JSON";
 
@@ -63,7 +75,7 @@ namespace Machine.DataSource.File.Json
             }
         }
 
-        protected override bool SaveMachineCommandCanExecute() => true;
+        protected override bool SaveMachineCommandCanExecute() => Kernel.Machines.Count > 0;
 
         protected override void LoadToolingCommandImplementation()
         {
@@ -452,5 +464,11 @@ namespace Machine.DataSource.File.Json
 
             return result;
         }
+
+        private void OnKernelMachineCollectionChanged(object sender, EventArgs e)
+        {
+            UpdateCanExecuteChangedByMachine();
+        }
+
     }
 }

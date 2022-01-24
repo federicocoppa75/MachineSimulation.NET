@@ -29,6 +29,7 @@ namespace Machine.ViewModels
         }
 
         public event EventHandler SelectedChanged;
+        public event EventHandler MachinesCollectionChanged;
 
         private ICommand _unloadAllMachineCommand;
         public ICommand UnloadAllMachineCommand => _unloadAllMachineCommand ?? (_unloadAllMachineCommand = new RelayCommand(() =>
@@ -39,11 +40,22 @@ namespace Machine.ViewModels
             }
 
             _machines.Clear();
-        }));
+        }, () => _machines.Count > 0));
 
         //private static void ManageSelectionState(IMachineElement element, bool state)
         //{
         //    if (element is IViewElementData ved) ved.IsSelected = true;
         //}
+
+        public KernelViewModel() : base()
+        {
+            _machines.CollectionChanged += OnMachinesCollectionChanged;
+        }
+
+        private void OnMachinesCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            (_unloadAllMachineCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            MachinesCollectionChanged?.Invoke(this, e);
+        }
     }
 }

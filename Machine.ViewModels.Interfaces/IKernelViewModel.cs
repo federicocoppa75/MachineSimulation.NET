@@ -9,5 +9,6 @@ namespace Machine.ViewModels.Interfaces
         IList<IMachineElement> Machines { get; }
         IMachineElement Selected { get; set; }
         event EventHandler SelectedChanged;
+        event EventHandler MachinesCollectionChanged;
     }
 }
