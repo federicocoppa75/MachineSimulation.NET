@@ -45,7 +45,7 @@ namespace Machine.Editor
             ViewModels.Ioc.SimpleIoc<MVMIF.IMachineElementFactoriesProvider>.Register<MVMF.MachineElementFactoriesProvider>();
             ViewModels.Ioc.SimpleIoc<MVMIF.ILinkFactoriesProvider>.Register<MVMF.LinkFactoriesProvider>();
             ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementController>.Register<MVML.LinkMovementControllerStub>();
-            ViewModels.Ioc.SimpleIoc<MVMUI.IApplicationInformationProvider>.Register<ApplicationInformationProvider>();
+            ViewModels.Ioc.SimpleIoc<MVMUI.IApplicationInformationProvider>.Register(new MVMUI.ApplicationInformationProvider(MVMUI.ApplicationType.MachineEditor));
             ViewModels.Ioc.SimpleIoc<MVMUI.IIndicatorsViewController>.Register<MVMUI.IndicatorsViewController>();
             ViewModels.Ioc.SimpleIoc<MVMB.ICommandExceptionObserver>.Register<MVUI.SimpleCommandExceptionObserver>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IExceptionObserver>.Register<MVUI.SimpleExceptionObserver>();
