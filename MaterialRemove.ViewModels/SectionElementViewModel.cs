@@ -41,13 +41,23 @@ namespace MaterialRemove.ViewModels
         public void AddProbePoint(MVMIP.Point point) => _probableElement?.AddProbePoint(point);
         public void SetProbableElement(MVMIP.IProbableElement probableElement) => _probableElement = probableElement;
 
-        internal Task ApplyActionAsync(BoundedImplicitFunction3d toolApplication)
+        internal Task<bool> ApplyActionAsync(BoundedImplicitFunction3d toolApplication)
         {
             return Task.Run(async () =>
             {
                 AddToolApplication(toolApplication);
-                InternalGeometry = await Task.Run(() => GenerateMesh());
-                OnActionApplied();
+
+                try
+                {
+                    InternalGeometry = await Task.Run(() => GenerateMesh());
+                    OnActionApplied();
+                    
+                    return true;
+                }
+                catch (System.Exception)
+                {
+                    return false;
+                }
             });
         }
 
@@ -57,7 +67,20 @@ namespace MaterialRemove.ViewModels
 
             if (n > 0)
             {
-                InternalGeometry = IsCorrupted ? GenerateMesh() : null;
+                DMesh3 geometry = null;
+
+                if(IsCorrupted)
+                {
+                    try
+                    {
+                        InternalGeometry = GenerateMesh();
+                    }
+                    catch (System.Exception)
+                    {                        
+                    }
+                }
+                
+                InternalGeometry = geometry;
                 OnActionApplied();
             }
         }

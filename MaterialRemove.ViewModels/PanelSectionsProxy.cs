@@ -150,7 +150,7 @@ namespace MaterialRemove.ViewModels
 
         private Task ApplyActionToFacesAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector
         {
-            var tasks = new List<Task>();
+            var tasks = new List<Task<bool>>();
 
             foreach (var face in section.Faces)
             {
@@ -167,6 +167,8 @@ namespace MaterialRemove.ViewModels
                             throw new NotImplementedException();
                         }
                     }
+
+                    return true;
                 }));
             }
 
