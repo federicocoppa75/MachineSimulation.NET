@@ -214,5 +214,29 @@ namespace Machine.Viewer.Properties {
                 this["MinimumSampleTime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Orange")]
+        public string PanelOuterMaterial {
+            get {
+                return ((string)(this["PanelOuterMaterial"]));
+            }
+            set {
+                this["PanelOuterMaterial"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Bronze")]
+        public string PanelInnerMaterial {
+            get {
+                return ((string)(this["PanelInnerMaterial"]));
+            }
+            set {
+                this["PanelInnerMaterial"] = value;
+            }
+        }
     }
 }

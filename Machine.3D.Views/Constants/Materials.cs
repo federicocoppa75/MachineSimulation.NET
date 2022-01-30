@@ -1,5 +1,7 @@
 ﻿using HelixToolkit.Wpf.SharpDX;
 using Machine._3D.Views.Interfaces;
+using Machine.ViewModels.Base;
+using Machine.ViewModels.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +10,20 @@ using System.Threading.Tasks;
 
 namespace Machine._3D.Views.Constants
 {
-    public class Materials
+    public class Materials : BaseViewModel, IPanelMaterials
     {
-        public Material Panel => PhongMaterials.Orange;
-        public Material PanelIntern => PhongMaterials.Bronze;
+        private Material _panelOuter;
+        public Material PanelOuter 
+        { 
+            get => _panelOuter; 
+            set => Set(ref _panelOuter, value, nameof(PanelOuter)); 
+        }
+        private Material _panelInner;
+        public Material PanelInner 
+        { 
+            get => _panelInner; 
+            set => Set(ref _panelInner, value, nameof(PanelInner)); 
+        }
         public Material Debug => PhongMaterials.Red;
         public Material Probe
         {
@@ -38,5 +50,11 @@ namespace Machine._3D.Views.Constants
         public Material PointAndDirIndicator => PhongMaterials.Red;
         public Material PointsIndicator => PhongMaterials.Green;
         public Material ToolDimension => PhongMaterials.Yellow;
+
+
+        public Materials()
+        {
+            Machine.ViewModels.Ioc.SimpleIoc<IPanelMaterials>.Register(this);
+        }
     }
 }

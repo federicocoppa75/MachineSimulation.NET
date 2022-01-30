@@ -144,6 +144,25 @@
                     <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoveData.Enable}" />
                     <Separator/>
                     <MenuItem Header="Export panel" Command="{Binding PanelController.ExportCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="Panel outer material" ItemsSource="{Binding PanelOuterMaterial.OptionFlags}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <MenuItem Header="Panel inner material" ItemsSource="{Binding PanelInnerMaterial.OptionFlags}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
 

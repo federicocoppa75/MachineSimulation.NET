@@ -76,6 +76,48 @@ namespace Machine._3D.Views
         #endregion
 
         public BackgroundColor BackgroudColor { get; set; } = new BackgroundColor() { Start = Colors.LightGray, Stop = Colors.LightCyan };
+
+        #region Panel material
+        public IEnumerable<String> PanelMaterialsNames => PhongMaterials.Materials.Select(m => m.Name);
+
+        private string _panelOuterMaterialName;
+
+        public string PanelOuterMaterialName
+        {
+            get => _panelOuterMaterialName;
+            set
+            {
+                if (Set(ref _panelOuterMaterialName, value, nameof(PanelOuterMaterialName)))
+                {
+                    if(Machine.ViewModels.Ioc.SimpleIoc<IPanelMaterials>.TryGetInstance(out var instance))
+                    {
+                        var material = PhongMaterials.Materials.FirstOrDefault(m => string.Compare(m.Name, _panelOuterMaterialName) == 0);
+                        instance.PanelOuter = material;
+                    }
+                }
+            }
+        }
+
+        private string _panelInnerMaterialName;
+
+        public string PanelInnerMaterialName
+        {
+            get => _panelInnerMaterialName;
+            set
+            {
+                if (Set(ref _panelInnerMaterialName, value, nameof(PanelInnerMaterialName)))
+                {
+                    if (Machine.ViewModels.Ioc.SimpleIoc<IPanelMaterials>.TryGetInstance(out var instance))
+                    {
+                        var material = PhongMaterials.Materials.FirstOrDefault(m => string.Compare(m.Name, _panelInnerMaterialName) == 0);
+                        instance.PanelInner = material;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #endregion
 
         public MainViewModel()
@@ -90,6 +132,8 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<M3DVE.ProbeShape>>.Register(new EnumOptionProxy<M3DVE.ProbeShape>(() => ProbesViewData.Shapes, () => ProbesViewData.Shape, (v) => ProbesViewData.Shape = v));
             StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.TryGetInstance(out IStepsExecutionController controller) ? controller : null;
             Machine.ViewModels.Ioc.SimpleIoc<IInvertersController>.Register(InverterController);
+            Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<string>>.Register("PanelOuterMaterial", new StringOptionProxy(() => PanelMaterialsNames, () => PanelOuterMaterialName, (v) => PanelOuterMaterialName = v));
+            Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<string>>.Register("PanelInnerMaterial", new StringOptionProxy(() => PanelMaterialsNames, () => PanelInnerMaterialName, (v) => PanelInnerMaterialName = v));
 
             EffectsManager = new DefaultEffectsManager();
 

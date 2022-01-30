@@ -108,5 +108,11 @@
     <Setting Name="MinimumSampleTime" Type="System.String" Scope="User">
       <Value Profile="(Default)">Sample_20ms</Value>
     </Setting>
+    <Setting Name="PanelOuterMaterial" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Orange</Value>
+    </Setting>
+    <Setting Name="PanelInnerMaterial" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Bronze</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

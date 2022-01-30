@@ -23,6 +23,8 @@ namespace Machine.Viewer
         public VMUI.IOptionProvider<M3DVE.ProbeColor> ProbeColor => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<M3DVE.ProbeColor>>.GetInstance();
         public VMUI.IOptionProvider<M3DVE.ProbeShape> ProbeShape => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<M3DVE.ProbeShape>>.GetInstance();
         public MRI.IPanelExportController PanelController => ViewModels.Ioc.SimpleIoc<MRI.IPanelExportController>.GetInstance();
+        public VMUI.IOptionProvider<string> PanelOuterMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelOuterMaterial");
+        public VMUI.IOptionProvider<string> PanelInnerMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelInnerMaterial");
 
         public MainViewModel() : base()
         {
