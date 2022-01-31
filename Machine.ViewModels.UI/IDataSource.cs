@@ -15,5 +15,7 @@ namespace Machine.ViewModels.UI
         ICommand SaveToolsCommand { get; }
         ICommand LoadEnvironmentCommand { get; }
         ICommand SaveEnvironmentCommand { get; }
+        ICommand ImportElementCommand { get; }
+        ICommand ExportElementCommand { get; }
     }
 }

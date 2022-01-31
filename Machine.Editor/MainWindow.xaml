@@ -94,6 +94,9 @@
                     </MenuItem>
                     <MenuItem Header="Delete element" Command="{Binding StructEditor.DeleteCommand}"/>
                     <Separator/>
+                    <MenuItem Header="Import element" Command="{Binding DataSource.Value.ImportElementCommand}"/>
+                    <MenuItem Header="Export element" Command="{Binding DataSource.Value.ExportElementCommand}"/>
+                    <Separator/>
                     <MenuItem Header="Add link" ItemsSource="{Binding StructEditor.AddLinkCommands}">
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="MenuItem">

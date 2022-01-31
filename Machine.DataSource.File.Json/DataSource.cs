@@ -30,6 +30,7 @@ namespace Machine.DataSource.File.Json
                 {
                     _kernel = GetInstance<IKernelViewModel>();
                     _kernel.MachinesCollectionChanged += OnKernelMachineCollectionChanged;
+                    _kernel.SelectedChanged += OnKernelSelectedChanged;
                 }
 
                 return _kernel;
@@ -246,6 +247,45 @@ namespace Machine.DataSource.File.Json
         }
 
         protected override bool SaveEnvironmentCommandCanExecute() => true;
+
+        protected override void ImportElementCommandImplementation()
+        {
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("OpenFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "json";
+            dlg.Filter = "Machine JSON struct |*.json";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                LoadMachine(dlg.FileName, (m) =>
+                {
+                    if (m != null) Kernel.Selected.Children.Add(m.ToViewModel());
+                });
+            }
+        }
+
+        protected override bool CanExecuteImportComand() => Kernel.Selected != null;
+
+        protected override void ExportElementCommandImplementation()
+        {
+            var dlg = ViewModels.Ioc.SimpleIoc<IFileDialog>.GetInstance("SaveFile");
+
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "json";
+            dlg.Filter = "Machine JSON struct |*.json";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                SaveMachine(dlg.FileName, Kernel.Selected.ToModel());
+            }
+        }
+
+        protected override bool CanExecuteExportComand() => Kernel.Selected != null;
 
         internal static void LoadMachine(string fileName, Action<MachineElement> manageData)
         {
@@ -465,10 +505,8 @@ namespace Machine.DataSource.File.Json
             return result;
         }
 
-        private void OnKernelMachineCollectionChanged(object sender, EventArgs e)
-        {
-            UpdateCanExecuteChangedByMachine();
-        }
+        private void OnKernelMachineCollectionChanged(object sender, EventArgs e) => UpdateCanExecuteChangedByMachine();
 
+        private void OnKernelSelectedChanged(object sender, EventArgs e) => UpdateCanExecuteChangedBySelection();
     }
 }

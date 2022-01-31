@@ -34,6 +34,12 @@ namespace Machine.ViewModels.UI
         private ICommand _saveEnvironmentCommand;
         public ICommand SaveEnvironmentCommand => _saveEnvironmentCommand ?? (_saveEnvironmentCommand = new RelayCommand(() => SaveEnvironmentCommandImplementation(), () => SaveEnvironmentCommandCanExecute()));
 
+        private ICommand _importElementCommand;
+        public ICommand ImportElementCommand => _importElementCommand ?? (_importElementCommand = new RelayCommand(() => ImportElementCommandImplementation(), () => CanExecuteImportComand()));
+
+        private ICommand _exportElementCommand;
+        public ICommand ExportElementCommand => _exportElementCommand ?? (_exportElementCommand = new RelayCommand(() => ExportElementCommandImplementation(), () => CanExecuteExportComand()));
+
         protected abstract void LoadMachineCommandImplementation();
 
         protected virtual void SaveMachineCommandImplementation() { }
@@ -59,9 +65,23 @@ namespace Machine.ViewModels.UI
 
         protected virtual bool SaveEnvironmentCommandCanExecute() => false;
 
+        protected virtual void ExportElementCommandImplementation() => throw new NotImplementedException();
+
+        protected virtual bool CanExecuteExportComand() => false;
+
+        protected virtual void ImportElementCommandImplementation() => throw new NotImplementedException();
+
+        protected virtual bool CanExecuteImportComand() => false;
+
         protected void UpdateCanExecuteChangedByMachine()
         {
             (_saveMachineCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        }
+
+        protected void UpdateCanExecuteChangedBySelection()
+        {
+            (_importElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (_exportElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
     }
 }
