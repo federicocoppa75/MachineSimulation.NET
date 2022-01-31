@@ -55,6 +55,11 @@ namespace Machine._3D.Views.Constants
         public Materials()
         {
             Machine.ViewModels.Ioc.SimpleIoc<IPanelMaterials>.Register(this);
+            var omp = GetInstance<IOptionProvider<string>>("PanelOuterMaterial");
+            var imp = GetInstance<IOptionProvider<string>>("PanelInnerMaterial");
+
+            PanelOuter = PhongMaterials.Materials.FirstOrDefault(m => string.Compare(m.Name, omp.Value) == 0);
+            PanelInner = PhongMaterials.Materials.FirstOrDefault(m => string.Compare(m.Name, imp.Value) == 0);
         }
     }
 }
