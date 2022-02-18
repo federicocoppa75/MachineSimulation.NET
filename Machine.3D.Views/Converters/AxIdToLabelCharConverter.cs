@@ -60,16 +60,18 @@ namespace Machine._3D.Views.Converters
         {
             switch (id)
             {
-                case 1: return "X";
-                case 2: return "Y";
-                case 3: return "Z";
-                case 4: return "U";
-                case 5: return "V";
-                case 6: return "W";
-                case 7: return "A";
-                case 8: return "B";
-                case 0: return "C";
-                default: return id;
+                case 1:     return "X";
+                case 2:     return "Y";
+                case 3:     return "Z";
+                case 4:     return "U";
+                case 5:     return "V";
+                case 6:     return "W";
+                case 7:     return "A";
+                case 8:     return "B";
+                case 0:     return "C";
+                case 101:   return "Y";
+                case 102:   return "Z";
+                default:    return id;
             }
         }
     }

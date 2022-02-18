@@ -54,7 +54,7 @@ namespace Machine.StepsSource.File.Iso
                 }
                 else if ((string.Compare(extension, "iso", true) == 0) || (string.Compare(extension, "i", true) == 0))
                 {
-                    var doc = IsoParser.Parse(dlg.FileName, true, GetLinkLimits, GetLinearLinkCount);
+                    var doc = IsoParser.Parse(dlg.FileName, true, GetLinkLimits, GetLinearLinkCount, GetLinearLinksIds);
 
                     if (doc != null)
                     {
@@ -96,6 +96,25 @@ namespace Machine.StepsSource.File.Iso
             });
 
             return result;
+        }
+
+        private static IList<int> GetLinearLinksIds()
+        {
+            var list = new List<int>();
+
+            MVMIoc.SimpleIoc<IMessenger>.GetInstance().Send(new GetLinkMessage()
+            {
+                Id = -1,
+                SetLink = (link) =>
+                {
+                    if (link.MoveType == Data.Enums.LinkMoveType.Linear)
+                    {
+                        list.Add(link.Id);
+                    }
+                }
+            });
+
+            return list;
         }
 
         private static Tuple<double, double> GetLinkLimits(int id)
