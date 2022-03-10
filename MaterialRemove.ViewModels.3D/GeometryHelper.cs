@@ -12,6 +12,8 @@ namespace MaterialRemove.ViewModels._3D
     {
         public static Geometry3D Convert(DMesh3 mesh)
         {
+            if(mesh == null) return null; ;
+
             return new MeshGeometry3D()
             {
                 Positions = GetPositions(mesh),

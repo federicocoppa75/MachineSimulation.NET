@@ -1,14 +1,13 @@
 ﻿using Machine.ViewModels.Interfaces.MachineElements;
-using Machine.ViewModels.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.Messages.Tooling
 {
-    public class MoveToolExecuteMessage
+    internal class GetToolHolderSinkMessage
     {
         public int Sink { get; set; }
-        public IMachineElement Tool { get; set; }
+        public Action<IMachineElement> SetToolHolder { get; set; }
     }
 }

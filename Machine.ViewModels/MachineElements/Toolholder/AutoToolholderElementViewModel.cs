@@ -2,6 +2,8 @@
 using Machine.ViewModels.UI;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Machine.ViewModels.MachineElements.Toolholder
 {
@@ -14,15 +16,14 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         public AutoToolholderElementViewModel() : base()
         {
             Messenger.Register<MoveToolRequestMessage>(this, OnMoveToolRequestMessage);
-            Messenger.Register<MoveToolExecuteMessage>(this, OnMoveToolExecuteMessage);
+            Messenger.Register<GetToolHolderSinkMessage>(this, OnGetToolHolderSinkMessage);
         }
 
-        private void OnMoveToolExecuteMessage(MoveToolExecuteMessage msg)
+        private void OnGetToolHolderSinkMessage(GetToolHolderSinkMessage msg)
         {
-            if ((msg.Sink == ToolHolderId) && (Children.Count == 0))
+            if(msg.Sink == ToolHolderId)
             {
-                DispatcherHelper.CheckBeginInvokeOnUi(() => Children.Add(msg.Tool));
-                msg.Tool.Parent = this;
+                msg?.SetToolHolder(this);
             }
         }
 
@@ -32,9 +33,20 @@ namespace Machine.ViewModels.MachineElements.Toolholder
             {
                 var t = Children.First();
 
-                t.Parent = null;
-                DispatcherHelper.CheckBeginInvokeOnUi(() =>  Children.Remove(t));
-                Messenger.Send(new MoveToolExecuteMessage() { Sink = msg.Sink, Tool = t });
+                Messenger.Send(new GetToolHolderSinkMessage()
+                {
+                    Sink = msg.Sink,
+                    SetToolHolder = (th) =>
+                    {
+
+                        DispatcherHelper.CheckBeginInvokeOnUi(() =>
+                        {                            
+                            Children.Remove(t);
+                            th.Children.Add(t);
+                            t.Parent = th;
+                        });
+                    }
+                });
             }
         }
 
@@ -57,7 +69,7 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         protected override void Dispose(bool disposing)
         {
             Messenger.Unregister<MoveToolRequestMessage>(this);
-            Messenger.Unregister<MoveToolExecuteMessage>(this);
+            Messenger.Unregister<GetToolHolderSinkMessage>(this);
             base.Dispose(disposing);
         }
         #endregion
