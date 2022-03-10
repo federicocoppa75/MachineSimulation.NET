@@ -1,6 +1,8 @@
-﻿using Machine.ViewModels.Messages.Tooling;
+﻿using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,19 +33,21 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         {
             if ((msg.Source == ToolHolderId) && (Children.Count == 1))
             {
-                var t = Children.First();
-
                 Messenger.Send(new GetToolHolderSinkMessage()
                 {
                     Sink = msg.Sink,
                     SetToolHolder = (th) =>
                     {
+                        var source = this;
+                        var sink = th;
 
                         DispatcherHelper.CheckBeginInvokeOnUi(() =>
-                        {                            
-                            Children.Remove(t);
-                            th.Children.Add(t);
-                            t.Parent = th;
+                        {
+                            var tool = source.Children.First();
+
+                            source.Children.Remove(tool);
+                            sink.Children.Add(tool);
+                            tool.Parent = sink;
                         });
                     }
                 });
