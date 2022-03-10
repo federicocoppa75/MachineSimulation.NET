@@ -56,8 +56,8 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             return new UnloadToolAction()
             {
-                ToolSink = action.ToolSource,
-                ToolSource = action.ToolSink
+                ToolSource = action.ToolSource,
+                ToolSink = action.ToolSink
             };
         }
 
@@ -70,8 +70,8 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             return new LoadToolAction()
             {
-                ToolSink = action.ToolSource,
-                ToolSource = action.ToolSink
+                ToolSource = action.ToolSource,
+                ToolSink = action.ToolSink
             };
         }
 

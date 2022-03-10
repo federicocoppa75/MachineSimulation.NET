@@ -152,8 +152,8 @@ namespace Machine.Steps.ViewModels.Extensions
         {
             Messenger.Send(new MoveToolRequestMessage()
             {
-                Source = action.ToolSource,
-                Sink = action.ToolSink
+                Source = action.ToolSink,
+                Sink = action.ToolSource
             });
 
             NotifyExecuted(notifyId);
