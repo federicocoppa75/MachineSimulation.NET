@@ -42,6 +42,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IToolToPanelTransformerFactory>.Register<ToolToPanelTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMIP.IProbePointTransformerFactory>.Register<ProbePointTransformerFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<Interfaces.IGeometry3DBuffer>.Register<Implementation.Geometry3DBuffer>();
             DataContext = new MainViewModel();
 
             var isToolEditor = Machine.ViewModels.Ioc.SimpleIoc<IApplicationInformationProvider>.GetInstance().ApplicationType == ApplicationType.ToolEditor;

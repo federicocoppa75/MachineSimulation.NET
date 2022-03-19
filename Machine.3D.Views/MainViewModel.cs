@@ -256,7 +256,11 @@ namespace Machine._3D.Views
             }
         }
 
-        protected override void Clear() => LinearLinks.Clear();
+        protected override void Clear()
+        {
+            LinearLinks.Clear();
+            Machine.ViewModels.Ioc.SimpleIoc<Interfaces.IGeometry3DBuffer>.GetInstance().Clear();
+        }
 
         #region ICameraControl
         public void SetPosition(double x, double y, double z) => Camera.Position = new Point3D(x, y, z);
