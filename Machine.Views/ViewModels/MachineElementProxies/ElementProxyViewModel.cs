@@ -121,7 +121,12 @@ namespace Machine.Views.ViewModels.MachineElementProxies
             return oldLink;
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
+
+            RelayPropertiesChanged(e);
+        }
 
         #region implementation
         private static Vector ToPosition(MDB.Matrix matrix) => (matrix != null) ? new Vector() { X = matrix.OffsetX, Y = matrix.OffsetY, Z = matrix.OffsetZ } : new Vector();
@@ -237,6 +242,15 @@ namespace Machine.Views.ViewModels.MachineElementProxies
         }
 
         protected void RaisePropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void RelayPropertiesChanged(PropertyChangedEventArgs e)
+        {
+            if(string.Compare(e.PropertyName, "Transformation") == 0)
+            {
+                RaisePropertyChanged(nameof(Placement));
+                RaisePropertyChanged(nameof(Rotation));
+            }
+        }
 
         #endregion
 
