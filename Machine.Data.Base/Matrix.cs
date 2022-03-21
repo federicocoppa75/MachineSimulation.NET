@@ -22,5 +22,25 @@ namespace Machine.Data.Base
         public double M22 { get; set; }
         public double OffsetZ { get; set; }
         //public double M44 { get; set; }   sempre 1
+
+        public Matrix()
+        {
+        }
+
+        public Matrix(Matrix matrix)
+        {
+            M11 = matrix.M11;
+            M12 = matrix.M12;
+            M13 = matrix.M13;                
+            M21 = matrix.M21;
+            M22 = matrix.M22;
+            M23 = matrix.M23;
+            M31 = matrix.M31;
+            M32 = matrix.M32;
+            M33 = matrix.M33;
+            OffsetX = matrix.OffsetX;
+            OffsetY = matrix.OffsetY;
+            OffsetZ = matrix.OffsetZ;
+        }
     }
 }

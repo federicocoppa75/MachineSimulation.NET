@@ -37,6 +37,8 @@ namespace Machine._3D.Views.Enums
         PointIndicator,
         PointAndDirIndicator,
         PointsIndicator,
-        ToolDimension
+        ToolDimension,
+        ElementHandle,
+        PositionHandle
     }
 }

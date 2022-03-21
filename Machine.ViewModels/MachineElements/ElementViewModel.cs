@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using MVMIP = Machine.ViewModels.Interfaces.Probing;
+using MVMUI = Machine.ViewModels.UI;
+using MVMIF = Machine.ViewModels.Interfaces.Factories;
+using MVMIH = Machine.ViewModels.Interfaces.Handles;
 
 
 namespace Machine.ViewModels.MachineElements
@@ -78,6 +81,7 @@ namespace Machine.ViewModels.MachineElements
                     if (kernel != null) kernel.Selected = _isSelected ? this : null;
                     PostEffects = _isSelected ? $"highlight[color:#FFFF00]" : null;
                     if (_isSelected) RequestTreeviewVisibility(Parent);
+                    ManageHandle();
                 }
             }
         }
@@ -127,6 +131,37 @@ namespace Machine.ViewModels.MachineElements
             foreach (var item in me.Children)
             {
                 ChangeVisibleProperty(item, value);
+            }
+        }
+
+        private void ManageHandle()
+        {
+            bool manageHandle = GetInstance<MVMUI.IApplicationInformationProvider>().ApplicationType == MVMUI.ApplicationType.MachineEditor;
+
+            if (!manageHandle) return;
+
+            if(_isSelected)
+            {
+                var handle = GetInstance<MVMIF.IHandleFactory>().Create(this);
+
+                if(handle != null)
+                {
+                    var hme = handle as IMachineElement;
+
+                    hme.Parent = this;
+                    Children.Add(hme);
+                }
+            }
+            else
+            {
+                foreach (var item in Children)
+                {
+                    if(item is MVMIH.IElementHandle)
+                    {
+                        Children.Remove(item);
+                        break;
+                    }
+                }
             }
         }
 

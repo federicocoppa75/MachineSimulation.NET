@@ -33,5 +33,7 @@ namespace Machine._3D.Views.Constants
         }
 
         public SWM.Color ToolDimension => SWM.Colors.Yellow;
+
+        public SWM.Color ElementHandle => SWM.Colors.Yellow;
     }
 }

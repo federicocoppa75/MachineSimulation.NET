@@ -33,6 +33,9 @@
         <converters3D:SizeToLineConverter x:Key="sizeToLineConverter"/>
         <converters3D:TwoPointToLineConverter x:Key="twoPointToLineConverter"/>
         <converters3D:TwoPointToConeConverter x:Key="twoPointToConeConverter" />
+        <converters3D:ElementHandleToLineConverter x:Key="elementHandleToLineConverter" />
+        <converters3D:PointHandleToGeometryConverter x:Key="pointHandleToGeometryConverter" />
+        <converters3D:PointHandleTypeToColorConverter x:Key="pointHandleTypeToColorConverter" />
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -568,6 +571,107 @@
                 </hx:MeshGeometryModel3D>                
             </hx:CompositeModel3D>
         </DataTemplate>
+        <DataTemplate x:Key="elementHandleDataTemplate">
+            <hx:CompositeModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=1 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=2 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=3 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=4 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=5 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=6 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=7 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=8 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=9 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=10 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=11 }">
+                </hx:LineGeometryModel3D>
+                <hx:LineGeometryModel3D 
+                    Color="{Binding ElementHandle, Source={StaticResource colors}}" 
+                    Thickness="1"
+                    IsSelected="{Binding IsSelected}"
+                    IsRendering="{Binding IsVisible}"
+                    Geometry="{Binding Converter={StaticResource elementHandleToLineConverter}, ConverterParameter=12 }">
+                </hx:LineGeometryModel3D>
+                <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
+            </hx:CompositeModel3D>
+        </DataTemplate>
+        <DataTemplate x:Key="positionHandleDataTemplate">
+            <hx:CompositeModel3D>
+                <hx:MeshGeometryModel3D Geometry="{Binding Converter={StaticResource pointHandleToGeometryConverter}}"
+                                        Material="{Binding Type, Converter={StaticResource pointHandleTypeToColorConverter}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                        IsRendering="{Binding IsVisible}"/>
+            </hx:CompositeModel3D>
+        </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
             <selectors:ItemModel3DTemplateSelectorItem When="Default" Then="{StaticResource element3dDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="XLinearTranslateEle" Then="{StaticResource element3dDataTemplateXLinearTranslate}" />
@@ -594,6 +698,8 @@
             <selectors:ItemModel3DTemplateSelectorItem When="PointIndicator" Then="{StaticResource pointIndicatorTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="PointsIndicator" Then="{StaticResource pointsIndicatorTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="ToolDimension" Then="{StaticResource toolDimensionTemplate}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="ElementHandle" Then="{StaticResource elementHandleDataTemplate}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="PositionHandle" Then="{StaticResource positionHandleDataTemplate}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

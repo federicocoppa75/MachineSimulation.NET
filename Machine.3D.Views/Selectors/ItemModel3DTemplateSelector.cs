@@ -1,5 +1,6 @@
 ﻿using Machine._3D.Views.Enums;
 using Machine.ViewModels.Insertions;
+using Machine.ViewModels.Interfaces.Handles;
 using Machine.ViewModels.Interfaces.Indicators;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Tools;
@@ -100,6 +101,14 @@ namespace Machine._3D.Views.Selectors
             else if(item is IToolDimension)
             {
                 it = ElementViewType.ToolDimension;
+            }
+            else if(item is IElementHandle)
+            {
+                it = ElementViewType.ElementHandle;
+            }
+            else if(item is IPositionHandle)
+            {
+                it = ElementViewType.PositionHandle;
             }
             else if(item is IMachineElement evm)
             {

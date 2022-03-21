@@ -38,7 +38,7 @@ namespace Machine._3D.Views.Helpers
         //    return matrix;
         //}
 
-        public static Matrix3D GetChainTransformation(this IMachineElement endOfChain, bool probing = false)
+        public static Matrix3D GetChainTransformation(this IMachineElement endOfChain, bool fromRoot = false)
         {
             IMachineElement p = endOfChain;
             var list = new List<IMachineElement>();
@@ -50,7 +50,14 @@ namespace Machine._3D.Views.Helpers
                 p = p.Parent;
             }
 
-            for (int i = 0; i < list.Count; i++) matrix.Append(GetElementTransformation(list[i]));
+            if (fromRoot)
+            {
+                for (int i = (list.Count - 1); i >= 0; i--) matrix.Append(GetElementTransformation(list[i]));
+            }
+            else
+            {
+                for (int i = 0; i < list.Count; i++) matrix.Append(GetElementTransformation(list[i]));
+            }
 
             return matrix;
         }

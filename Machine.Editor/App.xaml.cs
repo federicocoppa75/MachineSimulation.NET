@@ -49,6 +49,7 @@ namespace Machine.Editor
             ViewModels.Ioc.SimpleIoc<MVMUI.IIndicatorsViewController>.Register<MVMUI.IndicatorsViewController>();
             ViewModels.Ioc.SimpleIoc<MVMB.ICommandExceptionObserver>.Register<MVUI.SimpleCommandExceptionObserver>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IExceptionObserver>.Register<MVUI.SimpleExceptionObserver>();
+            ViewModels.Ioc.SimpleIoc<MVMIF.IHandleFactory>.Register<MVMF.HandleFactory>();
         }
     }
 }
