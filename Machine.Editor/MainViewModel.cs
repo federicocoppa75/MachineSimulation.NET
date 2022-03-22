@@ -3,6 +3,7 @@ using M3DVE = Machine._3D.Views.Enums;
 using VMUI = Machine.ViewModels.UI;
 using M3DVI = Machine._3D.Views.Interfaces;
 using MVMUI = Machine.ViewModels.UI;
+using MDE = Machine.Data.Enums;
 
 namespace Machine.Editor
 {
@@ -19,6 +20,7 @@ namespace Machine.Editor
         public VMUI.IOptionProvider<M3DVE.ProbeShape> ProbeShape => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<M3DVE.ProbeShape>>.GetInstance();
         public VMUI.IMachineStructEditor StructEditor => ViewModels.Ioc.SimpleIoc<VMUI.IMachineStructEditor>.GetInstance();
         public MVMUI.IIndicatorsViewController IndicatorsController => ViewModels.Ioc.SimpleIoc<MVMUI.IIndicatorsViewController>.GetInstance();
+        public VMUI.IOptionProvider<MDE.ElementHandle> ElementHandle => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<MDE.ElementHandle>>.GetInstance();
 
         public MainViewModel()
         {

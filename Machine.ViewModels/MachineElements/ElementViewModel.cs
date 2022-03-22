@@ -13,6 +13,7 @@ using MVMIP = Machine.ViewModels.Interfaces.Probing;
 using MVMUI = Machine.ViewModels.UI;
 using MVMIF = Machine.ViewModels.Interfaces.Factories;
 using MVMIH = Machine.ViewModels.Interfaces.Handles;
+using MDE = Machine.Data.Enums;
 
 
 namespace Machine.ViewModels.MachineElements
@@ -79,8 +80,10 @@ namespace Machine.ViewModels.MachineElements
                 {
                     var kernel = Ioc.SimpleIoc<IKernelViewModel>.GetInstance();
                     if (kernel != null) kernel.Selected = _isSelected ? this : null;
-                    PostEffects = _isSelected ? $"highlight[color:#FFFF00]" : null;
+                    //PostEffects = _isSelected ? $"highlight[color:#FFFF00]" : null;
                     if (_isSelected) RequestTreeviewVisibility(Parent);
+                    //ManageHandle();
+                    ManageSelection();
                     ManageHandle();
                 }
             }
@@ -134,15 +137,22 @@ namespace Machine.ViewModels.MachineElements
             }
         }
 
-        private void ManageHandle()
+        private void ManageSelection()
         {
             bool manageHandle = GetInstance<MVMUI.IApplicationInformationProvider>().ApplicationType == MVMUI.ApplicationType.MachineEditor;
+            bool useHandle = manageHandle && (GetInstance<MVMUI.IOptionProvider<MDE.ElementHandle>>().Value != MDE.ElementHandle.None);
 
-            if (!manageHandle) return;
+            PostEffects = _isSelected && !useHandle ? $"highlight[color:#FFFF00]" : null;
+        }
 
-            if(_isSelected)
+        private void ManageHandle()
+        {
+            var manageHandle = GetInstance<MVMUI.IApplicationInformationProvider>().ApplicationType == MVMUI.ApplicationType.MachineEditor;
+
+            if (_isSelected && manageHandle)
             {
-                var handle = GetInstance<MVMIF.IHandleFactory>().Create(this);
+                var handleType = GetInstance<MVMUI.IOptionProvider<MDE.ElementHandle>>().Value;
+                var handle = GetInstance<MVMIF.IHandleFactory>().Create(this, handleType);
 
                 if(handle != null)
                 {

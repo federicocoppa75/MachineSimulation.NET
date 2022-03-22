@@ -26,6 +26,7 @@ using Machine._3D.Views.ViewModels;
 using Machine._3D.Views.Interfaces;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Links;
+using MDE = Machine.Data.Enums;
 
 namespace Machine._3D.Views
 {
@@ -118,6 +119,17 @@ namespace Machine._3D.Views
 
         #endregion
 
+        #region Element handle
+        private MDE.ElementHandle _elementHandle;
+
+        public MDE.ElementHandle ElementHandle
+        {
+            get => _elementHandle;
+            set => Set(ref _elementHandle, value, nameof(ElementHandle));
+        }
+
+        public IEnumerable<MDE.ElementHandle> ElementHandles => Enum.GetValues(typeof(MDE.ElementHandle)).Cast<MDE.ElementHandle>();
+        #endregion
         #endregion
 
         public MainViewModel()
@@ -134,6 +146,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IInvertersController>.Register(InverterController);
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<string>>.Register("PanelOuterMaterial", new StringOptionProxy(() => PanelMaterialsNames, () => PanelOuterMaterialName, (v) => PanelOuterMaterialName = v));
             Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<string>>.Register("PanelInnerMaterial", new StringOptionProxy(() => PanelMaterialsNames, () => PanelInnerMaterialName, (v) => PanelInnerMaterialName = v));
+            Machine.ViewModels.Ioc.SimpleIoc<IOptionProvider<MDE.ElementHandle>>.Register(new EnumOptionProxy<MDE.ElementHandle>(() => ElementHandles, () => ElementHandle, (v) => ElementHandle = v));
 
             EffectsManager = new DefaultEffectsManager();
 

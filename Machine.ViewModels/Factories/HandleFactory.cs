@@ -5,16 +5,17 @@ using Machine.ViewModels.Interfaces.Providers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MDE = Machine.Data.Enums;
 
 namespace Machine.ViewModels.Factories
 {
     public class HandleFactory : IHandleFactory
     {
-        public IElementHandle Create(IMachineElement element)
+        public IElementHandle Create(IMachineElement element, MDE.ElementHandle type = MDE.ElementHandle.Position)
         {
             Handles.ElementHandleViewModel handle = null;
 
-            if ((element != null) && !string.IsNullOrEmpty(element.ModelFile))
+            if ((type == MDE.ElementHandle.Position) && (element != null) && !string.IsNullOrEmpty(element.ModelFile))
             {
                 var bbProvider = Ioc.SimpleIoc<IElementBoundingBoxProvider>.GetInstance();
 

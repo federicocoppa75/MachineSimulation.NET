@@ -82,6 +82,16 @@
                         <MenuItem Header="Tools holders" IsCheckable="True" IsChecked="{Binding IndicatorsController.ToolHolder}"/>
                         <MenuItem Header="Inserters" IsCheckable="True" IsChecked="{Binding IndicatorsController.Inserter}"/>
                     </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Element handle" ItemsSource="{Binding ElementHandle.OptionFlags}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="Add element" ItemsSource="{Binding StructEditor.AddCommands}">
