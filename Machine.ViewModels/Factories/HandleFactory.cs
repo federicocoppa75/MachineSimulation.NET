@@ -13,32 +13,82 @@ namespace Machine.ViewModels.Factories
     {
         public IElementHandle Create(IMachineElement element, MDE.ElementHandle type = MDE.ElementHandle.Position)
         {
-            Handles.ElementHandleViewModel handle = null;
+            IElementHandle handle = null;
 
-            if ((type == MDE.ElementHandle.Position) && (element != null) && !string.IsNullOrEmpty(element.ModelFile))
+            if ((element != null) && !string.IsNullOrEmpty(element.ModelFile))
             {
-                var bbProvider = Ioc.SimpleIoc<IElementBoundingBoxProvider>.GetInstance();
-
-                if(bbProvider.GetBoundingBox(element, out double minX, out double minY, out double minZ, out double maxX, out double maxY, out double maxZ))
+                switch (type)
                 {
-                    handle = new Handles.ElementHandleViewModel() 
-                    {
-                        IsVisible = true,
-                        MinX = minX, 
-                        MinY = minY, 
-                        MinZ = minZ, 
-                        MaxX = maxX, 
-                        MaxY = maxY, 
-                        MaxZ = maxZ 
-                    };
-
-                    handle.Children.Add(new Handles.PositionHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.X });
-                    handle.Children.Add(new Handles.PositionHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.Y });
-                    handle.Children.Add(new Handles.PositionHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.Z });
+                    case MDE.ElementHandle.Position:
+                        handle = CreatePositionElementHandle(element);
+                        break;
+                    case MDE.ElementHandle.Rotation:
+                        handle = CreaterRotationElementHandle(element);
+                        break;
+                    default:
+                        break;
                 }
             }
 
             return handle;
+        }
+
+        private IElementHandle CreatePositionElementHandle(IMachineElement element)
+        {
+            var bbProvider = Ioc.SimpleIoc<IElementBoundingBoxProvider>.GetInstance();
+
+            if (bbProvider.GetBoundingBox(element, out double minX, out double minY, out double minZ, out double maxX, out double maxY, out double maxZ))
+            {
+                var handle = new Handles.ElementHandleViewModel()
+                {
+                    IsVisible = true,
+                    MinX = minX,
+                    MinY = minY,
+                    MinZ = minZ,
+                    MaxX = maxX,
+                    MaxY = maxY,
+                    MaxZ = maxZ
+                };
+
+                handle.Children.Add(new Handles.PositionHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.X });
+                handle.Children.Add(new Handles.PositionHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.Y });
+                handle.Children.Add(new Handles.PositionHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.Z });
+
+                return handle;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private IElementHandle CreaterRotationElementHandle(IMachineElement element)
+        {
+            var bbProvider = Ioc.SimpleIoc<IElementBoundingBoxProvider>.GetInstance();
+
+            if (bbProvider.GetBoundingBox(element, out double minX, out double minY, out double minZ, out double maxX, out double maxY, out double maxZ))
+            {
+                var handle = new Handles.ElementHandleViewModel()
+                {
+                    IsVisible = true,
+                    MinX = minX,
+                    MinY = minY,
+                    MinZ = minZ,
+                    MaxX = maxX,
+                    MaxY = maxY,
+                    MaxZ = maxZ
+                };
+
+                handle.Children.Add(new Handles.RotationHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.X });
+                handle.Children.Add(new Handles.RotationHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.Y });
+                handle.Children.Add(new Handles.RotationHandleViewModel() { IsVisible = true, Parent = handle, Type = Interfaces.Handles.Type.Z });
+
+                return handle;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

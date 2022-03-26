@@ -36,6 +36,7 @@
         <converters3D:ElementHandleToLineConverter x:Key="elementHandleToLineConverter" />
         <converters3D:PointHandleToGeometryConverter x:Key="pointHandleToGeometryConverter" />
         <converters3D:PointHandleTypeToColorConverter x:Key="pointHandleTypeToColorConverter" />
+        <converters3D:RotationHandleToGeometryConverter x:Key="rotationHandleToGeometryConverter"/>
         <DataTemplate  x:Key="element3dDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -672,6 +673,18 @@
                                         IsRendering="{Binding IsVisible}"/>
             </hx:CompositeModel3D>
         </DataTemplate>
+        <DataTemplate x:Key="rotationHandleDataTemplate">
+            <hx:CompositeModel3D>
+                <hx:MeshGeometryModel3D Geometry="{Binding Converter={StaticResource rotationHandleToGeometryConverter}}"
+                                        Material="{Binding Type, Converter={StaticResource pointHandleTypeToColorConverter}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                        IsRendering="{Binding IsVisible}"/>
+            </hx:CompositeModel3D>
+        </DataTemplate>
         <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
             <selectors:ItemModel3DTemplateSelectorItem When="Default" Then="{StaticResource element3dDataTemplate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="XLinearTranslateEle" Then="{StaticResource element3dDataTemplateXLinearTranslate}" />
@@ -700,6 +713,7 @@
             <selectors:ItemModel3DTemplateSelectorItem When="ToolDimension" Then="{StaticResource toolDimensionTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="ElementHandle" Then="{StaticResource elementHandleDataTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="PositionHandle" Then="{StaticResource positionHandleDataTemplate}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="RotationHandle" Then="{StaticResource rotationHandleDataTemplate}"/>
         </selectors:ItemModel3DTemplateSelector>
     </UserControl.Resources>
     <Grid Background="Red">

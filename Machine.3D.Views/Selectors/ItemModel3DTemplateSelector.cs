@@ -110,6 +110,10 @@ namespace Machine._3D.Views.Selectors
             {
                 it = ElementViewType.PositionHandle;
             }
+            else if(item is IRotationHandle)
+            {
+                it = ElementViewType.RotationHandle;
+            }
             else if(item is IMachineElement evm)
             {
                 if(evm.LinkToParent != null)

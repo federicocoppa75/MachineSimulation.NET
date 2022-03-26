@@ -20,6 +20,7 @@ using SWMM = System.Windows.Media.Media3D;
 using MVMIP = Machine.ViewModels.Interfaces.Probing;
 using MVMIPR = Machine.ViewModels.Interfaces.Providers;
 using MVMIH = Machine.ViewModels.Interfaces.Handles;
+using MVMH = Machine.ViewModels.Handles;
 using Machine.ViewModels.Interfaces.MachineElements;
 
 namespace Machine._3D.Views
@@ -31,8 +32,13 @@ namespace Machine._3D.Views
     {
         private GeometryModel3D _selectedModel;
         private bool _startMove;
+        private bool _startRotate;
         private MVMIH.IPositionHandle _positionHandle;
-        private System.Windows.Media.Media3D.Matrix3D _matrix;
+        private MVMIH.IRotationHandle _rotationHandle;
+        private SWMM.Matrix3D _matrix;
+        private SWMM.Matrix3D _eleRotMatrix;
+        private SWMM.Point3D _rotationCenter;
+        private SWMM.Vector3D _rotationDirection;
 
         private IProbesController _probesController;
         protected IProbesController ProbesController => _probesController ?? (_probesController = Machine.ViewModels.Ioc.SimpleIoc<IProbesController>.GetInstance());
@@ -48,6 +54,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IToolToPanelTransformerFactory>.Register<ToolToPanelTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMIP.IProbePointTransformerFactory>.Register<ProbePointTransformerFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<MVMH.IElementRotatorFactory>.Register<ElementRotatorFactory>();
 
             var geometryBuffer = new Implementation.Geometry3DBuffer();
             Machine.ViewModels.Ioc.SimpleIoc<Interfaces.IGeometry3DBuffer>.Register(geometryBuffer);
@@ -90,8 +97,19 @@ namespace Machine._3D.Views
 
                 _positionHandle.StartMove();
             }
-            else
+            else if ((_selectedModel != null) && !ReferenceEquals(selectedModel, _selectedModel) && (selectedModel.DataContext is MVMIH.IRotationHandle rh))
             {
+                _startRotate = true;
+                _rotationHandle = rh;
+                _matrix = GetTranslateTransformation(rh);
+                _eleRotMatrix = Converters.StaticTransformationConverter.Convert((rh as IMachineElement).Parent.Parent.Transformation);
+                _rotationDirection = _eleRotMatrix.Transform(GetRotationDirection(rh));
+                _rotationCenter = _eleRotMatrix.Transform(GetRotationCenter((rh as IMachineElement).Parent.Parent));
+
+                _rotationHandle.StartRotate();
+            }
+            else
+                    {
                 var updateSelection = true;
 
                 if (_selectedModel != null)
@@ -111,19 +129,21 @@ namespace Machine._3D.Views
 
         private void OnMouseUp3DEventHandler(object s, RoutedEventArgs e)
         {
-            if (!_startMove) return;
-
-            var arg = e as HelixToolkit.Wpf.SharpDX.MouseUp3DEventArgs;
-
-            if (arg.HitTestResult == null) return;
-            if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
-
-            _startMove = false;
+             _startMove = false;
+            _startRotate = false;
+            _rotationHandle = null;
+            _positionHandle = null;
         }
 
         private void OnMouseMove3DEventHandler(object s, RoutedEventArgs e)
         {
-            if (!_startMove) return;
+            if (_startMove) OnMouseMove3DEventHandlerForMove(s, e);
+            else if(_startRotate) OnMouseMove3DEventHandlerForRotate(s, e);
+        }
+
+        private void OnMouseMove3DEventHandlerForMove(object s, RoutedEventArgs e)
+        {
+            //if (!_startMove) return;
 
             var arg = e as HelixToolkit.Wpf.SharpDX.MouseMove3DEventArgs;
 
@@ -143,6 +163,26 @@ namespace Machine._3D.Views
             }
         }
 
+        private void OnMouseMove3DEventHandlerForRotate(object s, RoutedEventArgs e)
+        {
+            var arg = e as HelixToolkit.Wpf.SharpDX.MouseMove3DEventArgs;
+
+            if (arg.HitTestResult == null) return;
+            if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
+
+            var p = arg.Position;
+            var position = arg.HitTestResult.PointHit.ToPoint3D();
+            var newPosition = view3DX.UnProjectOnPlane(p, position, view3DX.Camera.LookDirection);
+
+            if ((newPosition != null) && newPosition.HasValue)
+            {
+                var np = newPosition.Value;
+                var d = np - position;
+
+                ProcessRotationHandleRotate(np, position);
+            }
+        }
+
         private SWMM.Matrix3D GetTranslateTransformation(MVMIH.IPositionHandle ph)
         {
             var me = ph as IMachineElement;
@@ -153,6 +193,15 @@ namespace Machine._3D.Views
             matrix.OffsetX = 0;
             matrix.OffsetY = 0;
             matrix.OffsetZ = 0;
+
+            return matrix;
+        }
+
+        private SWMM.Matrix3D GetTranslateTransformation(MVMIH.IRotationHandle rh)
+        {
+            var me = rh as IMachineElement;
+            var eleToMove = me.Parent.Parent;
+            var matrix = eleToMove.GetChainTransformation();
 
             return matrix;
         }
@@ -182,7 +231,71 @@ namespace Machine._3D.Views
 
             _positionHandle.Move(v3.X, v3.Y, v3.Z);
         }
-        
+
+        private void ProcessRotationHandleRotate(SWMM.Point3D newPosition, SWMM.Point3D oldPosition)
+        {
+            SWMM.Vector3D n;
+            var me = _rotationHandle as IMachineElement;
+            var eleToRotate = me.Parent.Parent;
+            var m = new SWMM.Matrix3D(_matrix.M11, _matrix.M12, _matrix.M13, _matrix.M14, _matrix.M21, _matrix.M22, _matrix.M23, _matrix.M24, _matrix.M31, _matrix.M32, _matrix.M33, _matrix.M34, _matrix.OffsetX, _matrix.OffsetY, _matrix.OffsetZ, _matrix.M44);
+
+            m.Invert();
+
+            var p1 = m.Transform(oldPosition);
+            var p2 = m.Transform(newPosition);
+            var v1 = GetOrtoComponent(p1 - _rotationCenter, _rotationDirection);
+            var v2 = GetOrtoComponent(p2 - _rotationCenter, _rotationDirection);
+            var a = SWMM.Vector3D.AngleBetween(v1, v2);
+
+            _rotationHandle.Rotate(a);
+        }
+
+        private SWMM.Vector3D GetRotationDirection(MVMIH.IRotationHandle rotationHandle)
+        {
+            SWMM.Vector3D n;
+
+            switch (rotationHandle.Type)
+            {
+                case MVMIH.Type.X:
+                    n = new SWMM.Vector3D(1.0, 0.0, 0.0);
+                    break;
+                case MVMIH.Type.Y:
+                    n = new SWMM.Vector3D(0.0, 1.0, 0.0);
+                    break;
+                case MVMIH.Type.Z:
+                    n = new SWMM.Vector3D(0.0, 0.0, 1.0);
+                    break;
+                default:
+                    break;
+            }
+
+            return n;
+        }
+
+        private SWMM.Vector3D GetOrtoComponent(SWMM.Vector3D v, SWMM.Vector3D n)
+        {
+            var s = SWMM.Vector3D.DotProduct(v, n);
+            
+            return v - n * s;
+        }
+
+        private SWMM.Point3D GetRotationCenter(IMachineElement element)
+        {
+            Machine.ViewModels.Ioc.SimpleIoc<MVMIPR.IElementBoundingBoxProvider>
+                .GetInstance()
+                .GetBoundingBox(element,
+                                out double minX,
+                                out double minY,
+                                out double minZ,
+                                out double maxX,
+                                out double maxY,
+                                out double maxZ);
+
+            var bb = new SharpDX.BoundingBox(new SharpDX.Vector3((float)minX, (float)minY, (float)minZ), new SharpDX.Vector3((float)maxX, (float)maxY, (float)maxZ));
+
+            return bb.Center.ToPoint3D();
+        }
+
         private void FillView3DFlags(IEnumerable<string> flagsNames, ICollection<IFlag> flags)
         {
             foreach (PropertyDescriptor item in System.ComponentModel.TypeDescriptor.GetProperties(view3DX, new Attribute[] { new PropertyFilterAttribute(PropertyFilterOptions.All) }))
