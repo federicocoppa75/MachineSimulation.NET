@@ -31,7 +31,6 @@ namespace Machine._3D.Views
     public partial class MachineView : UserControl
     {
         private GeometryModel3D _selectedModel;
-        private bool _startMove;
         private bool _startRotate;
         private MVMIH.IPositionHandle _positionHandle;
         private MVMIH.IRotationHandle _rotationHandle;
@@ -39,6 +38,8 @@ namespace Machine._3D.Views
         private SWMM.Matrix3D _eleRotMatrix;
         private SWMM.Point3D _rotationCenter;
         private SWMM.Vector3D _rotationDirection;
+
+        private MoveEventsHandler _moveEventsHandler;
 
         private IProbesController _probesController;
         protected IProbesController ProbesController => _probesController ?? (_probesController = Machine.ViewModels.Ioc.SimpleIoc<IProbesController>.GetInstance());
@@ -91,11 +92,7 @@ namespace Machine._3D.Views
             }
             else if ((_selectedModel != null) && !ReferenceEquals(selectedModel, _selectedModel) && (selectedModel.DataContext is MVMIH.IPositionHandle ph))
             {
-                _startMove = true;
-                _positionHandle = ph;
-                _matrix = GetTranslateTransformation(ph);
-
-                _positionHandle.StartMove();
+                _moveEventsHandler = new MoveEventsHandler(ph);
             }
             else if ((_selectedModel != null) && !ReferenceEquals(selectedModel, _selectedModel) && (selectedModel.DataContext is MVMIH.IRotationHandle rh))
             {
@@ -129,23 +126,21 @@ namespace Machine._3D.Views
 
         private void OnMouseUp3DEventHandler(object s, RoutedEventArgs e)
         {
-             _startMove = false;
             _startRotate = false;
             _rotationHandle = null;
+
             _positionHandle = null;
         }
 
         private void OnMouseMove3DEventHandler(object s, RoutedEventArgs e)
         {
-            if (_startMove) OnMouseMove3DEventHandlerForMove(s, e);
+            if(_moveEventsHandler != null) OnMouseMove3DEventHandlerForMove(s, e);
             else if(_startRotate) OnMouseMove3DEventHandlerForRotate(s, e);
         }
 
         private void OnMouseMove3DEventHandlerForMove(object s, RoutedEventArgs e)
         {
-            //if (!_startMove) return;
-
-            var arg = e as HelixToolkit.Wpf.SharpDX.MouseMove3DEventArgs;
+            var arg = e as MouseMove3DEventArgs;
 
             if (arg.HitTestResult == null) return;
             if ((arg.OriginalInputEventArgs is MouseButtonEventArgs mbeArg) && (mbeArg.ChangedButton != MouseButton.Left)) return;
@@ -159,7 +154,7 @@ namespace Machine._3D.Views
                 var np = newPosition.Value;
                 var d = np - position;
 
-                ProcessPositionHandleMove(d);
+                _moveEventsHandler?.Move(d); ;
             }
         }
 
@@ -206,7 +201,25 @@ namespace Machine._3D.Views
             return matrix;
         }
 
-        private void ProcessPositionHandleMove(SWMM.Vector3D step)
+        private void ProcessRotationHandleRotate(SWMM.Point3D newPosition, SWMM.Point3D oldPosition)
+        {
+            SWMM.Vector3D n;
+            var me = _rotationHandle as IMachineElement;
+            var eleToRotate = me.Parent.Parent;
+            var m = new SWMM.Matrix3D(_matrix.M11, _matrix.M12, _matrix.M13, _matrix.M14, _matrix.M21, _matrix.M22, _matrix.M23, _matrix.M24, _matrix.M31, _matrix.M32, _matrix.M33, _matrix.M34, _matrix.OffsetX, _matrix.OffsetY, _matrix.OffsetZ, _matrix.M44);
+
+            m.Invert();
+
+            var p1 = m.Transform(oldPosition);
+            var p2 = m.Transform(newPosition);
+            var v1 = GetOrtoComponent(p1 - _rotationCenter, _rotationDirection);
+            var v2 = GetOrtoComponent(p2 - _rotationCenter, _rotationDirection);
+            var a = SWMM.Vector3D.AngleBetween(v1, v2);
+
+            _rotationHandle.Rotate(a);
+        }
+
+        private SWMM.Vector3D GetMoveDirection(MVMIH.IPositionHandle positionHandle)
         {
             SWMM.Vector3D v;
 
@@ -225,29 +238,7 @@ namespace Machine._3D.Views
                     throw new ArgumentOutOfRangeException();
             }
 
-            var v2 = _matrix.Transform(v);
-            var dp = SWMM.Vector3D.DotProduct(step, v2);
-            var v3 = v2 * dp;
-
-            _positionHandle.Move(v3.X, v3.Y, v3.Z);
-        }
-
-        private void ProcessRotationHandleRotate(SWMM.Point3D newPosition, SWMM.Point3D oldPosition)
-        {
-            SWMM.Vector3D n;
-            var me = _rotationHandle as IMachineElement;
-            var eleToRotate = me.Parent.Parent;
-            var m = new SWMM.Matrix3D(_matrix.M11, _matrix.M12, _matrix.M13, _matrix.M14, _matrix.M21, _matrix.M22, _matrix.M23, _matrix.M24, _matrix.M31, _matrix.M32, _matrix.M33, _matrix.M34, _matrix.OffsetX, _matrix.OffsetY, _matrix.OffsetZ, _matrix.M44);
-
-            m.Invert();
-
-            var p1 = m.Transform(oldPosition);
-            var p2 = m.Transform(newPosition);
-            var v1 = GetOrtoComponent(p1 - _rotationCenter, _rotationDirection);
-            var v2 = GetOrtoComponent(p2 - _rotationCenter, _rotationDirection);
-            var a = SWMM.Vector3D.AngleBetween(v1, v2);
-
-            _rotationHandle.Rotate(a);
+            return v;
         }
 
         private SWMM.Vector3D GetRotationDirection(MVMIH.IRotationHandle rotationHandle)
@@ -433,6 +424,65 @@ namespace Machine._3D.Views
 
                 return ss;
             }
+        }
+    }
+
+    class MoveEventsHandler
+    {
+        private MVMIH.IPositionHandle _positionHandle;
+        private SWMM.Matrix3D _matrix;
+
+        public  MoveEventsHandler(MVMIH.IPositionHandle positionHandle)
+        {
+            _positionHandle = positionHandle;
+            _matrix = GetTranslateTransformation(positionHandle);
+
+            _positionHandle.StartMove();
+        }
+
+        public void Move(SWMM.Vector3D step)
+        {
+            SWMM.Vector3D v = GetMoveDirection(_positionHandle);
+            var v2 = _matrix.Transform(v);
+            var dp = SWMM.Vector3D.DotProduct(step, v2);
+            var v3 = v2 * dp;
+
+            _positionHandle.Move(v3.X, v3.Y, v3.Z);
+        }
+
+        private SWMM.Vector3D GetMoveDirection(MVMIH.IPositionHandle positionHandle)
+        {
+            SWMM.Vector3D v;
+
+            switch (_positionHandle.Type)
+            {
+                case MVMIH.Type.X:
+                    v = new SWMM.Vector3D(1.0, 0.0, 0.0);
+                    break;
+                case MVMIH.Type.Y:
+                    v = new SWMM.Vector3D(0.0, 1.0, 0.0);
+                    break;
+                case MVMIH.Type.Z:
+                    v = new SWMM.Vector3D(0.0, 0.0, 1.0);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return v;
+        }
+
+        private SWMM.Matrix3D GetTranslateTransformation(MVMIH.IPositionHandle ph)
+        {
+            var me = ph as IMachineElement;
+            var eleToMove = me.Parent.Parent; 
+            var matrix = eleToMove.GetChainTransformation();
+
+            matrix.OffsetX = 0;
+            matrix.OffsetY = 0;
+            matrix.OffsetZ = 0;
+
+            return matrix;
         }
     }
 }
