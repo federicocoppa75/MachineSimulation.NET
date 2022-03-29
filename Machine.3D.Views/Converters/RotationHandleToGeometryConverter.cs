@@ -37,7 +37,7 @@ namespace Machine._3D.Views.Converters
                     var builder = new MeshBuilder();
 
                     builder.AddCylinder(p1, p3, diameter / 2.0f, 32, false, false);
-                    //builder.AddCylinder(p2, p4, diameter / 2.0f, 32, false, false);
+                    builder.AddCylinder(p2, p4, diameter / 2.0f, 32, false, false);
 
                     return builder.ToMesh();
                 }
@@ -64,13 +64,13 @@ namespace Machine._3D.Views.Converters
             switch (type)
             {
                 case MVMIH.Type.X:
-                    result = (box.Height + box.Depth) / 2.0f;//Math.Min(box.Height, box.Depth);
+                    result = (box.Height + box.Depth) / 2.0f;
                     break;
                 case MVMIH.Type.Y:
-                    result = (box.Width + box.Depth) / 2.0f;// Math.Min(box.Width, box.Depth);
+                    result = (box.Width + box.Depth) / 2.0f;
                     break;
                 case MVMIH.Type.Z:
-                    result = (box.Width + box.Height) / 2.0f;//Math.Min(box.Width, box.Height);
+                    result = (box.Width + box.Height) / 2.0f;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
