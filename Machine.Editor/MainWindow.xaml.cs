@@ -61,7 +61,7 @@ namespace Machine.Editor
             Properties.Settings.Default.ViewPanelHolder = vm.IndicatorsController.PanelHolder;
             Properties.Settings.Default.ViewToolHolder = vm.IndicatorsController.ToolHolder;
             Properties.Settings.Default.ViewInserter = vm.IndicatorsController.Inserter;
-
+            Properties.Settings.Default.ElementHandle = vm.ElementHandle.Value.ToString();
         }
 
         private void UpdateFromSettings()
@@ -81,6 +81,7 @@ namespace Machine.Editor
             vm.IndicatorsController.PanelHolder = Properties.Settings.Default.ViewPanelHolder;
             vm.IndicatorsController.ToolHolder = Properties.Settings.Default.ViewToolHolder;
             vm.IndicatorsController.Inserter = Properties.Settings.Default.ViewInserter;
+            vm.ElementHandle.TryToParse(Properties.Settings.Default.ElementHandle);
         }
     }
 }
