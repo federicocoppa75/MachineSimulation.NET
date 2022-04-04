@@ -3,9 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>1.15.1</Version>
-    <AssemblyVersion>1.15.1.0</AssemblyVersion>
-    <FileVersion>1.15.1.0</FileVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>

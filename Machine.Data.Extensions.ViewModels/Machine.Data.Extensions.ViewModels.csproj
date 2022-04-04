@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.4.0</Version>
-    <UserSecretsId>b8af70eb-4dd7-4b48-9a6d-5bbef471c8fa</UserSecretsId>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<Deterministic>false</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
