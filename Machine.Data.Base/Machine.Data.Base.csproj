@@ -4,6 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<Deterministic>false</Deterministic>
+	<PackageId>FC75.$(AssemblyName)</PackageId>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<VersionPrefix>2.0.0</VersionPrefix>
+	<PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.NET</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
