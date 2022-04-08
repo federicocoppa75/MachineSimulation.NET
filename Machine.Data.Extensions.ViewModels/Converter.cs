@@ -139,6 +139,12 @@ namespace Machine.Data.Extensions.ViewModels
                 Parent = parent
             };
 
+            if(evm is ICollidableElement ce)
+            {
+                ce.IsCollidable = machineElement.IsCollidable;
+                ce.CollidableGroup = machineElement.CollidableGroup;
+            }
+
             foreach (var item in machineElement.Children) evm.Children.Add(item.ToViewModel(evm));
 
             //foreach (var item in evm.Children) item.Parent = evm;

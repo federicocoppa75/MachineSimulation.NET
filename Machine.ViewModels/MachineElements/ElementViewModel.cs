@@ -19,7 +19,7 @@ using MDE = Machine.Data.Enums;
 namespace Machine.ViewModels.MachineElements
 {
     [MachineStruct("Simple element", 1)]
-    public class ElementViewModel : BaseViewModel, IMachineElement, IViewElementData, MVMIP.IProbableElement
+    public class ElementViewModel : BaseViewModel, IMachineElement, IViewElementData, MVMIP.IProbableElement, ICollidableElement
     {
         #region data properties
         public int MachineElementID { get; set; }
@@ -104,7 +104,12 @@ namespace Machine.ViewModels.MachineElements
         }
 
         public virtual IMachineElement Parent { get; set; }
-         #endregion
+        #endregion
+
+        #region ICollidableElement
+        public bool IsCollidable { get; set; }
+        public int CollidableGroup { get; set; }
+        #endregion
 
         #region commands
         private ICommand _changeChainVisibilityState;

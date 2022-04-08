@@ -102,6 +102,12 @@ namespace Machine.Data.Extensions.ViewModels
                 LinkToParent = machineElement.LinkToParent.Convert(),
             };
 
+            if(machineElement is ICollidableElement ce)
+            {
+                m.IsCollidable = ce.IsCollidable;
+                m.CollidableGroup = ce.CollidableGroup;
+            }
+
             foreach (var item in machineElement.Children)
             {
                 if(!item.IsIndicator()) m.Children.Add(item.ToModel());

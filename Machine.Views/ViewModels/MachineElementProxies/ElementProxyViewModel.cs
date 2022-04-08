@@ -97,6 +97,14 @@ namespace Machine.Views.ViewModels.MachineElementProxies
             set => _element.Transformation = UpdatetRotation(_element.Transformation, value); 
         }
 
+        [Category("Collision data")]
+        [PropertyOrder(1)]
+        public bool IsCollidable { get; set; }
+
+        [Category("Collision data")]
+        [PropertyOrder(2)]
+        public int CollidableGroup { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ElementProxyViewModel(IMachineElement element)
