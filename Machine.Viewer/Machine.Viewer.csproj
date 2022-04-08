@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CollisionDectection.Interfaces\CollisionDectection.Interfaces.csproj" />
+    <ProjectReference Include="..\CollisionDectection.ViewModels\CollisionDectection.ViewModels.csproj" />
     <ProjectReference Include="..\Machine.3D.Geometry.Provider\Machine.3D.Geometry.Provider.csproj" />
     <ProjectReference Include="..\Machine.3D.Views\Machine.3D.Views.csproj" />
     <ProjectReference Include="..\Machine.Data.Converters\Machine.Data.Converters.csproj" />

@@ -22,6 +22,8 @@ using MRI = MaterialRemove.Interfaces;
 using MVMII = Machine.ViewModels.Interfaces.Insertions;
 using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
+using CDI = CollisionDectection.Interfaces;
+using CDV = CollisionDectection.ViewModels;
 
 namespace Machine.Viewer
 {
@@ -61,6 +63,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MVMB.ICommandExceptionObserver>.Register<MVUI.SimpleCommandExceptionObserver>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IExceptionObserver>.Register<MVUI.SimpleExceptionObserver>();
             ViewModels.Ioc.SimpleIoc<MRI.IPanelExportController>.Register<MRMB.PanelExportController>();
+            ViewModels.Ioc.SimpleIoc<CDI.ICollisionDetectionData>.Register<CDV.CollisionDetectionManager>();
         }
     }
 }

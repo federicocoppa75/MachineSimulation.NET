@@ -163,6 +163,8 @@
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Collision Detection" IsCheckable="True" IsChecked="{Binding CollisionDetectionData.Enable}" />
                 </MenuItem>
             </Menu>
 

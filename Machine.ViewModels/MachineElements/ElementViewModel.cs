@@ -109,6 +109,7 @@ namespace Machine.ViewModels.MachineElements
         #region ICollidableElement
         public bool IsCollidable { get; set; }
         public int CollidableGroup { get; set; }
+        public bool IsCollided { get; set; }
         #endregion
 
         #region commands

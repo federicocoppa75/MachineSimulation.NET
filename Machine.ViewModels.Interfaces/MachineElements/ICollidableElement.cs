@@ -20,6 +20,6 @@ namespace Machine.ViewModels.Interfaces.MachineElements
         /// <summary>
         /// true if element is collided
         /// </summary>
-        public bool IsCollided { get; set; }
+        bool IsCollided { get; set; }
     }
 }

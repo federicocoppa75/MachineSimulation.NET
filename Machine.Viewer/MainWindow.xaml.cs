@@ -70,6 +70,7 @@ namespace Machine.Viewer
             Properties.Settings.Default.MinimumSampleTime = vm.StepsExecutionController.MinimumSampleTime.ToString();
             Properties.Settings.Default.PanelOuterMaterial = vm.PanelOuterMaterial.Value;
             Properties.Settings.Default.PanelInnerMaterial = vm.PanelInnerMaterial.Value;
+            Properties.Settings.Default.CollisionDetection = vm.CollisionDetectionData.Enable;
         }
 
         private void UpdateFromSettings()
@@ -92,6 +93,7 @@ namespace Machine.Viewer
             vm.SampleTimeOptions.TryToParse(Properties.Settings.Default.MinimumSampleTime);
             vm.PanelOuterMaterial.TryToParse(Properties.Settings.Default.PanelOuterMaterial);
             vm.PanelInnerMaterial.TryToParse(Properties.Settings.Default.PanelInnerMaterial);
+            vm.CollisionDetectionData.Enable = Properties.Settings.Default.CollisionDetection;
         }
     }
 }

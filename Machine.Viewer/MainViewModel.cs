@@ -3,6 +3,7 @@ using M3DVE = Machine._3D.Views.Enums;
 using VMUI = Machine.ViewModels.UI;
 using M3DVI = Machine._3D.Views.Interfaces;
 using MRI = MaterialRemove.Interfaces;
+using CDI = CollisionDectection.Interfaces;
 
 namespace Machine.Viewer
 {
@@ -25,6 +26,7 @@ namespace Machine.Viewer
         public MRI.IPanelExportController PanelController => ViewModels.Ioc.SimpleIoc<MRI.IPanelExportController>.GetInstance();
         public VMUI.IOptionProvider<string> PanelOuterMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelOuterMaterial");
         public VMUI.IOptionProvider<string> PanelInnerMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelInnerMaterial");
+        public CDI.ICollisionDetectionData CollisionDetectionData => ViewModels.Ioc.SimpleIoc<CDI.ICollisionDetectionData>.GetInstance();
 
         public MainViewModel() : base()
         {
