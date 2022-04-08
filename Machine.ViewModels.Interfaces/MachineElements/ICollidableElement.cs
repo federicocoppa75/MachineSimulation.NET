@@ -16,5 +16,10 @@ namespace Machine.ViewModels.Interfaces.MachineElements
         /// but could collide with elements of other groups
         /// </summary>
         int CollidableGroup { get; set; }
+
+        /// <summary>
+        /// true if element is collided
+        /// </summary>
+        public bool IsCollided { get; set; }
     }
 }
