@@ -99,11 +99,19 @@ namespace Machine.Views.ViewModels.MachineElementProxies
 
         [Category("Collision data")]
         [PropertyOrder(1)]
-        public bool IsCollidable { get; set; }
+        public bool IsCollidable 
+        { 
+            get => (_element as ICollidableElement).IsCollidable; 
+            set => (_element as ICollidableElement).IsCollidable = value; 
+        }
 
         [Category("Collision data")]
         [PropertyOrder(2)]
-        public int CollidableGroup { get; set; }
+        public int CollidableGroup 
+        { 
+            get => (_element as ICollidableElement).CollidableGroup; 
+            set => (_element as ICollidableElement).CollidableGroup = value; 
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

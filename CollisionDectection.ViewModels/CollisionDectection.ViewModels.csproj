@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CollisionDectection.Interfaces\CollisionDectection.Interfaces.csproj" />
     <ProjectReference Include="..\Machine.ViewModels.Base\Machine.ViewModels.Base.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Interfaces\Machine.ViewModels.Interfaces.csproj" />
     <ProjectReference Include="..\Machine.ViewModels.Ioc\Machine.ViewModels.Ioc.csproj" />
   </ItemGroup>
 
