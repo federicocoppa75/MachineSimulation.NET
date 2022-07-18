@@ -34,9 +34,18 @@ namespace Machine.ViewModels.Links
             get => _pos; 
             set => Set(ref _pos, value, nameof(Pos)); 
         }
+
+        private bool _overflow;
+
+        public bool Overflow
+        {
+            get => _overflow;
+            set => Set(ref _overflow, value, nameof(Overflow));
+        }
+
         #endregion
 
-        #region view properties4
+        #region view properties
         public override LinkMoveType MoveType => LinkMoveType.Linear;
         #endregion
 
@@ -44,6 +53,7 @@ namespace Machine.ViewModels.Links
         public LinearLinkViewModel() : base()
         {
             Messenger.Register<GantryMessage>(this, OnGantryMessage);
+            ValueChanged += (s, e) => UpdateOverflow();
         }
         #endregion
 
@@ -75,6 +85,8 @@ namespace Machine.ViewModels.Links
 
         #region private methods
         private void OnGantryMasterChanged(object sender, double e) => Value = e + _gantryGap;
+
+        private void UpdateOverflow() => Overflow = (Value < _min) || (Value > _max);
         #endregion
 
         #region IDisposable

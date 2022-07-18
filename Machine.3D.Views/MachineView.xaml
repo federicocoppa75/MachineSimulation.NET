@@ -19,6 +19,7 @@
         <const:Geometries x:Key="geometries"/>
         <const:Colors x:Key="colors" />
         <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <converters:BoolToTextWeightConverter x:Key="boolToTextWeightConverter" ValueForFalse="Normal" ValueForTrue="Bold"/>
         <converters3D:DirectionToAxisConverter x:Key="directionToAxisConverter"/>
         <converters3D:LinearLinkPositionConverter x:Key="linearLinkPositionConverter"/>
         <converters3D:ColorToMaterialConverter x:Key="colorToMaterialConverter" />
@@ -829,7 +830,7 @@
                             <lhx2D:ItemsModel2D ItemsSource="{Binding LinearLinks}" Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}">
                                 <lhx2D:ItemsModel2D.ItemTemplate>
                                     <DataTemplate>
-                                        <hx2D:TextModel2D Text="{Binding Id, Converter={StaticResource axIdToLabelCharConverter}}" Margin="0, 0, 5, 0" HorizontalAlignment="Left"/>
+                                        <hx2D:TextModel2D Text="{Binding Id, Converter={StaticResource axIdToLabelCharConverter}}" Margin="0, 0, 5, 0" HorizontalAlignment="Left" FontWeight="{Binding Overflow, Converter={StaticResource boolToTextWeightConverter}}"/>
                                     </DataTemplate>
                                 </lhx2D:ItemsModel2D.ItemTemplate>
                             </lhx2D:ItemsModel2D>
@@ -842,7 +843,7 @@
                             <lhx2D:ItemsModel2D ItemsSource="{Binding LinearLinks}" Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}">
                                 <lhx2D:ItemsModel2D.ItemTemplate>
                                     <DataTemplate>
-                                        <hx2D:TextModel2D Text="{Binding Value, StringFormat={}{0:0.00}}" HorizontalAlignment="Right"/>
+                                        <hx2D:TextModel2D Text="{Binding Value, StringFormat={}{0:0.00}}" HorizontalAlignment="Right" FontWeight="{Binding Overflow, Converter={StaticResource boolToTextWeightConverter}}"/>
                                     </DataTemplate>
                                 </lhx2D:ItemsModel2D.ItemTemplate>
                             </lhx2D:ItemsModel2D>
