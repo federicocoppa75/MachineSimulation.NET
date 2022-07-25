@@ -17,7 +17,8 @@ namespace Machine.ViewModels.UI
         Sample_20ms,
         Sample_30ms,
         Sample_40ms,
-        Sample_50ms
+        Sample_50ms,
+        Sample_min,
     }
 
     public interface IStepsExecutionController

@@ -8,6 +8,7 @@ using Machine.ViewModels.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Machine.Steps.ViewModels.Extensions
 {
@@ -30,7 +31,14 @@ namespace Machine.Steps.ViewModels.Extensions
         private IMessenger _messenger;
         private IMessenger Messenger => _messenger ?? (_messenger = Machine.ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance());
 
-        public int MinTimespam { get; set; } = 20;
+        private TimeSpan _minTimespam = TimeSpan.FromMilliseconds(20);
+        public int MinTimespam 
+        {
+            get => (int)_minTimespam.TotalMilliseconds; 
+            set => _minTimespam = TimeSpan.FromMilliseconds(value);
+        }
+
+        private TimeSpan MinTimespanOp { get; set; } = TimeSpan.FromMilliseconds(20);
 
         private bool _enable;
         public bool Enable 
@@ -127,7 +135,7 @@ namespace Machine.Steps.ViewModels.Extensions
                 {
                     var elapse = e - _lastProcess;
 
-                    if (elapse >= TimeSpan.FromMilliseconds(MinTimespam))
+                    if (elapse >= MinTimespanOp)
                     {
                         _lastProcess = e;
                         EvaluateItems(e);
@@ -139,7 +147,7 @@ namespace Machine.Steps.ViewModels.Extensions
             }
         }
 
-        private void EvaluateGroups(DateTime now)
+        private int EvaluateGroups(DateTime now)
         {
             lock (_lockObj2)
             {
@@ -158,9 +166,11 @@ namespace Machine.Steps.ViewModels.Extensions
 
                 foreach (var item in completed) _itemsGroups.Remove(item);
             }
+
+            return 0;
         }
 
-        private void EvaluateItems(DateTime now)
+        private int EvaluateItems(DateTime now)
         {
             lock (_lockObj1)
             {
@@ -170,15 +180,28 @@ namespace Machine.Steps.ViewModels.Extensions
                 {
                     i.Progress(now);
 
-                    if(i.IsCompleted)
+                    if (i.IsCompleted)
                     {
                         completed.Push(i);
-                        if(i.NotifyId > 0) Messenger.Send(new ActionExecutedMessage() { Id = i.NotifyId });
+                        if (i.NotifyId > 0) Messenger.Send(new ActionExecutedMessage() { Id = i.NotifyId });
                     }
                 });
 
+                //Parallel.ForEach(_items, i =>
+                //{
+                //    i.Progress(now);
+
+                //    if (i.IsCompleted)
+                //    {
+                //        completed.Push(i);
+                //        if (i.NotifyId > 0) Messenger.Send(new ActionExecutedMessage() { Id = i.NotifyId });
+                //    }
+                //});
+
                 foreach (var item in completed) _items.Remove(item);
             }
+
+            return 0;
         }
     }
 }

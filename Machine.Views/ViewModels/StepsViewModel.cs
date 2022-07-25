@@ -222,6 +222,9 @@ namespace Machine.Views.ViewModels
                 case SampleTimeOption.Sample_50ms:
                     result = 50;
                     break;
+                case SampleTimeOption.Sample_min:
+                    result = 0;
+                    break;
                 default:
                     break;
             }
