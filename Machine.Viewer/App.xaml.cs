@@ -53,6 +53,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementManager>.Register<MSVME.LinkMovementManager>();
             ViewModels.Ioc.SimpleIoc<MRVMI.IElementViewModelFactory>.Register<MRVM3D.ElementViewModelFactory>();
             ViewModels.Ioc.SimpleIoc<MVMIF.IPanelElementFactory>.Register<MRMB.PanelViewModelFactory>();
+            //ViewModels.Ioc.SimpleIoc<MVMIF.IPanelElementFactory>.Register<Machine.ViewModels.Factories.PanelViewModelFactory>();
             ViewModels.Ioc.SimpleIoc<MVMI.Tools.IToolObserverProvider>.Register<MRMB.ToolsObserverProvider>();
             ViewModels.Ioc.SimpleIoc<MRI.IMaterialRemoveData>.Register<MRMB.MaterialRemoveData>();
             ViewModels.Ioc.SimpleIoc<MVMII.IInsertionsSinkProvider>.Register<MVMIns.InsertionsSinkProvider>();

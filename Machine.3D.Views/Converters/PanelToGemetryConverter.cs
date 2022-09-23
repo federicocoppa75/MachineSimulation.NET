@@ -18,7 +18,7 @@ namespace Machine._3D.Views.Converters
             {
                 var builder = new MeshBuilder();
 
-                builder.AddBox(new SharpDX.Vector3((float)pvm.CenterX, (float)pvm.CenterY, (float)pvm.CenterZ), pvm.SizeX, pvm.SizeY, pvm.SizeZ);
+                builder.AddBox(new SharpDX.Vector3(0.0f, 0.0f, 0.0f), pvm.SizeX, pvm.SizeY, pvm.SizeZ);
 
                 return builder.ToMesh();
             }
