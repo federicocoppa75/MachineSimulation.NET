@@ -10,6 +10,7 @@ using MDE = Machine.Data.MachineElements;
 using MDL = Machine.Data.Links;
 using MVMIL = Machine.ViewModels.Interfaces.Links;
 using MVMII = Machine.ViewModels.Interfaces.Indicators;
+using MVMIH = Machine.ViewModels.Interfaces.Handles;
 
 namespace Machine.Data.Extensions.ViewModels
 {
@@ -104,7 +105,7 @@ namespace Machine.Data.Extensions.ViewModels
 
             foreach (var item in machineElement.Children)
             {
-                if(!item.IsIndicator()) m.Children.Add(item.ToModel());
+                if(!item.IsIndicator() && !item.IsHandle()) m.Children.Add(item.ToModel());
             }
 
             return m;
@@ -205,5 +206,7 @@ namespace Machine.Data.Extensions.ViewModels
         }
 
         private static bool IsIndicator(this IMachineElement element) => element is MVMII.IIndicatorProxy;
+
+        private static bool IsHandle(this IMachineElement element) => element is MVMIH.IElementHandle;
     }
 }
