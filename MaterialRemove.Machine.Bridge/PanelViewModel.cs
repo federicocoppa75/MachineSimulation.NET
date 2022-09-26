@@ -30,8 +30,8 @@ namespace MaterialRemove.Machine.Bridge
         public double FilterMargin { get; set; }
 
         public IList<IPanelSection> Sections => (_panelSectionsProxy != null) ? _panelSectionsProxy.Sections : null;
-        public IEnumerable<ISectionFace> Faces => Sections.SelectMany(s => s.Faces);
-        public IEnumerable<ISectionVolume> Volumes => Sections.Select(s => s.Volume);
+        public IEnumerable<ISectionFace> Faces => (_panelSectionsProxy != null) ? Sections.SelectMany(s => s.Faces) : null;
+        public IEnumerable<ISectionVolume> Volumes => (_panelSectionsProxy != null) ? Sections.Select(s => s.Volume) : null;
 
         public void Initialize()
         {
@@ -158,19 +158,22 @@ namespace MaterialRemove.Machine.Bridge
 
         private void SetProbableElementProxy()
         {
-            foreach (var section in _panelSectionsProxy.Sections)
+            if ((_panelSectionsProxy != null) && (_panelSectionsProxy.Sections != null))
             {
-                foreach (var item in section.Faces)
+                foreach (var section in _panelSectionsProxy.Sections)
                 {
-                    if(item is IProbableElementProxy pep)
+                    foreach (var item in section.Faces)
                     {
-                        pep.SetProbableElement(this);
+                        if (item is IProbableElementProxy pep)
+                        {
+                            pep.SetProbableElement(this);
+                        }
                     }
-                }
 
-                if(section.Volume is IProbableElementProxy vpep)
-                {
-                    vpep.SetProbableElement(this);
+                    if (section.Volume is IProbableElementProxy vpep)
+                    {
+                        vpep.SetProbableElement(this);
+                    }
                 }
             }
         }

@@ -28,24 +28,17 @@ namespace Machine._3D.Views.Converters
                        matrix.OffsetX, matrix.OffsetY, matrix.OffsetZ, 1.0);
         }
 
-        static public Matrix3D Convert(Vector v)
+        static public Matrix3D Convert(Vector v) => Convert(v.X, v.Y, v.Z);
+
+        static public Matrix3D Convert(Point p) => Convert(p.X, p.Y, p.Z);
+ 
+        static public Matrix3D Convert(double offsetX, double offsetY, double offsetZ)
         {
             var m = Matrix3D.Identity;
 
-            m.OffsetX = v.X;
-            m.OffsetY = v.Y;
-            m.OffsetZ = v.Z;
-
-            return m;
-        }
-
-        static public Matrix3D Convert(Point p)
-        {
-            var m = Matrix3D.Identity;
-
-            m.OffsetX = p.X;
-            m.OffsetY = p.Y;
-            m.OffsetZ = p.Z;
+            m.OffsetX = offsetX;
+            m.OffsetY = offsetY;
+            m.OffsetZ = offsetZ;
 
             return m;
         }
