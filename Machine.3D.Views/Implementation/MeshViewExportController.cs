@@ -33,15 +33,24 @@ namespace Machine._3D.Views.Implementation
 
             dlg.AddExtension = true;
             dlg.DefaultExt = "obj";
-            dlg.Filter = "Alias Wavefront Object |*.obj";
+            dlg.Filter = "Alias Wavefront Object |*.obj|BMP|*.bmp|JPEG|*.jpeg;*.jpg|PNG|*.png";
 
             var b = dlg.ShowDialog();
 
             if (b.HasValue && b.Value)
             {
-                using (var exporter = new ObjExporterEx(dlg.FileName))
+                var ext = System.IO.Path.GetExtension(dlg.FileName);
+
+                if(string.Compare(ext, "obj") == 0)
                 {
-                    exporter.Export(_viewport);
+                    using (var exporter = new ObjExporterEx(dlg.FileName))
+                    {
+                        exporter.Export(_viewport);
+                    }
+                }
+                else
+                {
+                    _viewport.SaveScreen(dlg.FileName);
                 }
             }            
         }
