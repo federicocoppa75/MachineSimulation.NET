@@ -36,6 +36,8 @@
                     <Separator/>
                     <MenuItem Header="Load Environment" Command="{Binding DataSource.Value.LoadEnvironmentCommand}" />
                     <MenuItem Header="Save Environment" Command="{Binding DataSource.Value.SaveEnvironmentCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Export view" Command="{Binding ViewExportController.ExportCommand}" />
                 </MenuItem>
                 <MenuItem Header="View">
                     <MenuItem Header="View settings" ItemsSource="{Binding View3DFlags}" >

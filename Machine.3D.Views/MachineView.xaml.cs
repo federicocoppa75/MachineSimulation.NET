@@ -22,6 +22,7 @@ using MVMIPR = Machine.ViewModels.Interfaces.Providers;
 using MVMIH = Machine.ViewModels.Interfaces.Handles;
 using MVMH = Machine.ViewModels.Handles;
 using Machine.ViewModels.Interfaces.MachineElements;
+using Machine._3D.Views.Implementation;
 
 namespace Machine._3D.Views
 {
@@ -63,6 +64,8 @@ namespace Machine._3D.Views
 
             FillView3DFlags(FlagsNames, (DataContext as MainViewModel).Flags);
             FillView3DOptions(OptionsNames, (DataContext as MainViewModel).Options);
+
+            Machine.ViewModels.Ioc.SimpleIoc<IViewExportController>.Register(new MeshViewExportController(view3DX));
         }
 
         private void OnMouseDown3DEventHandler(object s, RoutedEventArgs e)
