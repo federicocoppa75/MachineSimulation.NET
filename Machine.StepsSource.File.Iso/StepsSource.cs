@@ -29,7 +29,7 @@ namespace Machine.StepsSource.File.Iso
 
             dlg.AddExtension = true;
             dlg.DefaultExt = "msteps";
-            dlg.Filter = "Machine steps |*.msteps|Cnc iso file |*.iso|Cnc iso file |*.i";
+            dlg.Filter = "Machine steps |*.msteps|Cnc iso file |*.iso|Cnc iso file |*.i| Cnc iso file |*.i*| Cnc iso file |*.log";
 
             var b = dlg.ShowDialog();
 
@@ -52,7 +52,10 @@ namespace Machine.StepsSource.File.Iso
                         }
                     }
                 }
-                else if ((string.Compare(extension, "iso", true) == 0) || (string.Compare(extension, "i", true) == 0))
+                else if ((string.Compare(extension, "iso", true) == 0) || 
+                    (string.Compare(extension, "i", true) == 0) ||
+                    (string.Compare(extension, "log", true) == 0) ||
+                    ((extension[0] == 'i') && (int.TryParse(extension.Substring(1), out int i))))
                 {
                     var doc = IsoParser.Parse(dlg.FileName, true, GetLinkLimits, GetLinearLinkCount, GetLinearLinksIds);
 
