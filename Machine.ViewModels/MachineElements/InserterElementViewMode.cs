@@ -114,7 +114,8 @@ namespace Machine.ViewModels.MachineElements
                             Length = Length,
                             Diameter = Diameter,
                             Color = InserterColor,
-                            Index = (sps != null) ? sps.ProgressIndex : -1
+                            Index = (sps != null) ? sps.ProgressIndex : -1,
+                            Parent = sink
                         });
                     });                    
                 }

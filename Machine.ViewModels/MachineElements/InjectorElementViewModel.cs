@@ -45,7 +45,8 @@ namespace Machine.ViewModels.MachineElements
                     Color = InserterColor,
                     Position = position.Position,
                     Direction = position.Direction,
-                    Index = (sps != null) ? sps.ProgressIndex : -1
+                    Index = (sps != null) ? sps.ProgressIndex : -1,
+                    Parent = sink
                 };
 
                 GetInstance<IDispatcherHelper>().CheckBeginInvokeOnUi(() =>
