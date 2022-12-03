@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="geometry3Sharp" Version="1.0.324" />
-    <PackageReference Include="HelixToolkit" Version="2.20.2" />
-    <PackageReference Include="HelixToolkit.Wpf" Version="2.20.2" />
+    <PackageReference Include="HelixToolkit" Version="2.23.0" />
+    <PackageReference Include="HelixToolkit.Wpf" Version="2.23.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
   </ItemGroup>
