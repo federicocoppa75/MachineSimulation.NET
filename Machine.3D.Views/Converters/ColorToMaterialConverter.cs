@@ -16,10 +16,10 @@ namespace Machine._3D.Views.Converters
             {
                 var material = new PhongMaterial();
 
-                material.AmbientColor = new SharpDX.Color4(1.0f);
+                material.AmbientColor = new SharpDX.Color4(0.1f);
                 material.DiffuseColor = new SharpDX.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-                material.SpecularColor = new SharpDX.Color4(1.0f);
-                material.SpecularShininess = 100.0f;
+                material.SpecularColor = new SharpDX.Color4(0.0225f, 0.0225f, 0.0225f, 1.0f);
+                material.SpecularShininess = 12.8f;
 
                 return material;
             }
