@@ -73,8 +73,8 @@ namespace Machine.Data.Extensions.ViewModels
 
             m.ToolHolderId = e.ToolHolderId;
             m.ToolHolderType = e.ToolHolderType;
-            m.Position = e.Position.Convert();
-            m.Direction = e.Direction.Convert();
+            m.Position = (e.Position != null) ? e.Position.Convert() : new MDE.Point();
+            m.Direction = (e.Direction != null) ? e.Direction.Convert() : new MDE.Vector() {X = 0, Y = 0, Z = -1 };
 
             return m;
         }
