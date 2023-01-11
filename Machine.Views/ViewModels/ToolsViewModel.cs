@@ -172,6 +172,7 @@ namespace Machine.Views.ViewModels
             list.Add(new AddToolCommand() { Label = "Angolar transmission (1 spindle)", Command = new RelayCommand(() => AddTool(new AngolarTransmission1ProxyViewModel()))});
             list.Add(new AddToolCommand() { Label = "Angolar transmission (2 spindle)", Command = new RelayCommand(() => AddTool(new AngolarTransmission2ProxyViewModel()))});
             list.Add(new AddToolCommand() { Label = "Angolar transmission (3 spindle)", Command = new RelayCommand(() => AddTool(new AngolarTransmission3ProxyViewModel()))});
+            list.Add(new AddToolCommand() { Label = "Angolar transmission (4 spindle)", Command = new RelayCommand(() => AddTool(new AngolarTransmission4ProxyViewModel()))});
 
             return list;
         }

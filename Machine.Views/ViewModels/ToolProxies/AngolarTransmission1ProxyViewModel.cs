@@ -89,6 +89,7 @@ namespace Machine.Views.ViewModels.ToolProxies
         public static ISubspindle FirstSubSpindle(this IAngularTransmission at) => GetSubSpindle(at, 0);
         public static ISubspindle SecondSubSpindle(this IAngularTransmission at) => GetSubSpindle(at, 1);
         public static ISubspindle ThirdSubSpindle(this IAngularTransmission at) => GetSubSpindle(at, 2);
+        public static ISubspindle FourthSubSpindle(this IAngularTransmission at) => GetSubSpindle(at, 3);
 
         private static ISubspindle GetSubSpindle(IAngularTransmission at, int index)
         {

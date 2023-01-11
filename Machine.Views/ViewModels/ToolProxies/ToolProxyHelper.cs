@@ -40,6 +40,7 @@ namespace Machine.Views.ViewModels.ToolProxies
                 case 1: return new AngolarTransmission1ProxyViewModel(at);
                 case 2: return new AngolarTransmission2ProxyViewModel(at);
                 case 3: return new AngolarTransmission3ProxyViewModel(at);
+                case 4: return new AngolarTransmission4ProxyViewModel(at);
                 default: throw new NotImplementedException($"No implementation for angular transmission with {at.GetSubSpindlesCount()} subspindles!");
             }
         }
