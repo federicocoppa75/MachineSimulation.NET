@@ -9,6 +9,7 @@ namespace Machine.Data.Enums
         Generic,
         CX100,
         CX220,
-        CX110
+        CX110,
+        X50
     }
 }
