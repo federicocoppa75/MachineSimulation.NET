@@ -21,9 +21,28 @@ namespace MaterialRemove.ViewModels.Extensions
             public SectionPosition GetSectionPosition(int nxSection, int nySection, int i, int j) => PanelExtensions.GetSectionPosition(nxSection, nySection, i, j);
         }
 
+        public struct SectionSize
+        {
+            public double X { get; set; }
+            public double Y { get; set; }
+            public double Z { get; set; }
+        }
+
+        public struct Position
+        {
+            public double X { get; set; }
+            public double Y { get; set; }
+        }
+
+        public struct SectionDivision
+        {
+            public int X;
+            public int Y;
+        }
+
         static ISectionPositionProvider _sectonPositionProvider;
 
-        static readonly int _lazySectionSideDivision = 10;
+        static readonly int _lazySectionSideDivision = 5;
 
         static PanelExtensions()
         {
@@ -34,49 +53,64 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             InitializeSectionsNumber(panel, out int nxSection, out int nySection);
 
-            double sectionSizeX = panel.SizeX / nxSection;
-            double sectionSizeY = panel.SizeY / nySection;
-            double startOffsetX = -panel.SizeX / 2.0;
-            double startOffsetY = -panel.SizeY / 2.0;
-            double cornerX = startOffsetX;
-            double cornerY = startOffsetY;
+            var nSideDiv = _lazySectionSideDivision;
             double panelCenterZ = 0.0;
 
-            panel.CubeSize = AdjustCubeSize(sectionSizeX, sectionSizeY, panel.SizeZ, panel.NumCells, panel.FilterMargin);
-
-            if ((nxSection > 10) || (nySection > 10))
+            var sectionDivision = new SectionDivision()
             {
-                return CreateLazySections(panel, nxSection, nySection, sectionSizeX, sectionSizeY, cornerX, cornerY, panelCenterZ, panel.SizeZ);
+                X = nxSection,
+                Y = nySection
+            };
+            var sectionSize = new SectionSize()
+            {
+                X = panel.SizeX / nxSection,
+                Y = panel.SizeY / nySection,
+                Z = panel.SizeZ
+            };
+            var corner = new Position()
+            {
+                X = -panel.SizeX / 2.0,
+                Y = -panel.SizeY / 2.0
+            };
+
+            panel.CubeSize = AdjustCubeSize(sectionSize.X, sectionSize.Y, panel.SizeZ, panel.NumCells, panel.FilterMargin);
+
+            if ((nxSection > nSideDiv) || (nySection > nSideDiv))
+            {
+                return CreateLazySections(panel, sectionDivision, sectionSize, corner, panelCenterZ);
             }
             else
             {
-                return CreateSections(panel, _sectonPositionProvider, nxSection, nySection, sectionSizeX, sectionSizeY, cornerX, cornerY, panelCenterZ, panel.SizeZ);
+                return CreateSections(panel, _sectonPositionProvider, sectionDivision, sectionSize, corner, panelCenterZ);
             }
         }
 
-        private static IList<IPanelSection> CreateLazySections(IPanel panel, int nxSection, int nySection, double sectionSizeX, double sectionSizeY, double cornerX, double cornerY, double panelCenterZ, double sectionSizeZ)
+        private static IList<IPanelSection> CreateLazySections(IPanel panel, SectionDivision sectionDivision, SectionSize size, Position corner, double panelCenterZ)
         {
             var nSideDiv = _lazySectionSideDivision;
-            var nx = nxSection / nSideDiv;
-            var ny = nySection / nSideDiv;
-            var modX = nxSection% nSideDiv;
-            var modY = nySection% nSideDiv;
+            var nx = sectionDivision.X / nSideDiv;
+            var ny = sectionDivision.Y / nSideDiv;
+            var modX = sectionDivision.X % nSideDiv;
+            var modY = sectionDivision.Y % nSideDiv;
             var cntX = (modX > 0) ? (nx + 1) : nx;
             var cntY = (modY > 0) ? (ny + 1) : ny;
             var list = new ObservableCollection<IPanelSection>();
+            var sideDiv = new SectionDivision() { X = nSideDiv, Y = nSideDiv };
 
             for (int i = 0; i < cntX; i++)
             {
-                var sizeX = (i < nx) ? (sectionSizeX * nSideDiv) : (sectionSizeX * modX);
-                var centerX = (i < nx) ? (cornerX + sizeX / 2.0 + sizeX * i) : (cornerX + panel.SizeX - sizeX / 2.0);
+                var sizeX = (i < nx) ? (size.X * nSideDiv) : (size.X * modX);
+                var centerX = (i < nx) ? (corner.X + sizeX / 2.0 + sizeX * i) : (corner.X + panel.SizeX - sizeX / 2.0);
 
                 for (int j = 0; j < cntY; j++)
                 {
-                    var sizeY = (j< ny) ? (sectionSizeY * nSideDiv) : (sectionSizeY * modY);
-                    var centerY = (j < ny) ? (cornerY + sizeY / 2.0 + sizeY * j) : (cornerY + panel.SizeY - sizeY / 2.0);
+                    var sizeY = (j< ny) ? (size.Y * nSideDiv) : (size.Y * modY);
+                    var centerY = (j < ny) ? (corner.Y + sizeY / 2.0 + sizeY * j) : (corner.Y + panel.SizeY - sizeY / 2.0);
                     var position = _sectonPositionProvider.GetSectionPosition(cntX, cntY, i, j);
+                    var secSize = new SectionSize() { X = sizeX, Y= sizeY, Z = size.Z };
+                    var center = new Position() { X = centerX, Y = centerY };
 
-                    var section = CreateLazySection(panel, position, nSideDiv, nSideDiv, sizeX, sizeY, centerY, panelCenterZ, centerX, sectionSizeZ);
+                    var section = CreateLazySection(panel, position, sideDiv, secSize, center, panelCenterZ);
 
                     list.Add(section);
                 }
@@ -85,20 +119,21 @@ namespace MaterialRemove.ViewModels.Extensions
             return list;
         }
 
-        public static List<IPanelSection> CreateSections(IRemovalParameters removalParameters, ISectionPositionProvider sectonPositionProvider, int nxSection, int nySection, double sectionSizeX, double sectionSizeY, double cornerX, double cornerY, double panelCenterZ, double sectionSizeZ)
+        public static List<IPanelSection> CreateSections(IRemovalParameters removalParameters, ISectionPositionProvider sectonPositionProvider, SectionDivision sectionDivision, SectionSize size, Position corner, double panelCenterZ)
         {
             var list = new List<IPanelSection>();
 
-            for (int i = 0; i < nxSection; i++)
+            for (int i = 0; i < sectionDivision.X; i++)
             {
-                var centerX = cornerX + sectionSizeX / 2.0 + sectionSizeX * i;
+                var centerX = corner.X + size.X / 2.0 + size.X * i;
 
-                for (int j = 0; j < nySection; j++)
+                for (int j = 0; j < sectionDivision.Y; j++)
                 {
-                    var centerY = cornerY + sectionSizeY / 2.0 + sectionSizeY * j;
-                    var position = sectonPositionProvider.GetSectionPosition(nxSection, nySection, i, j);
+                    var centerY = corner.Y + size.Y / 2.0 + size.Y * j;
+                    var position = sectonPositionProvider.GetSectionPosition(sectionDivision.X, sectionDivision.Y, i, j);
+                    var center = new Position() { X = centerX, Y = centerY };
 
-                    PanelSectionViewModel section = CreateSection(removalParameters, position, sectionSizeX, sectionSizeY, centerY, panelCenterZ, centerX, sectionSizeZ);
+                    PanelSectionViewModel section = CreateSection(removalParameters, position, size, center, panelCenterZ);
 
                     list.Add(section);
                 }
@@ -107,35 +142,35 @@ namespace MaterialRemove.ViewModels.Extensions
             return list;
         }
 
-        private static PanelSectionViewModel CreateLazySection(IRemovalParameters removalParameters, SectionPosition position, int nxSection, int nySection, double sectionSizeX, double sectionSizeY, double centerY, double panelCenterZ, double centerX, double sectionSizeZ)
+        private static PanelSectionViewModel CreateLazySection(IRemovalParameters removalParameters, SectionPosition position, SectionDivision sectionDivision, SectionSize size, Position center, double panelCenterZ)
         {
             var section = new LazyPanelSectionViewModel()
             {
                 SectionPosition = position,
-                SectionsCountX = nxSection,
-                SectionsCountY = nySection,
-                CenterX = centerX,
-                CenterY = centerY,
+                SectionsCountX = sectionDivision.X,
+                SectionsCountY = sectionDivision.Y,
+                CenterX = center.X,
+                CenterY = center.Y,
                 CenterZ = panelCenterZ,
-                SizeX = sectionSizeX,
-                SizeY = sectionSizeY,
-                SizeZ = sectionSizeZ,
+                SizeX = size.X,
+                SizeY = size.Y,
+                SizeZ = size.Z,
                 RemovalParameters = removalParameters
             };
             section.Faces = section.CreateFaces(position, removalParameters);
             return section;
         }
 
-        private static PanelSectionViewModel CreateSection(IRemovalParameters removalParameters, SectionPosition position, double sectionSizeX, double sectionSizeY, double centerY, double panelCenterZ, double centerX, double sectionSizeZ)
+        private static PanelSectionViewModel CreateSection(IRemovalParameters removalParameters, SectionPosition position, SectionSize size, Position center, double panelCenterZ)
         {
             var section = new PanelSectionViewModel()
             {
-                CenterX = centerX,
-                CenterY = centerY,
+                CenterX = center.X,
+                CenterY = center.Y,
                 CenterZ = panelCenterZ,
-                SizeX = sectionSizeX,
-                SizeY = sectionSizeY,
-                SizeZ = sectionSizeZ,
+                SizeX = size.X,
+                SizeY = size.Y,
+                SizeZ = size.Z,
                 RemovalParameters = removalParameters
             };
 
@@ -143,12 +178,12 @@ namespace MaterialRemove.ViewModels.Extensions
 
             var vm = MVMIoc.SimpleIoc<MRVMI.IElementViewModelFactory>.GetInstance().CreateSectionVolumeViewModel();
 
-            vm.CenterX = centerX;
-            vm.CenterY = centerY;
+            vm.CenterX = center.X;
+            vm.CenterY = center.Y;
             vm.CenterZ = panelCenterZ;
-            vm.SizeX = sectionSizeX;
-            vm.SizeY = sectionSizeY;
-            vm.SizeZ = sectionSizeZ;
+            vm.SizeX = size.X;
+            vm.SizeY = size.Y;
+            vm.SizeZ = size.Z;
             vm.RemovalParameters = removalParameters;
 
             section.Volume = vm;
