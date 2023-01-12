@@ -14,7 +14,7 @@ using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.UI;
 using MVMIoc = Machine.ViewModels.Ioc;
 using Machine.ViewModels.Interfaces;
-using MaterialRemove.ViewModels.Interfaces;
+using MRVMI = MaterialRemove.ViewModels.Interfaces;
 
 namespace MaterialRemove.Machine.Bridge
 {
@@ -31,11 +31,11 @@ namespace MaterialRemove.Machine.Bridge
 
         public IList<IPanelSection> Sections => (_panelSectionsProxy != null) ? _panelSectionsProxy.Sections : null;
         public IEnumerable<ISectionFace> Faces => (_panelSectionsProxy != null) ? Sections.SelectMany(s => s.Faces) : null;
-        public IEnumerable<ISectionVolume> Volumes => (_panelSectionsProxy != null) ? Sections.Select(s => s.Volume) : null;
+        public IEnumerable<ISectionVolume> Volumes => ((_panelSectionsProxy != null) && (_panelSectionsProxy.Sections.Any(s => s.Volume != null))) ? Sections.Select(s => s.Volume) : null;
 
         public void Initialize()
         {
-            _panelSectionsProxy = new PanelSectionsProxy() { Sections = this.CreateSections() };
+            _panelSectionsProxy = new PanelSectionsProxy() { Sections = this.CreateSections(), DispatcherHelper = new DispatcherHelperProxy() };
             _toolsObserver = new ToolsObserver(this);
             (GetInstance<MVMI.IToolObserverProvider>() as ToolsObserverProvider).Observer = this;
             _stepsProgressState = GetInstance<IProgressState>();
@@ -164,13 +164,13 @@ namespace MaterialRemove.Machine.Bridge
                 {
                     foreach (var item in section.Faces)
                     {
-                        if (item is IProbableElementProxy pep)
+                        if (item is MRVMI.IProbableElementProxy pep)
                         {
                             pep.SetProbableElement(this);
                         }
                     }
 
-                    if (section.Volume is IProbableElementProxy vpep)
+                    if (section.Volume is MRVMI.IProbableElementProxy vpep)
                     {
                         vpep.SetProbableElement(this);
                     }

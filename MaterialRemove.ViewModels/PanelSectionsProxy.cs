@@ -3,6 +3,7 @@ using MaterialRemove.Interfaces;
 using MaterialRemove.ViewModels.Extensions;
 using MaterialRemove.ViewModels.Interfaces;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace MaterialRemove.ViewModels
         protected IProgressState _stateProgressState;
 
         public IList<IPanelSection> Sections { get; set; }
+
+        public IDispatcherHelper DispatcherHelper { get; set; }
 
         public PanelSectionsProxy()
         {
@@ -92,10 +95,15 @@ namespace MaterialRemove.ViewModels
 
         private void ApplyAction<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector, IIndexed
         {
+            var lazySections = new List<ILazyPanelSection>();
  
             foreach (var section in Sections)
             {
-                if (toolApplication.Intersect(section))
+                if((section is ILazyPanelSection lps) && (toolApplication.Intersect(lps.ThresholdToExplode)))
+                {
+                    lazySections.Add(lps);
+                }
+                else if (toolApplication.Intersect(section))
                 {
                     foreach (var face in section.Faces)
                     {
@@ -122,17 +130,32 @@ namespace MaterialRemove.ViewModels
                     }
                 }
             }
+
+            if(lazySections.Count > 0) 
+            {
+                foreach (var section in lazySections) 
+                {
+                    Sections.Remove(section as IPanelSection);
+
+                    foreach (var item in section.GetSubSections()) Sections.Add(item);
+                }
+            }
         }
 
         private Task ApplyActionAsync<T>(T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector, IIndexed
         {
             var tasks = new List<Task>();
+            var lazySection = new ConcurrentBag<ILazyPanelSection>();
 
             foreach (var section in Sections)
             {
                 tasks.Add(Task.Run(async () =>
                 {
-                    if (await Task.Run(() => toolApplication.Intersect(section)))
+                    if((section is ILazyPanelSection lps) && await Task.Run(() => toolApplication.Intersect(lps.ThresholdToExplode)))
+                    {
+                        lazySection.Add(lps);
+                    }
+                    else if (await Task.Run(() => toolApplication.Intersect(section)))
                     {
                         var tt = new Task[]
                         {
@@ -145,7 +168,22 @@ namespace MaterialRemove.ViewModels
                 }));
             }
 
-            return Task.WhenAll(tasks);
+            return Task.WhenAll(tasks)
+                        .ContinueWith(t =>
+                        {
+                            while(!lazySection.IsEmpty)
+                            {
+                                if(lazySection.TryTake(out var section))
+                                {
+                                    DispatcherHelper.CheckBeginInvokeOnUi(() =>
+                                    {
+                                        foreach (var item in section.GetSubSections()) Sections.Add(item);
+
+                                        Sections.Remove(section);
+                                    });
+                                }
+                            }
+                        });
         }
 
         private Task ApplyActionToFacesAsync<T>(IPanelSection section, T toolApplication) where T : g3.BoundedImplicitFunction3d, IIntersector

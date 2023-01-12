@@ -35,7 +35,7 @@ namespace MaterialRemove.ViewModels
 
                 foreach (var session in _panel.Sections)
                 {
-                    list.Add(GetGeometry(session.Volume));
+                    if(session.Volume != null) list.Add(GetGeometry(session.Volume));
 
                     foreach (var face in session.Faces) list.Add(GetGeometry(face));
                 }

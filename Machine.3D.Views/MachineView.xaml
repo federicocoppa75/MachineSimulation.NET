@@ -362,43 +362,33 @@
                     </Transform3DGroup>                    
                 </hx:CompositeModel3D.Transform>
                 <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
-                <!--<hx:ItemsModel3D ItemsSource="{Binding Faces}" IsRendering="{Binding IsFacesVisible}">-->
-                <hx:ItemsModel3D ItemsSource="{Binding Faces}">
+                <hx:ItemsModel3D ItemsSource="{Binding Sections}">
                     <hx:ItemsModel3D.ItemTemplate>
                         <DataTemplate>
-                            <hx:MeshGeometryModel3D Geometry="{Binding Geometry}"
-                                                    Material="{Binding PanelOuter, Source={StaticResource materials}}"
-                                                    CullMode="Back"
-                                                    DepthBias="-100"
-                                                    IsHitTestVisible="True"
-                                                    IsThrowingShadow="False">
-                                <!--<hx:MeshGeometryModel3D.RenderWireframe>
-                                    <MultiBinding Converter="{StaticResource boolAndConverter}">
-                                        <Binding Path="DataContext.ViewWireFrame" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}"/>
-                                        <Binding Path="IsCorrupted"/>
-                                    </MultiBinding>
-                                </hx:MeshGeometryModel3D.RenderWireframe>-->
-                            </hx:MeshGeometryModel3D>
-                        </DataTemplate>
-                    </hx:ItemsModel3D.ItemTemplate>
-                </hx:ItemsModel3D>
-                <hx:ItemsModel3D ItemsSource="{Binding Volumes}">
-                <!--<hx:ItemsModel3D ItemsSource="{Binding Volumes}" IsRendering="{Binding IsVolumesVisible}">-->
-                    <hx:ItemsModel3D.ItemTemplate>
-                        <DataTemplate>
-                            <hx:MeshGeometryModel3D Geometry="{Binding Geometry}"
+                            <hx:CompositeModel3D>
+                                <hx:MeshGeometryModel3D Geometry="{Binding Volume.Geometry}"
                                                     Material="{Binding PanelInner, Source={StaticResource materials}}" 
                                                     CullMode="Back"
                                                     DepthBias="-100"
                                                     IsHitTestVisible="True"
-                                                    IsThrowingShadow="False">
-                                <!--<hx:MeshGeometryModel3D.RenderWireframe>
-                                    <MultiBinding Converter="{StaticResource boolAndConverter}">
-                                        <Binding Path="DataContext.ViewWireFrame" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}"/>
-                                        <Binding Path="IsCorrupted"/>
-                                    </MultiBinding>
-                                </hx:MeshGeometryModel3D.RenderWireframe>-->
-                            </hx:MeshGeometryModel3D>
+                                                    IsThrowingShadow="False" 
+                                                    RenderWireframe="False">
+                                </hx:MeshGeometryModel3D>
+                                <hx:ItemsModel3D ItemsSource="{Binding Faces}">
+                                    <hx:ItemsModel3D.ItemTemplate>
+                                        <DataTemplate>
+                                            <hx:MeshGeometryModel3D Geometry="{Binding Geometry}"
+                                                    Material="{Binding PanelOuter, Source={StaticResource materials}}"
+                                                    CullMode="Back"
+                                                    DepthBias="-100"
+                                                    IsHitTestVisible="True"
+                                                    IsThrowingShadow="False" 
+                                                    RenderWireframe="False">
+                                            </hx:MeshGeometryModel3D>
+                                        </DataTemplate>
+                                    </hx:ItemsModel3D.ItemTemplate>
+                                </hx:ItemsModel3D>
+                            </hx:CompositeModel3D>
                         </DataTemplate>
                     </hx:ItemsModel3D.ItemTemplate>
                 </hx:ItemsModel3D>
