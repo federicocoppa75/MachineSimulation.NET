@@ -151,9 +151,12 @@ namespace MaterialRemove.ViewModels
             {
                 tasks.Add(Task.Run(async () =>
                 {
-                    if((section is ILazyPanelSection lps) && await Task.Run(() => toolApplication.Intersect(lps.ThresholdToExplode)))
+                    if(section is ILazyPanelSection lps)
                     {
-                        lazySection.Add(lps);
+                        if(await Task.Run(() => toolApplication.Intersect(lps.ThresholdToExplode)))
+                        {
+                            lazySection.Add(lps);
+                        }                        
                     }
                     else if (await Task.Run(() => toolApplication.Intersect(section)))
                     {

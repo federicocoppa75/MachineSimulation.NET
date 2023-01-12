@@ -157,13 +157,16 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             return Task.Run(() =>
             {
-                if (section.Volume is SectionVolumeViewModel svvm)
+                if(section.Volume != null) 
                 {
-                    svvm.RemoveAction(index);
-                }
-                else
-                {
-                    throw new NotImplementedException();
+                    if (section.Volume is SectionVolumeViewModel svvm)
+                    {
+                        svvm.RemoveAction(index);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             });
         }
