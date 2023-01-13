@@ -151,12 +151,12 @@ namespace MaterialRemove.ViewModels
             {
                 tasks.Add(Task.Run(async () =>
                 {
-                    if(section is ILazyPanelSection lps)
+                    if (section is ILazyPanelSection lps)
                     {
-                        if(await Task.Run(() => toolApplication.Intersect(lps.ThresholdToExplode)))
+                        if (await Task.Run(() => toolApplication.Intersect(lps.ThresholdToExplode)))
                         {
                             lazySection.Add(lps);
-                        }                        
+                        }
                     }
                     else if (await Task.Run(() => toolApplication.Intersect(section)))
                     {
@@ -174,16 +174,16 @@ namespace MaterialRemove.ViewModels
             return Task.WhenAll(tasks)
                         .ContinueWith(t =>
                         {
-                            while(!lazySection.IsEmpty)
+                            while (!lazySection.IsEmpty)
                             {
-                                if(lazySection.TryTake(out var section))
+                                if (lazySection.TryTake(out var section))
                                 {
                                     DispatcherHelper.CheckBeginInvokeOnUi(() =>
                                     {
-                                        foreach (var item in section.GetSubSections()) Sections.Add(item);
-
-                                        Sections.Remove(section);
+                                        foreach (var item in section.GetSubSections()) Sections.Add(item);                                        
                                     });
+                                    Task.Delay(1);
+                                    DispatcherHelper.CheckBeginInvokeOnUi(() => Sections.Remove(section));
                                 }
                             }
                         });

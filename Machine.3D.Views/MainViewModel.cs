@@ -152,7 +152,7 @@ namespace Machine._3D.Views
 
             // camera setup
             //this.Camera = new OrthographicCamera { Position = new Point3D(0, 0, 30), LookDirection = new Vector3D(0, 0, -5), UpDirection = new Vector3D(0, 1, 0) };
-            this.Camera = new PerspectiveCamera() { Position = new Point3D(0, 0, 3000), LookDirection = new Vector3D(0, 0, -200), UpDirection = new Vector3D(0, 1, 0), FarPlaneDistance = 10000, NearPlaneDistance = 1 };
+            this.Camera = new PerspectiveCamera() { Position = new Point3D(0, 0, 3000), LookDirection = new Vector3D(0, 0, -200), UpDirection = new Vector3D(0, 1, 0), FarPlaneDistance = 20000, NearPlaneDistance = 1 };
 
             // setup lighting            
             this.AmbientLightColor = Colors.DimGray;

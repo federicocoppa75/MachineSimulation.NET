@@ -70,6 +70,8 @@ namespace Machine.Viewer
             Properties.Settings.Default.MinimumSampleTime = vm.StepsExecutionController.MinimumSampleTime.ToString();
             Properties.Settings.Default.PanelOuterMaterial = vm.PanelOuterMaterial.Value;
             Properties.Settings.Default.PanelInnerMaterial = vm.PanelInnerMaterial.Value;
+            Properties.Settings.Default.PanelFragmentType = vm.MaterialRemoveData.PanelFragment.ToString();
+            Properties.Settings.Default.SectionDivision = vm.MaterialRemoveData.SectionDivision.ToString();
         }
 
         private void UpdateFromSettings()
@@ -92,6 +94,8 @@ namespace Machine.Viewer
             vm.SampleTimeOptions.TryToParse(Properties.Settings.Default.MinimumSampleTime);
             vm.PanelOuterMaterial.TryToParse(Properties.Settings.Default.PanelOuterMaterial);
             vm.PanelInnerMaterial.TryToParse(Properties.Settings.Default.PanelInnerMaterial);
+            vm.PanelFragmentOptions.TryToParse(Properties.Settings.Default.PanelFragmentType);
+            vm.SectionDivisionOptions.TryToParse(Properties.Settings.Default.SectionDivision);
         }
     }
 }

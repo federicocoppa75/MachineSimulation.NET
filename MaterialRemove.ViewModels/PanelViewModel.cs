@@ -1,4 +1,5 @@
 ﻿using MaterialRemove.Interfaces;
+using MaterialRemove.Interfaces.Enums;
 using MaterialRemove.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace MaterialRemove.ViewModels
         public int SectionsX100mm { get; set; }
         public double CubeSize { get; set; }
         public double FilterMargin { get; set; }
+        public PanelFragment PanelFragment { get; set; }
+        public int SectionDivision { get; set; }
         public double SizeX { get; set; }
         public double SizeY { get; set; }
         public double SizeZ { get; set; }

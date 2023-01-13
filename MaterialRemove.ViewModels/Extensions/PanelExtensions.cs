@@ -42,8 +42,6 @@ namespace MaterialRemove.ViewModels.Extensions
 
         static ISectionPositionProvider _sectonPositionProvider;
 
-        static readonly int _lazySectionSideDivision = 5;
-
         static PanelExtensions()
         {
             _sectonPositionProvider= new SectionPositionProvider();
@@ -53,7 +51,7 @@ namespace MaterialRemove.ViewModels.Extensions
         {
             InitializeSectionsNumber(panel, out int nxSection, out int nySection);
 
-            var nSideDiv = _lazySectionSideDivision;
+            var nSideDiv = panel.SectionDivision;
             double panelCenterZ = 0.0;
 
             var sectionDivision = new SectionDivision()
@@ -75,7 +73,8 @@ namespace MaterialRemove.ViewModels.Extensions
 
             panel.CubeSize = AdjustCubeSize(sectionSize.X, sectionSize.Y, panel.SizeZ, panel.NumCells, panel.FilterMargin);
 
-            if ((nxSection > nSideDiv) || (nySection > nSideDiv))
+            if ((panel.PanelFragment == MaterialRemove.Interfaces.Enums.PanelFragment.Lazy) && 
+                ((nxSection > nSideDiv) || (nySection > nSideDiv)))
             {
                 return CreateLazySections(panel, sectionDivision, sectionSize, corner, panelCenterZ);
             }
@@ -87,7 +86,7 @@ namespace MaterialRemove.ViewModels.Extensions
 
         private static IList<IPanelSection> CreateLazySections(IPanel panel, SectionDivision sectionDivision, SectionSize size, Position corner, double panelCenterZ)
         {
-            var nSideDiv = _lazySectionSideDivision;
+            var nSideDiv = panel.SectionDivision;
             var nx = sectionDivision.X / nSideDiv;
             var ny = sectionDivision.Y / nSideDiv;
             var modX = sectionDivision.X % nSideDiv;

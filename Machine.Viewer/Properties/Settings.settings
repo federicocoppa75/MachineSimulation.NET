@@ -114,5 +114,11 @@
     <Setting Name="PanelInnerMaterial" Type="System.String" Scope="User">
       <Value Profile="(Default)">Bronze</Value>
     </Setting>
+    <Setting Name="PanelFragmentType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Base</Value>
+    </Setting>
+    <Setting Name="SectionDivision" Type="System.String" Scope="User">
+      <Value Profile="(Default)">By_5</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
