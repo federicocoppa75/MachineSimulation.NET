@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>netstandard2.1</TargetFramework>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<Deterministic>false</Deterministic>
+	<PackageId>FC75.$(AssemblyName)</PackageId>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<VersionPrefix>2.2.1</VersionPrefix>
+	<PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.NET</PackageProjectUrl>
+	<PackageOutputPath>$(SolutionDir)\bin\packages</PackageOutputPath>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.Data.Interfaces\Machine.Data.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

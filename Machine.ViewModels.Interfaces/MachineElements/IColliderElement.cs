@@ -11,5 +11,6 @@ namespace Machine.ViewModels.Interfaces.MachineElements
         ColliderType Type { get; }
         double Radius { get; }
         ICollection<Point> Points { get; }
+        Vector CollidingDirection { get; }
     }
 }

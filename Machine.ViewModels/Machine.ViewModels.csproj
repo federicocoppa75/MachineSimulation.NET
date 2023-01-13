@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Machine.Data.Enums\Machine.Data.Enums.csproj" />
     <ProjectReference Include="..\Machine.Data.Interfaces\Machine.Data.Interfaces.csproj" />
     <ProjectReference Include="..\Machine.ViewModels.Base\Machine.ViewModels.Base.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Interfaces.Bridge\Machine.ViewModels.Interfaces.Bridge.csproj" />
     <ProjectReference Include="..\Machine.ViewModels.Interfaces\Machine.ViewModels.Interfaces.csproj" />
     <ProjectReference Include="..\Machine.ViewModels.Ioc\Machine.ViewModels.Ioc.csproj" />
     <ProjectReference Include="..\Machine.ViewModels.Messages\Machine.ViewModels.Messages.csproj" />

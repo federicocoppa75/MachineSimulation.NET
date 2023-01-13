@@ -1,10 +1,11 @@
 ﻿using Machine.Data.Base;
+using Machine.ViewModels.Interfaces.Bridge;
 using Machine.ViewModels.Interfaces.MachineElements;
 using MDIT = Machine.Data.Interfaces.Tools;
 
 namespace Machine.ViewModels.MachineElements
 {
-    public class ToolViewModel : ElementViewModel, IToolElement
+    public class ToolViewModel : ElementViewModel, IToolElement, IToolDataProxy
     {
         public MDIT.ITool Tool { get; set; }
 
