@@ -1,4 +1,5 @@
-﻿using Machine.ViewModels.Interfaces;
+﻿using Machine.ViewModels.Interfaces.Helpers;
+using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.MachineElements.Collider;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace Machine._3D.Views.Helpers
 {
     class ColliderHelper : BaseColliderHelper, IColliderHelper
     {
-        ColliderElementViewModel _collider;
-        PanelViewModel _panel;
+        IColliderElement _collider;
+        IPanelElement _panel;
 
-        public ColliderHelper(ColliderElementViewModel collider, PanelViewModel panel)
+        public ColliderHelper(IColliderElement collider, IPanelElement panel)
         {
             _collider = collider;
             _panel = panel;

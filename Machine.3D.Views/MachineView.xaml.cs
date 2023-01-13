@@ -23,6 +23,7 @@ using MVMIH = Machine.ViewModels.Interfaces.Handles;
 using MVMH = Machine.ViewModels.Handles;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine._3D.Views.Implementation;
+using Machine.ViewModels.Interfaces.Factories;
 
 namespace Machine._3D.Views
 {

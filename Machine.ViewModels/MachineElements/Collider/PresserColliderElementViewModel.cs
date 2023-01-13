@@ -1,5 +1,5 @@
 ﻿using Machine.Data.Enums;
-using Machine.ViewModels.Interfaces;
+using Machine.ViewModels.Interfaces.Factories;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages;
