@@ -6,7 +6,7 @@
 	<Deterministic>false</Deterministic>
 	<PackageId>FC75.$(AssemblyName)</PackageId>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<VersionPrefix>2.2.1</VersionPrefix>
+	<VersionPrefix>2.3.0</VersionPrefix>
 	<PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.NET</PackageProjectUrl>
 	<PackageOutputPath>$(SolutionDir)\bin\packages</PackageOutputPath>
   </PropertyGroup>

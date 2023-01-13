@@ -10,4 +10,4 @@ using System.Windows;
                                               // app, or any theme specific resource dictionaries)
 )]
 [assembly: AssemblyCompany("FC75")]
-[assembly: AssemblyVersion("2.2.1.*")] 
+[assembly: AssemblyVersion("2.3.0.*")] 
