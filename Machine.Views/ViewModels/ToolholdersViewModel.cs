@@ -1,4 +1,5 @@
 ﻿using Machine.ViewModels;
+using Machine.ViewModels.Base.Implementation;
 using Machine.ViewModels.Interfaces.MachineElements;
 using System;
 using System.Collections.Generic;

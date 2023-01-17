@@ -8,10 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using MDB = Machine.Data.Base;
-using MVMME = Machine.ViewModels.MachineElements;
 using MDT = Machine.Data.Tools;
 using MDIT = Machine.Data.Interfaces.Tools;
 using MRI = MaterialRemove.Interfaces;
+using MVMIB = Machine.ViewModels.Interfaces.Bridge;
 
 namespace Machine._3D.Views.Helpers
 {
@@ -213,7 +213,7 @@ namespace Machine._3D.Views.Helpers
 
         private void ApplayTool(IToolElement tool, Point3D position, Vector3D direction)
         {
-            var t = (tool as MVMME.ToolViewModel).Tool;
+            var t = (tool as MVMIB.IToolDataProxy).Tool;
 
             //if (t is MDT.DiskTool dt) ApplyTool(dt, position, direction);
             //else if (t is MDT.DiskOnConeTool doct) ApplyTool(doct, position, direction);
@@ -384,7 +384,7 @@ namespace Machine._3D.Views.Helpers
 
         private Task<int> ApplayToolAsync(IToolElement tool, Point3D position, Vector3D direction)
         {
-            var t = (tool as MVMME.ToolViewModel).Tool;
+            var t = (tool as MVMIB.IToolDataProxy).Tool;
 
             //if (t is MDT.DiskTool dt) return ApplyToolAsync(dt, position, direction);
             //else if (t is MDT.DiskOnConeTool doct) return ApplyToolAsync(doct, position, direction);

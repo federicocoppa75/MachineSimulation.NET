@@ -27,7 +27,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Machine.3D.Geometry.Provider\Machine.3D.Geometry.Provider.csproj" />
     <ProjectReference Include="..\Machine.Data\Machine.Data.csproj" />
-    <ProjectReference Include="..\Machine.ViewModels\Machine.ViewModels.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Base.Implementation\Machine.ViewModels.Base.Implementation.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Base\Machine.ViewModels.Base.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Interfaces.Bridge\Machine.ViewModels.Interfaces.Bridge.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Interfaces\Machine.ViewModels.Interfaces.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.UI\Machine.ViewModels.UI.csproj" />
     <ProjectReference Include="..\Machine.Views.Converters\Machine.Views.Converters.csproj" />
     <ProjectReference Include="..\MaterialRemove.Interfaces\MaterialRemove.Interfaces.csproj" />
   </ItemGroup>

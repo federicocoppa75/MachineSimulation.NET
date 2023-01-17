@@ -1,12 +1,10 @@
 ﻿using Machine._3D.Views.Enums;
-using Machine.ViewModels.Insertions;
 using Machine.ViewModels.Interfaces.Handles;
 using Machine.ViewModels.Interfaces.Indicators;
+using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.Interfaces.Probing;
 using Machine.ViewModels.Interfaces.Tools;
-using Machine.ViewModels.MachineElements;
-using Machine.ViewModels.MachineElements.Toolholder;
-using Machine.ViewModels.Probing;
 using MaterialRemove.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -50,15 +48,15 @@ namespace Machine._3D.Views.Selectors
         {
             var it = ElementViewType.Default;
 
-            if(item is InsertedViewModel)
+            if(item is IInsertedObject)
             {
                 it = ElementViewType.InsertedObj;
             }
-            else if(item is InjectedViewModel)
+            else if(item is IInjectedObject)
             {
                 it = ElementViewType.InjectedObj;
             }
-            else if(item is ToolViewModel tvm)
+            else if(item is IToolElement tvm)
             {
                 it = ElementViewType.ToolEle;
             }
@@ -66,23 +64,23 @@ namespace Machine._3D.Views.Selectors
             {
                 it = (pvm is IPanel) ? ElementViewType.SectionedPanel : ElementViewType.Panel;
             }
-            else if(item is AngularTransmissionViewModel)
+            else if(item is IAngularTransmission)
             {
                 it = ElementViewType.AngularTransmission;
             }
-            else if(item is ATToolholderViewModel)
+            else if(item is IATToolholder)
             {
                 it = ElementViewType.ATToolholder;
             }
-            else if(item is DebugElementViewModel)
+            else if(item is IDebugElementViewModel)
             {
                 it = ElementViewType.Debug;
             }
-            else if(item is PointProbeViewModel)
+            else if(item is IProbePoint)
             {
                 it = ElementViewType.PointProbe;
             }
-            else if(item is DistanceProbeViewModel)
+            else if(item is IProbeDistance)
             {
                 it = ElementViewType.DistanceProbe;
             }

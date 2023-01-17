@@ -16,6 +16,7 @@ using MVMIF = Machine.ViewModels.Interfaces.Factories;
 using MVMF = Machine.ViewModels.Factories;
 using MVML = Machine.ViewModels.Links;
 using MVMB = Machine.ViewModels.Base;
+using MVMBI = Machine.ViewModels.Base.Implementation;
 
 namespace Machine.Editor
 {
@@ -26,7 +27,7 @@ namespace Machine.Editor
     {
         public App()
         {
-            ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<KernelViewModel>();
+            ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<MVMBI.KernelViewModel>();
             ViewModels.Ioc.SimpleIoc<MVMM.IMessenger>.Register<MVMM.Messenger>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFX.DataSource>("File.XML");

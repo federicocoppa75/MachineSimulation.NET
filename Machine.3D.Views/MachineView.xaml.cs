@@ -5,7 +5,6 @@ using Machine.ViewModels;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.Tools;
-using Machine.ViewModels.MachineElements;
 using Machine.ViewModels.UI;
 using System;
 using System.Collections;
@@ -20,7 +19,6 @@ using SWMM = System.Windows.Media.Media3D;
 using MVMIP = Machine.ViewModels.Interfaces.Probing;
 using MVMIPR = Machine.ViewModels.Interfaces.Providers;
 using MVMIH = Machine.ViewModels.Interfaces.Handles;
-using MVMH = Machine.ViewModels.Handles;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine._3D.Views.Implementation;
 using Machine.ViewModels.Interfaces.Factories;
@@ -50,7 +48,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IToolToPanelTransformerFactory>.Register<ToolToPanelTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMIP.IProbePointTransformerFactory>.Register<ProbePointTransformerFactory>();
-            Machine.ViewModels.Ioc.SimpleIoc<MVMH.IElementRotatorFactory>.Register<ElementRotatorFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<MVMIH.IElementRotatorFactory>.Register<ElementRotatorFactory>();
 
             var geometryBuffer = new Implementation.Geometry3DBuffer();
             Machine.ViewModels.Ioc.SimpleIoc<Interfaces.IGeometry3DBuffer>.Register(geometryBuffer);

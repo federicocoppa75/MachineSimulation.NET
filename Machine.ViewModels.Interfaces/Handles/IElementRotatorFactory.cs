@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Machine.ViewModels.Handles
+namespace Machine.ViewModels.Interfaces.Handles
 {
     public interface IElementRotatorFactory
     {

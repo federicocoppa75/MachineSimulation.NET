@@ -1,6 +1,6 @@
 ﻿using HelixToolkit.Wpf.SharpDX;
 using Machine._3D.Views.Converters;
-using Machine.ViewModels.Handles;
+using Machine.ViewModels.Interfaces.Handles;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Providers;
 using System;

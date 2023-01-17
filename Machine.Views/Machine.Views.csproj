@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Machine.Steps.ViewModels\Machine.Steps.ViewModels.csproj" />
+    <ProjectReference Include="..\Machine.ViewModels.Base.Implementation\Machine.ViewModels.Base.Implementation.csproj" />
     <ProjectReference Include="..\Machine.ViewModels\Machine.ViewModels.csproj" />
   </ItemGroup>
 

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Machine.ViewModels
+namespace Machine.ViewModels.Base.Implementation
 {
     public class KernelViewModel : BaseViewModel, IKernelViewModel
     {

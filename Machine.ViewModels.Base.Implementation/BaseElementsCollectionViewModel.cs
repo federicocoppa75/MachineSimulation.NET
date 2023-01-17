@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
-namespace Machine.ViewModels
+namespace Machine.ViewModels.Base.Implementation
 {
     public abstract class BaseElementsCollectionViewModel : BaseViewModel
     {

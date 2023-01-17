@@ -22,6 +22,7 @@ using MRI = MaterialRemove.Interfaces;
 using MVMII = Machine.ViewModels.Interfaces.Insertions;
 using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
+using MVMBI = Machine.ViewModels.Base.Implementation;
 
 namespace Machine.Viewer
 {
@@ -32,7 +33,7 @@ namespace Machine.Viewer
     {
         public App()
         {
-            ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<KernelViewModel>();
+            ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<MVMBI.KernelViewModel>();
             ViewModels.Ioc.SimpleIoc<MVMM.IMessenger>.Register<MVMM.Messenger>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFX.DataSource>("File.XML");

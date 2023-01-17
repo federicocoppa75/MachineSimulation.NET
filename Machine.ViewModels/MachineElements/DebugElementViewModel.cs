@@ -1,11 +1,12 @@
 ﻿using Machine.Data.Base;
+using Machine.ViewModels.Interfaces.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Machine.ViewModels.MachineElements
 {
-    public class DebugElementViewModel : ElementViewModel
+    public class DebugElementViewModel : ElementViewModel, IDebugElementViewModel
     {
         private static int _seedId = 0;
 

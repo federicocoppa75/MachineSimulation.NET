@@ -27,6 +27,7 @@ using Machine._3D.Views.Interfaces;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Interfaces.Links;
 using MDE = Machine.Data.Enums;
+using Machine.ViewModels.Base.Implementation;
 
 namespace Machine._3D.Views
 {

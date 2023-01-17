@@ -1,7 +1,7 @@
 ﻿using Machine.Data.Base;
 using Machine.Data.Enums;
-using Machine.ViewModels.Links;
-using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.Interfaces.Factories;
+using Machine.ViewModels.Interfaces.Links;
 using System;
 using System.Windows.Media.Media3D;
 
@@ -10,7 +10,7 @@ namespace Machine._3D.Views.Factories
     class TransformationFactory : IViewTransformationFactory
     {
 
-        public object CreateTranslation(Matrix matrix, LinkViewModel link)
+        public object CreateTranslation(Matrix matrix, ILinkViewModel link)
         {
             if (link == null)
             {
@@ -22,7 +22,7 @@ namespace Machine._3D.Views.Factories
             }
         }
 
-        public Transform3D CreateTranslation3D(Matrix matrix, LinkViewModel link)
+        public Transform3D CreateTranslation3D(Matrix matrix, ILinkViewModel link)
         {
             var tg = new Transform3DGroup();
             var st = CreateTransformation3D(matrix);
@@ -65,11 +65,11 @@ namespace Machine._3D.Views.Factories
         /// </summary>
         /// <param name="link"></param>
         /// <returns></returns>
-        private Transform3D CreateLinearTRandormation3D(LinkViewModel link)
+        private Transform3D CreateLinearTRandormation3D(ILinkViewModel link)
         {
             Action<double> action = null;
             var tt = new TranslateTransform3D();
-            var offset = (link is LinearLinkViewModel linearLink) ? linearLink.Pos : 0.0;
+            var offset = (link is ILinearLinkViewModel linearLink) ? linearLink.Pos : 0.0;
             var direction = link.Direction;
 
             switch (direction)
@@ -96,13 +96,13 @@ namespace Machine._3D.Views.Factories
             return tt;
         }
 
-        private Transform3D CreateRotaryTransformation3D(LinkViewModel link, Point3D rotCenter)
+        private Transform3D CreateRotaryTransformation3D(ILinkViewModel link, Point3D rotCenter)
         {
             var rotVector = GetRotationDirection(link.Direction);
             var ar = new AxisAngleRotation3D(rotVector, 0.0);
             var tr = new RotateTransform3D(ar, rotCenter);
 
-            if (link is LinearLinkViewModel linearLink)
+            if (link is ILinearLinkViewModel linearLink)
             {
                 var offset = linearLink.Pos;
 

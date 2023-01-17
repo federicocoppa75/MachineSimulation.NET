@@ -1,7 +1,5 @@
 ﻿using Machine.ViewModels.Interfaces.Helpers;
 using Machine.ViewModels.Interfaces.MachineElements;
-using Machine.ViewModels.MachineElements;
-using Machine.ViewModels.MachineElements.Collider;
 using System.Linq;
 using System.Windows.Media.Media3D;
 

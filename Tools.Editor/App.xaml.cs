@@ -14,7 +14,7 @@ using MVML = Machine.ViewModels.Links;
 using MDF = Machine.Data.Factories;
 using MDIF = Machine.Data.Interfaces.Factories;
 using MVMB = Machine.ViewModels.Base;
-
+using MVMBI = Machine.ViewModels.Base.Implementation;
 
 
 namespace Tools.Editor
@@ -26,7 +26,7 @@ namespace Tools.Editor
     {
         public App()
         {
-            Machine.ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<KernelViewModel>();
+            Machine.ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<MVMBI.KernelViewModel>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMM.IMessenger>.Register<MVMM.Messenger>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             Machine.ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFX.DataSource>("File.XML");

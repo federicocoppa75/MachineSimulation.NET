@@ -1,5 +1,6 @@
 ﻿using Machine.ViewModels;
 using Machine.ViewModels.Base;
+using Machine.ViewModels.Base.Implementation;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.Messages.Tooling;
 using Machine.ViewModels.UI;

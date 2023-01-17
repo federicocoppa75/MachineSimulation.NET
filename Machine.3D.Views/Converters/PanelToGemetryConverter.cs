@@ -1,5 +1,5 @@
 ﻿using HelixToolkit.Wpf.SharpDX;
-using Machine.ViewModels.MachineElements;
+using Machine.ViewModels.Interfaces.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,7 +14,7 @@ namespace Machine._3D.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is PanelViewModel pvm)
+            if(value is IPanelElement pvm)
             {
                 var builder = new MeshBuilder();
 
