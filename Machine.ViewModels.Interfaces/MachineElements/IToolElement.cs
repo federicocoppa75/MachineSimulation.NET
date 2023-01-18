@@ -9,5 +9,6 @@ namespace Machine.ViewModels.Interfaces.MachineElements
         double WorkRadius { get; }
         double WorkLength { get; }
         double UsefulLength { get; }
+        string ConeModelFile { get; }
     }
 }
