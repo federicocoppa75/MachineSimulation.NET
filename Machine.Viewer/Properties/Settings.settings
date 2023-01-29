@@ -120,5 +120,11 @@
     <Setting Name="SectionDivision" Type="System.String" Scope="User">
       <Value Profile="(Default)">By_5</Value>
     </Setting>
+    <Setting Name="InnerPanelWireframe" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="OuterPanelWireframe" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

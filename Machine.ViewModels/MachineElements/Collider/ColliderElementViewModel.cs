@@ -69,7 +69,12 @@ namespace Machine.ViewModels.MachineElements.Collider
 
         private static ICollection<Point> InstantiatePoints()
         {
-            var isEditor = Ioc.SimpleIoc<IApplicationInformationProvider>.GetInstance().ApplicationType == ApplicationType.MachineEditor;
+            bool isEditor = false;
+            
+            if(Ioc.SimpleIoc<IApplicationInformationProvider>.TryGetInstance(out var appInfoProvider))
+            {
+                isEditor = appInfoProvider.ApplicationType == ApplicationType.MachineEditor;
+            }
 
             if (isEditor)
             {

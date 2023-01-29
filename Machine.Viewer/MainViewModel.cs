@@ -32,6 +32,7 @@ namespace Machine.Viewer
         public VMUI.IOptionProvider<string> PanelOuterMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelOuterMaterial");
         public VMUI.IOptionProvider<string> PanelInnerMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelInnerMaterial");
         public VMUI.IViewExportController ViewExportController => ViewModels.Ioc.SimpleIoc<VMUI.IViewExportController>.GetInstance();
+        public VMUI.IPanelWireframe PanelWireframe => ViewModels.Ioc.SimpleIoc<VMUI.IPanelWireframe>.GetInstance();
 
         public MainViewModel() : base()
         {

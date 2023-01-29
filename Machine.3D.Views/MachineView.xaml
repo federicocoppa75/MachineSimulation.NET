@@ -12,12 +12,14 @@
              xmlns:lhx3D="clr-namespace:Machine._3D.Views.Models.Elements3D"
              xmlns:selectors="clr-namespace:Machine._3D.Views.Selectors"
              xmlns:const="clr-namespace:Machine._3D.Views.Constants"
+             xmlns:vm="clr-namespace:Machine._3D.Views.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <const:Materials x:Key="materials" />
         <const:Geometries x:Key="geometries"/>
         <const:Colors x:Key="colors" />
+        <vm:PanelWireframeProxy x:Key="panelWireframe"/>
         <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <converters:BoolToTextWeightConverter x:Key="boolToTextWeightConverter" ValueForFalse="Normal" ValueForTrue="Bold"/>
         <converters3D:DirectionToAxisConverter x:Key="directionToAxisConverter"/>
@@ -372,7 +374,7 @@
                                                     DepthBias="-100"
                                                     IsHitTestVisible="True"
                                                     IsThrowingShadow="False" 
-                                                    RenderWireframe="False">
+                                                    RenderWireframe="{Binding Inner, Source={StaticResource panelWireframe}}">
                                 </hx:MeshGeometryModel3D>
                                 <hx:ItemsModel3D ItemsSource="{Binding Faces}">
                                     <hx:ItemsModel3D.ItemTemplate>
@@ -383,7 +385,7 @@
                                                     DepthBias="-100"
                                                     IsHitTestVisible="True"
                                                     IsThrowingShadow="False" 
-                                                    RenderWireframe="False">
+                                                    RenderWireframe="{Binding Outer, Source={StaticResource panelWireframe}}">
                                             </hx:MeshGeometryModel3D>
                                         </DataTemplate>
                                     </hx:ItemsModel3D.ItemTemplate>

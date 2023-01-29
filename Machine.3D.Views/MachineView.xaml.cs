@@ -49,6 +49,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMIP.IProbePointTransformerFactory>.Register<ProbePointTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<MVMIH.IElementRotatorFactory>.Register<ElementRotatorFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<IPanelWireframe>.Register<ViewModels.PanelWireframeViewModel>();
 
             var geometryBuffer = new Implementation.Geometry3DBuffer();
             Machine.ViewModels.Ioc.SimpleIoc<Interfaces.IGeometry3DBuffer>.Register(geometryBuffer);

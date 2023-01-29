@@ -183,6 +183,10 @@
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
+                    <MenuItem Header="Panel wireframe">
+                        <MenuItem Header="Outer" IsCheckable="True" IsChecked="{Binding PanelWireframe.Outer}"/>
+                        <MenuItem Header="Inner" IsCheckable="True" IsChecked="{Binding PanelWireframe.Inner}"/>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
 

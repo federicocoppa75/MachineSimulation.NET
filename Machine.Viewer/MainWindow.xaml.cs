@@ -72,6 +72,8 @@ namespace Machine.Viewer
             Properties.Settings.Default.PanelInnerMaterial = vm.PanelInnerMaterial.Value;
             Properties.Settings.Default.PanelFragmentType = vm.MaterialRemoveData.PanelFragment.ToString();
             Properties.Settings.Default.SectionDivision = vm.MaterialRemoveData.SectionDivision.ToString();
+            Properties.Settings.Default.InnerPanelWireframe = vm.PanelWireframe.Inner;
+            Properties.Settings.Default.OuterPanelWireframe = vm.PanelWireframe.Outer;
         }
 
         private void UpdateFromSettings()
@@ -96,6 +98,8 @@ namespace Machine.Viewer
             vm.PanelInnerMaterial.TryToParse(Properties.Settings.Default.PanelInnerMaterial);
             vm.PanelFragmentOptions.TryToParse(Properties.Settings.Default.PanelFragmentType);
             vm.SectionDivisionOptions.TryToParse(Properties.Settings.Default.SectionDivision);
+            vm.PanelWireframe.Outer = Properties.Settings.Default.OuterPanelWireframe;
+            vm.PanelWireframe.Inner = Properties.Settings.Default.InnerPanelWireframe;
         }
     }
 }

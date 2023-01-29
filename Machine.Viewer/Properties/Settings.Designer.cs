@@ -262,5 +262,29 @@ namespace Machine.Viewer.Properties {
                 this["SectionDivision"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool InnerPanelWireframe {
+            get {
+                return ((bool)(this["InnerPanelWireframe"]));
+            }
+            set {
+                this["InnerPanelWireframe"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OuterPanelWireframe {
+            get {
+                return ((bool)(this["OuterPanelWireframe"]));
+            }
+            set {
+                this["OuterPanelWireframe"] = value;
+            }
+        }
     }
 }

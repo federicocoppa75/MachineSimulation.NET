@@ -118,6 +118,8 @@ namespace Machine._3D.Views
             }
         }
 
+        public IPanelWireframe PanelWirefrane => GetInstance<IPanelWireframe>();
+
         #endregion
 
         #region Element handle
