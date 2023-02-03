@@ -21,7 +21,7 @@ namespace Machine._3D.Views.Helpers
 
         public Point Transform(Point point, bool gloablToLocal = false)
         {
-            var m = _probeParent.GetChainTransformation(true);
+            var m = _probeParent.GetChainTransformation();
 
             if(gloablToLocal) m.Invert();
             var p = m.Transform(new System.Windows.Media.Media3D.Point3D() { X = point.X, Y = point.Y, Z = point.Z });
