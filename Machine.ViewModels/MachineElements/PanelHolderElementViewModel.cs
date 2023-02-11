@@ -26,7 +26,7 @@ namespace Machine.ViewModels.MachineElements
             set => Set(ref _panelHolderName, value, nameof(PanelHolderName)); 
         }
 
-        private Point _position;
+        private Point _position = new Point();
         public virtual Point Position 
         { 
             get => _position; 

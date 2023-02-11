@@ -29,7 +29,7 @@ namespace Machine.Views.ViewModels.MachineElementProxies
                 case 6: return new PointSet6(points as IList<MDB.Point>);
                 case 7: return new PointSet7(points as IList<MDB.Point>);
                 case 8: return new PointSet8(points as IList<MDB.Point>);
-                default: throw new NotImplementedException();
+                default: return new PointSet1(points as IList<MDB.Point>);
             }
         }
     }

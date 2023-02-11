@@ -38,14 +38,14 @@ namespace Machine.ViewModels.MachineElements
             set => Set(ref _modelFile, value, nameof(ModelFile)); 
         }
 
-        private Color _color;
+        private Color _color = new Color() { R = 255, G = 255, B = 255, A = 255 };
         public Color Color 
         { 
             get => _color; 
             set => Set(ref _color, value, nameof(Color)); 
         }
 
-        private Matrix _transformation;
+        private Matrix _transformation = new Matrix { M11 = 1, M22 = 1, M33 = 1 };
         public Matrix Transformation 
         { 
             get => _transformation; 

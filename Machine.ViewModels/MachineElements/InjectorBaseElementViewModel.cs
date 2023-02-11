@@ -15,21 +15,21 @@ namespace Machine.ViewModels.MachineElements
             set => Set(ref _inserterId, value, nameof(InserterId)); 
         }
 
-        private Point _position;
+        private Point _position = new Point();
         public Point Position 
         { 
             get => _position; 
             set => Set(ref _position, value, nameof(Position)); 
         }
 
-        private Vector _direction;
+        private Vector _direction = new Vector() { Z = -1 };
         public Vector Direction 
         { 
             get => _direction; 
             set => Set(ref _direction, value, nameof(Direction)); 
         }
 
-        private Color _inserterColor;
+        private Color _inserterColor = new Color() { R = 255, A = 255};
         public Color InserterColor 
         { 
             get => _inserterColor; 

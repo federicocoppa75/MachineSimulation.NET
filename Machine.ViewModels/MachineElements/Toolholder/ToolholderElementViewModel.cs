@@ -21,14 +21,14 @@ namespace Machine.ViewModels.MachineElements.Toolholder
         }
         public abstract ToolHolderType ToolHolderType { get; }
 
-        private Point _position;
+        private Point _position = new Point();
         public Point Position 
         { 
             get => _position; 
             set => Set(ref _position, value, nameof(Position)); 
         }
 
-        private Vector _direction;
+        private Vector _direction = new Vector() { Z = -1};
         public Vector Direction 
         { 
             get => _direction; 

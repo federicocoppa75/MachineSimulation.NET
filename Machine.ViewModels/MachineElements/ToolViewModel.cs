@@ -9,7 +9,7 @@ namespace Machine.ViewModels.MachineElements
     {
         public MDIT.ITool Tool { get; set; }
 
-        public Color ConeColor { get; set; }
+        public Color ConeColor { get; set; } = new Color() { A = 255 };
 
         public string ConeModelFile => (Tool != null) ? Tool.ConeModelFile : null;
 
