@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static System.Net.WebRequestMethods;
 using MDTooling = Machine.Data.Toolings;
 using MDTools = Machine.Data.Tools;
+using MVMUIDSF = Machine.ViewModels.UI.DataSource.File;
 
 namespace Machine.DataSource.File.Json
 {
@@ -221,7 +223,9 @@ namespace Machine.DataSource.File.Json
 
                                 SetTooling(tooling, toolset);
                                 _lastToolingFile = tooling.Tools;
-                            });                            
+                            });
+
+                            ManageAdditionalEnvironmentFiles(GetFolder(machineFile));
                         }
                     });
                 }
@@ -242,6 +246,7 @@ namespace Machine.DataSource.File.Json
 
             if (b.HasValue && b.Value)
             {
+                ZipArchiveHelper.AddFilesToEnvironment(GetAdditionalEnvironmentFiles());
                 ZipArchiveHelper.ExportEnvironment(dlg.FileName, _lastMachineFile, _lastToolsFile, _lastToolingFile);
             }
         }
@@ -508,5 +513,33 @@ namespace Machine.DataSource.File.Json
         private void OnKernelMachineCollectionChanged(object sender, EventArgs e) => UpdateCanExecuteChangedByMachine();
 
         private void OnKernelSelectedChanged(object sender, EventArgs e) => UpdateCanExecuteChangedBySelection();
+    
+        private IEnumerable<string> GetAdditionalEnvironmentFiles() 
+        {
+            var files = new List<string>();
+            var extensions = GetInstances<MVMUIDSF.IDataSourceExtension>();
+
+            foreach (var extension in extensions) 
+            {
+                files.AddRange(extension.Files);
+            }
+
+            return files;
+        }
+
+        private void ManageAdditionalEnvironmentFiles(string extractionFolder)
+        {
+            var extensions = GetInstances<MVMUIDSF.IDataSourceExtension>();
+
+            foreach (var extension in extensions)
+            {
+                extension.OnEnvironmentLoaded(extractionFolder);
+            }
+        }
+
+        private static string GetFolder(string fileName)
+        {
+            return Path.GetDirectoryName(fileName);
+        }
     }
 }

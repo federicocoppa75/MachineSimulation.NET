@@ -1,5 +1,7 @@
 ﻿using Machine.ViewModels.Messaging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Machine.ViewModels.Base
@@ -62,6 +64,7 @@ namespace Machine.ViewModels.Base
         protected T GetInstance<T>() => Ioc.SimpleIoc<T>.GetInstance();
         protected T GetInstance<T>(string key) => Ioc.SimpleIoc<T>.GetInstance(key);
         protected bool HasInstance<T>() => Ioc.SimpleIoc<T>.HasInstance();
+        protected IEnumerable<T> GetInstances<T>() => Ioc.SimpleIoc<T>.GetInstances();
 
         #region IDisposable
         private bool _disposed = false;

@@ -15,6 +15,17 @@ namespace Machine.DataSource.File.Json
         private const string _toolingFileName = "tooling.jTooling";
 
         private List<string> _entrieeNames = new List<string>();
+        private static List<string> _externalFiles = new List<string>();
+
+        private static string _extractPath;
+        public static string ExtractPath => _extractPath;
+
+        public static void AddFilesToEnvironment(IEnumerable<string> files)
+        {
+            _externalFiles.Clear();
+
+            _externalFiles.AddRange(files);
+        }
 
         public static bool ExportEnvironment(string exportFile, string machProjectFile, string toolsFile, string toolingFile) => (new ZipArchiveHelper()).ExportEnvironmentImplementation(exportFile, machProjectFile, toolsFile, toolingFile);
 
@@ -55,6 +66,10 @@ namespace Machine.DataSource.File.Json
                         // log error
                     }
                     else if (!AddToolingFileToArchive(tooling, archive))
+                    {
+                        // log error
+                    }
+                    else if(!AddExternalFileToArchive(archive))
                     {
                         // log error
                     }
@@ -106,6 +121,7 @@ namespace Machine.DataSource.File.Json
                 }
 
                 machProjectFile = tooling.Machine;
+                _extractPath = extractPath;
 
                 result = true;
             }
@@ -258,6 +274,30 @@ namespace Machine.DataSource.File.Json
             var entry = archive.CreateEntry(_toolingFileName);
 
             DataSource.SaveTooling(tooling, () => new StreamWriter(entry.Open()));
+
+            return true;
+        }
+
+        private bool AddExternalFileToArchive(ZipArchive archive)
+        {
+            if(_externalFiles.Count > 0)
+            {
+                foreach (var item in _externalFiles)
+                {
+                    FileInfo info = new FileInfo(item);
+
+                    if (info.Exists)
+                    {
+                        var name = info.Name;
+
+                        if (!_entrieeNames.Contains(name))
+                        {
+                            var entry = archive.CreateEntryFromFile(item, name);
+                            _entrieeNames.Add(name);
+                        }
+                    }
+                }
+            }
 
             return true;
         }
