@@ -105,7 +105,7 @@ namespace MaterialRemove.ViewModels.Extensions
                 {
                     var sizeY = (j< ny) ? (size.Y * nSideDiv) : (size.Y * modY);
                     var centerY = (j < ny) ? (corner.Y + sizeY / 2.0 + sizeY * j) : (corner.Y + panel.SizeY - sizeY / 2.0);
-                    var position = _sectonPositionProvider.GetSectionPosition(cntX, cntY, i, j);
+                    var position = GetLazySectionPosition(cntX, cntY, i, j);
                     var secSize = new SectionSize() { X = sizeX, Y= sizeY, Z = size.Z };
                     var center = new Position() { X = centerX, Y = centerY };
 
@@ -117,6 +117,23 @@ namespace MaterialRemove.ViewModels.Extensions
 
             return list;
         }
+
+        static SectionPosition GetLazySectionPosition(int nxSection, int nySection, int i, int j)
+        {
+            if (nxSection == 1)
+            {
+                return LazySectionExtension.GetSectionPositionY(nySection, j);
+            }
+            else if (nySection == 1)
+            {
+                return LazySectionExtension.GetSectionPositionX(nxSection, i);
+            }
+            else
+            {
+                return _sectonPositionProvider.GetSectionPosition(nxSection, nySection, i, j);
+            }
+        }
+
 
         public static List<IPanelSection> CreateSections(IRemovalParameters removalParameters, ISectionPositionProvider sectonPositionProvider, SectionDivision sectionDivision, SectionSize size, Position corner, double panelCenterZ)
         {

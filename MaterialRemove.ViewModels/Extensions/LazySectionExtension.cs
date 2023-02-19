@@ -50,12 +50,63 @@ namespace MaterialRemove.ViewModels.Extensions
                 case SectionPosition.CornerBottomRight:
                     result = GetSectionPosition(() => (j == 0), () => (i == nxSection - 1), SectionPosition.SideBottom, SectionPosition.SideRigth);
                     break;
+                case SectionPosition.CenterAlongX:
+                    result = GetSectionPosition(() => (j == 0), () => (j == nySection - 1), SectionPosition.SideBottom, SectionPosition.SideTop);
+                    break; 
+                case SectionPosition.CenterAlongY:
+                    result = GetSectionPosition(() => (i == 0), () => (i == nxSection - 1), SectionPosition.SideLeft, SectionPosition.SideRigth);
+                    break;
+                case SectionPosition.EndBottom:
+                    result = GetSectionPosition(() => (i == 0), () => (i == nxSection-1), () => (j == 0), SectionPosition.SideLeft, SectionPosition.SideRigth, SectionPosition.SideBottom);
+                    break;
+                case SectionPosition.EndLeft:
+                    result = GetSectionPosition(() => (i == 0), () => (j == 0), () => (j == nySection - 1), SectionPosition.SideLeft, SectionPosition.SideBottom, SectionPosition.SideTop);
+                    break;
+                case SectionPosition.EndRight:
+                    result = GetSectionPosition(() => (j == 0), () => (j == nySection - 1), () => (i == 0), SectionPosition.SideBottom, SectionPosition.SideTop, SectionPosition.SideRigth);
+                    break;
+                case SectionPosition.EndTop:
+                    result = GetSectionPosition(() => (i == 0), () => (i == nxSection - 1), () => (j == nySection - 1), SectionPosition.SideLeft, SectionPosition.SideRigth, SectionPosition.SideTop);
+                    break;
                 default:
                     throw new NotSupportedException();
             }
 
             return result;
         }
+
+
+        internal static SectionPosition GetSectionPositionX(int nSection, int i)
+        {
+            if (i == 0)
+            {
+                return SectionPosition.EndLeft;
+            }
+            else if (i == nSection - 1)
+            {
+                return SectionPosition.EndRight;
+            }
+            else
+            {
+                return SectionPosition.CenterAlongX;
+            }
+        }
+        internal static SectionPosition GetSectionPositionY(int nSection, int i)
+        {
+            if (i == 0)
+            {
+                return SectionPosition.EndBottom;
+            }
+            else if (i == nSection - 1)
+            {
+                return SectionPosition.EndTop;
+            }
+            else
+            {
+                return SectionPosition.CenterAlongY;
+            }
+        }
+
 
         static SectionPosition GetSectionPosition(Func<bool> funcIsOnSide1, Func<bool> funcIsOnSide2, SectionPosition side1, SectionPosition side2)
         {
@@ -77,6 +128,61 @@ namespace MaterialRemove.ViewModels.Extensions
             else
             {
                 return SectionPosition.Center;
+            }
+        }
+
+        static SectionPosition GetSectionPosition(Func<bool> funcIsOnSide1, Func<bool> funcIsOnSide2, Func<bool> funcIsOnSide3, SectionPosition side1, SectionPosition side2, SectionPosition side3)
+        {
+            var isOnSides = new bool[] 
+            {
+                funcIsOnSide1(),
+                funcIsOnSide2(),
+                funcIsOnSide3()
+            };
+
+            var sides = new SectionPosition[]
+            {
+                side1,
+                side2,
+                side3
+            };
+
+            var isOnSide1 = funcIsOnSide1();
+            var isOnSide2 = funcIsOnSide2();
+            var isOnSide3 = funcIsOnSide3();
+
+            return GetSectionPosition(isOnSides, sides);
+        }
+
+        static SectionPosition GetSectionPosition(bool[] isOnSides, SectionPosition[] sides)
+        {
+            var nCheck = 0;
+            var sCheck = new SectionPosition[sides.Length];
+
+            for (int i = 0; i < isOnSides.Length; i++)
+            {
+                if (isOnSides[i])
+                {
+                    sCheck[nCheck] = sides[i];
+                    nCheck++;
+                }
+            }
+
+            if(nCheck == 0) 
+            {
+                return SectionPosition.Center;
+            }
+            else if(nCheck == 1)
+            {
+                return sCheck[0];
+            }
+            else if(nCheck == 2)
+            {
+                return GetCorner(sCheck[0], sCheck[1]);
+            }
+            else
+            {
+                throw new NotImplementedException($"Side condition with {nCheck} sides not implemented!");
             }
         }
 

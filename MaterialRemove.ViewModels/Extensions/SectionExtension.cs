@@ -71,6 +71,46 @@ namespace MaterialRemove.ViewModels.Extensions
                     list.AddFaceBottom(section, position);
                     break;
 
+                case SectionPosition.EndBottom:
+                    list.AddFaceUpDown(section, position);
+                    list.AddFaceBottom(section, position);
+                    list.AddFaceLeft(section, position);
+                    list.AddFaceRight(section, position);
+                    break;
+
+                case SectionPosition.EndLeft:
+                    list.AddFaceUpDown(section, position);
+                    list.AddFaceBottom(section, position);
+                    list.AddFaceLeft(section, position);
+                    list.AddFaceTop(section, position);
+                    break;
+
+                case SectionPosition.EndRight:
+                    list.AddFaceUpDown(section, position);
+                    list.AddFaceBottom(section, position);
+                    list.AddFaceTop(section, position);
+                    list.AddFaceRight(section, position);
+                    break;
+
+                case SectionPosition.EndTop:
+                    list.AddFaceUpDown(section, position);
+                    list.AddFaceTop(section, position);
+                    list.AddFaceLeft(section, position);
+                    list.AddFaceRight(section, position);
+                    break;
+
+                case SectionPosition.CenterAlongX:
+                    list.AddFaceUpDown(section, position);
+                    list.AddFaceBottom(section, position);
+                    list.AddFaceTop(section, position);
+                    break;
+
+                case SectionPosition.CenterAlongY:
+                    list.AddFaceUpDown(section, position);
+                    list.AddFaceLeft(section, position);
+                    list.AddFaceRight(section, position);
+                    break;
+
                 default:
                     throw new ArgumentException();
             }

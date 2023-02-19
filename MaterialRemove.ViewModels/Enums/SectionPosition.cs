@@ -16,6 +16,12 @@ namespace MaterialRemove.ViewModels.Enums
         CornerTopRight,
         CornerTopLeft,
         CornerBottomLeft,
-        CornerBottomRight
+        CornerBottomRight,
+        EndLeft,
+        EndRight,
+        EndTop,
+        EndBottom,
+        CenterAlongX,
+        CenterAlongY,
     }
 }
