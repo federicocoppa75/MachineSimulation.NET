@@ -161,7 +161,7 @@ namespace Machine._3D.Views.Selectors
                     {
                         if(evm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear)
                         {
-                            throw new NotImplementedException();
+                            it = ElementViewType.LinearRotaryEle;
                         }
                         else if(evm.LinkToParent.MoveType == Data.Enums.LinkMoveType.Pneumatic)
                         {

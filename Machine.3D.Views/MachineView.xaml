@@ -222,6 +222,30 @@
                 <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
             </hx:CompositeModel3D>
         </DataTemplate>
+        <DataTemplate  x:Key="element3dDataTemplateLinearRotary">
+            <hx:CompositeModel3D>
+                <hx:CompositeModel3D.Transform>
+                    <Transform3DGroup>
+                        <MatrixTransform3D Matrix="{Binding Transformation, Converter={StaticResource staticTransformationConverter}}" />
+                        <RotateTransform3D CenterX="0.0" CenterY="0.0" CenterZ="0.0">
+                            <RotateTransform3D.Rotation>
+                                <AxisAngleRotation3D Axis="{Binding LinkToParent.Direction, Converter={StaticResource directionToAxisConverter}}" Angle="{Binding LinkToParent.Value}"/>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                    </Transform3DGroup>
+                </hx:CompositeModel3D.Transform>
+                <hx:MeshGeometryModel3D Geometry="{Binding ModelFile, Converter={StaticResource modelNameToGeometryConverter}}"
+                                        Material="{Binding Color, Converter={StaticResource colorToMaterialConverter}}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                        IsRendering="{Binding IsVisible}"
+                                        PostEffects="{Binding PostEffects}"/>
+                <lhx3D:ItemsModel3D ItemsSource="{Binding Children}" ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
+            </hx:CompositeModel3D>
+        </DataTemplate>
         <DataTemplate  x:Key="toolHolderDataTemplate">
             <hx:CompositeModel3D>
                 <hx:CompositeModel3D.Transform>
@@ -698,6 +722,7 @@
             <selectors:ItemModel3DTemplateSelectorItem When="YPneumaticTranslateEle" Then="{StaticResource element3dDataTemplateYPneumaticTranslate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="ZPneumaticTranslateEle" Then="{StaticResource element3dDataTemplateZPneumaticTranslate}" />
             <selectors:ItemModel3DTemplateSelectorItem When="PneumaticRotatyEle" Then="{StaticResource element3dDataTemplatePneumaticRotary}" />
+            <selectors:ItemModel3DTemplateSelectorItem When="LinearRotaryEle" Then="{StaticResource element3dDataTemplateLinearRotary}" />
             <selectors:ItemModel3DTemplateSelectorItem When="ToolEle" Then="{StaticResource toolDataTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="ToolHolderEle" Then="{StaticResource toolHolderDataTemplate}"/>
             <selectors:ItemModel3DTemplateSelectorItem When="ToolHolderEleZPneu" Then="{StaticResource toolHolderDataTemplateZPneumatic}"/>

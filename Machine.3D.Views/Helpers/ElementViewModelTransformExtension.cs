@@ -124,7 +124,7 @@ namespace Machine._3D.Views.Helpers
                 case LinkType.Linear:
                     return GetLinearTransformation(link.Direction, link.Value, link.Pos);
                 case LinkType.Rotary:
-                    throw new NotImplementedException();
+                    return GetRataryTransformation(link.Direction, link.Value, link.Pos);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
