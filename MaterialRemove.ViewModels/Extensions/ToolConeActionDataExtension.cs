@@ -14,7 +14,8 @@ namespace MaterialRemove.ViewModels.Extensions
                                           toolConeActionData.MaxRadius,
                                           toolConeActionData.Length,
                                           toolConeActionData.Orientation,
-                                          index);
+                                          index,
+                                          new g3.Vector3f(toolConeActionData.DX, toolConeActionData.DY, toolConeActionData.DZ));
         }
     }
 }

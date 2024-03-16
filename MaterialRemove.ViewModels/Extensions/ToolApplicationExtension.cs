@@ -15,7 +15,8 @@ namespace MaterialRemove.ViewModels.Extensions
             return ToolHelper.GetBound(toolApplication.Position,
                                         toolApplication.Radius,
                                         toolApplication.Length,
-                                        toolApplication.Orientation);
+                                        toolApplication.Orientation,
+                                        toolApplication.Direction);
         }
 
         static internal Vector3d GetDirection(this ToolApplication toolApplication)
@@ -34,6 +35,8 @@ namespace MaterialRemove.ViewModels.Extensions
                     return new Vector3d(0.0, 0.0, 1.0);
                 case Orientation.ZNeg:
                     return new Vector3d(0.0, 0.0, -1.0);
+                case Orientation.Any:
+                    return new Vector3d(toolApplication.Direction);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

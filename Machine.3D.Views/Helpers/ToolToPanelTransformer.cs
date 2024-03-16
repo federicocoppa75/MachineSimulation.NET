@@ -234,6 +234,13 @@ namespace Machine._3D.Views.Helpers
                 Radius = (float)t.GetTotalDiameter() / 2.0f
             };
 
+            if(ta.Orientation == MRI.Orientation.Any)
+            {
+                ta.DX = (float)direction.X;
+                ta.DX = (float)direction.X;
+                ta.DX = (float)direction.X;
+            }
+
             if (_panel is MRI.IPanel panel) panel.ApplyAction(ta);
         }
 
@@ -304,6 +311,13 @@ namespace Machine._3D.Views.Helpers
                 MinRadius = 0.0f
             };
 
+            if(tca.Orientation == MRI.Orientation.Any)
+            {
+                tca.DX = (float)direction.X;
+                tca.DY = (float)direction.Y;
+                tca.DZ = (float)direction.Z;
+            }
+
             if (_panel is MRI.IPanel panel) panel.ApplyAction(tca);
         }
 
@@ -320,6 +334,14 @@ namespace Machine._3D.Views.Helpers
                 Length = (float)ct.GetTotalLength(),
                 Radius = (float)ct.Diameter1 / 2.0f,
             };
+
+            if(ta.Orientation == MRI.Orientation.Any)
+            {
+                ta.DX = (float)direction.X;
+                ta.DY = (float)direction.Y;
+                ta.DZ = (float)direction.Z;
+            }
+
             var tca = new MRI.ToolConeActionData()
             {
                 X = (float)position2.X,
@@ -330,6 +352,13 @@ namespace Machine._3D.Views.Helpers
                 MaxRadius = (float)ct.Diameter2 / 2.0f,
                 MinRadius = (float)ct.Diameter1 / 2.0f
             };
+
+            if(tca.Orientation == MRI.Orientation.Any)
+            {
+                tca.DX = (float)direction.X;
+                tca.DY = (float)direction.Y;
+                tca.DZ = (float)direction.Z;
+            }
 
             if (_panel is MRI.IPanel panel)
             {
@@ -358,7 +387,7 @@ namespace Machine._3D.Views.Helpers
             }
             else
             {
-                throw new NotImplementedException();
+                return MRI.Orientation.Any;
             }
         }
 
@@ -380,6 +409,11 @@ namespace Machine._3D.Views.Helpers
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        private static Vector3D GetRadial(float x, float y, float z)
+        {
+            return Vector3D.CrossProduct(new Vector3D((double)x, (double)y, (double)z), new Vector3D(0.0, 1.0, 0.0));
         }
 
         private Task<int> ApplayToolAsync(IToolElement tool, Point3D position, Vector3D direction)
@@ -407,6 +441,13 @@ namespace Machine._3D.Views.Helpers
                     Length = (float)t.GetTotalLength(),
                     Radius = (float)t.GetTotalDiameter() / 2.0f
                 };
+
+                if(ta.Orientation == MRI.Orientation.Any)
+                {
+                    ta.DX = (float)direction.X;
+                    ta.DY = (float)direction.Y;
+                    ta.DZ = (float)direction.Z;
+                }
 
                 if (_panel is MRI.IPanel panel) await panel.ApplyActionAsync(ta);
 
@@ -489,6 +530,13 @@ namespace Machine._3D.Views.Helpers
                     Radius = (float)doct.Diameter / 2.0f
                 };
 
+                if(ta.Orientation == MRI.Orientation.Any)
+                {
+                    ta.DX = (float)direction.X;
+                    ta.DY = (float)direction.Y;
+                    ta.DZ = (float)direction.Z;
+                }
+
                 if (_panel is MRI.IPanel panel) await panel.ApplyActionAsync(ta);
 
                 return 0;
@@ -509,6 +557,13 @@ namespace Machine._3D.Views.Helpers
                     MaxRadius = (float)pt.Diameter / 2.0f,
                     MinRadius = 0.0f
                 };
+
+                if(tca.Orientation == MRI.Orientation.Any)
+                {
+                    tca.DX = (float)direction.X;
+                    tca.DY = (float)direction.Y;
+                    tca.DZ = (float)direction.Z;
+                }
 
                 if (_panel is MRI.IPanel panel) await panel.ApplyActionAsync(tca);
 
@@ -531,6 +586,14 @@ namespace Machine._3D.Views.Helpers
                     Length = (float)ct.GetTotalLength(),
                     Radius = (float)ct.Diameter1 / 2.0f,
                 };
+
+                if(ta.Orientation == MRI.Orientation.Any)
+                {
+                    ta.DX = (float)direction.X;
+                    ta.DY = (float)direction.Y;
+                    ta.DZ = (float)direction.Z;
+                }
+
                 var tca = new MRI.ToolConeActionData()
                 {
                     X = (float)position2.X,
@@ -541,6 +604,13 @@ namespace Machine._3D.Views.Helpers
                     MaxRadius = (float)ct.Diameter2 / 2.0f,
                     MinRadius = (float)ct.Diameter1 / 2.0f
                 };
+
+                if(tca.Orientation == MRI.Orientation.Any)
+                {
+                    tca.DX = (float)direction.X;
+                    tca.DY = (float)direction.Y;
+                    tca.DZ = (float)direction.Z;
+                }
 
                 if (_panel is MRI.IPanel panel)
                 {

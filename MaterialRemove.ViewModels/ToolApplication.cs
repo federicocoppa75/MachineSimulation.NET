@@ -14,14 +14,16 @@ namespace MaterialRemove.ViewModels
         public Orientation Orientation { get; }
         public Vector3f Position { get; }
         public int Index { get; }
+        public Vector3f Direction { get; }
 
-        public ToolApplication(Vector3f position, float radius, float length, Orientation orientation, int index)
+        public ToolApplication(Vector3f position, float radius, float length, Orientation orientation, int index, Vector3f direction)
         {
             Position = position;
             Radius = radius;
             Length = length;
             Orientation = orientation;
             Index = index;
+            Direction = direction;
         }
 
         #region BoundedImplicitFunction3d
@@ -33,9 +35,9 @@ namespace MaterialRemove.ViewModels
             var v = pt - Position;
             var d = n.Dot(v);
 
-            if((d < 0.0) || (d > Length))
+            if ((d < 0.0) || (d > Length))
             {
-                return this.GetBound().SignedDistance(pt);
+                return (d < 0.0) ? (-d) : (d - Length);
             }
             else
             {

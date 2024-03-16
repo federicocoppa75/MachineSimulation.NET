@@ -13,6 +13,7 @@ namespace MaterialRemove.Interfaces
         YPos,
         YNeg,
         ZPos,
-        ZNeg
+        ZNeg,
+        Any
     }
 }

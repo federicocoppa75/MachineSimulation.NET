@@ -13,5 +13,8 @@ namespace MaterialRemove.Interfaces
         public float X { get; set; }
         public float Y { get; set; }
         public float Z { get; set; }
+        public float DX { get; set; }
+        public float DY { get; set; }
+        public float DZ { get; set; }
     }
 }

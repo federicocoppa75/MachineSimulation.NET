@@ -13,7 +13,8 @@ namespace MaterialRemove.ViewModels.Extensions
             return ToolHelper.GetBound(toolConeApplication.Position,
                                         toolConeApplication.MaxRadius,
                                         toolConeApplication.Length,
-                                        toolConeApplication.Orientation);
+                                        toolConeApplication.Orientation,
+                                        toolConeApplication.Direction);
         }
 
         static internal Vector3d GetDirection(this ToolConeApplication toolConeApplication)

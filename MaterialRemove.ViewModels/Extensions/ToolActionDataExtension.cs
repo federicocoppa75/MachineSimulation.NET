@@ -16,7 +16,8 @@ namespace MaterialRemove.ViewModels.Extensions
                                         toolActionData.Radius,
                                         toolActionData.Length,
                                         toolActionData.Orientation,
-                                        index);
+                                        index,
+                                        new Vector3f(toolActionData.DX, toolActionData.DY, toolActionData.DZ));
         }
     }
 }

@@ -17,8 +17,9 @@ namespace MaterialRemove.ViewModels
         public Orientation Orientation { get; }
         public Vector3f Position { get; }
         public int Index { get; }
+        public Vector3f Direction { get; }
 
-        public ToolConeApplication(Vector3f position, float minRadius, float maxRadius, float length, Orientation orientation, int index)
+        public ToolConeApplication(Vector3f position, float minRadius, float maxRadius, float length, Orientation orientation, int index, Vector3f direction)
         {
             Position = position;
             MinRadius = minRadius;
@@ -26,6 +27,7 @@ namespace MaterialRemove.ViewModels
             Length = length;
             Orientation = orientation;
             Index = index;
+            Direction = direction;
         }
 
         #region BoundedImplicitFunction3d
