@@ -224,22 +224,7 @@ namespace Machine._3D.Views.Helpers
 
         private void ApplyTool(MDIT.ITool t, Point3D position, Vector3D direction)
         {
-            var ta = new MRI.ToolActionData()
-            {
-                X = (float)position.X,
-                Y = (float)position.Y,
-                Z = (float)position.Z,
-                Orientation = ToOrientation(direction),
-                Length = (float)t.GetTotalLength(),
-                Radius = (float)t.GetTotalDiameter() / 2.0f
-            };
-
-            if(ta.Orientation == MRI.Orientation.Any)
-            {
-                ta.DX = (float)direction.X;
-                ta.DX = (float)direction.X;
-                ta.DX = (float)direction.X;
-            }
+            var ta = CreateActionData(position, direction, (float)t.GetTotalLength(), (float)t.GetTotalDiameter() / 2.0f);
 
             if (_panel is MRI.IPanel panel) panel.ApplyAction(ta);
         }
@@ -300,23 +285,7 @@ namespace Machine._3D.Views.Helpers
 
         private void ApplyTool(MDT.PointedTool pt, Point3D position, Vector3D direction)
         {
-            var tca = new MRI.ToolConeActionData()
-            {
-                X = (float)position.X,
-                Y = (float)position.Y,
-                Z = (float)position.Z,
-                Orientation = ToOrientation(direction),
-                Length = (float)pt.ConeHeight,
-                MaxRadius = (float)pt.Diameter / 2.0f,
-                MinRadius = 0.0f
-            };
-
-            if(tca.Orientation == MRI.Orientation.Any)
-            {
-                tca.DX = (float)direction.X;
-                tca.DY = (float)direction.Y;
-                tca.DZ = (float)direction.Z;
-            }
+            var tca = CreateActionData(position, direction, (float)pt.ConeHeight, (float)pt.Diameter / 2.0f, 0.0f);
 
             if (_panel is MRI.IPanel panel) panel.ApplyAction(tca);
         }
@@ -324,41 +293,8 @@ namespace Machine._3D.Views.Helpers
         private void ApplyTool(MDT.CountersinkTool ct, Point3D position, Vector3D direction)
         {
             var position2 = position - direction * ct.Length3;
-
-            var ta = new MRI.ToolActionData()
-            {
-                X = (float)position.X,
-                Y = (float)position.Y,
-                Z = (float)position.Z,
-                Orientation = ToOrientation(direction),
-                Length = (float)ct.GetTotalLength(),
-                Radius = (float)ct.Diameter1 / 2.0f,
-            };
-
-            if(ta.Orientation == MRI.Orientation.Any)
-            {
-                ta.DX = (float)direction.X;
-                ta.DY = (float)direction.Y;
-                ta.DZ = (float)direction.Z;
-            }
-
-            var tca = new MRI.ToolConeActionData()
-            {
-                X = (float)position2.X,
-                Y = (float)position2.Y,
-                Z = (float)position2.Z,
-                Orientation = ToOrientation(direction),
-                Length = (float)ct.Length2,
-                MaxRadius = (float)ct.Diameter2 / 2.0f,
-                MinRadius = (float)ct.Diameter1 / 2.0f
-            };
-
-            if(tca.Orientation == MRI.Orientation.Any)
-            {
-                tca.DX = (float)direction.X;
-                tca.DY = (float)direction.Y;
-                tca.DZ = (float)direction.Z;
-            }
+            var ta = CreateActionData(position, direction, (float)ct.GetTotalLength(), (float)ct.Diameter1 / 2.0f);
+            var tca = CreateActionData(position2, direction, (float)ct.Length2, (float)ct.Diameter2 / 2.0f, (float)ct.Diameter1 / 2.0f);
 
             if (_panel is MRI.IPanel panel)
             {
@@ -389,6 +325,51 @@ namespace Machine._3D.Views.Helpers
             {
                 return MRI.Orientation.Any;
             }
+        }
+
+        private static MRI.ToolActionData CreateActionData(Point3D position, Vector3D direction, float length, float radius)
+        {
+            var ta = new MRI.ToolActionData()
+            {
+                X = (float)position.X,
+                Y = (float)position.Y,
+                Z = (float)position.Z,
+                Orientation = ToOrientation(direction),
+                Length = length,
+                Radius = radius
+            };
+
+            if (ta.Orientation == MRI.Orientation.Any)
+            {
+                ta.DX = (float)direction.X;
+                ta.DX = (float)direction.X;
+                ta.DX = (float)direction.X;
+            }
+
+            return ta;
+        }
+
+        private static MRI.ToolConeActionData CreateActionData(Point3D position, Vector3D direction, float length, float maxRadius, float minRadius)
+        {
+            var tca = new MRI.ToolConeActionData()
+            {
+                X = (float)position.X,
+                Y = (float)position.Y,
+                Z = (float)position.Z,
+                Orientation = ToOrientation(direction),
+                Length = length,
+                MaxRadius = maxRadius,
+                MinRadius = minRadius
+            };
+
+            if (tca.Orientation == MRI.Orientation.Any)
+            {
+                tca.DX = (float)direction.X;
+                tca.DY = (float)direction.Y;
+                tca.DZ = (float)direction.Z;
+            }
+
+            return tca;
         }
 
         private static bool IsNull(double value, double tolerance = 0.001) => (value < tolerance) && (value > -tolerance);
@@ -432,22 +413,7 @@ namespace Machine._3D.Views.Helpers
         {
             return Task.Run(async () =>
             {
-                var ta = new MRI.ToolActionData()
-                {
-                    X = (float)position.X,
-                    Y = (float)position.Y,
-                    Z = (float)position.Z,
-                    Orientation = ToOrientation(direction),
-                    Length = (float)t.GetTotalLength(),
-                    Radius = (float)t.GetTotalDiameter() / 2.0f
-                };
-
-                if(ta.Orientation == MRI.Orientation.Any)
-                {
-                    ta.DX = (float)direction.X;
-                    ta.DY = (float)direction.Y;
-                    ta.DZ = (float)direction.Z;
-                }
+                var ta = CreateActionData(position, direction, (float)t.GetTotalLength(), (float)t.GetTotalDiameter() / 2.0f);
 
                 if (_panel is MRI.IPanel panel) await panel.ApplyActionAsync(ta);
 
@@ -520,22 +486,7 @@ namespace Machine._3D.Views.Helpers
         {
             return Task.Run(async () =>
             {
-                var ta = new MRI.ToolActionData()
-                {
-                    X = (float)position.X,
-                    Y = (float)position.Y,
-                    Z = (float)position.Z,
-                    Orientation = ToOrientation(direction),
-                    Length = (float)doct.CuttingThickness,
-                    Radius = (float)doct.Diameter / 2.0f
-                };
-
-                if(ta.Orientation == MRI.Orientation.Any)
-                {
-                    ta.DX = (float)direction.X;
-                    ta.DY = (float)direction.Y;
-                    ta.DZ = (float)direction.Z;
-                }
+                var ta = CreateActionData(position, direction, (float)doct.CuttingThickness, (float)doct.Diameter / 2.0f);
 
                 if (_panel is MRI.IPanel panel) await panel.ApplyActionAsync(ta);
 
@@ -547,23 +498,7 @@ namespace Machine._3D.Views.Helpers
         {
             return Task.Run(async () =>
             {
-                var tca = new MRI.ToolConeActionData()
-                {
-                    X = (float)position.X,
-                    Y = (float)position.Y,
-                    Z = (float)position.Z,
-                    Orientation = ToOrientation(direction),
-                    Length = (float)pt.ConeHeight,
-                    MaxRadius = (float)pt.Diameter / 2.0f,
-                    MinRadius = 0.0f
-                };
-
-                if(tca.Orientation == MRI.Orientation.Any)
-                {
-                    tca.DX = (float)direction.X;
-                    tca.DY = (float)direction.Y;
-                    tca.DZ = (float)direction.Z;
-                }
+                var tca = CreateActionData(position, direction, (float)pt.ConeHeight, (float)pt.Diameter / 2.0f, 0.0f);
 
                 if (_panel is MRI.IPanel panel) await panel.ApplyActionAsync(tca);
 
@@ -576,41 +511,8 @@ namespace Machine._3D.Views.Helpers
             return Task.Run(async () =>
             {
                 var position2 = position - direction * ct.Length3;
-
-                var ta = new MRI.ToolActionData()
-                {
-                    X = (float)position.X,
-                    Y = (float)position.Y,
-                    Z = (float)position.Z,
-                    Orientation = ToOrientation(direction),
-                    Length = (float)ct.GetTotalLength(),
-                    Radius = (float)ct.Diameter1 / 2.0f,
-                };
-
-                if(ta.Orientation == MRI.Orientation.Any)
-                {
-                    ta.DX = (float)direction.X;
-                    ta.DY = (float)direction.Y;
-                    ta.DZ = (float)direction.Z;
-                }
-
-                var tca = new MRI.ToolConeActionData()
-                {
-                    X = (float)position2.X,
-                    Y = (float)position2.Y,
-                    Z = (float)position2.Z,
-                    Orientation = ToOrientation(direction),
-                    Length = (float)ct.Length2,
-                    MaxRadius = (float)ct.Diameter2 / 2.0f,
-                    MinRadius = (float)ct.Diameter1 / 2.0f
-                };
-
-                if(tca.Orientation == MRI.Orientation.Any)
-                {
-                    tca.DX = (float)direction.X;
-                    tca.DY = (float)direction.Y;
-                    tca.DZ = (float)direction.Z;
-                }
+                var ta = CreateActionData(position, direction, (float)ct.GetTotalLength(), (float)ct.Diameter1 / 2.0f);
+                var tca = CreateActionData(position2, direction, (float)ct.Length2, (float)ct.Diameter2 / 2.0f, (float)ct.Diameter1 / 2.0f);
 
                 if (_panel is MRI.IPanel panel)
                 {
