@@ -56,7 +56,7 @@ namespace MaterialRemove.ViewModels.Extensions
             var c =  new Vector3d(position - (direction * length / 2));
             Vector3d.MakePerpVectors(ref v1 , out Vector3d v2, out Vector3d v3);
 
-            var bb = new Box3d(c, v1, v2, v3, new Vector3d(length / 2, radius / 2, radius / 2));
+            var bb = new Box3d(c, v1, v2, v3, new Vector3d(length / 2, radius, radius));
 
             return bb.ToAABB();
         }
