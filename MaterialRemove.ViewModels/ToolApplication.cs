@@ -34,16 +34,24 @@ namespace MaterialRemove.ViewModels
             var n = this.GetDirection() * -1.0;
             var v = pt - Position;
             var d = n.Dot(v);
+            var orthoDist = Math.Sqrt(v.LengthSquared - d * d) - Radius;
 
             if ((d < 0.0) || (d > Length))
             {
-                return (d < 0.0) ? (-d) : (d - Length);
+                var parDist = (d < 0.0) ? (-d) : (d - Length);
+
+                if (orthoDist > 0.0)
+                {
+                    return Math.Sqrt(Math.Pow(parDist, 2) + Math.Pow(orthoDist, 2));
+                }
+                else
+                {
+                    return parDist;
+                }
             }
             else
             {
-                var orthoDist = Math.Sqrt(v.LengthSquared - d * d);
-
-                return orthoDist - Radius;
+                return orthoDist;
             }
 
             throw new NotImplementedException();
